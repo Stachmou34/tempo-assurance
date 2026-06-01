@@ -7,3 +7,8 @@ config*.php
 *.zip
 cache/
 tmp/
+error_log
+*.sav
+*.sav.html
+*.sav.txt
+.htaccess.sav
