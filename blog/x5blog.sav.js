@@ -264,7 +264,7 @@ x5engine.settings.imBlog = {
 	posts: [],
 	posts_cat: [],
 	posts_author: [],
-	posts_month: {'202606': ['jj09duxz', 'jfv0ey90', 'kv6thljn', 't43smc0r', '7oo7d3r2'], '202607': ['ifg9f26r', 'om68cr07', 'io7avank', 'xfes2m0j'], '202608': ['a167lwmy', 'o5wx88sl', '4tm0vbfa', 'kyrkj9ah'], '202609': ['deqiqqcm', 'd1m9eirp', '76sy9ovz', 'ppezxr8o', 'nkrjfkr4'], '202610': ['3p46pgxw', 'q7hbjrbe', 'kvz1jy7n', '5uli40tu'], '202611': ['foadc224']},
+	posts_month: [],
 	posts_ids: [],
 	posts_slug: []
 };
@@ -274,7 +274,6 @@ var post = null;
 // Post titled "Vous traversez une période difficile et vous avez été résilié pour non paiement de prime, puis-je souscrire?"
 x5engine.settings.imBlog.posts['jj09duxz'] = {
 	id: 'jj09duxz',
-	pub_date: '2026-06-02',
 	title: 'Vous traversez une période difficile et vous avez été résilié pour non paiement de prime, puis-je souscrire?',
 	title_tag: 'Vous traversez une période difficile et vous avez été résilié pour non paiement de prime, puis-je souscrire? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -296,8 +295,8 @@ x5engine.settings.imBlog.posts['jj09duxz'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-06-02T09:00:00",
-		"dateModified": "2026-06-02T09:00:00",
+		"datePublished": "2017-08-30T09:41:00",
+		"dateModified": "2017-08-30T09:41:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -365,10 +364,10 @@ x5engine.settings.imBlog.posts['jj09duxz'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_jj09duxz"><div>Oui, vous pouvez souscrire une assurance temporaire de 1 à 90 jours renouvelables.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '2 Juin 2026',
-	timestampExt: '2 Juin 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,9,41,0),
-	month: '202606',
+	month: '201708',
 	comments: false,
 	word_count: 13,
 	readTime: '1:00',
@@ -385,7 +384,6 @@ x5engine.settings.imBlog.posts_slug['vous-traversez-une-periode-difficile-et-vou
 // Post titled "Véhicule immobilisé par la police et mise en fourrière pour défaut d' assurance"
 x5engine.settings.imBlog.posts['jfv0ey90'] = {
 	id: 'jfv0ey90',
-	pub_date: '2026-06-09',
 	title: 'Véhicule immobilisé par la police et mise en fourrière pour défaut d\' assurance',
 	title_tag: 'Véhicule immobilisé par la police et mise en fourrière pour défaut d\' assurance - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -407,8 +405,8 @@ x5engine.settings.imBlog.posts['jfv0ey90'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-06-09T09:00:00",
-		"dateModified": "2026-06-09T09:00:00",
+		"datePublished": "2017-08-30T09:36:00",
+		"dateModified": "2017-08-30T09:36:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -477,10 +475,10 @@ x5engine.settings.imBlog.posts['jfv0ey90'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_jfv0ey90"><div>Oui, vous pouvez-vous souscrire en ligne une assurance temporaire.</div><div><br></div><div>Le contrat auto tempo permet à ceux dont le véhicule a été mis en fourrière pour défaut d\' assurance, de s\'assurer 1 journée ou même plus, le temps de récupérer leur automobile.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '9 Juin 2026',
-	timestampExt: '9 Juin 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,9,36,0),
-	month: '202606',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_jfv0ey90" style="max-width: 400px; margin: 0 auto;"></div></div><script>function loadpostgalleryjfv0ey90() {$(\'#ss_jfv0ey90\').empty().width(\'auto\');var settings = { target: \'#ss_jfv0ey90\', media: [{ url: \'../images/mise-fourriere.jpg\', width: 400, height: 168, autoplayTime: 7000, effect: \'none\'}],width: 400,height: 168, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 400;settings.height = 168;}if (currentBp.end == 720) {settings.width = 400;settings.height = 168;}if (currentBp.end == 480) {settings.width = 400;settings.height = 168;}if (currentBp.end == 0) {settings.width = Math.min(400, $(\'#ss_jfv0ey90\').width());settings.height = settings.width / 400 * 168;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgalleryjfv0ey90).on(\'breakpointChangedOrFluid\', loadpostgalleryjfv0ey90);}loadpostgalleryjfv0ey90();</script>',
 	comments: false,
 	word_count: 40,
@@ -498,7 +496,6 @@ x5engine.settings.imBlog.posts_slug['vehicule-immobilise-par-la-police-et-mise-e
 // Post titled "Ramener un camion acheté dans son pays?"
 x5engine.settings.imBlog.posts['kv6thljn'] = {
 	id: 'kv6thljn',
-	pub_date: '2026-06-16',
 	title: 'Ramener un camion acheté dans son pays?',
 	title_tag: 'Ramener un camion acheté dans son pays? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -520,8 +517,8 @@ x5engine.settings.imBlog.posts['kv6thljn'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-06-16T09:00:00",
-		"dateModified": "2026-06-16T09:00:00",
+		"datePublished": "2017-08-30T09:34:00",
+		"dateModified": "2017-08-30T09:34:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -589,10 +586,10 @@ x5engine.settings.imBlog.posts['kv6thljn'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_kv6thljn"><div>Vous êtes étranger et venez d\'acheter un camion, pouvez-vous faire un contrat d\' assurance temporaire le temps de le ramener dans votre pays ?</div><div><br></div><div>Oui, le contrat d\' assurance provisoire ne concerne pas que les véhicules légers. </div><div>Vous pouvez donc souscrire en ligne un contrat d\' assurance temporaire pour les camions pour une courte durée de 1 à 15 jours.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '16 Juin 2026',
-	timestampExt: '16 Juin 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,9,34,0),
-	month: '202606',
+	month: '201708',
 	comments: false,
 	word_count: 59,
 	readTime: '1:00',
@@ -609,7 +606,6 @@ x5engine.settings.imBlog.posts_slug['ramener-un-camion-achete-dans-son-pays-'] =
 // Post titled "Quels sont les véhicules qui peuvent être couverts par une assurance auto tempo ?"
 x5engine.settings.imBlog.posts['t43smc0r'] = {
 	id: 't43smc0r',
-	pub_date: '2026-06-23',
 	title: 'Quels sont les véhicules qui peuvent être couverts par une assurance auto tempo ?',
 	title_tag: 'Quels sont les véhicules qui peuvent être couverts par une assurance auto tempo ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -631,8 +627,8 @@ x5engine.settings.imBlog.posts['t43smc0r'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-06-23T09:00:00",
-		"dateModified": "2026-06-23T09:00:00",
+		"datePublished": "2017-08-30T09:26:00",
+		"dateModified": "2017-08-30T09:26:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -701,10 +697,10 @@ x5engine.settings.imBlog.posts['t43smc0r'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_t43smc0r">Les véhicules suivant peuvent être couverts:<div><br><div><div><ul><li><span class="fs11">Les automobiles de moins de 3.5 tonnes,</span><br></li><li><span class="fs11">Les Utilitaires de moins de 3.5 tonnes,</span><br></li><li><span class="fs11">Les Motos à partir de 125cm3,</span><br></li><li><span class="fs11">les voiturettes (sans permis),</span><br></li><li><span class="fs11">Les camions,</span><br></li><li><span class="fs11">Les poids lourds,</span><br></li><li><span class="fs11">Les tracteurs routiers,</span><br></li><li><span class="fs11">Les semi-remorques,</span><br></li><li><span class="fs11">Les remorques de moins et plus de 750kg,</span><br></li><li><span class="fs11">Les camping-cars,</span><br></li><li><span class="fs11">Les bus,</span><br></li><li><span class="fs11">Les auto-bus,</span><br></li><li><span class="fs11">Les cars,</span><br></li><li><span class="fs11">Les autocars.</span><br></li></ul></div></div></div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '23 Juin 2026',
-	timestampExt: '23 Juin 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,9,26,0),
-	month: '202606',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_t43smc0r" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgalleryt43smc0r() {$(\'#ss_t43smc0r\').empty().width(\'auto\');var settings = { target: \'#ss_t43smc0r\', media: [{ url: \'../images/premier-ensemble-de-vehicules.jpg\', width: 300, height: 173, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 173, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_t43smc0r\').width());settings.height = settings.width / 300 * 173;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgalleryt43smc0r).on(\'breakpointChangedOrFluid\', loadpostgalleryt43smc0r);}loadpostgalleryt43smc0r();</script>',
 	comments: false,
 	word_count: 44,
@@ -722,7 +718,6 @@ x5engine.settings.imBlog.posts_slug['quels-sont-les-vehicules-qui-peuvent-etre-c
 // Post titled "Quels sont les pays couverts par la Garantie"
 x5engine.settings.imBlog.posts['7oo7d3r2'] = {
 	id: '7oo7d3r2',
-	pub_date: '2026-06-30',
 	title: 'Quels sont les pays couverts par la Garantie',
 	title_tag: 'Quels sont les pays couverts par la Garantie - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -744,8 +739,8 @@ x5engine.settings.imBlog.posts['7oo7d3r2'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-06-30T09:00:00",
-		"dateModified": "2026-06-30T09:00:00",
+		"datePublished": "2017-08-30T09:13:00",
+		"dateModified": "2017-08-30T09:13:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -814,10 +809,10 @@ x5engine.settings.imBlog.posts['7oo7d3r2'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_7oo7d3r2"><div>Assurance Auto Temporaire : Couverture par Pays</div><div><br></div><div>Attention avant de souscrire votre contrat temporaire en ligne vérifier votre pays de destination, car nous excluons de notre garantie assurance temporaire certains pays voir la liste ci-dessous.</div><div><br></div><div>En aucun cas notre garantie temporaire auto ne sera acquise en cas de transit ou circulation dans les pays exclus de l\'assurance temporaire.</div><div><br></div><div><i><span class="imUl">Les pays suivants ne sont pas couverts</span> par notre Contrat Assurance Auto Temporaire</i></div><div><span class="cf1"><b>Tunisie &nbsp;&nbsp;&nbsp;Israël &nbsp;&nbsp;&nbsp;Turquie &nbsp;&nbsp;&nbsp;Maroc &nbsp;&nbsp;&nbsp;République Islamique D’Iran</b></span></div><div>Pour les pays tels que le Maroc et la Tunisie merci de nous contacter au 04.67.36.72.01 ou 06.08.23.04.79</div><div><br></div><div><i><span class="cf2"><b>Les pays suivants sont couverts par notre Contrat Assurance Auto Temporaire </b></span></i></div><div>Nous accordons la garantie Responsabilité Civile pour l’assurance auto temporaire en France métropolitaine, dans les autres pays de l’Union européenne, en Suisse, dans les états du Vatican, Saint-Marin, Monaco, Andorre et le Liechtenstein ainsi que dans la liste des pays ci dessous :</div><div>Allemagne &nbsp;&nbsp;Autriche &nbsp;&nbsp;Belgique &nbsp;&nbsp;Bulgarie &nbsp;&nbsp;Chypre &nbsp;&nbsp;Croatie &nbsp;&nbsp;Danemark &nbsp;&nbsp;<span class="fs11">Espagne &nbsp;&nbsp;Estonie &nbsp;&nbsp;Finlande &nbsp;&nbsp;France &nbsp;&nbsp;&nbsp;Grèce &nbsp;&nbsp;&nbsp;Hongrie &nbsp;&nbsp;&nbsp;Irlande &nbsp;&nbsp;</span><span class="fs11">Italie &nbsp;&nbsp;Lettonie &nbsp;&nbsp;Lituanie &nbsp;&nbsp;Luxembourg &nbsp;&nbsp;Malte &nbsp;&nbsp;Pays-Bas &nbsp;&nbsp;Pologne </span><span class="fs11"> &nbsp;Portugal &nbsp;&nbsp;République Tchèque &nbsp;&nbsp;Roumanie &nbsp;&nbsp;Royaume-Uni &nbsp;&nbsp;Slovaquie &nbsp;&nbsp;Slovénie &nbsp;&nbsp;Suède</span></div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '30 Juin 2026',
-	timestampExt: '30 Juin 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,9,13,0),
-	month: '202606',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_7oo7d3r2" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgallery7oo7d3r2() {$(\'#ss_7oo7d3r2\').empty().width(\'auto\');var settings = { target: \'#ss_7oo7d3r2\', media: [{ url: \'../images/pays-monde-continents.jpg\', width: 300, height: 297, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 297, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_7oo7d3r2\').width());settings.height = settings.width / 300 * 297;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgallery7oo7d3r2).on(\'breakpointChangedOrFluid\', loadpostgallery7oo7d3r2);}loadpostgallery7oo7d3r2();</script>',
 	comments: false,
 	word_count: 172,
@@ -835,7 +830,6 @@ x5engine.settings.imBlog.posts_slug['quels-sont-les-pays-couverts-par-la-garanti
 // Post titled "Quelles sont les garanties de mon contrat ?"
 x5engine.settings.imBlog.posts['ifg9f26r'] = {
 	id: 'ifg9f26r',
-	pub_date: '2026-07-07',
 	title: 'Quelles sont les garanties de mon contrat ?',
 	title_tag: 'Quelles sont les garanties de mon contrat ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -857,8 +851,8 @@ x5engine.settings.imBlog.posts['ifg9f26r'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-07-07T09:00:00",
-		"dateModified": "2026-07-07T09:00:00",
+		"datePublished": "2017-08-30T09:04:00",
+		"dateModified": "2017-08-30T09:04:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -927,10 +921,10 @@ x5engine.settings.imBlog.posts['ifg9f26r'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_ifg9f26r"><div><b>La Responsabilité Civile Obligatoire</b></div><div><br></div><div>Un véhicule doit être assuré, au moins avec une assurance responsabilité civile (appelée parfois assurance au tiers).</div><div><br></div><div>Cela couvre uniquement les dommages que ce véhicule peut occasionner à autrui (blessure d\'un piéton ou dégât causé à un véhicule).</div><div><br></div><div>Nous proposons aussi l\'Assistance au véhicule.</div><div><br></div><div>Si vous souhaitez les garanties Défense et recours merci de nous appeler au 04.67.36.72.01 ou par mail laetitia@jlassure.com</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '7 Juillet 2026',
-	timestampExt: '7 Juillet 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,9,4,0),
-	month: '202607',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_ifg9f26r" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgalleryifg9f26r() {$(\'#ss_ifg9f26r\').empty().width(\'auto\');var settings = { target: \'#ss_ifg9f26r\', media: [{ url: \'../images/rc-assistance.png\', width: 300, height: 136, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 136, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_ifg9f26r\').width());settings.height = settings.width / 300 * 136;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgalleryifg9f26r).on(\'breakpointChangedOrFluid\', loadpostgalleryifg9f26r);}loadpostgalleryifg9f26r();</script>',
 	comments: false,
 	word_count: 62,
@@ -948,7 +942,6 @@ x5engine.settings.imBlog.posts_slug['quelles-sont-les-garanties-de-mon-contrat--
 // Post titled "Quel site pour souscrire immédiatement en ligne"
 x5engine.settings.imBlog.posts['om68cr07'] = {
 	id: 'om68cr07',
-	pub_date: '2026-07-14',
 	title: 'Quel site pour souscrire immédiatement en ligne',
 	title_tag: 'Quel site pour souscrire immédiatement en ligne - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -970,8 +963,8 @@ x5engine.settings.imBlog.posts['om68cr07'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-07-14T09:00:00",
-		"dateModified": "2026-07-14T09:00:00",
+		"datePublished": "2017-08-30T08:58:00",
+		"dateModified": "2017-08-30T08:58:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -1040,10 +1033,10 @@ x5engine.settings.imBlog.posts['om68cr07'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_om68cr07"><div>La plupart des sites Internet qui proposent de l’assurance vous donne un tarif immédiatement en ligne mais très peu permettent de souscrire en ligne. Vous devez contacter un conseiller par téléphone et lui communiquer les coordonnées de votre carte bancaire pour souscrire votre contrat d’assurance en ligne.</div><div><br></div><div>Aujourd’hui les internautes &nbsp;souhaitent communiquer avec un conseiller pour obtenir des renseignement ou une aide à l’etablissement de leur devis mais ne souhaitent pas communiquer par téléphone leurs coordonnées de carte bancaire.</div><div><br></div><div><img class="image-0 fleft" src="../images/Paiement_Securise.jpg"  width="141" height="107" /></div><div><br></div><div><span class="fs11">Grâce à la mise en place du paiement sécurisé par CB, vous pouvez souscrire en toute sécurité et obtenir rapidement votre garantie en ligne sur l\'ensemble de nos sites partenaires.</span><br></div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '14 Juillet 2026',
-	timestampExt: '14 Juillet 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,8,58,0),
-	month: '202607',
+	month: '201708',
 	comments: false,
 	word_count: 107,
 	readTime: '1:00',
@@ -1060,7 +1053,6 @@ x5engine.settings.imBlog.posts_slug['quel-site-pour-souscrire-immediatement-en-l
 // Post titled "Que faire en cas d’accident de voiture ?"
 x5engine.settings.imBlog.posts['io7avank'] = {
 	id: 'io7avank',
-	pub_date: '2026-07-21',
 	title: 'Que faire en cas d’accident de voiture ?',
 	title_tag: 'Que faire en cas d’accident de voiture ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -1082,8 +1074,8 @@ x5engine.settings.imBlog.posts['io7avank'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-07-21T09:00:00",
-		"dateModified": "2026-07-21T09:00:00",
+		"datePublished": "2017-08-30T08:52:00",
+		"dateModified": "2017-08-30T08:52:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -1152,10 +1144,10 @@ x5engine.settings.imBlog.posts['io7avank'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_io7avank"><div>Le constat à l’amiable est le document officiel à remplir sur les lieux de l’accident et à envoyer à votre assurance auto sous 5 jours. Il permet de déterminer les causes de l’accident et les responsabilités de chacun des conducteurs. Il peut sembler laborieux mais permet à votre assureur auto de traiter votre dossier plus rapidement.</div><div><br></div><div>Dans le meilleur des cas, les automobilistes remplissent le constat à l’amiable et le signent sans aucune objection.</div><div><br></div><div>Il peut arriver que vous ne soyez pas d’accord avec l’autre automobiliste sur les circonstances de l’accident. Un constat signé est un document difficile à contester ultérieurement. S’il y a complication lors de l\'établissement du constat, ne signez rien. Préférez envoyer votre propre déclaration officielle des faits à votre assureur plus tard.</div><div><br></div><div>Si l’autre automobiliste refuse de remplir le constat à l’amiable, relevez son numéro de plaque d’immatriculation, reportez-le dans la case « observation » en précisant sa contestation.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '21 Juillet 2026',
-	timestampExt: '21 Juillet 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,8,52,0),
-	month: '202607',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_io7avank" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgalleryio7avank() {$(\'#ss_io7avank\').empty().width(\'auto\');var settings = { target: \'#ss_io7avank\', media: [{ url: \'../images/constat-amiable-accident.jpg\', width: 300, height: 169, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 169, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_io7avank\').width());settings.height = settings.width / 300 * 169;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgalleryio7avank).on(\'breakpointChangedOrFluid\', loadpostgalleryio7avank);}loadpostgalleryio7avank();</script>',
 	comments: false,
 	word_count: 150,
@@ -1173,7 +1165,6 @@ x5engine.settings.imBlog.posts_slug['que-faire-en-cas-d-accident-de-voiture--'] 
 // Post titled "Qu’est-ce que la responsabilité civile?"
 x5engine.settings.imBlog.posts['xfes2m0j'] = {
 	id: 'xfes2m0j',
-	pub_date: '2026-07-28',
 	title: 'Qu’est-ce que la responsabilité civile?',
 	title_tag: 'Qu’est-ce que la responsabilité civile? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -1195,8 +1186,8 @@ x5engine.settings.imBlog.posts['xfes2m0j'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-07-28T09:00:00",
-		"dateModified": "2026-07-28T09:00:00",
+		"datePublished": "2017-08-30T08:45:00",
+		"dateModified": "2017-08-30T08:45:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -1265,10 +1256,10 @@ x5engine.settings.imBlog.posts['xfes2m0j'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_xfes2m0j"><div>Depuis la loi du 27 février 1958, l’assurance responsabilité civile incluse dans tout contrat d’assurance auto est obligatoire. Cette garantie sert à couvrir des dommages corporels et/ou matériels causés par votre voiture lors d’un accident et ce, quelle qu’en soit la victime (passagers ou piétons, autre auto…).</div><div><br></div><div>Cependant, cette couverture ne s’applique ni au conducteur qui, s’il veut être assuré, devra souscrire une garantie « individuelle conducteur », ni à la voiture elle-même.</div><div><br></div><div>D’autres facteurs excluent l’applicabilité de cette garantie : les mauvaises conditions de sécurité (l’absence de ceinture de sécurité par exemple), la nature des dommages ou encore le fait que les passagers aient payé le transport.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '28 Juillet 2026',
-	timestampExt: '28 Juillet 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,8,45,0),
-	month: '202607',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_xfes2m0j" style="max-width: 500px; margin: 0 auto;"></div></div><script>function loadpostgalleryxfes2m0j() {$(\'#ss_xfes2m0j\').empty().width(\'auto\');var settings = { target: \'#ss_xfes2m0j\', media: [{ url: \'../images/rc-auto.jpg\', width: 500, height: 120, autoplayTime: 7000, effect: \'none\'}],width: 500,height: 120, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 500;settings.height = 120;}if (currentBp.end == 720) {settings.width = 438;settings.height = 105;}if (currentBp.end == 480) {settings.width = 470;settings.height = 113;}if (currentBp.end == 0) {settings.width = Math.min(500, $(\'#ss_xfes2m0j\').width());settings.height = settings.width / 500 * 120;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgalleryxfes2m0j).on(\'breakpointChangedOrFluid\', loadpostgalleryxfes2m0j);}loadpostgalleryxfes2m0j();</script>',
 	comments: false,
 	word_count: 106,
@@ -1286,7 +1277,6 @@ x5engine.settings.imBlog.posts_slug['qu-est-ce-que-la-responsabilite-civile-'] =
 // Post titled "Puis-je régler en ligne en toute sécurité?"
 x5engine.settings.imBlog.posts['a167lwmy'] = {
 	id: 'a167lwmy',
-	pub_date: '2026-08-04',
 	title: 'Puis-je régler en ligne en toute sécurité?',
 	title_tag: 'Puis-je régler en ligne en toute sécurité? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -1308,8 +1298,8 @@ x5engine.settings.imBlog.posts['a167lwmy'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-08-04T09:00:00",
-		"dateModified": "2026-08-04T09:00:00",
+		"datePublished": "2017-08-30T08:38:00",
+		"dateModified": "2017-08-30T08:38:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -1378,10 +1368,10 @@ x5engine.settings.imBlog.posts['a167lwmy'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_a167lwmy"><div><span class="fs11">- Oui votre paiement passe par le système "CM-CIC p@iement". </span></div><div><span class="fs11">Lors d\'un achat sur internet équipé de CM-CIC p@iement, l\'ensemble de la transaction s\'effectue sur leur site bancaire en mode crypté. </span></div><div><span class="fs11">Vous quittez </span><span class="fs11">temporairement notre site commerçant en toute transparence pour enregistrer vos coordonnées bancaires et ceci est la garantie que :</span></div><div><br></div><div><ul><li><span class="fs11">Nous ne connaîtrons jamais votre numéro de carte,</span><br></li><li><span class="fs11">CM-CIC p@iement ne pourra rien savoir du détail de vos achats puisque seul le montant total et le numéro de commande lui est retransmis.</span><br></li></ul></div><div><br></div><div>Quelle sécurités utilise CM-CIC p@iement ?</div><div><br></div><div> &nbsp;&nbsp;&nbsp;- CM-CIC p@iement utilise le système normalisé de cryptage appelé "le protocole SSL". Il se concrétise, lorsque vous êtes sur la page de paiement, par :</div><div><br></div><div><ul><li><span class="fs11">Un pictogramme dans un coin de votre navigateur : l\'un de ces signes doit être présent. &nbsp;&nbsp;logos de cadenas .Le cadenas doit être fermé.</span><br></li><li><span class="fs11">Dans la barre d\'adresse de votre navigateur, le navigateur est en mode " https://" au lieu de "http://".</span><br></li><li><span class="fs11">Lorsque vous passez de mode non-crypté en mode crypté (et inversement), les navigateurs affichent un message vous prévenant du changement.</span><br></li></ul></div><div><br></div><div>Vérifiez ces éléments avant la saisie de données confidentielles, c\'est un gage de sécurité. Afin d\'utiliser les protocoles les plus puissants, nous vous recommandons l\'usage d\'un navigateur de dernière version.</div><div><br></div><div>Quelles sont les informations nécessaires pour utiliser CM-CIC p@iement ?</div><div><br></div><div> &nbsp;&nbsp;&nbsp;-Sur notre site via CM-CIC p@iement, votre banque vous demandera :</div><div><br></div><div><ul><li><span class="fs11">le numéro de carte bancaire ou de carte privative (numéros à 15 ou 16 chiffres)</span><br></li><li><span class="fs11">la date d\'expiration</span><br></li><li><span class="fs11">le cryptogramme visuel (3 ou 4 derniers chiffres sur la bande de signature de votre carte)</span><br></li></ul></div><div><br></div><div>Avec le déploiement du 3D Secure (reconnaissable avec les logos "Verifed By Visa" ou "MasterCard SecureCode") votre banque vous demandera également lors du paiement de vous authentifier par une information confidentielle à saisir sur une page internet de votre propre banque.</div><div><br></div><div><br></div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '4 Août 2026',
-	timestampExt: '4 Août 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,8,38,0),
-	month: '202608',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_a167lwmy" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgallerya167lwmy() {$(\'#ss_a167lwmy\').empty().width(\'auto\');var settings = { target: \'#ss_a167lwmy\', media: [{ url: \'../images/paiement-en-ligne.jpg\', width: 300, height: 277, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 277, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_a167lwmy\').width());settings.height = settings.width / 300 * 277;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgallerya167lwmy).on(\'breakpointChangedOrFluid\', loadpostgallerya167lwmy);}loadpostgallerya167lwmy();</script>',
 	comments: false,
 	word_count: 292,
@@ -1399,7 +1389,6 @@ x5engine.settings.imBlog.posts_slug['puis-je-regler-en-ligne-en-toute-securite-'
 // Post titled "Pourquoi une assurance auto temporaire ?"
 x5engine.settings.imBlog.posts['o5wx88sl'] = {
 	id: 'o5wx88sl',
-	pub_date: '2026-08-11',
 	title: 'Pourquoi une assurance auto temporaire ?',
 	title_tag: 'Pourquoi une assurance auto temporaire ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -1421,8 +1410,8 @@ x5engine.settings.imBlog.posts['o5wx88sl'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-08-11T09:00:00",
-		"dateModified": "2026-08-11T09:00:00",
+		"datePublished": "2017-08-30T08:19:00",
+		"dateModified": "2017-08-30T08:19:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -1491,10 +1480,10 @@ x5engine.settings.imBlog.posts['o5wx88sl'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_o5wx88sl"><div><ul><li><span class="fs11">On vous prête un véhicule,</span><br></li><li><span class="fs11">Vous venez d\'acheter un nouveau véhicule,</span><br></li><li><span class="fs11">Vous venez de vendre votre véhicule,</span><br></li><li><span class="fs11">Car vous avez été résilié pour non paiement de prime,</span><br></li><li><span class="fs11">vous faîtes de l\'import-export ou du transit,</span><br></li><li><span class="fs11">Vous venez d\'acheter aux enchères,</span><br></li><li><span class="fs11">Car un membre de votre famille vient vous rendre visite, et il a un permis hors union européenne avec </span><span class="fs11">un véhicule en plaque hors union européenne (par ex : permis algérien + plaques algériennes),</span></li><li><span class="fs11">Vous importez un véhicule d\'Italie avec targa di cartone</span><br></li><li><span class="fs11">Vous devez récupérer votre véhicule qui a été mis en fourrière pour défaut d\'assurance</span><br></li><li><span class="fs11">Et bien d\'autres raisons encore, n\'hésitez pas à nous questionner au 04.67.36.72.01 </span><span class="fs11">ou par mail laetitia@jlassure.com</span></li></ul></div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '11 Août 2026',
-	timestampExt: '11 Août 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,8,19,0),
-	month: '202608',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_o5wx88sl" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgalleryo5wx88sl() {$(\'#ss_o5wx88sl\').empty().width(\'auto\');var settings = { target: \'#ss_o5wx88sl\', media: [{ url: \'../images/pourquoi.jpg\', width: 300, height: 150, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 150, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_o5wx88sl\').width());settings.height = settings.width / 300 * 150;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgalleryo5wx88sl).on(\'breakpointChangedOrFluid\', loadpostgalleryo5wx88sl);}loadpostgalleryo5wx88sl();</script>',
 	comments: false,
 	word_count: 103,
@@ -1512,7 +1501,6 @@ x5engine.settings.imBlog.posts_slug['pourquoi-une-assurance-auto-temporaire--'] 
 // Post titled "Soucrire avec un permis de conduire et carte grise hors union européenne ?"
 x5engine.settings.imBlog.posts['4tm0vbfa'] = {
 	id: '4tm0vbfa',
-	pub_date: '2026-08-18',
 	title: 'Soucrire avec un permis de conduire et carte grise hors union européenne ?',
 	title_tag: 'Soucrire avec un permis de conduire et carte grise hors union européenne ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -1534,8 +1522,8 @@ x5engine.settings.imBlog.posts['4tm0vbfa'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-08-18T09:00:00",
-		"dateModified": "2026-08-18T09:00:00",
+		"datePublished": "2017-08-30T08:14:00",
+		"dateModified": "2017-08-30T08:14:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -1604,10 +1592,10 @@ x5engine.settings.imBlog.posts['4tm0vbfa'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_4tm0vbfa"><div>Oui, par exemple avec un permis algérien + immatriculation algérienne vous aurez la possibilité de souscrire un contrat d\'assurance provisoire de 15 ou 30 jours.</div><div>Ces garanties sont des Assurances Frontières.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '18 Août 2026',
-	timestampExt: '18 Août 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,8,14,0),
-	month: '202608',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_4tm0vbfa" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgallery4tm0vbfa() {$(\'#ss_4tm0vbfa\').empty().width(\'auto\');var settings = { target: \'#ss_4tm0vbfa\', media: [{ url: \'../images/douane.jpg\', width: 300, height: 169, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 169, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_4tm0vbfa\').width());settings.height = settings.width / 300 * 169;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgallery4tm0vbfa).on(\'breakpointChangedOrFluid\', loadpostgallery4tm0vbfa);}loadpostgallery4tm0vbfa();</script>',
 	comments: false,
 	word_count: 30,
@@ -1625,7 +1613,6 @@ x5engine.settings.imBlog.posts_slug['soucrire-avec-un-permis-de-conduire-et-cart
 // Post titled "Peut-on résilier un contrat auto tempo ?"
 x5engine.settings.imBlog.posts['kyrkj9ah'] = {
 	id: 'kyrkj9ah',
-	pub_date: '2026-08-25',
 	title: 'Peut-on résilier un contrat auto tempo ?',
 	title_tag: 'Peut-on résilier un contrat auto tempo ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -1647,8 +1634,8 @@ x5engine.settings.imBlog.posts['kyrkj9ah'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-08-25T09:00:00",
-		"dateModified": "2026-08-25T09:00:00",
+		"datePublished": "2017-08-30T08:12:00",
+		"dateModified": "2017-08-30T08:12:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -1717,10 +1704,10 @@ x5engine.settings.imBlog.posts['kyrkj9ah'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_kyrkj9ah"><div>Non, car un contrat d\' assurance temporaire est un contrat sans tacite recondution.</div><div><br></div><div>Le contrat auto temporaire se termine automatiquement à la fin de la période pour laquelle il a été souscrit.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '25 Août 2026',
-	timestampExt: '25 Août 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,8,12,0),
-	month: '202608',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_kyrkj9ah" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgallerykyrkj9ah() {$(\'#ss_kyrkj9ah\').empty().width(\'auto\');var settings = { target: \'#ss_kyrkj9ah\', media: [{ url: \'../images/annulation_9b934jzr.jpg\', width: 300, height: 170, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 170, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_kyrkj9ah\').width());settings.height = settings.width / 300 * 170;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgallerykyrkj9ah).on(\'breakpointChangedOrFluid\', loadpostgallerykyrkj9ah);}loadpostgallerykyrkj9ah();</script>',
 	comments: false,
 	word_count: 31,
@@ -1738,7 +1725,6 @@ x5engine.settings.imBlog.posts_slug['peut-on-resilier-un-contrat-auto-tempo--'] 
 // Post titled "La carte grise est barrée ?"
 x5engine.settings.imBlog.posts['deqiqqcm'] = {
 	id: 'deqiqqcm',
-	pub_date: '2026-09-01',
 	title: 'La carte grise est barrée ?',
 	title_tag: 'La carte grise est barrée ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -1760,8 +1746,8 @@ x5engine.settings.imBlog.posts['deqiqqcm'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-09-01T09:00:00",
-		"dateModified": "2026-09-01T09:00:00",
+		"datePublished": "2017-08-30T08:06:00",
+		"dateModified": "2017-08-30T08:06:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -1830,10 +1816,10 @@ x5engine.settings.imBlog.posts['deqiqqcm'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_deqiqqcm"><div>Oui, vous pouvez souscrire un contrat auto temporaire avec une carte grise barrée</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '1 Septembre 2026',
-	timestampExt: '1 Septembre 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,8,6,0),
-	month: '202609',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_deqiqqcm" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgallerydeqiqqcm() {$(\'#ss_deqiqqcm\').empty().width(\'auto\');var settings = { target: \'#ss_deqiqqcm\', media: [{ url: \'../images/carte-grise-barree.jpg\', width: 300, height: 399, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 399, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_deqiqqcm\').width());settings.height = settings.width / 300 * 399;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgallerydeqiqqcm).on(\'breakpointChangedOrFluid\', loadpostgallerydeqiqqcm);}loadpostgallerydeqiqqcm();</script>',
 	comments: false,
 	word_count: 13,
@@ -1851,7 +1837,6 @@ x5engine.settings.imBlog.posts_slug['la-carte-grise-est-barree--'] = 'deqiqqcm';
 // Post titled "La carte grise n'est pas à mon nom ?"
 x5engine.settings.imBlog.posts['d1m9eirp'] = {
 	id: 'd1m9eirp',
-	pub_date: '2026-09-08',
 	title: 'La carte grise n\'est pas à mon nom ?',
 	title_tag: 'La carte grise n\'est pas à mon nom ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -1873,8 +1858,8 @@ x5engine.settings.imBlog.posts['d1m9eirp'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-09-08T09:00:00",
-		"dateModified": "2026-09-08T09:00:00",
+		"datePublished": "2017-08-30T08:05:00",
+		"dateModified": "2017-08-30T08:05:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -1942,10 +1927,10 @@ x5engine.settings.imBlog.posts['d1m9eirp'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_d1m9eirp"><div>Oui, vous pouvez faire un contrat d\'assurance de courte durée même si la carte grise n\'est pas à votre nom </div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '8 Septembre 2026',
-	timestampExt: '8 Septembre 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,8,5,0),
-	month: '202609',
+	month: '201708',
 	comments: false,
 	word_count: 20,
 	readTime: '1:00',
@@ -1962,7 +1947,6 @@ x5engine.settings.imBlog.posts_slug['la-carte-grise-n-est-pas-a-mon-nom--'] = 'd
 // Post titled "Peut-on faire une assurance provisoire 24h/24 et 7j/7 ?"
 x5engine.settings.imBlog.posts['76sy9ovz'] = {
 	id: '76sy9ovz',
-	pub_date: '2026-09-15',
 	title: 'Peut-on faire une assurance provisoire 24h/24 et 7j/7 ?',
 	title_tag: 'Peut-on faire une assurance provisoire 24h/24 et 7j/7 ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -1984,8 +1968,8 @@ x5engine.settings.imBlog.posts['76sy9ovz'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-09-15T09:00:00",
-		"dateModified": "2026-09-15T09:00:00",
+		"datePublished": "2017-08-30T07:53:00",
+		"dateModified": "2017-08-30T07:53:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -2054,10 +2038,10 @@ x5engine.settings.imBlog.posts['76sy9ovz'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_76sy9ovz"><div>Oui, vous pouvez soucrire une assurance auto temporaire à n\'importe quel moment.</div><div><br></div><div><b>Les Garanties seront délivrées du lundi au dimanche inclus entre 9h00 et 23h00.</b></div><div><br></div><div><span class="imUl">En cas de problème 04.67.36.72.01</span> ou 06.08.23.04.79 de 09h00 à 23h00.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '15 Septembre 2026',
-	timestampExt: '15 Septembre 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,7,53,0),
-	month: '202609',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_76sy9ovz" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgallery76sy9ovz() {$(\'#ss_76sy9ovz\').empty().width(\'auto\');var settings = { target: \'#ss_76sy9ovz\', media: [{ url: \'../images/jour-nuit.jpg\', width: 300, height: 246, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 246, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_76sy9ovz\').width());settings.height = settings.width / 300 * 246;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgallery76sy9ovz).on(\'breakpointChangedOrFluid\', loadpostgallery76sy9ovz);}loadpostgallery76sy9ovz();</script>',
 	comments: false,
 	word_count: 34,
@@ -2075,7 +2059,6 @@ x5engine.settings.imBlog.posts_slug['peut-on-faire-une-assurance-provisoire-24h-
 // Post titled "Permis étranger pour une assurance de courte durée ?"
 x5engine.settings.imBlog.posts['ppezxr8o'] = {
 	id: 'ppezxr8o',
-	pub_date: '2026-09-22',
 	title: 'Permis étranger pour une assurance de courte durée ?',
 	title_tag: 'Permis étranger pour une assurance de courte durée ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -2097,8 +2080,8 @@ x5engine.settings.imBlog.posts['ppezxr8o'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-09-22T09:00:00",
-		"dateModified": "2026-09-22T09:00:00",
+		"datePublished": "2017-08-30T07:38:00",
+		"dateModified": "2017-08-30T07:38:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -2167,10 +2150,10 @@ x5engine.settings.imBlog.posts['ppezxr8o'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_ppezxr8o"><div>Oui, vous pouvez assurer votre véhicule avec un permis étranger à partir du moment où celui-ci est en cours de validité sur le territoire français pendant la durée de la garantie auto tempo.</div><div><br></div><div>En ce qui concerne les permis de conduire obtenu hors union européenne, il doit être rédigé en Français ou accompagné d\'une traduction officielle en français ou accompagné du permis de conduire international en cours de validité.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '22 Septembre 2026',
-	timestampExt: '22 Septembre 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,7,38,0),
-	month: '202609',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_ppezxr8o" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgalleryppezxr8o() {$(\'#ss_ppezxr8o\').empty().width(\'auto\');var settings = { target: \'#ss_ppezxr8o\', media: [{ url: \'../images/Permis-etranger.png\', width: 300, height: 175, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 175, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_ppezxr8o\').width());settings.height = settings.width / 300 * 175;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgalleryppezxr8o).on(\'breakpointChangedOrFluid\', loadpostgalleryppezxr8o);}loadpostgalleryppezxr8o();</script>',
 	comments: false,
 	word_count: 68,
@@ -2188,7 +2171,6 @@ x5engine.settings.imBlog.posts_slug['permis-etranger-pour-une-assurance-de-court
 // Post titled "Peut-on annuler un contrat ?"
 x5engine.settings.imBlog.posts['nkrjfkr4'] = {
 	id: 'nkrjfkr4',
-	pub_date: '2026-09-29',
 	title: 'Peut-on annuler un contrat ?',
 	title_tag: 'Peut-on annuler un contrat ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -2210,8 +2192,8 @@ x5engine.settings.imBlog.posts['nkrjfkr4'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-09-29T09:00:00",
-		"dateModified": "2026-09-29T09:00:00",
+		"datePublished": "2017-08-30T07:20:00",
+		"dateModified": "2017-08-30T07:20:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -2280,10 +2262,10 @@ x5engine.settings.imBlog.posts['nkrjfkr4'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_nkrjfkr4"><div><ol><li><span class="fs11">A partir du moment où votre garantie a pris effet, il vous sera impossible d\'annuler la garantie auto tempo (sauf cas exceptionel à nous soumettre par téléphone au 04.67.36.72.01 ou 06.08.23.04.79),</span><span class="fs11">par conséquent aucun remboursement ne sera effectué.</span><br></li><li><span class="fs11">Si votre garantie auto temporaire n\'a pas encore pris effet, nous vous invitons à prendre contacte immédiatement avec nos conseillers au 04.67.36.72.01 ou 06.08.23.04.79 ou laetitia@jlassure.com</span><br></li></ol></div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '29 Septembre 2026',
-	timestampExt: '29 Septembre 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,7,20,0),
-	month: '202609',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_nkrjfkr4" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgallerynkrjfkr4() {$(\'#ss_nkrjfkr4\').empty().width(\'auto\');var settings = { target: \'#ss_nkrjfkr4\', media: [{ url: \'../images/annulation_9b934jzr.jpg\', width: 300, height: 170, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 170, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_nkrjfkr4\').width());settings.height = settings.width / 300 * 170;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgallerynkrjfkr4).on(\'breakpointChangedOrFluid\', loadpostgallerynkrjfkr4);}loadpostgallerynkrjfkr4();</script>',
 	comments: false,
 	word_count: 62,
@@ -2301,7 +2283,6 @@ x5engine.settings.imBlog.posts_slug['peut-on-annuler-un-contrat--'] = 'nkrjfkr4'
 // Post titled "L’assurance auto temporaire pour qui ?"
 x5engine.settings.imBlog.posts['3p46pgxw'] = {
 	id: '3p46pgxw',
-	pub_date: '2026-10-06',
 	title: 'L’assurance auto temporaire pour qui ?',
 	title_tag: 'L’assurance auto temporaire pour qui ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -2323,8 +2304,8 @@ x5engine.settings.imBlog.posts['3p46pgxw'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-10-06T09:00:00",
-		"dateModified": "2026-10-06T09:00:00",
+		"datePublished": "2017-08-30T07:12:00",
+		"dateModified": "2017-08-30T07:12:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -2393,10 +2374,10 @@ x5engine.settings.imBlog.posts['3p46pgxw'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_3p46pgxw"><div>Tout automobiliste, particulier ou professionnel, âgé de 20 à 90 ans, peut opter pour l\'assurance auto temporaire dès lors qu\'il justifie d\'au moins 2 ans de permis de conduire.</div><div><br></div><div>Elle est idéale dans bien des cas, par exemple : pour un conducteur occasionnel, pour un week-end, lors d\'un séjour à l\'étranger, pendant la durée d\'immobilisation d\'un véhicule par les forces de l\'ordre, pour un véhicule immatriculé en France en transit entre l\'Hexagone et un pays étranger...</div><div><br></div><div>L\'assurance auto de courte durée s\'adresse aux conducteurs qui n\'utilisent pas leur voiture de façon régulière.</div><div><br></div><div>Sa durée peut être de 1 à 90 jours. Pour être valable à l\'étranger, la durée de cette assurance provisoire doit être supérieure à 3 jours.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '6 Octobre 2026',
-	timestampExt: '6 Octobre 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,7,12,0),
-	month: '202610',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_3p46pgxw" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgallery3p46pgxw() {$(\'#ss_3p46pgxw\').empty().width(\'auto\');var settings = { target: \'#ss_3p46pgxw\', media: [{ url: \'../images/groupe_humain.jpg\', width: 300, height: 226, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 226, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_3p46pgxw\').width());settings.height = settings.width / 300 * 226;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgallery3p46pgxw).on(\'breakpointChangedOrFluid\', loadpostgallery3p46pgxw);}loadpostgallery3p46pgxw();</script>',
 	comments: false,
 	word_count: 115,
@@ -2414,7 +2395,6 @@ x5engine.settings.imBlog.posts_slug['l-assurance-auto-temporaire-pour-qui--'] = 
 // Post titled "Est-ce que l'attestation d'assurance provisoire que j'ai téléchargée est valable pour circuler ?"
 x5engine.settings.imBlog.posts['q7hbjrbe'] = {
 	id: 'q7hbjrbe',
-	pub_date: '2026-10-13',
 	title: 'Est-ce que l\'attestation d\'assurance provisoire que j\'ai téléchargée est valable pour circuler ?',
 	title_tag: 'Est-ce que l\'attestation d\'assurance provisoire que j\'ai téléchargée est valable pour circuler ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -2436,8 +2416,8 @@ x5engine.settings.imBlog.posts['q7hbjrbe'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-10-13T09:00:00",
-		"dateModified": "2026-10-13T09:00:00",
+		"datePublished": "2017-08-30T06:51:00",
+		"dateModified": "2017-08-30T06:51:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -2506,10 +2486,10 @@ x5engine.settings.imBlog.posts['q7hbjrbe'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_q7hbjrbe"><div>Oui, en vigueur au Code des assurances - Article R211-17 : "<b>La carte internationale d\'assurance, dite "carte verte</b>", vaut comme document justificatif pendant sa période de validité.</div><div><br></div><div>Cette attestation doit mentionner :</div><div><br></div><div><ul><li><span class="fs11">la dénomination et l\'adresse de l\'entreprise d\'assurance,</span><br></li><li><span class="fs11">les noms, prénoms et adresse du soucripteur du contrat,</span><br></li><li><span class="fs11">la nature et le type du véhicule,</span><br></li><li><span class="fs11">la période pendant laquelle elle est valable.</span><br></li></ul></div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '13 Octobre 2026',
-	timestampExt: '13 Octobre 2026',
+	timestamp: '30 Août 2017',
+	timestampExt: 'Mercredi 30 Août 2017',
 	utc_time: new Date(2017,7,30,6,51,0),
-	month: '202610',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_q7hbjrbe" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgalleryq7hbjrbe() {$(\'#ss_q7hbjrbe\').empty().width(\'auto\');var settings = { target: \'#ss_q7hbjrbe\', media: [{ url: \'../images/garantie_couleur.png\', width: 300, height: 134, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 134, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_q7hbjrbe\').width());settings.height = settings.width / 300 * 134;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgalleryq7hbjrbe).on(\'breakpointChangedOrFluid\', loadpostgalleryq7hbjrbe);}loadpostgalleryq7hbjrbe();</script>',
 	comments: false,
 	word_count: 57,
@@ -2527,7 +2507,6 @@ x5engine.settings.imBlog.posts_slug['est-ce-que-l-attestation-d-assurance-provis
 // Post titled "Comment souscrire en ligne ?"
 x5engine.settings.imBlog.posts['kvz1jy7n'] = {
 	id: 'kvz1jy7n',
-	pub_date: '2026-10-20',
 	title: 'Comment souscrire en ligne ?',
 	title_tag: 'Comment souscrire en ligne ? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -2549,8 +2528,8 @@ x5engine.settings.imBlog.posts['kvz1jy7n'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-10-20T09:00:00",
-		"dateModified": "2026-10-20T09:00:00",
+		"datePublished": "2017-08-24T15:34:00",
+		"dateModified": "2017-08-24T15:34:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -2619,10 +2598,10 @@ x5engine.settings.imBlog.posts['kvz1jy7n'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_kvz1jy7n"><div>Rien de plus simple ! Roulez assuré en moins de 5 minutes ! </div><div><br></div><div><ol><li><span class="fs11">Sur www.tempo-assurance.com cliquez sur l\'onglet "TARIFS ET SOUSCRIPTION", </span><span class="fs11">laissez vous guider en suivant les différentes étapes.</span><br></li><li><span class="fs11">Téléchargez permis de conduire + carte grise, payez et imprimez </span><span class="fs11">votre attestation d\' assurance auto tempo immédiatement.</span><br></li></ol></div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '20 Octobre 2026',
-	timestampExt: '20 Octobre 2026',
+	timestamp: '24 Août 2017',
+	timestampExt: 'Jeudi 24 Août 2017',
 	utc_time: new Date(2017,7,24,15,34,0),
-	month: '202610',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_kvz1jy7n" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgallerykvz1jy7n() {$(\'#ss_kvz1jy7n\').empty().width(\'auto\');var settings = { target: \'#ss_kvz1jy7n\', media: [{ url: \'../images/assurance_camping-car.jpg\', width: 300, height: 157, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 157, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_kvz1jy7n\').width());settings.height = settings.width / 300 * 157;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgallerykvz1jy7n).on(\'breakpointChangedOrFluid\', loadpostgallerykvz1jy7n);}loadpostgallerykvz1jy7n();</script>',
 	comments: false,
 	word_count: 45,
@@ -2640,7 +2619,6 @@ x5engine.settings.imBlog.posts_slug['comment-souscrire-en-ligne--'] = 'kvz1jy7n'
 // Post titled "Assurance temporaire"
 x5engine.settings.imBlog.posts['5uli40tu'] = {
 	id: '5uli40tu',
-	pub_date: '2026-10-27',
 	title: 'Assurance temporaire',
 	title_tag: 'Assurance temporaire - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -2662,8 +2640,8 @@ x5engine.settings.imBlog.posts['5uli40tu'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-10-27T09:00:00",
-		"dateModified": "2026-10-27T09:00:00",
+		"datePublished": "2017-08-23T07:17:00",
+		"dateModified": "2017-08-23T07:17:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -2732,10 +2710,10 @@ x5engine.settings.imBlog.posts['5uli40tu'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_5uli40tu"><div>L’assurance auto temporaire est comme son nom l’indique une assurance de courte durée. Destinée aux conducteurs qui ne souhaitent pas être assurés sur une année entière, l’assurance temporaire s’adresse tout particulièrement aux conducteurs qui n’utilisent que très rarement un véhicule.</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '27 Octobre 2026',
-	timestampExt: '27 Octobre 2026',
+	timestamp: '23 Août 2017',
+	timestampExt: 'Mercredi 23 Août 2017',
 	utc_time: new Date(2017,7,23,7,17,0),
-	month: '202610',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_5uli40tu" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgallery5uli40tu() {$(\'#ss_5uli40tu\').empty().width(\'auto\');var settings = { target: \'#ss_5uli40tu\', media: [{ url: \'../images/calendrier_1jour.jpg\', width: 300, height: 225, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 225, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_5uli40tu\').width());settings.height = settings.width / 300 * 225;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgallery5uli40tu).on(\'breakpointChangedOrFluid\', loadpostgallery5uli40tu);}loadpostgallery5uli40tu();</script>',
 	comments: false,
 	word_count: 40,
@@ -2753,7 +2731,6 @@ x5engine.settings.imBlog.posts_slug['assurance-temporaire'] = '5uli40tu';
 // Post titled "Combien de temps faut-il pour être assuré?"
 x5engine.settings.imBlog.posts['foadc224'] = {
 	id: 'foadc224',
-	pub_date: '2026-11-03',
 	title: 'Combien de temps faut-il pour être assuré?',
 	title_tag: 'Combien de temps faut-il pour être assuré? - Questions Assurance Temporaire - Tempo-assurance',
 	title_heading_tag: 'h1',
@@ -2775,8 +2752,8 @@ x5engine.settings.imBlog.posts['foadc224'] = {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
 		},
-		"datePublished": "2026-11-03T09:00:00",
-		"dateModified": "2026-11-03T09:00:00",
+		"datePublished": "2017-08-23T07:16:00",
+		"dateModified": "2017-08-23T07:16:00",
 		"author": {
 			"@type": "Organization",
 			"name": "Questions Assurance Temporaire"
@@ -2845,10 +2822,10 @@ x5engine.settings.imBlog.posts['foadc224'] = {
 	keywords: '',
 	sources: [],
 	body: '<div id="imBlogPost_foadc224"><div>En moins de 5 minutes, notre conseillère vérifie que :</div><div><ul><li><span class="fs11">vous avez signé en ligne électroniquement les conditions particulières,</span><br></li><li><span class="fs11">vous avez payez,</span><br></li><li><span class="fs11">les pièces (permis de conduire recto verso + carte grise) que vous avez téléchargées </span><span class="fs11">sont conformes à vos déclarations.</span><br></li></ul></div><div><br></div><div>Une fois la vérifiation faite, vous recevez votre attestation d\'assurance auto tempo, à télécharger, dans votre boîte mail (pensez à regarder dans vos "indésirables")</div><div style="clear: both;"><!-- clear floated images --></div></div>',
-	timestamp: '3 Novembre 2026',
-	timestampExt: '3 Novembre 2026',
+	timestamp: '23 Août 2017',
+	timestampExt: 'Mercredi 23 Août 2017',
 	utc_time: new Date(2017,7,23,7,16,0),
-	month: '202611',
+	month: '201708',
 	slideshow: '<div style="margin: 5px auto;"><div id="ss_foadc224" style="max-width: 300px; margin: 0 auto;"></div></div><script>function loadpostgalleryfoadc224() {$(\'#ss_foadc224\').empty().width(\'auto\');var settings = { target: \'#ss_foadc224\', media: [{ url: \'../images/calendrier_montre.jpg\', width: 300, height: 200, autoplayTime: 7000, effect: \'none\'}],width: 300,height: 200, backgroundColor: \'transparent\', resFolder: \'../res\', autoplay: true,slideshow: { active: true, buttonPrev: { url: x5engine.settings.currentPath + \'blog/files/b17_l.png\', x: 4, y: 0 }, buttonNext: { url: x5engine.settings.currentPath + \'blog/files/b17_r.png\', x: 4, y: 0 }, nextPrevMode: \'hover\'}};var currentBp = x5engine.responsive.getCurrentBreakPoint();if (currentBp.end == 960) {settings.width = 300;settings.height = 225;}if (currentBp.end == 720) {settings.width = 300;settings.height = 225;}if (currentBp.end == 480) {settings.width = 300;settings.height = 225;}if (currentBp.end == 0) {settings.width = Math.min(300, $(\'#ss_foadc224\').width());settings.height = settings.width / 300 * 200;}x5engine.gallery(settings);$(\'#imContent\').off(\'breakpointChangedOrFluid\', loadpostgalleryfoadc224).on(\'breakpointChangedOrFluid\', loadpostgalleryfoadc224);}loadpostgalleryfoadc224();</script>',
 	comments: false,
 	word_count: 61,
@@ -2870,15 +2847,3 @@ x5engine.boot.push("x5engine.imBlog.show()");
 x5engine.boot.push("x5engine.imForm.initForm('#blogComment')");
 
 // End of file x5blog.js
-// ─── Publication différée : masque les articles dont la date est dans le futur ───
-(function() {
-    var today = new Date();
-    today.setHours(0, 0, 0, 0);
-    x5engine.settings.imBlog.posts_ids = x5engine.settings.imBlog.posts_ids.filter(function(id) {
-        var post = x5engine.settings.imBlog.posts[id];
-        if (!post || !post.pub_date) return true;
-        var pub = new Date(post.pub_date);
-        pub.setHours(0, 0, 0, 0);
-        return pub <= today;
-    });
-})();
