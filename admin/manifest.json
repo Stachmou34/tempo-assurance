@@ -1,0 +1,8 @@
+{
+	"name": "Tempo-assurance Admin",
+	"start_url": "https://www.tempo-assurance.com/admin/",
+	"display": "standalone",
+	"background_color": "#E5E5E5",
+	"theme_color": "#F28D4F",
+	"scope": "https://www.tempo-assurance.com/admin/"
+}

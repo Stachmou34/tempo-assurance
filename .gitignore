@@ -1,0 +1,9 @@
+.env
+*.env
+config*.php
+*.log
+*.sql
+*.tar.gz
+*.zip
+cache/
+tmp/
