@@ -1,5 +1,10 @@
-<?php require_once("../res/x5engine.php"); ?>
+
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+require_once("../res/x5engine.php"); ?>
+<?php
+
 $blog = new imBlog();
 $data = $blog->parseUrlArray(@$_GET);
 if (!$data['valid']) {

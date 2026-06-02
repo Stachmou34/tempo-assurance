@@ -1158,7 +1158,7 @@ class imBlog
 					    $maxAvailW = $breakPoints[$i]["width"];
                     }
                 } else {
-                    $maxAvailW = $imSettings['blog']['widths'][$i];
+                    $maxAvailW = isset($imSettings['blog']['widths'][$i]) ? $imSettings['blog']['widths'][$i] : 0;
 				}
 
 				$cpr = $cardStyle["cardsPerRow"];
