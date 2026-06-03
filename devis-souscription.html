@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Devis &amp; souscription — Tempo Assurance</title>
+<meta name="description" content="Souscrivez votre assurance auto temporaire en ligne. Attestation immédiate, de 1 à 90 jours, paiement sécurisé CIC.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Devis &amp; souscription — Tempo Assurance">
+<meta property="og:description" content="Souscrivez en ligne, roulez dans la foulée. Attestation immédiate 24/7, sans engagement.">
+<meta property="og:url" content="https://www.tempo-assurance.com/devis-souscription.html">
+<link rel="canonical" href="https://www.tempo-assurance.com/devis-souscription.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ── Design tokens ───────────────────────────────────────────── */
+:root {
+  --ink:          #16201A;
+  --paper:        #FBFBF7;
+  --muted:        #5C6660;
+  --line:         rgba(22,32,26,.10);
+  --green:        #2F9E44;
+  --green-bright: #41C064;
+  --green-soft:   #EAF6EC;
+  --orange:       #F2811D;
+  --orange-soft:  #FBEDDF;
+  --field:        #134E2A;
+  --field-2:      #0F3D21;
+}
+
+/* ── Reset & base ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--paper); color: var(--ink);
+  font-family: 'Schibsted Grotesk', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Layout ──────────────────────────────────────────────────── */
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  border: none; cursor: pointer; font-family: inherit; font-weight: 600;
+  border-radius: 11px; white-space: nowrap; text-decoration: none;
+  transition: transform .08s, background .15s, color .15s, box-shadow .15s;
+}
+.btn:active { transform: translateY(1px); }
+.btn-paper { background: var(--paper); color: var(--field); }
+.btn-paper:hover { background: #fff; }
+.btn-line  { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.3); }
+.btn-line:hover  { border-color: #fff; }
+.btn-org   { background: var(--orange); color: #fff; box-shadow: 0 10px 24px -10px rgba(242,129,29,.8); }
+.btn-org:hover   { background: #dd7012; }
+.btn-ink   { background: var(--ink); color: #fff; }
+.btn-ink:hover   { background: #000; }
+.btn-sm { padding: 10px 17px; font-size: 14.5px; }
+.btn-md { padding: 14px 22px; font-size: 16px; }
+.btn-hero { padding: 17px 26px; font-size: 17px; }
+
+/* ── FIELD hero ──────────────────────────────────────────────── */
+.field { background: var(--field); color: #fff; position: relative; overflow: hidden; }
+
+.ghost {
+  position: absolute; right: -2%; top: 50%; transform: translateY(-46%);
+  z-index: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
+  font-size: 500px; line-height: 1; color: rgba(255,255,255,.05);
+  letter-spacing: -0.05em; pointer-events: none; user-select: none;
+}
+
+.field .nav {
+  display: flex; align-items: center; gap: 30px;
+  height: 84px; position: relative; z-index: 3;
+}
+.field .nav .links { display: flex; gap: 26px; margin-left: 12px; }
+.field .nav .links a {
+  color: rgba(255,255,255,.7); text-decoration: none;
+  font-size: 15px; font-weight: 500;
+}
+.field .nav .links a:hover { color: #fff; }
+.field .nav .links a.active { color: #fff; }
+.field .nav .right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+
+/* ── Hero content ────────────────────────────────────────────── */
+.htop { padding: 36px 0 52px; position: relative; z-index: 2; }
+
+.kick {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--field); background: var(--green-bright);
+  padding: 8px 13px; border-radius: 999px; font-weight: 600;
+}
+
+.hero-h1 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
+  font-size: 72px; line-height: .97; letter-spacing: -0.04em;
+  margin: 22px 0 0; max-width: 16ch;
+}
+.hero-h1 .o { color: var(--orange); }
+
+.hlede {
+  font-size: 19px; line-height: 1.52;
+  color: rgba(255,255,255,.72); max-width: 50ch; margin: 22px 0 0;
+}
+
+.devis-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 34px; }
+.devis-trust { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 28px; }
+.devis-trust .ti {
+  display: flex; align-items: center; gap: 9px;
+  font-size: 14.5px; color: rgba(255,255,255,.82);
+}
+.devis-trust .tk { color: var(--green-bright); display: flex; }
+
+/* ── How it works ────────────────────────────────────────────── */
+.how { padding: 84px 0; }
+.how .shead { max-width: 640px; margin-bottom: 46px; }
+.how .shead .k {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--green); margin-bottom: 14px;
+}
+.how .shead h2 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px;
+  line-height: 1.02; letter-spacing: -0.03em; margin: 0; text-wrap: balance;
+}
+.how .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.how .st {
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 18px; padding: 28px;
+}
+.how .st .n {
+  font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px;
+  color: #fff; background: var(--field); width: 32px; height: 32px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+}
+.how .st h4 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 20px;
+  letter-spacing: -0.02em; margin: 16px 0 8px;
+}
+.how .st p { font-size: 15px; line-height: 1.55; color: var(--muted); margin: 0; }
+.how .reassure {
+  display: flex; gap: 26px; flex-wrap: wrap; margin-top: 30px; padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.how .reassure .r {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14.5px; font-weight: 500;
+}
+.how .reassure .gk { color: var(--green); display: flex; }
+
+/* ── Restart CTA block ───────────────────────────────────────── */
+.restart {
+  background: var(--field); border-radius: 24px; padding: 48px;
+  color: #fff; display: grid; grid-template-columns: 1fr auto;
+  gap: 30px; align-items: center; margin: 0 0 84px;
+}
+.restart h3 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px;
+  letter-spacing: -0.03em; line-height: 1.02; margin: 0; text-wrap: balance;
+}
+.restart p { color: rgba(255,255,255,.72); font-size: 16px; margin: 8px 0 0; }
+
+/* ── Footer ──────────────────────────────────────────────────── */
+footer { background: var(--ink); color: rgba(255,255,255,.7); }
+footer .cols {
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 32px; padding: 60px 0 36px;
+}
+footer .fh {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: #fff; margin-bottom: 14px;
+}
+footer a {
+  display: block; color: rgba(255,255,255,.6);
+  text-decoration: none; font-size: 14.5px; margin-bottom: 9px;
+}
+footer a:hover { color: #fff; }
+footer .legal {
+  border-top: 1px solid rgba(255,255,255,.12); padding: 20px 0 32px;
+  display: flex; justify-content: space-between;
+  font-size: 13px; flex-wrap: wrap; gap: 8px;
+}
+
+/* ── MODAL (top-level, NOT inside a container-type) ──────────── */
+.tsk-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(15,25,18,.55);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  font-family: 'Schibsted Grotesk', sans-serif;
+  animation: tsk-fade .2s ease;
+}
+@keyframes tsk-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.tsk {
+  width: min(760px, calc(100vw - 40px));
+  height: min(640px, calc(100vh - 56px));
+  background: #fff; border-radius: 22px;
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 40px 90px -30px rgba(0,0,0,.55);
+  animation: tsk-rise .26s cubic-bezier(.2,.7,.3,1);
+}
+@keyframes tsk-rise {
+  from { transform: translateY(16px) scale(.98); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+.tsk *, .tsk *::before, .tsk *::after { box-sizing: border-box; }
+
+.tsk .tsk-head { padding: 18px 22px 0; flex: 0 0 auto; }
+.tsk .tsk-headrow { display: flex; align-items: center; gap: 12px; }
+.tsk .tsk-brand { display: inline-flex; align-items: baseline; gap: 6px; }
+.tsk .tsk-brand .b1 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 18px;
+  letter-spacing: -0.03em; color: var(--ink);
+}
+.tsk .tsk-brand .b1 .o { color: var(--green); }
+.tsk .tsk-brand .b2 { font-size: 12px; color: var(--muted); font-weight: 500; }
+.tsk .tsk-securetag {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--green); background: var(--green-soft);
+  padding: 6px 11px; border-radius: 999px;
+}
+.tsk .tsk-close {
+  width: 34px; height: 34px; border-radius: 9px; border: 1.5px solid var(--line);
+  background: #fff; cursor: pointer; font-size: 18px; line-height: 1; color: var(--ink);
+  display: flex; align-items: center; justify-content: center; transition: all .12s;
+  margin-left: 12px;
+}
+.tsk .tsk-close:hover { border-color: var(--ink); background: var(--paper); }
+
+.tsk .tsk-framewrap {
+  position: relative; flex: 1 1 auto; background: var(--paper); margin-top: 16px;
+}
+.tsk .tsk-frameload {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 12px;
+  color: var(--muted); font-size: 14px; z-index: 0;
+}
+.tsk .tsk-frameload .spin {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 3px solid var(--green-soft); border-top-color: var(--green);
+  animation: tsk-spin .8s linear infinite;
+}
+@keyframes tsk-spin { to { transform: rotate(360deg); } }
+
+.tsk #jl-tarificateur {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; z-index: 1; background: transparent;
+}
+.tsk .tsk-framefoot {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+  gap: 7px; font-size: 11.5px; color: var(--muted);
+  padding: 12px 22px; border-top: 1px solid var(--line); background: #fff;
+}
+.tsk .tsk-framefoot .gk { color: var(--green); display: flex; }
+
+/* ── Responsive 920px ────────────────────────────────────────── */
+@media (max-width: 920px) {
+  .wrap { padding: 0 28px; }
+  .field .nav .links,
+  .field .nav .right .btn-line { display: none; }
+  .ghost { font-size: 320px; right: -10%; opacity: .6; }
+  .hero-h1 { font-size: 54px; }
+  .how .steps { grid-template-columns: 1fr; }
+  .restart { grid-template-columns: 1fr; padding: 34px; }
+  footer .cols { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Responsive 560px ────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .wrap { padding: 0 20px; }
+  .ghost { display: none; }
+  .hero-h1 { font-size: 42px; }
+  .hlede { font-size: 17px; }
+  .devis-cta { flex-direction: column; }
+  .devis-trust { gap: 14px; }
+  .how .shead h2 { font-size: 32px; }
+  .restart h3 { font-size: 26px; }
+  footer .cols { grid-template-columns: 1fr; gap: 24px; }
+  .how { padding: 56px 0; }
+  /* Modal fullscreen on mobile */
+  .tsk-overlay { padding: 0; align-items: stretch; }
+  .tsk {
+    width: 100% !important;
+    height: 100dvh !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+  .tsk-overlay { animation: none; }
+  .tsk { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ FIELD HERO ══════════════════════ -->
+<div class="field">
+
+  <div class="ghost" aria-hidden="true">&#8364;</div>
+
+  <div class="wrap">
+
+    <!-- Nav -->
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index-piste-e.html" aria-label="Tempo Assurance — accueil"
+         style="display:inline-flex;align-items:baseline;gap:7px;font-family:'Schibsted Grotesk',sans-serif;text-decoration:none;flex-shrink:0">
+        <span style="font-weight:800;font-size:22px;letter-spacing:-0.03em;color:#fff;line-height:1">tempo<span style="color:var(--green)">.</span></span>
+        <span style="font-weight:500;font-size:13.6px;color:rgba(255,255,255,.7);letter-spacing:0.02em">assurance</span>
+      </a>
+
+      <div class="links">
+        <a href="devis-souscription.html" class="active">Devis</a>
+        <a href="tarif-assurance-temporaire.html">Tarifs</a>
+        <a href="blog/index.php">FAQ</a>
+        <a href="espace-professionel.html">Espace pro</a>
+      </div>
+
+      <div class="right">
+        <a href="espace-professionel.html" class="btn btn-line btn-sm">Espace pro</a>
+        <button class="btn btn-org btn-sm" id="nav-cta">Mon devis</button>
+      </div>
+    </nav>
+
+    <!-- Hero text -->
+    <div class="htop">
+      <span class="kick">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+             stroke="var(--field)" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+        </svg>
+        Devis &amp; souscription
+      </span>
+
+      <h1 class="hero-h1">
+        Souscrivez en ligne,<br><span class="o">roulez dans la foul&#233;e.</span>
+      </h1>
+
+      <p class="hlede">
+        Composez votre assurance temporaire et recevez votre attestation par e-mail en quelques minutes. Tout se passe ici, sans rendez-vous.
+      </p>
+
+      <div class="devis-cta">
+        <button class="btn btn-paper btn-hero" id="cta-start">
+          Je d&#233;marre ma souscription
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 12h15M13 6l6 6-6 6"/>
+          </svg>
+        </button>
+        <button class="btn btn-line btn-hero" id="cta-tarif">Obtenir un tarif</button>
+      </div>
+
+      <div class="devis-trust">
+        <div class="ti">
+          <span class="tk">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6"/></svg>
+          </span>
+          Attestation imm&#233;diate 24/7
+        </div>
+        <div class="ti">
+          <span class="tk">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6"/></svg>
+          </span>
+          Sans engagement
+        </div>
+        <div class="ti">
+          <span class="tk">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6"/></svg>
+          </span>
+          Paiement s&#233;curis&#233; CIC
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /wrap -->
+</div><!-- /field -->
+
+
+<!-- ════════════════════ COMMENT ÇA MARCHE ══════════════════════ -->
+<section class="how">
+  <div class="wrap">
+    <div class="shead">
+      <div class="k">Comment &#231;a marche</div>
+      <h2>Une souscription en&#160;3&#160;&#233;tapes, sans paperasse</h2>
+    </div>
+    <div class="steps">
+
+      <div class="st">
+        <div class="n">1</div>
+        <h4>V&#233;hicule &amp; dur&#233;e</h4>
+        <p>Choisissez le type de v&#233;hicule et la dur&#233;e de 1 &#224; 90 jours. Le tarif tout compris s&#8217;affiche en direct.</p>
+      </div>
+
+      <div class="st">
+        <div class="n">2</div>
+        <h4>Conducteur &amp; pi&#232;ces</h4>
+        <p>Renseignez le conducteur, ajoutez permis et carte grise en ligne. Aucun envoi postal.</p>
+      </div>
+
+      <div class="st">
+        <div class="n">3</div>
+        <h4>Paiement s&#233;curis&#233;</h4>
+        <p>R&#233;glez en une fois par carte via notre partenaire CIC. Aucun pr&#233;l&#232;vement r&#233;current.</p>
+      </div>
+
+    </div><!-- /steps -->
+
+    <div class="reassure">
+      <div class="r">
+        <span class="gk">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></svg>
+        </span>
+        Attestation par e-mail d&#232;s le paiement
+      </div>
+      <div class="r">
+        <span class="gk">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3l7 3v5c0 4.4-3 8-7 10-4-2-7-5.6-7-10V6z"/>
+          </svg>
+        </span>
+        Garantie RC conforme au code des assurances
+      </div>
+      <div class="r">
+        <span class="gk">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6"/></svg>
+        </span>
+        Cas particuliers accept&#233;s
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════ RESTART CTA ════════════════════════ -->
+<section style="padding-bottom:0">
+  <div class="wrap">
+    <div class="restart">
+      <div>
+        <h3>Pr&#234;t &#224; obtenir votre attestation&#160;?</h3>
+        <p>30 secondes pour le tarif, quelques minutes pour le contrat.</p>
+      </div>
+      <button class="btn btn-paper btn-hero" id="cta-restart">
+        Je d&#233;marre ma souscription
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 12h15M13 6l6 6-6 6"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="cols">
+
+      <div>
+        <a href="index-piste-e.html" aria-label="Tempo Assurance — accueil"
+           style="display:inline-flex;align-items:baseline;gap:7px;font-family:'Schibsted Grotesk',sans-serif;text-decoration:none">
+          <span style="font-weight:800;font-size:20px;letter-spacing:-0.03em;color:#fff;line-height:1">tempo<span style="color:var(--green)">.</span></span>
+          <span style="font-weight:500;font-size:12.4px;color:rgba(255,255,255,.7);letter-spacing:0.02em">assurance</span>
+        </a>
+        <p style="font-size:14.5px;line-height:1.5;margin-top:14px;max-width:30ch;color:rgba(255,255,255,.7)">
+          Assurance automobile temporaire et fronti&#232;re, de 1 &#224; 90 jours. &#201;dition imm&#233;diate, 24h/24.
+        </p>
+      </div>
+
+      <div>
+        <div class="fh">Produits</div>
+        <a href="devis-souscription.html">Auto temporaire</a>
+        <a href="#">Poids lourd</a>
+        <a href="#">Camping-car</a>
+        <a href="#">Fronti&#232;re</a>
+      </div>
+
+      <div>
+        <div class="fh">Aide</div>
+        <a href="blog/index.php">FAQ</a>
+        <a href="documentation-assurance-tempo.html">Documentation</a>
+        <a href="contact.html">Contact</a>
+        <a href="espace-professionel.html">Espace pro</a>
+      </div>
+
+      <div>
+        <div class="fh">L&#233;gal</div>
+        <a href="mentions-legales.html">Mentions l&#233;gales</a>
+        <a href="#">CGV</a>
+        <a href="#">Confidentialit&#233;</a>
+      </div>
+
+    </div><!-- /cols -->
+
+    <div class="legal">
+      <span>&#169; 2026 Tempo-Assurance &#8212; JL Assure</span>
+      <span style="font-family:'JetBrains Mono',monospace">Garantie RC &#183; CIC &#183; 24/7</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ════════════════ SUBSCRIPTION MODAL (sibling, not child) ════ -->
+<!-- Rendered here, outside the page container, so position:fixed
+     is never trapped inside a container-type:inline-size block.  -->
+<div id="tsk-overlay" class="tsk-overlay" role="dialog" aria-modal="true"
+     aria-label="Souscription en ligne" style="display:none">
+  <div class="tsk" id="tsk-modal">
+
+    <!-- Head -->
+    <div class="tsk-head">
+      <div class="tsk-headrow">
+        <span class="tsk-brand">
+          <span class="b1">tempo<span class="o">.</span></span>
+          <span class="b2">souscription</span>
+        </span>
+        <span class="tsk-securetag">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="11" width="16" height="9" rx="2"/>
+            <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+          </svg>
+          S&#233;curis&#233;
+        </span>
+        <button class="tsk-close" id="tsk-close" aria-label="Fermer la modale">&#215;</button>
+      </div>
+    </div>
+
+    <!-- Frame area -->
+    <div class="tsk-framewrap">
+      <div class="tsk-frameload" id="tsk-loader">
+        <div class="spin"></div>
+        <span>Chargement du module de souscription s&#233;curis&#233;&#8230;</span>
+      </div>
+      <iframe
+        id="jl-tarificateur"
+        src="https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cat=&&tip=09.70.19.17.17&&id=43&&cd=BLA1905B&&adrsite=www.tempo-assurance.com"
+        title="Souscription en ligne"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+
+    <!-- Foot -->
+    <div class="tsk-framefoot">
+      <span class="gk">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="11" width="16" height="9" rx="2"/>
+          <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+        </svg>
+      </span>
+      &#201;dit&#233; par Tempo Assurance &middot; paiement s&#233;curis&#233; CIC &middot; attestation imm&#233;diate 24/7
+    </div>
+
+  </div><!-- /tsk -->
+</div><!-- /tsk-overlay -->
+
+
+<script>
+(function () {
+  'use strict';
+
+  var JL_SRC = 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cat=&&tip=09.70.19.17.17&&id=43&&cd=BLA1905B&&adrsite=www.tempo-assurance.com';
+
+  var overlay  = document.getElementById('tsk-overlay');
+  var modal    = document.getElementById('tsk-modal');
+  var loader   = document.getElementById('tsk-loader');
+  var closeBtn = document.getElementById('tsk-close');
+  var iframe   = document.getElementById('jl-tarificateur');
+
+  var iframeLoaded = false;
+  var currentRaf   = null;
+
+  /* ── Open ──────────────────────────────────────────────────── */
+  function openModal() {
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    // Load the iframe on first open (lazy)
+    if (!iframe.src || iframe.src === 'about:blank') {
+      iframe.src = JL_SRC;
+    }
+  }
+
+  /* ── Close ─────────────────────────────────────────────────── */
+  function closeModal() {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  /* ── CTA buttons ───────────────────────────────────────────── */
+  ['cta-start', 'cta-tarif', 'cta-restart', 'nav-cta'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('click', openModal);
+  });
+
+  /* ── Close button & overlay click ─────────────────────────── */
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeModal();
+  });
+
+  /* ── Escape key ────────────────────────────────────────────── */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.style.display !== 'none') closeModal();
+  });
+
+  /* ── iframe onLoad: hide spinner ───────────────────────────── */
+  iframe.addEventListener('load', function () {
+    if (!iframeLoaded) {
+      iframeLoaded = true;
+      loader.style.display = 'none';
+    }
+  });
+
+  /* ── Dynamic height via postMessage ────────────────────────── */
+  function isMobile() {
+    return window.matchMedia('(max-width: 560px)').matches;
+  }
+
+  function clampH(h) {
+    return Math.max(440, Math.min(window.innerHeight - 56, Math.round(h)));
+  }
+
+  function tweenHeight(targetH) {
+    if (isMobile()) {
+      modal.style.removeProperty('height');
+      return;
+    }
+    var from = modal.offsetHeight;
+    var to   = clampH(targetH);
+    if (Math.abs(to - from) < 2) {
+      modal.style.setProperty('height', to + 'px', 'important');
+      return;
+    }
+    if (currentRaf) cancelAnimationFrame(currentRaf);
+    var dur = 420;
+    var t0  = performance.now();
+    function ease(p) { return 1 - Math.pow(1 - p, 3); }
+    function step(now) {
+      var p = Math.min(1, (now - t0) / dur);
+      modal.style.setProperty('height', Math.round(from + (to - from) * ease(p)) + 'px', 'important');
+      if (p < 1) { currentRaf = requestAnimationFrame(step); }
+    }
+    currentRaf = requestAnimationFrame(step);
+  }
+
+  window.addEventListener('message', function (e) {
+    // Accept only messages from jlassure.com
+    var hostname = '';
+    try { hostname = new URL(e.origin).hostname; } catch (_) { return; }
+    if (!/(^|\.)jlassure\.com$/.test(hostname)) return;
+
+    var h = null;
+    var d = e.data;
+    if (typeof d === 'number') {
+      h = d;
+    } else if (d && typeof d === 'object') {
+      h = d.height || d.frameHeight || d.scrollHeight || (d.payload && d.payload.height) || null;
+    } else if (typeof d === 'string') {
+      if (d.indexOf('iFrameSizer') !== -1) {
+        var parts = d.split(':');
+        var n = parseFloat(parts[1]);
+        if (!isNaN(n)) h = n;
+      } else if (/^\d+(\.\d+)?$/.test(d.trim())) {
+        h = parseFloat(d);
+      }
+    }
+    if (h && h > 200) tweenHeight(h);
+  });
+
+  /* ── Recalculate on resize ─────────────────────────────────── */
+  window.addEventListener('resize', function () {
+    if (isMobile()) {
+      modal.style.removeProperty('height');
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
