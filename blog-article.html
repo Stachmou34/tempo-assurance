@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Title / description updated by JS once the post is known -->
+<title>Blog &mdash; Tempo Assurance</title>
+<meta name="description" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tempo-site.css">
+
+<style>
+/* ── Article styles ──────────────────────────────────────────── */
+
+/* article hero overrides */
+.artwrap { max-width: 760px; margin: 0 auto; }
+.art-inner { padding-bottom: 80px; }  /* extra room for cover overlap */
+
+.artwrap h1 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
+  font-size: 52px; line-height: 1.1; letter-spacing: -0.04em;
+  margin: 22px 0 0; max-width: 20ch; text-wrap: balance;
+}
+
+.crumbs {
+  font-family: 'JetBrains Mono', monospace; font-size: 12.5px;
+  color: rgba(255,255,255,.6); display: flex; gap: 8px; align-items: center;
+}
+.crumbs a { color: rgba(255,255,255,.6); text-decoration: none; }
+.crumbs a:hover { color: #fff; }
+.crumbs .sep { opacity: .5; }
+
+.artmeta {
+  display: flex; align-items: center; gap: 14px; margin-top: 22px;
+  font-size: 14px; color: rgba(255,255,255,.72); flex-wrap: wrap;
+}
+.artmeta .dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,.4); flex-shrink: 0; }
+.artmeta strong { color: #fff; font-weight: 600; }
+
+/* cover image */
+.cover {
+  margin: -44px auto 0; max-width: 980px;
+  position: relative; z-index: 4; padding: 0 48px;
+}
+.coverimg {
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 30px 70px -34px rgba(0,0,0,.5);
+  position: relative; height: 420px;
+}
+
+/* prose */
+.prose-wrap { padding: 52px 0 20px; }
+
+.prose .lead {
+  font-size: 21px; line-height: 1.5; color: var(--ink);
+  font-weight: 500; margin: 0 0 28px;
+}
+.prose h2 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
+  font-size: 30px; line-height: 1.12; letter-spacing: -0.025em;
+  margin: 40px 0 14px; text-wrap: balance;
+}
+.prose p { font-size: 17px; line-height: 1.68; color: #2c352f; margin: 0 0 20px; }
+.prose ul { margin: 0 0 22px; padding: 0; list-style: none; display: grid; gap: 11px; }
+.prose ul li {
+  position: relative; padding-left: 30px;
+  font-size: 16.5px; line-height: 1.55; color: #2c352f;
+}
+.prose ul li .gk { position: absolute; left: 0; top: 2px; color: var(--green); }
+.prose blockquote {
+  margin: 32px 0; padding: 4px 0 4px 26px;
+  border-left: 3px solid var(--orange);
+}
+.prose blockquote p {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600;
+  font-size: 24px; line-height: 1.32; letter-spacing: -0.015em;
+  color: var(--ink); margin: 0;
+}
+.tip {
+  background: var(--green-soft); border-radius: 16px;
+  padding: 24px 26px; margin: 30px 0;
+}
+.tip .tl {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--field);
+  font-weight: 600; display: flex; align-items: center; gap: 8px; margin-bottom: 9px;
+}
+.tip p { font-size: 15.5px; line-height: 1.55; color: #2c352f; margin: 0; }
+
+/* share */
+.share {
+  display: flex; align-items: center; gap: 12px;
+  padding: 26px 0; border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line); margin: 36px 0;
+}
+.share .sl {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: var(--muted); margin-right: auto;
+}
+.share .sb {
+  width: 40px; height: 40px; border-radius: 10px; border: 1.5px solid var(--line);
+  background: #fff; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--ink); font-weight: 700; font-size: 14px;
+  transition: all .13s; text-decoration: none;
+}
+.share .sb:hover { border-color: var(--ink); }
+
+/* related */
+.related { padding: 20px 0 0; }
+.related h3 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
+  font-size: 28px; letter-spacing: -0.025em; line-height: 1.1; margin: 0 0 24px;
+}
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.card {
+  background: #fff; border: 1px solid var(--line); border-radius: 18px;
+  overflow: hidden; display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
+  transition: transform .14s, box-shadow .14s;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 20px 44px -28px rgba(22,32,26,.35); }
+.card .media { height: 180px; position: relative; }
+.card .cbody { padding: 20px 20px 22px; display: flex; flex-direction: column; flex: 1; }
+.card .ccat {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--green); font-weight: 600;
+}
+.card h4 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700;
+  font-size: 20px; line-height: 1.12; letter-spacing: -0.02em;
+  margin: 10px 0 10px; text-wrap: balance;
+}
+.card .meta {
+  margin-top: auto; display: flex; align-items: center; gap: 12px;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted);
+}
+.card .meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
+
+/* CTA */
+.artcta {
+  background: var(--orange); color: #fff; border-radius: 22px;
+  padding: 44px; text-align: center; margin-top: 56px;
+}
+.artcta h3 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
+  font-size: 32px; line-height: 1.1; letter-spacing: -0.03em;
+  margin: 0 0 10px; text-wrap: balance;
+}
+.artcta p { color: rgba(255,255,255,.9); font-size: 16px; margin: 0 auto 24px; max-width: 40ch; }
+
+/* page bottom spacing */
+.page-bottom { margin-top: 80px; }
+
+/* responsive */
+@media (max-width: 920px) {
+  .cover { padding: 0 28px; }
+  .grid { grid-template-columns: 1fr 1fr; }
+  .artwrap h1 { font-size: 42px; }
+}
+@media (max-width: 560px) {
+  .cover { padding: 0 20px; }
+  .coverimg { height: 240px; }
+  .grid { grid-template-columns: 1fr; }
+  .artwrap h1 { font-size: 34px; }
+  .prose .lead { font-size: 18px; }
+  .prose h2 { font-size: 25px; }
+  .prose p { font-size: 16px; }
+  .prose blockquote p { font-size: 20px; }
+  .artcta { padding: 30px; }
+  .artcta h3 { font-size: 25px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═════════════════════ ARTICLE HERO ══════════════════════════ -->
+<div class="field heroband">
+  <div class="ghost" style="font-size:460px" aria-hidden="true">&#182;</div>
+  <div class="wrap">
+
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index-piste-e.html" class="wordmark" aria-label="Tempo Assurance &mdash; accueil">
+        <span class="wm1">tempo<span class="wdot">.</span></span>
+        <span class="wm2">assurance</span>
+      </a>
+      <div class="links">
+        <a href="devis-souscription.html">Devis</a>
+        <a href="blog-index.html" class="on">Blog</a>
+        <a href="#">FAQ</a>
+      </div>
+      <div class="right">
+        <a href="contact.html" class="btn btn-line btn-sm">Nous contacter</a>
+        <a href="devis-souscription.html" class="btn btn-org btn-sm">Mon devis</a>
+      </div>
+    </nav>
+
+    <div class="inner art-inner">
+      <div class="artwrap">
+        <nav class="crumbs" aria-label="Fil d&rsquo;Ariane">
+          <a href="blog-index.html">Blog</a>
+          <span class="sep" aria-hidden="true">/</span>
+          <a href="blog-index.html" id="art-cat-crumb">Guides</a>
+        </nav>
+        <h1 id="art-title">Chargement&hellip;</h1>
+        <div class="artmeta">
+          <span>Par <strong id="art-author"></strong></span>
+          <span class="dot" aria-hidden="true"></span>
+          <span id="art-date"></span>
+          <span class="dot" aria-hidden="true"></span>
+          <span id="art-read"></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════ COVER IMAGE ═════════════════════════ -->
+<div class="cover">
+  <div class="coverimg">
+    <div class="ph" id="art-cover-ph" data-label="// photo de couverture 16:7"></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════ ARTICLE BODY ════════════════════════ -->
+<div class="wrap">
+  <div class="artwrap">
+
+    <!-- Prose content (injected by JS) -->
+    <div class="prose-wrap">
+      <div class="prose" id="art-prose"></div>
+    </div>
+
+    <!-- Share -->
+    <div class="share">
+      <span class="sl">Partager</span>
+      <a class="sb" id="share-li"  href="#" aria-label="Partager sur LinkedIn" rel="noopener noreferrer" target="_blank">in</a>
+      <a class="sb" id="share-x"   href="#" aria-label="Partager sur X"        rel="noopener noreferrer" target="_blank">X</a>
+      <a class="sb" id="share-fb"  href="#" aria-label="Partager sur Facebook" rel="noopener noreferrer" target="_blank">f</a>
+      <button class="sb" id="share-copy" aria-label="Copier le lien" title="Copier le lien">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Related articles -->
+    <div class="related">
+      <h3>&Agrave; lire ensuite</h3>
+      <div class="grid" id="related-grid" role="list"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="artcta">
+      <h3>Besoin d&rsquo;une attestation, l&agrave;, maintenant&nbsp;?</h3>
+      <p>Composez votre assurance temporaire et recevez votre attestation par e-mail en quelques minutes.</p>
+      <a href="devis-souscription.html" class="btn btn-ink btn-md">
+        Faire mon devis
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round"
+             stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 12h15M13 6l6 6-6 6"/>
+        </svg>
+      </a>
+    </div>
+
+  </div><!-- /artwrap -->
+</div><!-- /wrap -->
+
+
+<!-- ══════════════════════════ FOOTER ═══════════════════════════ -->
+<div class="page-bottom">
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a href="index-piste-e.html" class="wordmark" aria-label="Tempo Assurance &mdash; accueil">
+          <span class="wm1" style="font-size:20px">tempo<span class="wdot">.</span></span>
+          <span class="wm2" style="font-size:12.4px">assurance</span>
+        </a>
+        <p style="font-size:14.5px;line-height:1.5;margin-top:14px;max-width:30ch;color:rgba(255,255,255,.7)">
+          Assurance automobile temporaire et fronti&egrave;re, de 1 &agrave; 90 jours. &Eacute;dition imm&eacute;diate, 24h/24.
+        </p>
+      </div>
+      <div>
+        <div class="fh">Produits</div>
+        <a href="devis-souscription.html">Auto temporaire</a>
+        <a href="#">Poids lourd</a>
+        <a href="#">Camping-car</a>
+        <a href="#">Fronti&egrave;re</a>
+      </div>
+      <div>
+        <div class="fh">Aide</div>
+        <a href="blog-index.html">Blog</a>
+        <a href="#">FAQ</a>
+        <a href="documentation-assurance-tempo.html">Documentation</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <div class="fh">L&eacute;gal</div>
+        <a href="mentions-legales.html">Mentions l&eacute;gales</a>
+        <a href="#">CGV</a>
+        <a href="#">Confidentialit&eacute;</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 Tempo-Assurance &mdash; JL Assure</span>
+      <span style="font-family:'JetBrains Mono',monospace">Garantie RC &middot; CIC &middot; 24/7</span>
+    </div>
+  </div>
+</footer>
+</div>
+
+
+<script src="tempo-blog-data.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ── Read post from URL ────────────────────────────────────── */
+  var params = new URLSearchParams(window.location.search);
+  var postId = params.get('id') || 'p1';
+  var post   = BLOG_POSTS.find(function (p) { return p.id === postId; }) || BLOG_POSTS[0];
+
+  /* ── Page metadata ─────────────────────────────────────────── */
+  document.title = post.title + ' \u2014 Tempo Assurance';
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute('content', post.excerpt);
+
+  /* ── Hero: breadcrumb, title, meta ────────────────────────── */
+  document.getElementById('art-cat-crumb').textContent = post.cat;
+  document.getElementById('art-title').textContent     = post.title;
+  document.getElementById('art-author').textContent    = post.author;
+  document.getElementById('art-date').textContent      = post.date;
+  document.getElementById('art-read').textContent      = post.read + ' de lecture';
+
+  /* ── Cover placeholder label ───────────────────────────────── */
+  document.getElementById('art-cover-ph').setAttribute(
+    'data-label', '// photo couverture \u2014 ' + post.cat.toLowerCase()
+  );
+
+  /* ── Prose ─────────────────────────────────────────────────── */
+  document.getElementById('art-prose').innerHTML = post.body || '';
+
+  /* ── Share links ───────────────────────────────────────────── */
+  var pageUrl  = encodeURIComponent(window.location.href);
+  var pageTitle = encodeURIComponent(post.title);
+  document.getElementById('share-li').href =
+    'https://www.linkedin.com/shareArticle?mini=true&url=' + pageUrl + '&title=' + pageTitle;
+  document.getElementById('share-x').href =
+    'https://x.com/intent/tweet?url=' + pageUrl + '&text=' + pageTitle;
+  document.getElementById('share-fb').href =
+    'https://www.facebook.com/sharer/sharer.php?u=' + pageUrl;
+  document.getElementById('share-copy').addEventListener('click', function () {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href).then(function () {
+        var btn = document.getElementById('share-copy');
+        btn.title = 'Lien copi\u00e9\u00a0!';
+        setTimeout(function () { btn.title = 'Copier le lien'; }, 2000);
+      });
+    }
+  });
+
+  /* ── Related articles ──────────────────────────────────────── */
+  var related = BLOG_POSTS.filter(function (p) {
+    return p.id !== post.id && p.cat === post.cat;
+  }).slice(0, 3);
+  if (related.length < 3) {
+    var fill = BLOG_POSTS.filter(function (p) {
+      return p.id !== post.id && related.indexOf(p) === -1;
+    });
+    related = related.concat(fill).slice(0, 3);
+  }
+  document.getElementById('related-grid').innerHTML = related.map(function (r) {
+    return '<a href="blog-article.html?id=' + r.id + '" class="card" role="listitem" aria-label="Lire\u00a0: ' + esc(r.title) + '">' +
+        '<div class="media">' +
+          '<div class="ph" data-label="// photo \u2014 ' + esc(r.cat.toLowerCase()) + '"></div>' +
+        '</div>' +
+        '<div class="cbody">' +
+          '<span class="ccat">' + esc(r.cat) + '</span>' +
+          '<h4>' + esc(r.title) + '</h4>' +
+          '<div class="meta">' +
+            '<span>' + esc(r.date) + '</span>' +
+            '<span class="dot" aria-hidden="true"></span>' +
+            '<span>' + esc(r.read) + ' de lecture</span>' +
+          '</div>' +
+        '</div>' +
+      '</a>';
+  }).join('');
+
+  /* ── Helper ────────────────────────────────────────────────── */
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* ── Web-font reflow guard ─────────────────────────────────── */
+  function reflow() {
+    document.querySelectorAll('h1, h2, h3, h4').forEach(function (el) {
+      var p = el.style.display;
+      el.style.display = 'inline-block';
+      void el.offsetWidth;
+      el.style.display = p;
+    });
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { reflow(); requestAnimationFrame(reflow); });
+  }
+  window.addEventListener('load', function () { setTimeout(reflow, 250); });
+
+})();
+</script>
+
+</body>
+</html>
