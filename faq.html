@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ &mdash; Centre d&rsquo;aide &mdash; Tempo Assurance</title>
+<meta name="description" content="Toutes les r&eacute;ponses sur l&rsquo;assurance auto temporaire&nbsp;: souscription, attestation, dur&eacute;e, paiement, cas particuliers.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FAQ Tempo Assurance &mdash; Vos questions, nos r&eacute;ponses">
+<meta property="og:url" content="https://www.tempo-assurance.com/faq.html">
+<link rel="canonical" href="https://www.tempo-assurance.com/faq.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,800&family=Schibsted+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tempo-site.css">
+
+<style>
+/* ── FAQ-specific styles ─────────────────────────────────────── */
+
+/* Search bar (inside hero) */
+.search {
+  margin-top: 30px; max-width: 560px; position: relative;
+}
+.search .search-ic {
+  position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+  color: var(--field); opacity: .55; pointer-events: none; display: flex;
+}
+.search input {
+  width: 100%; font-family: inherit; font-size: 16px; font-weight: 500;
+  color: var(--ink); background: var(--paper); border: none; border-radius: 14px;
+  padding: 17px 18px 17px 50px; outline: none;
+  box-shadow: 0 14px 30px -16px rgba(0,0,0,.5);
+}
+.search input::placeholder { color: var(--muted); }
+.search .clear {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  border: none; background: rgba(22,32,26,.08); color: var(--ink);
+  width: 30px; height: 30px; border-radius: 8px; cursor: pointer;
+  font-size: 18px; line-height: 1; display: flex; align-items: center; justify-content: center;
+}
+.search .clear:hover { background: rgba(22,32,26,.15); }
+
+/* Body layout */
+.faq-body { padding: 56px 0 90px; }
+.faq-grid {
+  display: grid; grid-template-columns: 232px 1fr;
+  gap: 48px; align-items: start;
+}
+
+/* Category rail (desktop: sticky vertical list) */
+.rail { position: sticky; top: 28px; }
+.rlab {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 14px;
+}
+.railnav { /* block by default on desktop */ }
+.rail button {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; width: 100%; text-align: left; font-family: inherit;
+  font-size: 15px; font-weight: 600; color: var(--muted);
+  background: none; border: none; cursor: pointer;
+  padding: 10px 12px; border-radius: 10px;
+  transition: background .12s, color .12s;
+}
+.rail button:hover { color: var(--ink); background: rgba(22,32,26,.04); }
+.rail button.on { color: var(--field); background: var(--green-soft); }
+.rail button .ct {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; opacity: .7;
+}
+
+/* Category groups */
+.catgroup { margin-bottom: 44px; scroll-margin-top: 24px; }
+.catgroup:last-child { margin-bottom: 0; }
+.cathead {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-bottom: 18px; padding-bottom: 14px;
+  border-bottom: 2px solid var(--ink);
+}
+.cathead h2 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
+  font-size: 28px; letter-spacing: -0.025em; margin: 0; line-height: 1.1;
+}
+.cathead .cn {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  color: var(--orange); font-weight: 600; flex-shrink: 0;
+}
+
+/* Accordion */
+.qa { border-bottom: 1px solid var(--line); }
+.qa button.q {
+  width: 100%; background: none; border: none; cursor: pointer;
+  font-family: inherit; text-align: left;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; padding: 20px 4px; font-size: 18px; font-weight: 600;
+  color: var(--ink); transition: color .14s;
+}
+.qa button.q:hover { color: var(--field); }
+.qa .ans {
+  overflow: hidden; max-height: 0; opacity: 0;
+  transition: max-height .3s ease, opacity .2s;
+}
+.qa.open .ans { max-height: 500px; opacity: 1; }
+.qa .ans .inner { padding: 0 4px 22px; }
+.qa .ans p {
+  font-size: 15.5px; line-height: 1.62; color: var(--muted);
+  margin: 0; max-width: 68ch;
+}
+.qa .ans .tags {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px;
+}
+.qa .ans .tag {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  color: var(--field); background: var(--green-soft);
+  padding: 5px 10px; border-radius: 999px;
+}
+/* + icon */
+.plus {
+  width: 24px; height: 24px; flex: 0 0 auto;
+  position: relative; color: var(--green); transition: transform .25s;
+}
+.qa.open .plus { transform: rotate(45deg); }
+.plus::before, .plus::after {
+  content: ''; position: absolute; background: currentColor; border-radius: 2px;
+}
+.plus::before { left: 11px; top: 3px; width: 2px; height: 18px; }
+.plus::after  { top: 11px; left: 3px; height: 2px; width: 18px; }
+
+/* Search results meta + highlight + empty */
+.resmeta {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  color: var(--muted); margin-bottom: 24px;
+}
+.resmeta b { color: var(--ink); }
+.hl { background: rgba(242,129,29,.22); border-radius: 3px; padding: 0 1px; }
+.empty { text-align: center; padding: 60px 20px; }
+.empty .em-t {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
+  font-size: 26px; letter-spacing: -0.02em;
+}
+.empty .em-s { color: var(--muted); font-size: 16px; margin-top: 8px; }
+
+/* Contact CTA */
+.help {
+  background: var(--field); border-radius: 24px; padding: 52px;
+  color: #fff; display: grid; grid-template-columns: 1fr auto;
+  gap: 32px; align-items: center; margin-top: 56px;
+}
+.help h3 {
+  font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
+  font-size: 36px; letter-spacing: -0.03em; line-height: 1.02;
+  margin: 0 0 12px; text-wrap: balance;
+}
+.help p { color: rgba(255,255,255,.72); font-size: 16px; margin: 0; max-width: 40ch; }
+.help .acts { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ── Responsive 920px ────────────────────────────────────────── */
+@media (max-width: 920px) {
+  .faq-grid { grid-template-columns: 1fr; gap: 28px; }
+  .rail { position: static; }
+  .rlab { display: none; }
+  .railnav {
+    display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px;
+    -ms-overflow-style: none; scrollbar-width: none;
+  }
+  .railnav::-webkit-scrollbar { display: none; }
+  .rail button { width: auto; white-space: nowrap; border: 1px solid var(--line); }
+  .rail button .ct { display: none; }
+  .help { grid-template-columns: 1fr; padding: 38px; }
+}
+
+/* ── Responsive 560px ────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .faq-body { padding: 40px 0 64px; }
+  .cathead h2 { font-size: 23px; }
+  .qa button.q { font-size: 16px; }
+  .help { padding: 30px; }
+  .help h3 { font-size: 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qa .ans { transition: none; }
+  .plus { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ HERO ════════════════════════════ -->
+<div class="field heroband">
+  <div class="ghost" style="font-size:520px" aria-hidden="true">?</div>
+  <div class="wrap">
+
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="index-piste-e.html" class="wordmark" aria-label="Tempo Assurance &mdash; accueil">
+        <span class="wm1">tempo<span class="wdot">.</span></span>
+        <span class="wm2">assurance</span>
+      </a>
+      <div class="links">
+        <a href="devis-souscription.html">Devis</a>
+        <a href="blog-index.html">Blog</a>
+        <a href="faq.html" class="on">FAQ</a>
+      </div>
+      <div class="right">
+        <a href="contact.html" class="btn btn-line btn-sm">Nous contacter</a>
+        <a href="devis-souscription.html" class="btn btn-org btn-sm">Mon devis</a>
+      </div>
+    </nav>
+
+    <div class="inner">
+      <span class="kick">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+             stroke="var(--field)" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.2-4.2"/>
+        </svg>
+        Centre d&rsquo;aide
+      </span>
+      <h1>Vos questions, <span class="o">nos r&eacute;ponses.</span></h1>
+      <p class="sub">Tout sur la souscription, la dur&eacute;e, l&rsquo;attestation et les cas particuliers. Cherchez un mot-cl&eacute; ou parcourez par th&egrave;me.</p>
+
+      <div class="search" role="search">
+        <span class="search-ic" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.2-4.2"/>
+          </svg>
+        </span>
+        <input type="text" id="faq-input" autocomplete="off"
+               placeholder="Rechercher&nbsp;: attestation, permis &eacute;tranger, fronti&egrave;re&hellip;"
+               aria-label="Rechercher dans la FAQ">
+        <button class="clear" id="faq-clear" aria-label="Effacer la recherche" style="display:none">&#215;</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════ FAQ BODY ═══════════════════════════ -->
+<div class="faq-body">
+  <div class="wrap">
+    <div class="faq-grid">
+
+      <!-- Category rail -->
+      <aside class="rail" aria-label="Filtrer par cat&eacute;gorie">
+        <div class="rlab">Cat&eacute;gories</div>
+        <div class="railnav" id="rail-nav" role="group" aria-label="Cat&eacute;gories"></div>
+      </aside>
+
+      <!-- Questions list -->
+      <div>
+        <div id="faq-resmeta" class="resmeta" style="display:none"></div>
+        <div id="faq-list" aria-live="polite" aria-atomic="true"></div>
+
+        <!-- Contact CTA (always visible) -->
+        <div class="help">
+          <div>
+            <h3>Vous ne trouvez pas votre r&eacute;ponse&nbsp;?</h3>
+            <p>Notre &eacute;quipe r&eacute;pond du lundi au samedi. L&rsquo;&eacute;dition des contrats, elle, ne s&rsquo;arr&ecirc;te jamais&nbsp;: 24h/24.</p>
+          </div>
+          <div class="acts">
+            <a href="contact.html" class="btn btn-org btn-md">
+              Nous contacter
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 12h15M13 6l6 6-6 6"/>
+              </svg>
+            </a>
+            <a href="tel:+33184807000" class="btn btn-paper btn-md">01&#160;84&#160;80&#160;70&#160;00</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a href="index-piste-e.html" class="wordmark" aria-label="Tempo Assurance &mdash; accueil">
+          <span class="wm1" style="font-size:20px">tempo<span class="wdot">.</span></span>
+          <span class="wm2" style="font-size:12.4px">assurance</span>
+        </a>
+        <p style="font-size:14.5px;line-height:1.5;margin-top:14px;max-width:30ch;color:rgba(255,255,255,.7)">
+          Assurance automobile temporaire et fronti&egrave;re, de 1 &agrave; 90 jours. &Eacute;dition imm&eacute;diate, 24h/24.
+        </p>
+      </div>
+      <div>
+        <div class="fh">Produits</div>
+        <a href="devis-souscription.html">Auto temporaire</a>
+        <a href="#">Poids lourd</a>
+        <a href="#">Camping-car</a>
+        <a href="#">Fronti&egrave;re</a>
+      </div>
+      <div>
+        <div class="fh">Aide</div>
+        <a href="faq.html">FAQ</a>
+        <a href="blog-index.html">Blog</a>
+        <a href="documentation-assurance-tempo.html">Documentation</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div>
+        <div class="fh">L&eacute;gal</div>
+        <a href="mentions-legales.html">Mentions l&eacute;gales</a>
+        <a href="#">CGV</a>
+        <a href="#">Confidentialit&eacute;</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 Tempo-Assurance &mdash; JL Assure</span>
+      <span style="font-family:'JetBrains Mono',monospace">Garantie RC &middot; CIC &middot; 24/7</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── FAQ data ──────────────────────────────────────────────── */
+  var FAQ_DATA = [
+    {
+      id: 'souscription', n: '01', name: 'Souscription & \u00e9ligibilit\u00e9',
+      items: [
+        ['Quelles sont les conditions pour souscrire\u00a0?',
+         'Il faut \u00eatre \u00e2g\u00e9 de 23 ans et plus, \u00eatre titulaire d\u2019un permis de conduire valide depuis plus de 2 ans, et justifier d\u2019une r\u00e9sidence. Aucun ant\u00e9c\u00e9dent de r\u00e9siliation pour sinistre ou non-paiement sur les 36 derniers mois.',
+         ['\u00e2ge 23+', 'permis 2 ans+']],
+        ['Quels documents dois-je fournir\u00a0?',
+         'Votre permis de conduire et la carte grise du v\u00e9hicule \u00e0 assurer. Tout est transmis en ligne au moment du devis\u00a0: ni dossier papier, ni envoi postal, ni rendez-vous.',
+         ['permis', 'carte grise']],
+        ['Puis-je assurer un v\u00e9hicule qui ne m\u2019appartient pas\u00a0?',
+         'Oui. C\u2019est m\u00eame l\u2019un des usages les plus fr\u00e9quents\u00a0: pr\u00eat de v\u00e9hicule entre proches, achat avant changement de carte grise, ou conduite d\u2019un v\u00e9hicule professionnel. Le contrat couvre le conducteur d\u00e9sign\u00e9.',
+         ['pr\u00eat', 'achat-vente']],
+        ['Acceptez-vous les permis r\u00e9cents ou \u00e9trangers\u00a0?',
+         'Les permis de plus de 2 ans sont accept\u00e9s. Les permis \u00e9trangers (UE et hors UE) sont g\u00e9r\u00e9s au cas par cas \u2014 c\u2019est l\u2019une de nos sp\u00e9cialit\u00e9s. Renseignez votre situation lors du devis.',
+         ['permis \u00e9tranger']],
+      ]
+    },
+    {
+      id: 'duree', n: '02', name: 'Dur\u00e9e & garanties',
+      items: [
+        ['Quelle est la dur\u00e9e minimum et maximum\u00a0?',
+         'Vous pouvez assurer votre v\u00e9hicule de 1 jour \u00e0 90 jours. La dur\u00e9e se choisit au jour pr\u00e8s au moment du devis, et le contrat s\u2019arr\u00eate automatiquement au terme retenu.',
+         ['1 \u00e0 90 jours']],
+        ['Quelles garanties sont incluses\u00a0?',
+         'La garantie responsabilit\u00e9 civile (\u00ab\u00a0au tiers\u00a0\u00bb), obligatoire et conforme au code des assurances\u00a0: elle couvre les dommages caus\u00e9s aux autres. Des options peuvent \u00eatre propos\u00e9es selon le v\u00e9hicule et la dur\u00e9e.',
+         ['RC obligatoire']],
+        ['Le contrat se reconduit-il automatiquement\u00a0?',
+         'Non. Il n\u2019y a ni abonnement, ni reconduction tacite. \u00c0 l\u2019\u00e9ch\u00e9ance, la garantie prend fin d\u2019elle-m\u00eame. Si vous avez encore besoin de rouler, vous souscrivez simplement un nouveau contrat.',
+         ['sans engagement']],
+        ['Puis-je prolonger mon contrat en cours\u00a0?',
+         'La prolongation n\u2019est pas automatique, mais vous pouvez souscrire un nouveau contrat prenant le relais avant la fin du pr\u00e9c\u00e9dent, sans interruption de garantie.',
+         []],
+      ]
+    },
+    {
+      id: 'attestation', n: '03', name: 'Attestation & documents',
+      items: [
+        ['Quand vais-je recevoir mon attestation\u00a0?',
+         'Imm\u00e9diatement apr\u00e8s le paiement, par e-mail, 24h/24 et 7j/7. Vous recevez votre attestation d\u2019assurance et votre m\u00e9mo v\u00e9hicule assur\u00e9 (carte verte) pr\u00eats \u00e0 imprimer ou \u00e0 pr\u00e9senter.',
+         ['imm\u00e9diat', '24/7']],
+        ['Mon attestation est-elle valable tout de suite\u00a0?',
+         'Oui. La garantie d\u00e9bute \u00e0 la date et l\u2019heure que vous avez choisies lors du devis (au plus t\u00f4t d\u00e8s le paiement). L\u2019attestation re\u00e7ue est valable sur-le-champ.',
+         []],
+        ['Que dois-je pr\u00e9senter en cas de contr\u00f4le\u00a0?',
+         'Le m\u00e9mo v\u00e9hicule assur\u00e9 (carte verte) re\u00e7u par e-mail, accompagn\u00e9 de votre permis et de la carte grise. Le document num\u00e9rique fait foi\u00a0; vous pouvez le pr\u00e9senter depuis votre t\u00e9l\u00e9phone.',
+         []],
+      ]
+    },
+    {
+      id: 'paiement', n: '04', name: 'Paiement & tarifs',
+      items: [
+        ['Comment se passe le paiement\u00a0?',
+         'Par carte bancaire, via une page de paiement s\u00e9curis\u00e9e op\u00e9r\u00e9e par notre banque partenaire CIC. Le r\u00e8glement est unique\u00a0: vous payez la dur\u00e9e choisie, point.',
+         ['CIC', 'paiement s\u00e9curis\u00e9']],
+        ['Le tarif affich\u00e9 est-il tout compris\u00a0?',
+         'Oui. Le prix indiqu\u00e9 au devis inclut la garantie, les frais de dossier et les taxes. Aucun frais ne s\u2019ajoute \u00e0 la souscription. Le tarif d\u00e9pend du v\u00e9hicule et de la dur\u00e9e.',
+         ['tout compris']],
+        ['Puis-je obtenir une facture\u00a0?',
+         'Un justificatif de paiement vous est adress\u00e9 par e-mail avec votre attestation. Pour un usage professionnel, une facture d\u00e9taill\u00e9e est disponible depuis votre espace de suivi.',
+         []],
+      ]
+    },
+    {
+      id: 'sinistre', n: '05', name: 'Sinistre, fronti\u00e8re & r\u00e9siliation',
+      items: [
+        ['Que faire en cas d\u2019accident\u00a0?',
+         'Remplissez un constat amiable avec l\u2019autre conducteur et d\u00e9clarez le sinistre dans les 5 jours ouvr\u00e9s via les coordonn\u00e9es figurant sur votre attestation. Conservez tout justificatif utile (photos, t\u00e9moignages).',
+         ['constat', 'sous 5 jours']],
+        ['Suis-je couvert \u00e0 l\u2019\u00e9tranger\u00a0?',
+         'L\u2019assurance fronti\u00e8re vous couvre pour entrer et circuler en France ainsi que dans les principaux pays limitrophes (Espagne, Italie, Allemagne, Belgique, Suisse, Luxembourg, Pays-Bas). La zone couverte figure sur votre carte verte.',
+         ['fronti\u00e8re', 'Europe']],
+        ['Puis-je r\u00e9silier avant la fin du contrat\u00a0?',
+         'Le contrat \u00e9tant \u00e0 dur\u00e9e d\u00e9termin\u00e9e et pay\u00e9 d\u2019avance, il n\u2019y a pas de r\u00e9siliation \u00e0 effectuer\u00a0: il s\u2019arr\u00eate seul \u00e0 l\u2019\u00e9ch\u00e9ance. Aucune d\u00e9marche de fin de contrat n\u2019est n\u00e9cessaire.',
+         []],
+      ]
+    },
+    {
+      id: 'cas', n: '06', name: 'Cas particuliers',
+      items: [
+        ['Acceptez-vous les plaques de transit ou WW\u00a0?',
+         'Oui. Les plaques de transit temporaire (WW) et provisoires sont prises en charge, typiquement pour un import ou un convoyage. Indiquez le type de plaque lors du devis.',
+         ['transit', 'WW']],
+        ['Carte grise barr\u00e9e (achat-vente entre particuliers)\u00a0?',
+         'C\u2019est un cas que nous assurons couramment\u00a0: vous venez d\u2019acheter et la carte grise n\u2019est pas encore \u00e0 votre nom. Le contrat vous permet de rouler le temps d\u2019effectuer le changement de titulaire.',
+         ['achat-vente']],
+        ['Import-export et plaques \u00e9trang\u00e8res\u00a0?',
+         'Les v\u00e9hicules en import-export, plaques \u00e9trang\u00e8res (dont alg\u00e9riennes) et cartons provisoires sont g\u00e9r\u00e9s au cas par cas. Pr\u00e9cisez votre situation\u00a0: nous assurons l\u00e0 o\u00f9 beaucoup refusent.',
+         ['import-export']],
+        ['Sortie de fourri\u00e8re\u00a0?',
+         'Vous pouvez souscrire une courte dur\u00e9e pour r\u00e9cup\u00e9rer un v\u00e9hicule en fourri\u00e8re et le ramener. L\u2019attestation imm\u00e9diate vous permet de r\u00e9gulariser sans attendre.',
+         ['fourri\u00e8re']],
+      ]
+    }
+  ];
+
+  /* ── State ─────────────────────────────────────────────────── */
+  var state = {
+    query:  '',
+    active: 'all',
+    open:   { 'souscription:0': true }   // first item open by default
+  };
+
+  /* ── Helpers ───────────────────────────────────────────────── */
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // Highlight first occurrence of q in text; returns safe HTML string
+  function highlight(text, q) {
+    if (!q) return esc(text);
+    var lower = text.toLowerCase();
+    var qi    = q.toLowerCase();
+    var idx   = lower.indexOf(qi);
+    if (idx < 0) return esc(text);
+    return esc(text.slice(0, idx)) +
+      '<span class="hl">' + esc(text.slice(idx, idx + q.length)) + '</span>' +
+      esc(text.slice(idx + q.length));
+  }
+
+  /* ── Rail ──────────────────────────────────────────────────── */
+  function renderRail() {
+    var totalAll = FAQ_DATA.reduce(function (s, c) { return s + c.items.length; }, 0);
+    var html = '<button data-cat="all" class="' + (state.active === 'all' ? 'on' : '') +
+      '" aria-pressed="' + (state.active === 'all') + '">' +
+      'Toutes <span class="ct">' + totalAll + '</span></button>';
+    FAQ_DATA.forEach(function (c) {
+      html += '<button data-cat="' + c.id + '" class="' +
+        (state.active === c.id ? 'on' : '') +
+        '" aria-pressed="' + (state.active === c.id) + '">' +
+        esc(c.name) + ' <span class="ct">' + c.items.length + '</span></button>';
+    });
+    document.getElementById('rail-nav').innerHTML = html;
+  }
+
+  /* ── Groups ────────────────────────────────────────────────── */
+  function renderGroups() {
+    var q      = state.query.trim().toLowerCase();
+    var list   = document.getElementById('faq-list');
+    var meta   = document.getElementById('faq-resmeta');
+
+    // Filter
+    var groups = [];
+    FAQ_DATA.forEach(function (cat) {
+      if (state.active !== 'all' && state.active !== cat.id) return;
+      var items = cat.items.reduce(function (acc, it, idx) {
+        if (q) {
+          var haystack = (it[0] + ' ' + it[1] + ' ' + it[2].join(' ')).toLowerCase();
+          if (!haystack.includes(q)) return acc;
+        }
+        acc.push({ it: it, idx: idx });
+        return acc;
+      }, []);
+      if (items.length) groups.push({ cat: cat, items: items });
+    });
+
+    var totalMatches = groups.reduce(function (s, g) { return s + g.items.length; }, 0);
+
+    // Results meta
+    if (q && state.query) {
+      meta.style.display = '';
+      meta.innerHTML = '<b>' + totalMatches + '</b> r\u00e9sultat' +
+        (totalMatches > 1 ? 's' : '') + ' pour \u00ab\u00a0' + esc(state.query) + '\u00a0\u00bb';
+    } else {
+      meta.style.display = 'none';
+    }
+
+    // Empty state
+    if (!groups.length) {
+      list.innerHTML = '<div class="empty">' +
+        '<div class="em-t">Aucune r\u00e9ponse trouv\u00e9e</div>' +
+        '<div class="em-s">Essayez un autre mot-cl\u00e9, ou contactez-nous directement ci-dessous.</div>' +
+        '</div>';
+      return;
+    }
+
+    // Build HTML
+    var html = '';
+    groups.forEach(function (g) {
+      html += '<section class="catgroup" id="faq-' + g.cat.id + '">';
+      html += '<div class="cathead"><span class="cn">' + g.cat.n + '</span>' +
+        '<h2>' + esc(g.cat.name) + '</h2></div>';
+
+      g.items.forEach(function (item) {
+        var key    = g.cat.id + ':' + item.idx;
+        var isOpen = !!state.open[key];
+        html += '<div class="qa' + (isOpen ? ' open' : '') + '" data-key="' + key + '">';
+        html += '<button class="q" aria-expanded="' + isOpen + '">';
+        html += '<span>' + highlight(item.it[0], state.query) + '</span>';
+        html += '<span class="plus" aria-hidden="true"></span>';
+        html += '</button>';
+        html += '<div class="ans" role="region"><div class="inner">';
+        html += '<p>' + highlight(item.it[1], state.query) + '</p>';
+        if (item.it[2] && item.it[2].length) {
+          html += '<div class="tags">';
+          item.it[2].forEach(function (t) { html += '<span class="tag">' + esc(t) + '</span>'; });
+          html += '</div>';
+        }
+        html += '</div></div></div>';
+      });
+
+      html += '</section>';
+    });
+
+    list.innerHTML = html;
+  }
+
+  /* ── Accordion (event delegation — survives re-renders) ─────── */
+  document.getElementById('faq-list').addEventListener('click', function (e) {
+    var btn = e.target.closest('.q');
+    if (!btn) return;
+    var qa  = btn.closest('.qa');
+    if (!qa) return;
+    var key = qa.dataset.key;
+    state.open[key] = !state.open[key];
+    qa.classList.toggle('open', !!state.open[key]);
+    btn.setAttribute('aria-expanded', String(!!state.open[key]));
+  });
+
+  /* ── Rail (event delegation) ───────────────────────────────── */
+  document.getElementById('rail-nav').addEventListener('click', function (e) {
+    var btn = e.target.closest('button[data-cat]');
+    if (!btn) return;
+    state.active = btn.dataset.cat;
+    renderRail();
+    renderGroups();
+  });
+
+  /* ── Search ────────────────────────────────────────────────── */
+  var input = document.getElementById('faq-input');
+  var clear = document.getElementById('faq-clear');
+
+  input.addEventListener('input', function () {
+    state.query = this.value;
+    clear.style.display = this.value ? 'flex' : 'none';
+    renderGroups();
+  });
+
+  clear.addEventListener('click', function () {
+    state.query = '';
+    input.value = '';
+    this.style.display = 'none';
+    input.focus();
+    renderGroups();
+  });
+
+  /* ── Init ──────────────────────────────────────────────────── */
+  renderRail();
+  renderGroups();
+
+  /* ── Web-font reflow guard ─────────────────────────────────── */
+  function reflow() {
+    document.querySelectorAll('h1, h2, h3, h4').forEach(function (el) {
+      var p = el.style.display;
+      el.style.display = 'inline-block';
+      void el.offsetWidth;
+      el.style.display = p;
+    });
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { reflow(); requestAnimationFrame(reflow); });
+  }
+  window.addEventListener('load', function () { setTimeout(reflow, 250); });
+
+})();
+</script>
+
+</body>
+</html>
