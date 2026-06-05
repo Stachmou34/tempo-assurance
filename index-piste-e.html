@@ -153,10 +153,7 @@ input[type=range].tbinput {
   font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,.5);
 }
 
-.tbfoot {
-  display: grid; grid-template-columns: auto 1fr auto;
-  gap: 22px; align-items: center; margin-top: 26px;
-}
+.tbfoot { margin-top: 26px; }
 .vehpills { display: flex; gap: 7px; flex-wrap: wrap; }
 .vp {
   border: 1.5px solid rgba(255,255,255,.25); background: transparent;
@@ -167,12 +164,67 @@ input[type=range].tbinput {
 .vp:hover { border-color: rgba(255,255,255,.6); }
 .vp.on { background: #fff; color: var(--field); border-color: #fff; }
 
-.priceblk { text-align: right; }
-.priceblk .pl {
+/* ── VL cascade — CalcVarB ───────────────────────────────────── */
+.vlblock {
+  margin-top: 22px; border-top: 1px dashed rgba(255,255,255,.2); padding-top: 20px;
+}
+.vlgrid2 { display: grid; grid-template-columns: 1.5fr 1fr; gap: 14px; align-items: start; }
+.olab { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 9px; }
+
+/* DropSeg — liquid sliding indicator */
+.dropseg {
+  position: relative; display: flex; width: 100%;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16);
+  padding: 4px; border-radius: 12px; isolation: isolate;
+}
+.dropseg.off { opacity: .4; pointer-events: none; }
+.dropseg .ind {
+  position: absolute; top: 4px; bottom: 4px; left: 4px; width: 0;
+  background: #fff; border-radius: 9px; z-index: 0;
+  transform-origin: center; will-change: left, width, transform;
+  transition: left .44s cubic-bezier(.34,1.56,.4,1), width .44s cubic-bezier(.34,1.56,.4,1);
+  box-shadow: 0 4px 12px -4px rgba(0,0,0,.35);
+}
+.dropseg.moving .ind { animation: vlc-drop .44s cubic-bezier(.34,1.56,.4,1); }
+@keyframes vlc-drop {
+  0%   { transform: scaleY(1)   scaleX(1); }
+  35%  { transform: scaleY(.74) scaleX(1.12); }
+  65%  { transform: scaleY(1.08) scaleX(.97); }
+  100% { transform: scaleY(1)   scaleX(1); }
+}
+.dropseg .dsb {
+  position: relative; z-index: 1; flex: 1; border: none;
+  background: transparent; color: rgba(255,255,255,.85); cursor: pointer;
+  font-family: inherit; font-size: 13.5px; font-weight: 600;
+  padding: 9px 14px; border-radius: 9px; white-space: nowrap; transition: color .25s ease;
+}
+.dropseg .dsb.on { color: var(--field); }
+
+/* Status chips */
+.statusline { margin-top: 14px; }
+.chip-incl {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12.5px; font-weight: 600; color: var(--field);
+  background: var(--green-bright); border-radius: 999px; padding: 8px 13px;
+}
+.badge-na {
+  display: inline-flex; align-items: center; gap: 7px; font-size: 12px;
+  color: rgba(255,255,255,.7); background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.14); border-radius: 999px; padding: 7px 12px;
+}
+
+/* Price footer */
+.pricewrap { margin-top: 24px; border-top: 1px solid rgba(255,255,255,.16); padding-top: 20px; }
+.breakdown { display: grid; gap: 7px; margin-bottom: 14px; }
+.brow { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; color: rgba(255,255,255,.75); }
+.brow .bk { display: flex; align-items: center; gap: 8px; }
+.brow .bv { font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+.pricerow { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.pricerow .pl {
   font-family: 'JetBrains Mono', monospace; font-size: 11px;
   letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.55);
 }
-.priceblk .pv {
+.pricerow .pv {
   font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;
   font-size: 44px; letter-spacing: -0.03em; line-height: 1; white-space: nowrap;
 }
@@ -276,8 +328,6 @@ footer .legal {
   .field .nav .right .btn-line { display: none; }
   .ghost { font-size: 360px; right: -10%; opacity: .6; }
   .hero-h1 { font-size: 68px; }
-  .tbfoot { grid-template-columns: 1fr; gap: 18px; }
-  .priceblk { text-align: left; }
   .blocks { grid-template-columns: 1fr; }
   .shead h2 { font-size: 40px; }
   .ctaf h2 { font-size: 44px; }
@@ -300,9 +350,18 @@ footer .legal {
   .shead h2 { font-size: 34px; }
 }
 
+/* ── Responsive 520px (VL grid) ──────────────────────────────── */
+@media (max-width: 520px) {
+  .vlgrid2 { grid-template-columns: 1fr; gap: 16px; }
+  .pricerow { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .pricerow .btn { width: 100%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bar .fill { transition: none; }
   .btn, .vbig, .vp { transition: none; }
+  .dropseg .ind { transition: none; }
+  .dropseg.moving .ind { animation: none; }
 }
 </style>
 </head>
@@ -379,6 +438,7 @@ footer .legal {
         <span>1 jour</span><span>30 jours</span><span>60 jours</span><span>90 jours</span>
       </div>
 
+      <!-- Vehicle pills -->
       <div class="tbfoot">
         <div class="vehpills" id="veh-pills" role="group" aria-label="Type de véhicule">
           <button class="vp on"  data-veh="vl"   aria-pressed="true">VL</button>
@@ -388,12 +448,38 @@ footer .legal {
           <button class="vp"     data-veh="moto"  aria-pressed="false">MT</button>
           <button class="vp"     data-veh="rem"   aria-pressed="false">RM</button>
         </div>
+      </div>
 
-        <div></div><!-- spacer 1fr -->
+      <!-- VL cascade (shown only for VL) -->
+      <div class="vlblock" id="vl-block">
+        <div class="vlgrid2">
+          <div>
+            <div class="olab">Immatriculation</div>
+            <div class="dropseg" id="ds-zone" role="group" aria-label="Zone d'immatriculation">
+              <span class="ind" id="ds-zone-ind" aria-hidden="true"></span>
+              <button class="dsb on" data-zone="fr">France</button>
+              <button class="dsb"    data-zone="eu">Europe</button>
+              <button class="dsb"    data-zone="hors">Hors Europe</button>
+            </div>
+          </div>
+          <div>
+            <div class="olab">&#194;ge du v&#233;hicule</div>
+            <div class="dropseg" id="ds-age" role="group" aria-label="Âge du véhicule">
+              <span class="ind" id="ds-age-ind" aria-hidden="true"></span>
+              <button class="dsb on" data-age="lt10">&#8722;10&#160;ans</button>
+              <button class="dsb"    data-age="gte10">+10&#160;ans</button>
+            </div>
+          </div>
+        </div>
+        <div class="statusline" id="status-line"></div>
+      </div>
 
-        <div style="display:flex;align-items:center;gap:22px">
-          <div class="priceblk">
-            <div class="pl" id="price-label">Voiture &#183; 21 j</div>
+      <!-- Price footer -->
+      <div class="pricewrap">
+        <div class="breakdown" id="breakdown" style="display:none" aria-live="polite"></div>
+        <div class="pricerow">
+          <div>
+            <div class="pl" id="price-label">Voiture &#183; 21&#160;j</div>
             <div class="pv" id="price-value">128&#160;&#8364;</div>
           </div>
           <a href="devis-souscription.html" class="btn btn-paper btn-md">
@@ -405,7 +491,7 @@ footer .legal {
             </svg>
           </a>
         </div>
-      </div><!-- /tbfoot -->
+      </div>
     </div><!-- /timebar -->
 
   </div><!-- /wrap -->
@@ -574,6 +660,12 @@ var VEHICLES = [
   { id: 'rem',  name: 'Remorque',     sub: '& semi-remorque',       code: 'RM', rate: 3.2  }
 ];
 
+var VL_ZONES = [
+  { v: 'fr',   label: 'France',       mult: 1.00, assist: true  },
+  { v: 'eu',   label: 'Europe',       mult: 1.15, assist: false },
+  { v: 'hors', label: 'Hors Europe',  mult: 1.30, assist: false }
+];
+
 function tempoPrice(rate, d) {
   d = Math.max(1, Math.min(90, d || 1));
   var taper = d <= 7 ? 1 : d <= 30 ? 0.92 : 0.84;
@@ -582,10 +674,27 @@ function tempoPrice(rate, d) {
 function tempoEuro(n) {
   return n.toLocaleString('fr-FR') + '\u202f\u20ac';
 }
+function vlZone(z) {
+  for (var i = 0; i < VL_ZONES.length; i++) { if (VL_ZONES[i].v === z) return VL_ZONES[i]; }
+  return VL_ZONES[0];
+}
+function vlQuote(d, zone, age) {
+  var z = vlZone(zone);
+  var baseRC = tempoPrice(5.9, d);
+  var territorial = Math.round(baseRC * (z.mult - 1));
+  var perDay = age === 'gte10' ? 1.9 : 1.2;
+  var assist = z.assist ? Math.round(perDay * d) : 0;
+  return { baseRC: baseRC, territorial: territorial, assist: assist,
+           hasAssist: z.assist, perDay: perDay, zoneLabel: z.label,
+           total: baseRC + territorial + assist };
+}
 
 /* ── State ───────────────────────────────────────────────────── */
 var days  = 21;
 var vehId = 'vl';
+var zone  = 'fr';
+var age   = 'lt10';
+
 function getVeh() {
   for (var i = 0; i < VEHICLES.length; i++) {
     if (VEHICLES[i].id === vehId) return VEHICLES[i];
@@ -605,25 +714,83 @@ VEHICLES.forEach(function(v) {
   stack.appendChild(row);
 });
 
+/* ── DropSeg helper ──────────────────────────────────────────── */
+function measureInd(dsId, activeVal, attrName) {
+  var wrap = document.getElementById(dsId);
+  var ind  = wrap.querySelector('.ind');
+  var btns = wrap.querySelectorAll('.dsb');
+  for (var i = 0; i < btns.length; i++) {
+    var on = btns[i].getAttribute(attrName) === activeVal;
+    btns[i].classList.toggle('on', on);
+    if (on) {
+      ind.style.left  = btns[i].offsetLeft + 'px';
+      ind.style.width = btns[i].offsetWidth + 'px';
+    }
+  }
+}
+
+var moveTimers = {};
+function dropSegClick(dsId, attrName, newVal, stateSetter) {
+  var wrap = document.getElementById(dsId);
+  stateSetter(newVal);
+  wrap.classList.add('moving');
+  clearTimeout(moveTimers[dsId]);
+  moveTimers[dsId] = setTimeout(function() { wrap.classList.remove('moving'); }, 460);
+  measureInd(dsId, newVal, attrName);
+}
+
 /* ── Update all live elements ────────────────────────────────── */
 function update() {
   var v   = getVeh();
   var pct = ((days - 1) / 89) * 100;
+  var isVL = vehId === 'vl';
 
-  document.getElementById('ghost-days').textContent =
-    (days < 10 ? '0' : '') + days;
-
+  /* Ghost + slider label */
+  document.getElementById('ghost-days').textContent = (days < 10 ? '0' : '') + days;
   document.getElementById('days-label').innerHTML =
-    days + ' jour' + (days > 1 ? 's' : '')
-    + ' <span class="o">\u00b7\u00a0' + v.code + '</span>';
-
+    days + ' jour' + (days > 1 ? 's' : '') + ' <span class="o">\u00b7\u00a0' + v.code + '</span>';
   document.getElementById('bar-fill').style.width = pct + '%';
 
-  document.getElementById('price-label').textContent =
-    v.name + ' \u00b7 ' + days + '\u00a0j';
+  /* VL block visibility */
+  document.getElementById('vl-block').style.display = isVL ? '' : 'none';
 
-  document.getElementById('price-value').textContent =
-    tempoEuro(tempoPrice(v.rate, days));
+  /* Age dropseg disabled when not France */
+  var dsAge = document.getElementById('ds-age');
+  if (isVL) {
+    dsAge.classList.toggle('off', zone !== 'fr');
+    /* Status chip */
+    var isFr = zone === 'fr';
+    document.getElementById('status-line').innerHTML = isFr
+      ? '<span class="chip-incl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--field)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8-7 10-4-2-7-5.6-7-10V6z"/></svg> Assistance d\u00e9pannage 0\u00a0km incluse</span>'
+      : '<span class="badge-na"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg> Assistance non disponible hors France \u00b7 extension territoriale appliqu\u00e9e</span>';
+  }
+
+  /* Price + breakdown */
+  var total, breakdown = '';
+  if (isVL) {
+    var q = vlQuote(days, zone, age);
+    total = q.total;
+    var showBD = q.territorial > 0 || q.hasAssist;
+    if (showBD) {
+      breakdown =
+        '<div class="brow"><span class="bk">Responsabilit\u00e9 civile \u00b7 ' + days + '\u00a0j</span><span class="bv">' + tempoEuro(q.baseRC) + '</span></div>';
+      if (q.territorial > 0) {
+        breakdown += '<div class="brow"><span class="bk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg> Extension ' + q.zoneLabel + '</span><span class="bv">+ ' + tempoEuro(q.territorial) + '</span></div>';
+      }
+      if (q.hasAssist) {
+        breakdown += '<div class="brow"><span class="bk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green-bright)" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8-7 10-4-2-7-5.6-7-10V6z"/></svg> Assistance ' + (age === 'gte10' ? '+\u00a010\u00a0ans' : '\u2212\u00a010\u00a0ans') + '</span><span class="bv">+ ' + tempoEuro(q.assist) + '</span></div>';
+      }
+    }
+    var bd = document.getElementById('breakdown');
+    bd.innerHTML = breakdown;
+    bd.style.display = showBD ? '' : 'none';
+    document.getElementById('price-label').textContent = v.name + ' \u00b7 ' + days + '\u00a0j \u00b7 ' + q.zoneLabel;
+  } else {
+    total = tempoPrice(v.rate, days);
+    document.getElementById('breakdown').style.display = 'none';
+    document.getElementById('price-label').textContent = v.name + ' \u00b7 ' + days + '\u00a0j';
+  }
+  document.getElementById('price-value').textContent = tempoEuro(total);
 }
 
 /* ── Slider ──────────────────────────────────────────────────── */
@@ -647,8 +814,48 @@ document.getElementById('veh-pills').addEventListener('click', function(e) {
   update();
 });
 
+/* ── DropSeg — zone ──────────────────────────────────────────── */
+document.getElementById('ds-zone').addEventListener('click', function(e) {
+  var btn = e.target.closest('[data-zone]');
+  if (!btn) return;
+  var newZone = btn.getAttribute('data-zone');
+  if (newZone === zone) return;
+  dropSegClick('ds-zone', 'data-zone', newZone, function(v) { zone = v; });
+  if (newZone !== 'fr') age = 'lt10'; /* reset age when leaving France */
+  measureInd('ds-age', age, 'data-age');
+  update();
+});
+
+/* ── DropSeg — age ───────────────────────────────────────────── */
+document.getElementById('ds-age').addEventListener('click', function(e) {
+  var btn = e.target.closest('[data-age]');
+  if (!btn || zone !== 'fr') return;
+  var newAge = btn.getAttribute('data-age');
+  if (newAge === age) return;
+  dropSegClick('ds-age', 'data-age', newAge, function(v) { age = v; });
+  update();
+});
+
+/* ── Resize: re-measure indicators ──────────────────────────── */
+window.addEventListener('resize', function() {
+  measureInd('ds-zone', zone, 'data-zone');
+  measureInd('ds-age',  age,  'data-age');
+});
+
 /* ── Init ────────────────────────────────────────────────────── */
 update();
+/* Measure indicators after layout (font load may shift widths) */
+if (document.fonts) {
+  document.fonts.ready.then(function() {
+    measureInd('ds-zone', zone, 'data-zone');
+    measureInd('ds-age',  age,  'data-age');
+  });
+} else {
+  setTimeout(function() {
+    measureInd('ds-zone', zone, 'data-zone');
+    measureInd('ds-age',  age,  'data-age');
+  }, 100);
+}
 </script>
 
 </body>
