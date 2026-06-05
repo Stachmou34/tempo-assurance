@@ -660,10 +660,71 @@ var VEHICLES = [
   { id: 'rem',  name: 'Remorque',     sub: '& semi-remorque',       code: 'RM', rate: 3.2  }
 ];
 
+/* ── VL tariff table (source : table/vl.csv) ─────────────────── */
+/* rc = prix_achat + marge_brute (arrondi au centième pour interpolation) */
+/* aAcc = assistance_public_accident (−10 ans), aFull = assistance_public (+10 ans) */
+var VL_TABLE = [
+  {d:1,  rc:43.75,  aAcc:2.03,  aFull:2.06},
+  {d:2,  rc:59.27,  aAcc:2.06,  aFull:2.12},
+  {d:3,  rc:61.60,  aAcc:2.08,  aFull:3.17},
+  {d:4,  rc:64.46,  aAcc:2.11,  aFull:4.23},
+  {d:5,  rc:67.45,  aAcc:3.14,  aFull:4.29},
+  {d:6,  rc:70.43,  aAcc:3.17,  aFull:5.35},
+  {d:7,  rc:76.59,  aAcc:3.19,  aFull:5.40},
+  {d:8,  rc:82.58,  aAcc:4.22,  aFull:6.46},
+  {d:9,  rc:85.23,  aAcc:4.25,  aFull:6.52},
+  {d:10, rc:87.89,  aAcc:4.28,  aFull:7.58},
+  {d:11, rc:89.34,  aAcc:4.30,  aFull:8.63},
+  {d:12, rc:93.00,  aAcc:5.33,  aFull:8.69},
+  {d:13, rc:95.66,  aAcc:5.36,  aFull:9.75},
+  {d:14, rc:98.99,  aAcc:5.39,  aFull:9.81},
+  {d:15, rc:100.81, aAcc:6.41,  aFull:10.86},
+  {d:16, rc:104.81, aAcc:6.44,  aFull:11.92},
+  {d:17, rc:108.14, aAcc:6.47,  aFull:11.98},
+  {d:18, rc:111.80, aAcc:6.50,  aFull:13.04},
+  {d:19, rc:115.13, aAcc:7.52,  aFull:13.09},
+  {d:20, rc:119.11, aAcc:7.55,  aFull:14.15},
+  {d:21, rc:138.57, aAcc:7.58,  aFull:14.21},
+  {d:22, rc:143.23, aAcc:8.61,  aFull:15.27},
+  {d:23, rc:147.89, aAcc:8.63,  aFull:16.32},
+  {d:24, rc:153.22, aAcc:8.66,  aFull:16.38},
+  {d:25, rc:156.55, aAcc:9.69,  aFull:17.44},
+  {d:26, rc:161.20, aAcc:9.72,  aFull:17.50},
+  {d:27, rc:167.19, aAcc:9.74,  aFull:18.55},
+  {d:28, rc:170.85, aAcc:9.77,  aFull:18.61},
+  {d:29, rc:175.51, aAcc:10.80, aFull:19.67},
+  {d:30, rc:182.15, aAcc:10.83, aFull:20.73},
+  {d:35, rc:203.45, aAcc:11.96, aFull:23.01},
+  {d:40, rc:226.74, aAcc:14.10, aFull:26.30},
+  {d:45, rc:235.03, aAcc:15.24, aFull:29.59},
+  {d:50, rc:251.96, aAcc:17.38, aFull:32.88},
+  {d:55, rc:270.90, aAcc:18.51, aFull:36.16},
+  {d:60, rc:283.19, aAcc:20.65, aFull:39.45},
+  {d:90, rc:413.21, aAcc:29.48, aFull:58.18}
+];
+
+/* Interpolation linéaire entre les paliers du tableau */
+function vlLookup(d) {
+  d = Math.max(1, Math.min(90, d));
+  var prev = VL_TABLE[0], next = VL_TABLE[VL_TABLE.length - 1];
+  for (var i = 0; i < VL_TABLE.length; i++) {
+    if (VL_TABLE[i].d === d) return VL_TABLE[i];
+    if (VL_TABLE[i].d < d)  prev = VL_TABLE[i];
+    if (VL_TABLE[i].d > d)  { next = VL_TABLE[i]; break; }
+  }
+  var t = (d - prev.d) / (next.d - prev.d);
+  return {
+    d:    d,
+    rc:    prev.rc    + (next.rc    - prev.rc)    * t,
+    aAcc:  prev.aAcc  + (next.aAcc  - prev.aAcc)  * t,
+    aFull: prev.aFull + (next.aFull - prev.aFull) * t
+  };
+}
+
 var VL_ZONES = [
-  { v: 'fr',   label: 'France',       mult: 1.00, assist: true  },
-  { v: 'eu',   label: 'Europe',       mult: 1.15, assist: false },
-  { v: 'hors', label: 'Hors Europe',  mult: 1.30, assist: false }
+  { v: 'fr',   label: 'France',      mult: 1.00, assist: true  },
+  { v: 'eu',   label: 'Europe',      mult: 1.15, assist: false },
+  { v: 'hors', label: 'Hors Europe', mult: 1.30, assist: false }
 ];
 
 function tempoPrice(rate, d) {
@@ -679,13 +740,13 @@ function vlZone(z) {
   return VL_ZONES[0];
 }
 function vlQuote(d, zone, age) {
-  var z = vlZone(zone);
-  var baseRC = tempoPrice(5.9, d);
+  var z   = vlZone(zone);
+  var row = vlLookup(d);
+  var baseRC      = Math.round(row.rc);
   var territorial = Math.round(baseRC * (z.mult - 1));
-  var perDay = age === 'gte10' ? 1.9 : 1.2;
-  var assist = z.assist ? Math.round(perDay * d) : 0;
+  var assist      = z.assist ? Math.round(age === 'gte10' ? row.aFull : row.aAcc) : 0;
   return { baseRC: baseRC, territorial: territorial, assist: assist,
-           hasAssist: z.assist, perDay: perDay, zoneLabel: z.label,
+           hasAssist: z.assist, zoneLabel: z.label,
            total: baseRC + territorial + assist };
 }
 
@@ -705,12 +766,13 @@ function getVeh() {
 /* ── Build vehicle rows ──────────────────────────────────────── */
 var stack = document.getElementById('vstack');
 VEHICLES.forEach(function(v) {
+  var price1 = v.id === 'vl' ? Math.round(vlLookup(1).rc) : tempoPrice(v.rate, 1);
   var row = document.createElement('div');
   row.className = 'vbig';
   row.innerHTML =
     '<span class="vname">' + v.name + '</span>'
     + '<span class="vmeta">' + v.sub + ' \u00b7 code ' + v.code + '</span>'
-    + '<span class="vf">d\u00e8s\u00a0' + tempoEuro(tempoPrice(v.rate, 1)) + '/j</span>';
+    + '<span class="vf">d\u00e8s\u00a0' + tempoEuro(price1) + '/j</span>';
   stack.appendChild(row);
 });
 
