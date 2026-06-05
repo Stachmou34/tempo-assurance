@@ -441,12 +441,10 @@ footer .legal {
       <!-- Vehicle pills -->
       <div class="tbfoot">
         <div class="vehpills" id="veh-pills" role="group" aria-label="Type de véhicule">
-          <button class="vp on"  data-veh="vl"   aria-pressed="true">VL</button>
-          <button class="vp"     data-veh="util"  aria-pressed="false">UT</button>
-          <button class="vp"     data-veh="pl"    aria-pressed="false">PL</button>
-          <button class="vp"     data-veh="cc"    aria-pressed="false">CC</button>
-          <button class="vp"     data-veh="moto"  aria-pressed="false">MT</button>
-          <button class="vp"     data-veh="rem"   aria-pressed="false">RM</button>
+          <button class="vp on"  data-veh="vl"  aria-pressed="true">VL</button>
+          <button class="vp"     data-veh="pl"  aria-pressed="false">PL</button>
+          <button class="vp"     data-veh="cc"  aria-pressed="false">CC</button>
+          <button class="vp"     data-veh="rem" aria-pressed="false">RM</button>
         </div>
       </div>
 
@@ -652,55 +650,53 @@ footer .legal {
 <script>
 /* ── Vehicles data & pricing ─────────────────────────────────── */
 var VEHICLES = [
-  { id: 'vl',   name: 'Voiture',      sub: 'VL < 3,5\u202fT',       code: 'VL', rate: 5.9  },
-  { id: 'util', name: 'Utilitaire',   sub: 'Camionnette',           code: 'UT', rate: 7.2  },
-  { id: 'pl',   name: 'Poids lourd',  sub: '> 3,5\u202fT',          code: 'PL', rate: 12.4 },
-  { id: 'cc',   name: 'Camping-car',  sub: 'VASP',                  code: 'CC', rate: 8.4  },
-  { id: 'moto', name: 'Moto',         sub: '2\u202f&\u202f3 roues', code: 'MT', rate: 4.6  },
-  { id: 'rem',  name: 'Remorque',     sub: '& semi-remorque',       code: 'RM', rate: 3.2  }
+  { id: 'vl',  name: 'Voiture',     sub: 'VL < 3,5\u202fT',  code: 'VL', rate: null },
+  { id: 'pl',  name: 'Poids lourd', sub: '> 3,5\u202fT',     code: 'PL', rate: null },
+  { id: 'cc',  name: 'Camping-car', sub: 'VASP',             code: 'CC', rate: 8.4  },
+  { id: 'rem', name: 'Remorque',    sub: '& semi-remorque',  code: 'RM', rate: null }
 ];
 
 /* ── VL tariff table (source : table/vl.csv) ─────────────────── */
 /* rc = prix_achat + marge_brute (arrondi au centième pour interpolation) */
 /* aAcc = assistance_public_accident (−10 ans), aFull = assistance_public (+10 ans) */
 var VL_TABLE = [
-  {d:1,  rc:43.75,  aAcc:2.03,  aFull:2.06},
-  {d:2,  rc:59.27,  aAcc:2.06,  aFull:2.12},
-  {d:3,  rc:61.60,  aAcc:2.08,  aFull:3.17},
-  {d:4,  rc:64.46,  aAcc:2.11,  aFull:4.23},
-  {d:5,  rc:67.45,  aAcc:3.14,  aFull:4.29},
-  {d:6,  rc:70.43,  aAcc:3.17,  aFull:5.35},
-  {d:7,  rc:76.59,  aAcc:3.19,  aFull:5.40},
-  {d:8,  rc:82.58,  aAcc:4.22,  aFull:6.46},
-  {d:9,  rc:85.23,  aAcc:4.25,  aFull:6.52},
-  {d:10, rc:87.89,  aAcc:4.28,  aFull:7.58},
-  {d:11, rc:89.34,  aAcc:4.30,  aFull:8.63},
-  {d:12, rc:93.00,  aAcc:5.33,  aFull:8.69},
-  {d:13, rc:95.66,  aAcc:5.36,  aFull:9.75},
-  {d:14, rc:98.99,  aAcc:5.39,  aFull:9.81},
-  {d:15, rc:100.81, aAcc:6.41,  aFull:10.86},
-  {d:16, rc:104.81, aAcc:6.44,  aFull:11.92},
-  {d:17, rc:108.14, aAcc:6.47,  aFull:11.98},
-  {d:18, rc:111.80, aAcc:6.50,  aFull:13.04},
-  {d:19, rc:115.13, aAcc:7.52,  aFull:13.09},
-  {d:20, rc:119.11, aAcc:7.55,  aFull:14.15},
-  {d:21, rc:138.57, aAcc:7.58,  aFull:14.21},
-  {d:22, rc:143.23, aAcc:8.61,  aFull:15.27},
-  {d:23, rc:147.89, aAcc:8.63,  aFull:16.32},
-  {d:24, rc:153.22, aAcc:8.66,  aFull:16.38},
-  {d:25, rc:156.55, aAcc:9.69,  aFull:17.44},
-  {d:26, rc:161.20, aAcc:9.72,  aFull:17.50},
-  {d:27, rc:167.19, aAcc:9.74,  aFull:18.55},
-  {d:28, rc:170.85, aAcc:9.77,  aFull:18.61},
-  {d:29, rc:175.51, aAcc:10.80, aFull:19.67},
-  {d:30, rc:182.15, aAcc:10.83, aFull:20.73},
-  {d:35, rc:203.45, aAcc:11.96, aFull:23.01},
-  {d:40, rc:226.74, aAcc:14.10, aFull:26.30},
-  {d:45, rc:235.03, aAcc:15.24, aFull:29.59},
-  {d:50, rc:251.96, aAcc:17.38, aFull:32.88},
-  {d:55, rc:270.90, aAcc:18.51, aFull:36.16},
-  {d:60, rc:283.19, aAcc:20.65, aFull:39.45},
-  {d:90, rc:413.21, aAcc:29.48, aFull:58.18}
+  {d:1,  rc:50.75,  aAcc:2.03,  aFull:2.06},
+  {d:2,  rc:66.27,  aAcc:2.06,  aFull:2.12},
+  {d:3,  rc:68.60,  aAcc:2.08,  aFull:3.17},
+  {d:4,  rc:71.46,  aAcc:2.11,  aFull:4.23},
+  {d:5,  rc:74.45,  aAcc:3.14,  aFull:4.29},
+  {d:6,  rc:77.43,  aAcc:3.17,  aFull:5.35},
+  {d:7,  rc:83.59,  aAcc:3.19,  aFull:5.40},
+  {d:8,  rc:89.58,  aAcc:4.22,  aFull:6.46},
+  {d:9,  rc:92.23,  aAcc:4.25,  aFull:6.52},
+  {d:10, rc:94.89,  aAcc:4.28,  aFull:7.58},
+  {d:11, rc:96.34,  aAcc:4.30,  aFull:8.63},
+  {d:12, rc:100.00, aAcc:5.33,  aFull:8.69},
+  {d:13, rc:102.66, aAcc:5.36,  aFull:9.75},
+  {d:14, rc:105.99, aAcc:5.39,  aFull:9.81},
+  {d:15, rc:107.81, aAcc:6.41,  aFull:10.86},
+  {d:16, rc:111.81, aAcc:6.44,  aFull:11.92},
+  {d:17, rc:115.14, aAcc:6.47,  aFull:11.98},
+  {d:18, rc:118.80, aAcc:6.50,  aFull:13.04},
+  {d:19, rc:122.13, aAcc:7.52,  aFull:13.09},
+  {d:20, rc:126.11, aAcc:7.55,  aFull:14.15},
+  {d:21, rc:145.57, aAcc:7.58,  aFull:14.21},
+  {d:22, rc:150.23, aAcc:8.61,  aFull:15.27},
+  {d:23, rc:154.89, aAcc:8.63,  aFull:16.32},
+  {d:24, rc:160.22, aAcc:8.66,  aFull:16.38},
+  {d:25, rc:163.55, aAcc:9.69,  aFull:17.44},
+  {d:26, rc:168.20, aAcc:9.72,  aFull:17.50},
+  {d:27, rc:174.19, aAcc:9.74,  aFull:18.55},
+  {d:28, rc:177.85, aAcc:9.77,  aFull:18.61},
+  {d:29, rc:182.51, aAcc:10.80, aFull:19.67},
+  {d:30, rc:189.15, aAcc:10.83, aFull:20.73},
+  {d:35, rc:210.45, aAcc:11.96, aFull:23.01},
+  {d:40, rc:233.74, aAcc:14.10, aFull:26.30},
+  {d:45, rc:242.03, aAcc:15.24, aFull:29.59},
+  {d:50, rc:258.96, aAcc:17.38, aFull:32.88},
+  {d:55, rc:277.90, aAcc:18.51, aFull:36.16},
+  {d:60, rc:290.19, aAcc:20.65, aFull:39.45},
+  {d:90, rc:420.21, aAcc:29.48, aFull:58.18}
 ];
 
 /* Interpolation linéaire entre les paliers du tableau */
@@ -721,11 +717,19 @@ function vlLookup(d) {
   };
 }
 
-var VL_ZONES = [
-  { v: 'fr',   label: 'France',      mult: 1.00, assist: true  },
-  { v: 'eu',   label: 'Europe',      mult: 1.15, assist: false },
-  { v: 'hors', label: 'Hors Europe', mult: 1.30, assist: false }
+/* Europe = même RC que France, pas d'assistance, pas de majoration territoriale */
+/* Hors Europe = table vl_hue.csv (prix_achat + marge_brute + 7), pas d'assistance */
+var VL_HUE_TABLE = [
+  {d:30, rc:182.90},  /* 86.73 + 89.17 + 7 */
+  {d:90, rc:408.06}   /* 240.89 + 160.17 + 7 */
 ];
+
+function vlHueLookup(d) {
+  d = Math.max(1, Math.min(90, d));
+  var r0 = VL_HUE_TABLE[0], r1 = VL_HUE_TABLE[1];
+  var t = (d - r0.d) / (r1.d - r0.d);
+  return r0.rc + (r1.rc - r0.rc) * t;
+}
 
 function tempoPrice(rate, d) {
   d = Math.max(1, Math.min(90, d || 1));
@@ -735,19 +739,70 @@ function tempoPrice(rate, d) {
 function tempoEuro(n) {
   return n.toLocaleString('fr-FR') + '\u202f\u20ac';
 }
-function vlZone(z) {
-  for (var i = 0; i < VL_ZONES.length; i++) { if (VL_ZONES[i].v === z) return VL_ZONES[i]; }
-  return VL_ZONES[0];
-}
 function vlQuote(d, zone, age) {
-  var z   = vlZone(zone);
-  var row = vlLookup(d);
-  var baseRC      = Math.round(row.rc);
-  var territorial = Math.round(baseRC * (z.mult - 1));
-  var assist      = z.assist ? Math.round(age === 'gte10' ? row.aFull : row.aAcc) : 0;
-  return { baseRC: baseRC, territorial: territorial, assist: assist,
-           hasAssist: z.assist, zoneLabel: z.label,
-           total: baseRC + territorial + assist };
+  var isFr   = zone === 'fr';
+  var isHors = zone === 'hors';
+  var baseRC = isHors ? vlHueLookup(d) : vlLookup(d).rc;
+  /* aFull = assistance_public (-10 ans), aAcc = assistance_public_accident (+10 ans) */
+  var assist = isFr ? (age === 'gte10' ? vlLookup(d).aAcc : vlLookup(d).aFull) : 0;
+  var label  = isFr ? 'France' : isHors ? 'Hors Europe' : 'Europe';
+  return { baseRC: baseRC, assist: assist, hasAssist: isFr,
+           zoneLabel: label, total: baseRC + assist };
+}
+
+/* ── PL tariff table (source : table/pl.csv) — max 15 jours ──── */
+/* rc = prix_achat + marge_brute — pas d'assistance pour PL */
+var PL_TABLE = [
+  {d:1,  rc:85.57},
+  {d:2,  rc:95.99},
+  {d:3,  rc:105.99},
+  {d:4,  rc:109.16},
+  {d:5,  rc:112.16},
+  {d:6,  rc:123.12},
+  {d:7,  rc:127.62},
+  {d:8,  rc:128.62},
+  {d:9,  rc:143.86},
+  {d:10, rc:148.86},
+  {d:15, rc:152.37}
+];
+
+function plLookup(d) {
+  d = Math.max(1, Math.min(15, d));
+  var prev = PL_TABLE[0], next = PL_TABLE[PL_TABLE.length - 1];
+  for (var i = 0; i < PL_TABLE.length; i++) {
+    if (PL_TABLE[i].d === d) return PL_TABLE[i].rc;
+    if (PL_TABLE[i].d < d)  prev = PL_TABLE[i];
+    if (PL_TABLE[i].d > d)  { next = PL_TABLE[i]; break; }
+  }
+  var t = (d - prev.d) / (next.d - prev.d);
+  return prev.rc + (next.rc - prev.rc) * t;
+}
+
+/* ── Remorque tariff table (source : table/rem.csv) — max 15 jours ─ */
+var REM_TABLE = [
+  {d:1,  rc:50.67},
+  {d:2,  rc:56.77},
+  {d:3,  rc:60.77},
+  {d:4,  rc:71.94},
+  {d:5,  rc:79.94},
+  {d:6,  rc:84.25},
+  {d:7,  rc:86.75},
+  {d:8,  rc:88.75},
+  {d:9,  rc:95.06},
+  {d:10, rc:100.06},
+  {d:15, rc:113.47}
+];
+
+function remLookup(d) {
+  d = Math.max(1, Math.min(15, d));
+  var prev = REM_TABLE[0], next = REM_TABLE[REM_TABLE.length - 1];
+  for (var i = 0; i < REM_TABLE.length; i++) {
+    if (REM_TABLE[i].d === d) return REM_TABLE[i].rc;
+    if (REM_TABLE[i].d < d)  prev = REM_TABLE[i];
+    if (REM_TABLE[i].d > d)  { next = REM_TABLE[i]; break; }
+  }
+  var t = (d - prev.d) / (next.d - prev.d);
+  return prev.rc + (next.rc - prev.rc) * t;
 }
 
 /* ── State ───────────────────────────────────────────────────── */
@@ -766,7 +821,7 @@ function getVeh() {
 /* ── Build vehicle rows ──────────────────────────────────────── */
 var stack = document.getElementById('vstack');
 VEHICLES.forEach(function(v) {
-  var price1 = v.id === 'vl' ? Math.round(vlLookup(1).rc) : tempoPrice(v.rate, 1);
+  var price1 = v.id === 'vl' ? Math.round(vlLookup(1).rc) : v.id === 'pl' ? Math.round(plLookup(1)) : v.id === 'rem' ? Math.round(remLookup(1)) : tempoPrice(v.rate, 1);
   var row = document.createElement('div');
   row.className = 'vbig';
   row.innerHTML =
@@ -804,7 +859,8 @@ function dropSegClick(dsId, attrName, newVal, stateSetter) {
 /* ── Update all live elements ────────────────────────────────── */
 function update() {
   var v   = getVeh();
-  var pct = ((days - 1) / 89) * 100;
+  var sliderMax = (vehId === 'pl' || vehId === 'rem') ? 15 : 90;
+  var pct = ((days - 1) / (sliderMax - 1)) * 100;
   var isVL = vehId === 'vl';
 
   /* Ghost + slider label */
@@ -824,7 +880,7 @@ function update() {
     var isFr = zone === 'fr';
     document.getElementById('status-line').innerHTML = isFr
       ? '<span class="chip-incl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--field)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8-7 10-4-2-7-5.6-7-10V6z"/></svg> Assistance d\u00e9pannage 0\u00a0km incluse</span>'
-      : '<span class="badge-na"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg> Assistance non disponible hors France \u00b7 extension territoriale appliqu\u00e9e</span>';
+      : '<span class="badge-na"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg> Assistance non disponible hors France</span>';
   }
 
   /* Price + breakdown */
@@ -832,21 +888,24 @@ function update() {
   if (isVL) {
     var q = vlQuote(days, zone, age);
     total = q.total;
-    var showBD = q.territorial > 0 || q.hasAssist;
+    var showBD = q.hasAssist;
     if (showBD) {
       breakdown =
         '<div class="brow"><span class="bk">Responsabilit\u00e9 civile \u00b7 ' + days + '\u00a0j</span><span class="bv">' + tempoEuro(q.baseRC) + '</span></div>';
-      if (q.territorial > 0) {
-        breakdown += '<div class="brow"><span class="bk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg> Extension ' + q.zoneLabel + '</span><span class="bv">+ ' + tempoEuro(q.territorial) + '</span></div>';
-      }
-      if (q.hasAssist) {
-        breakdown += '<div class="brow"><span class="bk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green-bright)" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8-7 10-4-2-7-5.6-7-10V6z"/></svg> Assistance ' + (age === 'gte10' ? '+\u00a010\u00a0ans' : '\u2212\u00a010\u00a0ans') + '</span><span class="bv">+ ' + tempoEuro(q.assist) + '</span></div>';
-      }
+      breakdown += '<div class="brow"><span class="bk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green-bright)" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8-7 10-4-2-7-5.6-7-10V6z"/></svg> Assistance ' + (age === 'gte10' ? '+\u00a010\u00a0ans' : '\u2212\u00a010\u00a0ans') + '</span><span class="bv">+ ' + tempoEuro(q.assist) + '</span></div>';
     }
     var bd = document.getElementById('breakdown');
     bd.innerHTML = breakdown;
     bd.style.display = showBD ? '' : 'none';
     document.getElementById('price-label').textContent = v.name + ' \u00b7 ' + days + '\u00a0j \u00b7 ' + q.zoneLabel;
+  } else if (vehId === 'pl') {
+    total = Math.round(plLookup(days));
+    document.getElementById('breakdown').style.display = 'none';
+    document.getElementById('price-label').textContent = v.name + ' \u00b7 ' + days + '\u00a0j';
+  } else if (vehId === 'rem') {
+    total = Math.round(remLookup(days));
+    document.getElementById('breakdown').style.display = 'none';
+    document.getElementById('price-label').textContent = v.name + ' \u00b7 ' + days + '\u00a0j';
   } else {
     total = tempoPrice(v.rate, days);
     document.getElementById('breakdown').style.display = 'none';
@@ -873,6 +932,10 @@ document.getElementById('veh-pills').addEventListener('click', function(e) {
   }
   btn.classList.add('on');
   btn.setAttribute('aria-pressed', 'true');
+  var inp = document.getElementById('days-input');
+  var maxD = (vehId === 'pl' || vehId === 'rem') ? 15 : 90;
+  inp.max = maxD;
+  if (days > maxD) { days = maxD; inp.value = maxD; }
   update();
 });
 
