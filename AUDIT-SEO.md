@@ -2,7 +2,7 @@
 
 > Date de l'audit : 2026-06-06
 > Périmètre : site statique HTML (généré par WebSite X5) + blog PHP
-> Méthode : analyse on-page page par page (balises `<title>`, méta-description, structure Hn, balisage sémantique, données structurées, Open Graph, images/alt, maillage, fichiers techniques).
+> Méthode : analyse on-page page par page (balises `<title>`, méta-description, structure Hn, balisage sémantique, données structurées, Open Graph, images/alt, maillage, fichiers techniques) **+ données Google Search Console (28 derniers jours)** — voir §5 et §6.
 
 ---
 
@@ -184,4 +184,90 @@ Le `&amp;` est une entité HTML : dans un `robots.txt` il faut un `&` littéral,
 
 ---
 
-*Audit on-page statique. Un audit complémentaire (Core Web Vitals / PageSpeed, backlinks, exploration Search Console, rendu réel du blog PHP) est recommandé pour compléter ces constats.*
+## 5. Analyse Google Search Console (28 derniers jours)
+
+> Source : exports GSC (type Web, 28 derniers jours). **Volumes très faibles** : ~**5 clics** et ~**188 impressions** au total, CTR global ~**2,7 %**, position moyenne ~**11**. Les chiffres sont à lire comme des *tendances* plus que des statistiques robustes, mais ils révèlent des problèmes structurels nets.
+
+### 5.1 Vue d'ensemble
+- Quasi **toute la visibilité passe par la page d'accueil** (5 clics / 130 impressions, pos 8,9). Toutes les autres pages cumulent **0 clic**.
+- La position moyenne ~11 = site « coincé en bas de page 1 / haut de page 2 » → fort potentiel de gains en passant le cap du top 5.
+
+### 5.2 🔴 Problème majeur : confusion de marque (perte de clics sur le nom)
+Les requêtes de marque génèrent le **plus d'impressions mais presque aucun clic** :
+
+| Requête (marque) | Impressions | Clics | CTR | Position |
+|------------------|------------:|------:|----:|---------:|
+| `assur tempo` | 24 | 0 | 0 % | 5,4 |
+| `jl assure` | 13 | 0 | 0 % | 7,4 |
+| `assurance tempo` | 8 | 0 | 0 % | 3,4 |
+| `assur-tempo` | 6 | 0 | 0 % | 5,7 |
+| `tempo assurance` | 6 | **3** | **50 %** | **1** |
+| `assurtempo`, `auto tempo`, `flash tempo`, `mondial tempo`… | 1-2 chacun | 0 | 0 % | 5-10 |
+
+**Constat :** le site n'est en position 1 que sur `tempo assurance` (formulation exacte du domaine). Sur **`assur tempo`** — le terme de marque le plus recherché (24 impressions) — il n'est qu'en position 5,4 avec **0 clic** : un autre site capte vraisemblablement ces clics, et le nom de domaine (`tempo-assurance`) ne correspond pas aux variantes que tapent les utilisateurs (`assur tempo`, `assurtempo`, `jl assure`, `flash tempo`).
+
+**Actions :**
+- Clarifier et **renforcer la marque** dans les `<title>`, le `<h1>` d'accueil et le contenu : inclure les variantes réellement recherchées (« Assur Tempo », « JL Assure »).
+- Déployer le **JSON-LD `Organization`** avec `name` + `alternateName` (« Assur Tempo », « JL Assure ») et `sameAs` (réseaux sociaux) pour aider Google à consolider l'entité de marque.
+- Améliorer **title/description de l'accueil** pour booster le CTR de marque (aujourd'hui ces requêtes positionnées 3-7 ne convertissent pas).
+
+### 5.3 🔴 La page de conversion est invisible
+`devis-ou-souscription.html` : **11 impressions, 0 clic, position 25** (page 3). La page « argent » du site n'a aucune visibilité. À corréler avec les faiblesses on-page déjà notées (title trop long, **0 h2/h3**, fautes « soucription »).
+
+**Actions :** optimisation on-page (cf. §3) + **maillage interne** fort depuis l'accueil et le blog vers cette page (ancres « souscrire en ligne », « devis assurance temporaire »), JSON-LD `Service`/`Offer`.
+
+### 5.4 🟠 Mots-clés « à portée » (striking distance, position 8-20)
+Ces requêtes sont proches de la page 1 : un effort ciblé peut faire gagner des positions rapidement.
+
+| Requête | Impr. | Position | Levier |
+|---------|------:|---------:|--------|
+| `assurance temporaire camion` | 2 | 9,0 | quasi top 5 |
+| `assurance temporaire bus` | 3 | 6,7 | quasi top 5 |
+| `assurance temporaire poids lourd` | 4 | 13,5 | bas de p.1 |
+| `assurance 24h voiture` | 3 | 17,7 | p.2 |
+| `assurance temporaire en ligne` | 3 | 16,0 | p.2 |
+| `carte grise barrée` | 2 | 23 | blog existant |
+
+### 5.5 🟠 Gap de contenu : pages par type de véhicule manquantes
+Les données révèlent une demande récurrente par **type de véhicule**, sans page dédiée pour la capter :
+- **poids lourd / camion** (`poids lourd` 13,5 ; `camion` 9)
+- **bus** (6,7)
+- **camping-car** — `tarif assurance temporaire camping-car` a même **généré 1 clic** (pos 33) et `assurance temporaire camping car` (pos 33). Signal de demande clair, page absente.
+
+**Action (fort levier) :** créer des **landing pages dédiées** :
+`assurance-temporaire-camion.html`, `assurance-temporaire-poids-lourd.html`, `assurance-temporaire-bus.html`, `assurance-temporaire-camping-car.html` — chacune optimisée (title/H1/contenu/Offer) et liée depuis l'accueil et `devis`. Ces requêtes sont aujourd'hui captées faiblement par l'accueil/devis génériques.
+
+### 5.6 Le blog performe sur l'intention « question »
+Les pages blog ressortent sur des requêtes longue traîne (`attestation assurance provisoire` pos 29,7 ; `carte grise barrée` ; `assurance provisoire 24h/24`). Cela **confirme la recommandation §2.2** de baliser le blog en **`FAQPage`** (éligibilité aux rich results = CTR accru). Positions moyennes (15-30) à améliorer par enrichissement + maillage.
+
+### 5.7 Cohérence avec l'audit on-page
+| Constat GSC | Cause on-page probable (cf. §3) |
+|-------------|----------------------------------|
+| Devis pos 25, 0 clic | Title trop long, pas de Hn, fautes, peu de maillage |
+| Marque 0 clic à bonne position | Pas de JSON-LD Organization, title accueil peu engageant, pas de rich snippet |
+| Top requêtes véhicules sans page | Aucune landing page thématique |
+| Blog en longue traîne, CTR faible | Pas de FAQPage, descriptions blog non optimisées |
+
+---
+
+## 6. Plan d'action consolidé (on-page + données GSC)
+
+**Sprint 1 — Quick wins techniques (cf. §4)**
+Canonical, `og:image`/Twitter Cards, `noindex` 404/confirmation, correction `robots.txt` + `.htaccess`, sitemap (priorités/lastmod).
+
+**Sprint 2 — Marque & CTR (le plus rentable au vu des impressions)**
+1. JSON-LD `Organization` avec `alternateName` (« Assur Tempo », « JL Assure ») sur tout le site.
+2. Réécrire title/description/H1 de l'accueil pour intégrer les variantes de marque et augmenter le CTR.
+3. Corriger les fautes en dur (crédibilité de marque).
+
+**Sprint 3 — Page de conversion**
+4. Optimiser `devis-ou-souscription` (title court, Hn, contenu, Offer) + maillage interne massif → la sortir de la position 25.
+
+**Sprint 4 — Contenu (gap véhicules + striking distance)**
+5. Créer les landing pages camion / poids lourd / bus / camping-car.
+6. Pousser les mots-clés à portée (camion, bus, 24h, en ligne) via contenu et liens.
+7. Baliser le blog en `FAQPage` et enrichir les Q/R les plus vues.
+
+---
+
+*Audit on-page statique + données Search Console (28 j, faible volume). Compléments recommandés : suivi GSC sur 3-6 mois (tendance), Core Web Vitals / PageSpeed, analyse des backlinks, et rendu réel du blog PHP.*
