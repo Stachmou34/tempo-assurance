@@ -3,12 +3,10 @@
 
 # WebSite X5 - End Code
 RewriteEngine On
-# Redirection domaine non www vers www
-RewriteCond %{HTTP_HOST} !^www\.
-RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
-# Redirection http vers https
-RewriteCond %{HTTPS} !=on
-RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# Redirection canonique : force https + www en une seule etape (evite la chaine 301)
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^ https://www.tempo-assurance.com%{REQUEST_URI} [R=301,L]
 # Direction vers page erreur 404
 ErrorDocument 404 /404.html
 
@@ -24,7 +22,7 @@ Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains
 Header always append X-Frame-Options SAMEORIGIN
 Header set X-XSS-Protection "1; mode=block"
 Header set X-Content-Type-Options nosniff
-Header set Content-Security-Policy "'self';"
+Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; frame-src https://drive.google.com; object-src 'none'; base-uri 'self'"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 Header set Permissions-Policy "accelerometer=(), payment=(self), geolocation=(self), fullscreen=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), display-capture=(self)" 
 </ifModule>
