@@ -366,3 +366,44 @@ a:focus-visible, button:focus-visible{
 
 /* ---------- Masquer le bandeau bleu du haut sur TOUTES les pages ---------- */
 #imHeader_imTableObject_02_wrapper{ display:none !important; }
+
+/* ============================================================
+   Menu desktop modernisé (option A) — ≥981px (seuil X5)
+   Devis en bouton CTA, Mentions retirée, aligné sur le logo
+   ============================================================ */
+@media (min-width: 981px){
+  /* Alignement vertical du menu sur le logo (logo : top 69px, hauteur 80px) */
+  #imHeader_imMenuObject_04_wrapper{
+    top: 69px !important;
+    height: 80px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  #imHeader_imMenuObject_04{ width: 100% !important; }
+
+  /* Retirer "Mentions Légales" du menu du haut (reste en pied de page) */
+  #imHeader_imMenuObject_04_container li[data-link-paths*="mentions-legales"]{ display: none !important; }
+
+  /* Nettoyer les largeurs fixes imposées par X5 */
+  #imHeader_imMenuObject_04_container .label-wrapper{ width: auto !important; height: auto !important; padding: 0 4px !important; }
+  #imHeader_imMenuObject_04_container .label-inner-wrapper{ display: block !important; width: auto !important; height: auto !important; }
+  #imHeader_imMenuObject_04_container li{ display: inline-block !important; vertical-align: middle; margin: 0 1px !important; }
+
+  /* Liens */
+  #imHeader_imMenuObject_04_container .label{
+    white-space: nowrap !important; display: inline-block !important;
+    width: auto !important; height: auto !important;
+    color: #0F172A !important; font-weight: 600 !important;
+    padding: 9px 14px !important; border-radius: 8px !important;
+  }
+  #imHeader_imMenuObject_04_container .label::after{ display: none !important; }
+  #imHeader_imMenuObject_04_container li:not([data-link-paths*="devis"]) .label:hover{ background: #F1F5F9 !important; }
+
+  /* Devis et Souscription = bouton CTA bleu nuit */
+  #imHeader_imMenuObject_04_container li[data-link-paths*="devis-ou-souscription"] .label{
+    background: #0F172A !important; color: #fff !important;
+    border-radius: 10px !important; padding: 11px 22px !important;
+    box-shadow: 0 4px 14px rgba(15,23,42,.28) !important;
+  }
+  #imHeader_imMenuObject_04_container li[data-link-paths*="devis-ou-souscription"] .label:hover{ background: #2563EB !important; }
+}
