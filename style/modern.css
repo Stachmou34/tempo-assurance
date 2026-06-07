@@ -179,3 +179,62 @@ a:focus-visible, button:focus-visible{
   h2, .imHeading2{ font-size: 1.2rem !important; }
   .cta-btn{ width:100%; text-align:center; }
 }
+
+/* ============================================================
+   v2 — Modernisation plus marquée (en-tête, cartes, hero)
+   ============================================================ */
+
+/* ---------- En-tête : bandeau bleu nuit + profondeur ---------- */
+[style*="rgb(58, 92, 170)"]{ background: var(--ta-navy) !important; }
+#imHeader{ box-shadow: 0 2px 16px rgba(15,23,42,.10); position:relative; z-index:20; background:#fff; }
+#imHeader_pluginAppObj_03 svg path{ fill: var(--ta-navy) !important; transition: fill .15s ease; }
+#imHeader_pluginAppObj_03 a:hover svg path{ fill: var(--ta-blue) !important; }
+/* Menu : soulignement accent au survol */
+#imHeader_imMenuObject_04_container .label{ position:relative; color: var(--ta-navy) !important; }
+#imHeader_imMenuObject_04_container .label::after{
+  content:""; position:absolute; left:14px; right:14px; bottom:6px; height:2px;
+  background: var(--ta-blue); transform: scaleX(0); transform-origin:left; transition: transform .2s ease;
+}
+#imHeader_imMenuObject_04_container li:hover .label::after{ transform: scaleX(1); }
+
+/* ---------- Hero / Swiper : arrondi, ombre, dégradé lisibilité ---------- */
+#pluginAppObj_02, #swiper_pluginAppObj_02, .swiper-container.main{
+  border-radius: 16px !important; overflow:hidden !important; box-shadow: var(--ta-shadow-lg);
+}
+.swiper-slide.described{ position:relative; }
+.swiper-slide.described::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background: linear-gradient(180deg, rgba(15,23,42,0) 45%, rgba(15,23,42,.6) 100%);
+}
+.swiper-slide .slide-content-wrapper{ position:relative; z-index:2; }
+.swiper-slide .slide-description{ font-size:1.15rem !important; }
+
+/* ---------- Blocs "feature" transformés en cartes (icône + texte) ---------- */
+#imContent .text-inner:has(img.fleft){
+  background:#fff;
+  border:1px solid var(--ta-border);
+  border-radius: var(--ta-radius);
+  padding: 1.3em 1.4em !important;
+  box-shadow: var(--ta-shadow);
+  transition: transform .2s ease, box-shadow .2s ease;
+  height:100%;
+}
+#imContent .text-inner:has(img.fleft):hover{
+  transform: translateY(-4px);
+  box-shadow: var(--ta-shadow-lg);
+}
+#imContent .text-inner:has(img.fleft) h2,
+#imContent .text-inner:has(img.fleft) h3{ margin-top:.2em !important; }
+#imContent img.fleft{ border-radius:8px; }
+
+/* ---------- Plus d'air entre les sections ---------- */
+#imContent > .imPageRow{ min-height: 14px; }
+#imContent .text-inner{ padding: 2px 0; }
+
+/* ---------- Carte générique pour les gros blocs de texte ---------- */
+#imContent .imHTMLObject{ line-height:1.7; }
+
+/* ---------- Liens "boutons" secondaires (style pilule) ---------- */
+.seo-cta a, #imContent a[href="devis-ou-souscription.html"]:not(.cta-btn){
+  font-weight:600;
+}
