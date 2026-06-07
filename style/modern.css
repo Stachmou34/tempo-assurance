@@ -290,3 +290,27 @@ a:focus-visible, button:focus-visible{
   /* Bouton hamburger plus net */
   .hamburger-button .hamburger-bar{ background: var(--ta-navy) !important; }
 }
+
+/* ============================================================
+   Mobile : suppression barre bleue inutile + bouton "MENU" texte
+   ============================================================ */
+@media (max-width: 768px){
+  /* 1. Masquer la barre bleue du haut (table 981px qui ne sert à rien) */
+  #imHeader_imTableObject_02_wrapper{ display:none !important; }
+
+  /* 2. Hamburger -> bouton "☰ MENU" texte, en pilule bleu nuit */
+  .hamburger-button{
+    width:auto !important; height:auto !important;
+    display:inline-flex !important; align-items:center !important;
+    background: var(--ta-navy) !important;
+    color:#fff !important;
+    border-radius: 10px !important;
+    padding: 10px 16px !important;
+    box-shadow: var(--ta-shadow) !important;
+    font-weight:700; font-size:.95rem; letter-spacing:.05em;
+  }
+  .hamburger-button .hamburger-bar{ display:none !important; }
+  .hamburger-button::before{ content:"\2630"; font-size:1.25rem; line-height:1; margin-right:9px; }
+  .hamburger-button::after{ content:"MENU"; }
+  .hamburger-button:hover{ background: var(--ta-blue) !important; }
+}
