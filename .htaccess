@@ -22,9 +22,8 @@ Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains
 Header always append X-Frame-Options SAMEORIGIN
 Header set X-XSS-Protection "1; mode=block"
 Header set X-Content-Type-Options nosniff
-# CSP en mode observation (Report-Only) : ne bloque rien, signale seulement dans la console (F12).
-# Une fois verifie que tout s'affiche, remplacer "Content-Security-Policy-Report-Only" par "Content-Security-Policy" pour activer la protection.
-Header set Content-Security-Policy-Report-Only "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; frame-src https://drive.google.com https://www.jlassure.com; object-src 'none'; base-uri 'self'"
+# CSP active : verifiee en Report-Only (aucune violation), tarificateur et PDF s'affichent.
+Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; frame-src https://drive.google.com https://www.jlassure.com; object-src 'none'; base-uri 'self'"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 Header set Permissions-Policy "accelerometer=(), payment=(self), geolocation=(self), fullscreen=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), display-capture=(self)" 
 </ifModule>
@@ -44,3 +43,5 @@ RewriteRule .* - [F]
 # php -- END cPanel-generated handler, do not edit
 
 RedirectMatch 404 /\.git
+# Blocage des fichiers de documentation interne (.md) et du repertoire .git
+RedirectMatch 404 (?i)\.md$
