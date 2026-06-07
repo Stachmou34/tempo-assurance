@@ -1,0 +1,181 @@
+/* ============================================================
+   modern.css — Couche de modernisation "Sobre & premium"
+   Chargée APRES le CSS WebSite X5 : surcharge le visuel sans
+   toucher au contenu ni à la structure générée.
+   Palette : bleu nuit / gris / blanc — polices système.
+   ============================================================ */
+
+:root{
+  --ta-navy:   #0F172A;   /* bleu nuit (principal) */
+  --ta-navy-2: #1E293B;   /* bleu nuit clair */
+  --ta-blue:   #2563EB;   /* accent discret */
+  --ta-blue-d: #1D4ED8;
+  --ta-grey:   #64748B;   /* gris texte secondaire */
+  --ta-text:   #1F2937;   /* texte principal */
+  --ta-light:  #F8FAFC;   /* fond très clair */
+  --ta-border: #E2E8F0;   /* bordures */
+  --ta-radius: 12px;
+  --ta-shadow: 0 2px 12px rgba(15,23,42,.08);
+  --ta-shadow-lg: 0 8px 28px rgba(15,23,42,.14);
+  --ta-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- Typographie ---------- */
+body, h1,h2,h3,h4,h5,h6, p, a, li, td, th, span, label,
+input, select, textarea, button,
+.text-inner, .text-inner *, #imPgTitle, .label, .slide-description{
+  font-family: var(--ta-font) !important;
+}
+body{
+  color: var(--ta-text);
+  background: var(--ta-light);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.6;
+}
+html{ scroll-behavior: smooth; }
+::selection{ background: var(--ta-blue); color:#fff; }
+
+/* ---------- Titres ---------- */
+#imPgTitle, h1{
+  color: var(--ta-navy) !important;
+  font-weight: 700 !important;
+  font-size: 1.9rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.02em !important;
+  margin: .2em 0 .4em !important;
+}
+h2, .imHeading2{
+  color: var(--ta-navy) !important;
+  font-weight: 600 !important;
+  font-size: 1.35rem !important;
+  letter-spacing: -.01em !important;
+  margin-top: 1.2em !important;
+}
+h3{ color: var(--ta-navy-2) !important; font-weight:600 !important; }
+
+/* ---------- Contenu : largeur de lecture & respiration ---------- */
+#imContent{ background: transparent; }
+#imContent .text-inner{ line-height: 1.65; }
+#imContent ul{ padding-left: 1.2em; }
+#imContent li{ margin: .25em 0; }
+
+/* Filets discrets */
+hr{ border:none !important; height:1px !important; background: var(--ta-border) !important; margin:1.4em 0 !important; }
+
+/* ---------- Liens de contenu ---------- */
+#imContent a:not(.cta-btn):not(.label){
+  color: var(--ta-blue);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color .15s ease, border-color .15s ease;
+}
+#imContent a:not(.cta-btn):not(.label):hover{
+  color: var(--ta-navy);
+  border-bottom-color: var(--ta-blue);
+}
+
+/* ---------- Boutons / CTA ---------- */
+.cta-btn, .cta-btn-modal, button.cta-btn{
+  display:inline-block !important;
+  background: var(--ta-navy) !important;
+  color:#fff !important;
+  border:none !important;
+  border-radius: 10px !important;
+  padding: 14px 30px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  letter-spacing:.01em;
+  cursor:pointer;
+  text-decoration:none !important;
+  box-shadow: var(--ta-shadow) !important;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease !important;
+}
+.cta-btn:hover, .cta-btn-modal:hover, button.cta-btn:hover{
+  background: var(--ta-blue) !important;
+  transform: translateY(-2px);
+  box-shadow: var(--ta-shadow-lg) !important;
+}
+
+/* CTA contextuels (fin d'article + liens "Faire un devis") */
+.seo-cta{
+  background:#fff !important;
+  border:1px solid var(--ta-border) !important;
+  border-left:4px solid var(--ta-blue) !important;
+  border-radius: var(--ta-radius) !important;
+  padding:1.1em 1.3em !important;
+  box-shadow: var(--ta-shadow);
+}
+#imContent a[href="devis-ou-souscription.html"]{ font-weight:600; }
+
+/* ---------- Tableaux (tarifs) ---------- */
+.tableau{
+  border:none !important;
+  border-radius: var(--ta-radius);
+  overflow:hidden;
+  box-shadow: var(--ta-shadow);
+  margin: 1em 0;
+}
+.tableau th{
+  background: var(--ta-navy) !important;
+  color:#fff !important;
+  border-color: var(--ta-navy) !important;
+  font-weight:600 !important;
+}
+.tableau td{ border-color: var(--ta-border) !important; }
+.tableau tbody tr:nth-child(even) td{ background:#f8fafc; }
+.tableau tbody tr:hover td{ background:#eef2ff; }
+
+/* ---------- Menu (header) ---------- */
+#imHeader_imMenuObject_04_container .label{
+  font-weight:600 !important;
+  letter-spacing:.01em;
+  transition: opacity .15s ease;
+}
+#imHeader_imMenuObject_04_container .label:hover{ opacity:.8; }
+
+/* ---------- Hero / Swiper : texte plus lisible ---------- */
+.swiper-slide .slide-description{
+  font-weight:600 !important;
+  letter-spacing:-.01em;
+  text-shadow: 0 2px 10px rgba(0,0,0,.45);
+}
+
+/* ---------- Pied de page premium ---------- */
+#imFooter{ background: var(--ta-navy) !important; }
+#imFooter, #imFooter span, #imFooter a{ color:#cbd5e1 !important; }
+#imFooter a{ color:#fff !important; text-decoration:none; }
+#imFooter a:hover{ color:#fff !important; text-decoration:underline; }
+
+/* ---------- Formulaires (contact / espace pro) ---------- */
+input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]),
+select, textarea{
+  border:1px solid var(--ta-border) !important;
+  border-radius:8px !important;
+  padding:10px 12px !important;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+input:focus, select:focus, textarea:focus{
+  outline:none !important;
+  border-color: var(--ta-blue) !important;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.15) !important;
+}
+
+/* ---------- Iframes (tarificateur / PDF) ---------- */
+iframe{ border-radius: var(--ta-radius); }
+
+/* ---------- Images : coins légèrement arrondis ---------- */
+#imContent img{ border-radius: 8px; }
+
+/* ---------- Accessibilité : focus visible ---------- */
+a:focus-visible, button:focus-visible{
+  outline: 3px solid rgba(37,99,235,.45);
+  outline-offset: 2px;
+}
+
+/* ---------- Mobile : un peu plus d'air ---------- */
+@media (max-width: 768px){
+  #imPgTitle, h1{ font-size: 1.55rem !important; }
+  h2, .imHeading2{ font-size: 1.2rem !important; }
+  .cta-btn{ width:100%; text-align:center; }
+}
