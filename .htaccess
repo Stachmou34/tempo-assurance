@@ -47,3 +47,28 @@ RewriteRule .* - [F]
 RedirectMatch 404 /\.git
 # Blocage des fichiers de documentation interne (.md) et du repertoire .git
 RedirectMatch 404 (?i)\.md$
+
+# ===== PERFORMANCE =====
+# Compression gzip des ressources texte
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml \
+    application/javascript application/x-javascript application/json \
+    application/xml application/rss+xml image/svg+xml
+</IfModule>
+
+# Cache navigateur des ressources statiques
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType application/x-javascript "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/font-woff "access plus 1 year"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
