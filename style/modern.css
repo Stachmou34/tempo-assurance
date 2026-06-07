@@ -363,3 +363,6 @@ a:focus-visible, button:focus-visible{
   .ta-hero-title{ font-size: 1.55rem !important; }
   .ta-hero-sub{ font-size: 1rem; }
 }
+
+/* ---------- Masquer le bandeau bleu du haut sur TOUTES les pages ---------- */
+#imHeader_imTableObject_02_wrapper{ display:none !important; }
