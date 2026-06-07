@@ -238,3 +238,7 @@ a:focus-visible, button:focus-visible{
 .seo-cta a, #imContent a[href="devis-ou-souscription.html"]:not(.cta-btn){
   font-weight:600;
 }
+
+/* ---------- Masquer les icônes réseaux sociaux de l'en-tête ---------- */
+#imHeader_pluginAppObj_03_wrapper,
+#imHeader_pluginAppObj_03{ display:none !important; }
