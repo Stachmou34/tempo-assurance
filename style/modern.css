@@ -314,3 +314,9 @@ a:focus-visible, button:focus-visible{
   .hamburger-button::after{ content:"MENU"; }
   .hamburger-button:hover{ background: var(--ta-blue) !important; }
 }
+
+/* ---------- Retirer l'image de fond du gabarit ---------- */
+#imPageExtContainer{
+  background-image: none !important;
+  background-color: var(--ta-light) !important;
+}
