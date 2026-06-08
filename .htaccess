@@ -27,7 +27,7 @@ Header set X-Content-Type-Options nosniff
 # CSP active : verifiee en Report-Only (aucune violation), tarificateur et PDF s'affichent.
 Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; frame-src https://drive.google.com https://www.jlassure.com https://www.google.com https://maps.google.com; object-src 'none'; base-uri 'self'"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
-Header set Permissions-Policy "accelerometer=(), payment=(self), geolocation=(self), fullscreen=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), display-capture=(self)" 
+Header set Permissions-Policy "accelerometer=(), payment=(self), geolocation=(self), fullscreen=(), autoplay=(), camera=(), display-capture=(self)"
 </ifModule>
 
 # protection contre les injections de fichiers
