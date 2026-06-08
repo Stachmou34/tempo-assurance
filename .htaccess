@@ -8,6 +8,9 @@ RewriteCond %{HTTPS} !=on [OR]
 RewriteCond %{HTTP_HOST} !^www\. [NC]
 RewriteRule ^ https://www.tempo-assurance.com%{REQUEST_URI} [R=301,L]
 # Redirection de l'ancien blog/FAQ vers la nouvelle page FAQ (le ? final supprime la query string)
+# Cas specifique : l'article "carte grise barree" vers sa page dediee (avant la regle generale)
+RewriteCond %{QUERY_STRING} carte-grise-est-barree
+RewriteRule ^blog/?$ /carte-grise-barree.html? [R=301,L]
 RewriteRule ^blog(/.*)?$ /faq-assurance-temporaire.html? [R=301,L]
 # Direction vers page erreur 404
 ErrorDocument 404 /404.html
