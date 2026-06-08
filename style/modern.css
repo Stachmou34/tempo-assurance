@@ -389,30 +389,22 @@ a:focus-visible, button:focus-visible{
   #imHeader_imMenuObject_04_container .label-inner-wrapper{ display: block !important; width: auto !important; height: auto !important; }
   #imHeader_imMenuObject_04_container li{ display: inline-block !important; vertical-align: middle; margin: 0 1px !important; }
 
-  /* Liens */
+  /* Liens (tous identiques, y compris Devis) */
   #imHeader_imMenuObject_04_container .label{
     white-space: nowrap !important; display: inline-block !important;
     width: auto !important; height: auto !important;
     color: #0F172A !important; font-weight: 600 !important;
-    padding: 9px 14px !important; border-radius: 8px !important;
+    padding: 11px 18px !important; border-radius: 10px !important;
   }
   #imHeader_imMenuObject_04_container .label::after{ display: none !important; }
-  /* Survol : discret (gris clair) — pour que SEUL le bouton Devis garde la couleur pleine */
-  #imHeader_imMenuObject_04_container li:not([data-link-paths*="devis"]) .label:hover{ background: #F1F5F9 !important; color: #0F172A !important; }
-  /* Page active : soulignement bleu accent (permanent) */
-  #imHeader_imMenuObject_04_container li:not([data-link-paths*="devis"]) a.label.ta-nav-active{
-    color: #0F172A !important;
-    box-shadow: inset 0 -3px 0 #2563EB !important;
-    border-radius: 8px 8px 0 0 !important;
-  }
-
-  /* Devis et Souscription = bouton CTA bleu nuit */
-  #imHeader_imMenuObject_04_container li[data-link-paths*="devis-ou-souscription"] .label{
+  /* Survol : gris clair discret (sur les liens non actifs) */
+  #imHeader_imMenuObject_04_container .label:not(.ta-nav-active):hover{ background: #F1F5F9 !important; color: #0F172A !important; }
+  /* Page active (le lien de la page en cours) = bouton bleu nuit */
+  #imHeader_imMenuObject_04_container a.label.ta-nav-active{
     background: #0F172A !important; color: #fff !important;
-    border-radius: 10px !important; padding: 11px 22px !important;
     box-shadow: 0 4px 14px rgba(15,23,42,.28) !important;
   }
-  #imHeader_imMenuObject_04_container li[data-link-paths*="devis-ou-souscription"] .label:hover{ background: #2563EB !important; }
+  #imHeader_imMenuObject_04_container a.label.ta-nav-active:hover{ background: #2563EB !important; color: #fff !important; }
 }
 
 /* Page active dans le tiroir mobile */
