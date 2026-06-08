@@ -357,7 +357,7 @@ $(function () {
 $(function () {$('#imHeader_imMenuObject_04_container ul li').not('.imMnMnSeparator').each(function () {    var $this = $(this), timeout = 0;    $this.on('mouseenter', function () {        if($(this).parents('#imHeader_imMenuObject_04_container-menu-opened').length > 0) return;         clearTimeout(timeout);        setTimeout(function () { $this.children('ul, .multiple-column').stop(false, false).fadeIn(); }, 250);    }).on('mouseleave', function () {        if($(this).parents('#imHeader_imMenuObject_04_container-menu-opened').length > 0) return;         timeout = setTimeout(function () { $this.children('ul, .multiple-column').stop(false, false).fadeOut(); }, 250);    });});});
 
 </script>
-</div><div id="imHeader_imObjectImage_01_wrapper" class="template-object-wrapper"><div id="imHeader_imObjectImage_01"><div id="imHeader_imObjectImage_01_container"><a href="index.html" onclick="return x5engine.utils.location('index.html', null, false)"><img src="images/logo.png" alt="Logo Tempo-assurance.com" title="Logo Tempo-assurance.com" width="290" height="80" />
+</div><div id="imHeader_imObjectImage_01_wrapper" class="template-object-wrapper"><div id="imHeader_imObjectImage_01"><div id="imHeader_imObjectImage_01_container"><a href="index.html" onclick="return x5engine.utils.location('index.html', null, false)"><img src="images/logo.png" fetchpriority="high" alt="Logo Tempo-assurance.com" title="Logo Tempo-assurance.com" width="290" height="80" />
 </a></div></div></div></div>
 					</header>
 					<div id="imStickyBarContainer">
