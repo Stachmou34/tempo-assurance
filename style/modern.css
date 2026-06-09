@@ -142,10 +142,52 @@ hr{ border:none !important; height:1px !important; background: var(--ta-border) 
 }
 
 /* ---------- Pied de page premium ---------- */
-#imFooter{ background: var(--ta-navy) !important; }
+#imFooter{ background: var(--ta-navy) !important; height:auto !important; min-height:0 !important; }
 #imFooter, #imFooter span, #imFooter a{ color:#cbd5e1 !important; }
 #imFooter a{ color:#fff !important; text-decoration:none; }
 #imFooter a:hover{ color:#fff !important; text-decoration:underline; }
+
+/* On neutralise la mise en page X5 du footer (positionnement absolu / hauteur fixe) */
+/* La 3e piste de la grille #imPage etait figee a 80px : on la passe en auto */
+#imPage{ grid-template-rows: 152px auto auto !important; }
+@media (max-width:959.9px){ #imPage{ grid-template-rows: 160px auto auto !important; } }
+#imFooterBg{ display:none !important; }
+#imFooterObjects{ position:static !important; height:auto !important; width:auto !important;
+  max-width:100% !important; margin:0 !important; }
+#imFooter_pluginAppObj_04_wrapper,
+#imFooter_imTextObject_01_wrapper,
+#imFooter_imTextObject_02_wrapper{ display:none !important; }
+
+/* Pied de page moderne multi-colonnes */
+.ta-footer{ max-width:1140px; margin:0 auto; padding:48px 24px 0; box-sizing:border-box; }
+.ta-footer-grid{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1.2fr; gap:32px; }
+.ta-footer-col h3{ color:#fff !important; font-size:1rem; font-weight:700; margin:0 0 16px;
+  letter-spacing:.01em; }
+.ta-footer-col ul{ list-style:none; margin:0; padding:0; }
+.ta-footer-col li{ margin:0 0 10px; line-height:1.5; font-size:.92rem; }
+.ta-footer-col a{ color:#cbd5e1 !important; text-decoration:none; transition:color .15s; }
+.ta-footer-col a:hover{ color:#fff !important; text-decoration:underline; }
+.ta-footer-brand .ta-footer-logo{ height:40px; width:auto; display:block; margin-bottom:14px;
+  background:#fff; padding:7px 12px; border-radius:10px; }
+.ta-footer-brand p{ color:#94a3b8 !important; font-size:.9rem; line-height:1.6; margin:0; max-width:330px; }
+.ta-footer-contact li{ color:#cbd5e1 !important; }
+.ta-footer-contact a{ color:#fff !important; font-weight:600; }
+.ta-footer-bottom{ max-width:1140px; margin:36px auto 0; padding:18px 24px 22px;
+  border-top:1px solid rgba(255,255,255,.12); display:flex; justify-content:space-between;
+  align-items:center; flex-wrap:wrap; gap:8px; font-size:.85rem; color:#94a3b8 !important;
+  box-sizing:border-box; }
+.ta-footer-bottom a{ color:#cbd5e1 !important; }
+.ta-footer-bottom a:hover{ color:#fff !important; }
+
+@media (max-width:780px){
+  .ta-footer{ padding-top:36px; }
+  .ta-footer-grid{ grid-template-columns:1fr 1fr; gap:28px 24px; }
+  .ta-footer-brand{ grid-column:1 / -1; }
+  .ta-footer-bottom{ flex-direction:column; text-align:center; }
+}
+@media (max-width:460px){
+  .ta-footer-grid{ grid-template-columns:1fr; }
+}
 
 /* ---------- Formulaires (contact / espace pro) ---------- */
 input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]),
