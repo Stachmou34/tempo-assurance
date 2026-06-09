@@ -67,7 +67,7 @@
 			window.dataLayer = window.dataLayer || [];
 			function gtag(){dataLayer.push(arguments);}
 			gtag('js', new Date());
-			gtag('config', 'G-0LNCSZ2FDD');
+			gtag('config', 'G-0LNCSZ2FDD', { linker: { domains: ['tempo-assurance.com', 'jlassure.com'], accept_incoming: true } });
 		</script>
 		<script type="text/javascript">
 			(function(c,l,a,r,i,t,y){
@@ -75,6 +75,16 @@
 				t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
 				y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 			})(window, document, "clarity", "script", "x4dk3rudiz");
+		</script>
+			<script>
+		/* Suivi : ouverture du tarificateur (marque blanche jlassure) */
+		document.addEventListener('click', function(e){
+			var b = e.target.closest ? e.target.closest('.cta-btn-modal') : null;
+			if(!b) return;
+			var label = (b.textContent||'').replace(/\s+/g,' ').trim().slice(0,80);
+			if(typeof gtag==='function'){ gtag('event','ouverture_tarificateur',{ bouton: label, page_path: location.pathname }); }
+			if(typeof window.clarity==='function'){ try{ window.clarity('event','ouverture_tarificateur'); window.clarity('set','tarificateur','ouvert'); }catch(_){} }
+		}, true);
 		</script>
 	</head>
 	<body>
