@@ -173,9 +173,9 @@ hr{ border:none !important; height:1px !important; background: var(--ta-border) 
 .ta-footer-contact li{ color:#cbd5e1 !important; }
 .ta-footer-contact a{ color:#fff !important; font-weight:600; }
 .ta-footer-bottom{ max-width:1140px; margin:36px auto 0; padding:18px 24px 22px;
-  border-top:1px solid rgba(255,255,255,.12); display:flex; justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,.12); display:flex; justify-content:center;
   align-items:center; flex-wrap:wrap; gap:8px; font-size:.85rem; color:#94a3b8 !important;
-  box-sizing:border-box; }
+  box-sizing:border-box; text-align:center; }
 .ta-footer-bottom a{ color:#cbd5e1 !important; }
 .ta-footer-bottom a:hover{ color:#fff !important; }
 
