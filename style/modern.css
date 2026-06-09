@@ -287,8 +287,9 @@ a:focus-visible, button:focus-visible{
 
 /* ============================================================
    Menu mobile (hamburger) — vrai tiroir moderne
+   (X5 bascule en hamburger à ≤959.9px : on aligne le style dessus)
    ============================================================ */
-@media (max-width: 768px){
+@media (max-width: 959.9px){
   /* Overlay sombre derrière le tiroir */
   #imHeader_imMenuObject_04-menu-opened .hamburger-menu-background{
     background: rgba(15,23,42,.55) !important;
@@ -336,7 +337,7 @@ a:focus-visible, button:focus-visible{
 /* ============================================================
    Mobile : suppression barre bleue inutile + bouton "MENU" texte
    ============================================================ */
-@media (max-width: 768px){
+@media (max-width: 959.9px){
   /* 1. Masquer la barre bleue du haut (table 981px qui ne sert à rien) */
   #imHeader_imTableObject_02_wrapper{ display:none !important; }
 
@@ -410,18 +411,21 @@ a:focus-visible, button:focus-visible{
 #imHeader_imTableObject_02_wrapper{ display:none !important; }
 
 /* ============================================================
-   Menu desktop modernisé (option A) — ≥981px (seuil X5)
+   Menu desktop modernisé (option A) — ≥960px (seuil X5)
    Devis en bouton CTA, Mentions retirée, aligné sur le logo
    ============================================================ */
-@media (min-width: 981px){
+@media (min-width: 960px){
   /* Alignement vertical du menu sur le logo (logo : top 69px, hauteur 80px) */
+  /* Largeur auto + ancrage à droite : le menu s'adapte au contenu sans passer à la ligne */
   #imHeader_imMenuObject_04_wrapper{
     top: 69px !important;
     height: 80px !important;
+    left: auto !important; right: 0 !important; width: auto !important;
     display: flex !important;
-    align-items: center !important;
+    align-items: center !important; justify-content: flex-end !important;
   }
-  #imHeader_imMenuObject_04{ width: 100% !important; }
+  #imHeader_imMenuObject_04{ width: auto !important; }
+  #imHeader_imMenuObject_04_container ul.menu-mobile-animated{ white-space: nowrap !important; }
 
   /* Retirer "Mentions Légales" du menu du haut (reste en pied de page) */
   #imHeader_imMenuObject_04_container li[data-link-paths*="mentions-legales"]{ display: none !important; }
@@ -436,7 +440,7 @@ a:focus-visible, button:focus-visible{
     white-space: nowrap !important; display: inline-block !important;
     width: auto !important; height: auto !important;
     color: #0F172A !important; font-weight: 600 !important;
-    padding: 11px 18px !important; border-radius: 10px !important;
+    padding: 10px 14px !important; border-radius: 10px !important;
   }
   #imHeader_imMenuObject_04_container .label::after{ display: none !important; }
   /* Survol : gris clair discret (sur les liens non actifs) */
@@ -450,9 +454,75 @@ a:focus-visible, button:focus-visible{
 }
 
 /* Page active dans le tiroir mobile */
-@media (max-width: 980px){
+@media (max-width: 959.9px){
   #imHeader_imMenuObject_04-menu-opened a.label.ta-nav-active{
     background: rgba(255,255,255,.10) !important;
     box-shadow: inset 4px 0 0 #2563EB !important;
   }
+}
+
+/* ============================================================
+   Menu : sous-menus déroulants par catégorie
+   ============================================================ */
+.ta-caret{ font-size:.62em; margin-left:6px; opacity:.65; vertical-align:middle; }
+
+/* ---- Bureau (≥960px) : vrais menus déroulants au survol ---- */
+@media (min-width: 960px){
+  #imHeader_imMenuObject_04_container li.ta-has-sub{ position:relative; }
+  /* zone tampon invisible pour ne pas perdre le survol entre le label et le panneau */
+  #imHeader_imMenuObject_04_container li.ta-has-sub::before{
+    content:""; position:absolute; left:0; right:0; top:100%; height:10px;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu{
+    display:none; position:absolute; top:calc(100% + 8px); left:0;
+    min-width:236px; margin:0; padding:8px; list-style:none;
+    background:#fff; border:1px solid #E2E8F0; border-radius:14px;
+    box-shadow:0 16px 40px rgba(15,23,42,.18); z-index:80;
+  }
+  #imHeader_imMenuObject_04_container li.ta-has-sub:hover ul.ta-submenu{ display:block !important; }
+  #imHeader_imMenuObject_04_container ul.ta-submenu li{
+    display:block !important; width:100% !important; margin:0 !important; padding:0 !important;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link{
+    display:block; padding:10px 14px; border-radius:9px; white-space:nowrap;
+    color:#0F172A !important; font-weight:500; font-size:.94rem; text-decoration:none;
+    transition:background .12s ease;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link:hover{ background:#F1F5F9; }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link.ta-sub-active{
+    background:#0F172A; color:#fff !important;
+  }
+}
+
+/* ---- Tiroir mobile : sous-menus toujours dépliés et indentés ----
+   On cible le menu en place ET le conteneur cloné par X5 à l'ouverture du tiroir */
+@media (max-width: 959.9px){
+  #imHeader_imMenuObject_04_container ul.ta-submenu,
+  #imHeader_imMenuObject_04-menu-opened ul.ta-submenu{
+    display:block !important; list-style:none !important;
+    width:100% !important; max-width:none !important; min-height:0 !important;
+    margin:0 !important; padding:0 !important; box-shadow:none !important;
+    background:rgba(0,0,0,.22) !important; border-radius:0 !important;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu li,
+  #imHeader_imMenuObject_04-menu-opened ul.ta-submenu li{
+    display:block !important; width:100% !important; margin:0 !important; border:0 !important;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link,
+  #imHeader_imMenuObject_04-menu-opened ul.ta-submenu a.ta-sub-link{
+    display:block !important; text-decoration:none !important;
+    color:#cbd5e1 !important; font-size:1rem !important; font-weight:500 !important;
+    padding:13px 26px 13px 42px !important;
+    border-bottom:1px solid rgba(255,255,255,.08) !important;
+    background:transparent !important;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link:hover,
+  #imHeader_imMenuObject_04-menu-opened ul.ta-submenu a.ta-sub-link:hover{
+    background:rgba(255,255,255,.06) !important; color:#fff !important;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link.ta-sub-active,
+  #imHeader_imMenuObject_04-menu-opened ul.ta-submenu a.ta-sub-link.ta-sub-active{
+    color:#fff !important; box-shadow:inset 4px 0 0 #2563EB !important;
+  }
+  .ta-caret{ display:none; }
 }
