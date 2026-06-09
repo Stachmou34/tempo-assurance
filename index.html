@@ -75,6 +75,21 @@
 /* Cartes services : la cellule 10 porte les 3 cartes sur toute la largeur, on masque 11/12/13 */
 #imCell_10{ grid-column: 2 / 50 !important; }
 #imCell_11, #imCell_12, #imCell_13{ display: none !important; }</style>
+			<!-- Analytics : Google Analytics 4 + Microsoft Clarity -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-0LNCSZ2FDD"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-0LNCSZ2FDD');
+		</script>
+		<script type="text/javascript">
+			(function(c,l,a,r,i,t,y){
+				c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+				t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+				y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+			})(window, document, "clarity", "script", "x4dk3rudiz");
+		</script>
 	</head>
 	<body>
 		<div id="imPageExtContainer">
