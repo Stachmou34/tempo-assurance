@@ -12,6 +12,8 @@ RewriteRule ^ https://www.tempo-assurance.com%{REQUEST_URI} [R=301,L]
 RewriteCond %{QUERY_STRING} carte-grise-est-barree
 RewriteRule ^blog/?$ /carte-grise-barree.html? [R=301,L]
 RewriteRule ^blog(/.*)?$ /faq-assurance-temporaire.html? [R=301,L]
+# Page Espace professionnel supprimee -> redirection vers Contact
+RewriteRule ^espace-professionel\.html$ /contact.html [R=301,L]
 # Direction vers page erreur 404
 ErrorDocument 404 /404.html
 
