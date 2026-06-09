@@ -142,10 +142,52 @@ hr{ border:none !important; height:1px !important; background: var(--ta-border) 
 }
 
 /* ---------- Pied de page premium ---------- */
-#imFooter{ background: var(--ta-navy) !important; }
+#imFooter{ background: var(--ta-navy) !important; height:auto !important; min-height:0 !important; }
 #imFooter, #imFooter span, #imFooter a{ color:#cbd5e1 !important; }
 #imFooter a{ color:#fff !important; text-decoration:none; }
 #imFooter a:hover{ color:#fff !important; text-decoration:underline; }
+
+/* On neutralise la mise en page X5 du footer (positionnement absolu / hauteur fixe) */
+/* La 3e piste de la grille #imPage etait figee a 80px : on la passe en auto */
+#imPage{ grid-template-rows: 152px auto auto !important; }
+@media (max-width:959.9px){ #imPage{ grid-template-rows: 160px auto auto !important; } }
+#imFooterBg{ display:none !important; }
+#imFooterObjects{ position:static !important; height:auto !important; width:auto !important;
+  max-width:100% !important; margin:0 !important; }
+#imFooter_pluginAppObj_04_wrapper,
+#imFooter_imTextObject_01_wrapper,
+#imFooter_imTextObject_02_wrapper{ display:none !important; }
+
+/* Pied de page moderne multi-colonnes */
+.ta-footer{ max-width:1140px; margin:0 auto; padding:48px 24px 0; box-sizing:border-box; }
+.ta-footer-grid{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1.2fr; gap:32px; }
+.ta-footer-col h3{ color:#fff !important; font-size:1rem; font-weight:700; margin:0 0 16px;
+  letter-spacing:.01em; }
+.ta-footer-col ul{ list-style:none; margin:0; padding:0; }
+.ta-footer-col li{ margin:0 0 10px; line-height:1.5; font-size:.92rem; }
+.ta-footer-col a{ color:#cbd5e1 !important; text-decoration:none; transition:color .15s; }
+.ta-footer-col a:hover{ color:#fff !important; text-decoration:underline; }
+.ta-footer-brand .ta-footer-logo{ height:40px; width:auto; display:block; margin-bottom:14px;
+  background:#fff; padding:7px 12px; border-radius:10px; }
+.ta-footer-brand p{ color:#94a3b8 !important; font-size:.9rem; line-height:1.6; margin:0; max-width:330px; }
+.ta-footer-contact li{ color:#cbd5e1 !important; }
+.ta-footer-contact a{ color:#fff !important; font-weight:600; }
+.ta-footer-bottom{ max-width:1140px; margin:36px auto 0; padding:18px 24px 22px;
+  border-top:1px solid rgba(255,255,255,.12); display:flex; justify-content:space-between;
+  align-items:center; flex-wrap:wrap; gap:8px; font-size:.85rem; color:#94a3b8 !important;
+  box-sizing:border-box; }
+.ta-footer-bottom a{ color:#cbd5e1 !important; }
+.ta-footer-bottom a:hover{ color:#fff !important; }
+
+@media (max-width:780px){
+  .ta-footer{ padding-top:36px; }
+  .ta-footer-grid{ grid-template-columns:1fr 1fr; gap:28px 24px; }
+  .ta-footer-brand{ grid-column:1 / -1; }
+  .ta-footer-bottom{ flex-direction:column; text-align:center; }
+}
+@media (max-width:460px){
+  .ta-footer-grid{ grid-template-columns:1fr; }
+}
 
 /* ---------- Formulaires (contact / espace pro) ---------- */
 input:not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]),
@@ -245,8 +287,9 @@ a:focus-visible, button:focus-visible{
 
 /* ============================================================
    Menu mobile (hamburger) — vrai tiroir moderne
+   (X5 bascule en hamburger à ≤959.9px : on aligne le style dessus)
    ============================================================ */
-@media (max-width: 768px){
+@media (max-width: 959.9px){
   /* Overlay sombre derrière le tiroir */
   #imHeader_imMenuObject_04-menu-opened .hamburger-menu-background{
     background: rgba(15,23,42,.55) !important;
@@ -294,7 +337,7 @@ a:focus-visible, button:focus-visible{
 /* ============================================================
    Mobile : suppression barre bleue inutile + bouton "MENU" texte
    ============================================================ */
-@media (max-width: 768px){
+@media (max-width: 959.9px){
   /* 1. Masquer la barre bleue du haut (table 981px qui ne sert à rien) */
   #imHeader_imTableObject_02_wrapper{ display:none !important; }
 
@@ -368,18 +411,21 @@ a:focus-visible, button:focus-visible{
 #imHeader_imTableObject_02_wrapper{ display:none !important; }
 
 /* ============================================================
-   Menu desktop modernisé (option A) — ≥981px (seuil X5)
+   Menu desktop modernisé (option A) — ≥960px (seuil X5)
    Devis en bouton CTA, Mentions retirée, aligné sur le logo
    ============================================================ */
-@media (min-width: 981px){
+@media (min-width: 960px){
   /* Alignement vertical du menu sur le logo (logo : top 69px, hauteur 80px) */
+  /* Largeur auto + ancrage à droite : le menu s'adapte au contenu sans passer à la ligne */
   #imHeader_imMenuObject_04_wrapper{
     top: 69px !important;
     height: 80px !important;
+    left: auto !important; right: 0 !important; width: auto !important;
     display: flex !important;
-    align-items: center !important;
+    align-items: center !important; justify-content: flex-end !important;
   }
-  #imHeader_imMenuObject_04{ width: 100% !important; }
+  #imHeader_imMenuObject_04{ width: auto !important; }
+  #imHeader_imMenuObject_04_container ul.menu-mobile-animated{ white-space: nowrap !important; }
 
   /* Retirer "Mentions Légales" du menu du haut (reste en pied de page) */
   #imHeader_imMenuObject_04_container li[data-link-paths*="mentions-legales"]{ display: none !important; }
@@ -394,7 +440,7 @@ a:focus-visible, button:focus-visible{
     white-space: nowrap !important; display: inline-block !important;
     width: auto !important; height: auto !important;
     color: #0F172A !important; font-weight: 600 !important;
-    padding: 11px 18px !important; border-radius: 10px !important;
+    padding: 10px 14px !important; border-radius: 10px !important;
   }
   #imHeader_imMenuObject_04_container .label::after{ display: none !important; }
   /* Survol : gris clair discret (sur les liens non actifs) */
@@ -408,9 +454,75 @@ a:focus-visible, button:focus-visible{
 }
 
 /* Page active dans le tiroir mobile */
-@media (max-width: 980px){
+@media (max-width: 959.9px){
   #imHeader_imMenuObject_04-menu-opened a.label.ta-nav-active{
     background: rgba(255,255,255,.10) !important;
     box-shadow: inset 4px 0 0 #2563EB !important;
   }
+}
+
+/* ============================================================
+   Menu : sous-menus déroulants par catégorie
+   ============================================================ */
+.ta-caret{ font-size:.62em; margin-left:6px; opacity:.65; vertical-align:middle; }
+
+/* ---- Bureau (≥960px) : vrais menus déroulants au survol ---- */
+@media (min-width: 960px){
+  #imHeader_imMenuObject_04_container li.ta-has-sub{ position:relative; }
+  /* zone tampon invisible pour ne pas perdre le survol entre le label et le panneau */
+  #imHeader_imMenuObject_04_container li.ta-has-sub::before{
+    content:""; position:absolute; left:0; right:0; top:100%; height:10px;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu{
+    display:none; position:absolute; top:calc(100% + 8px); left:0;
+    min-width:236px; margin:0; padding:8px; list-style:none;
+    background:#fff; border:1px solid #E2E8F0; border-radius:14px;
+    box-shadow:0 16px 40px rgba(15,23,42,.18); z-index:80;
+  }
+  #imHeader_imMenuObject_04_container li.ta-has-sub:hover ul.ta-submenu{ display:block !important; }
+  #imHeader_imMenuObject_04_container ul.ta-submenu li{
+    display:block !important; width:100% !important; margin:0 !important; padding:0 !important;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link{
+    display:block; padding:10px 14px; border-radius:9px; white-space:nowrap;
+    color:#0F172A !important; font-weight:500; font-size:.94rem; text-decoration:none;
+    transition:background .12s ease;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link:hover{ background:#F1F5F9; }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link.ta-sub-active{
+    background:#0F172A; color:#fff !important;
+  }
+}
+
+/* ---- Tiroir mobile : sous-menus toujours dépliés et indentés ----
+   On cible le menu en place ET le conteneur cloné par X5 à l'ouverture du tiroir */
+@media (max-width: 959.9px){
+  #imHeader_imMenuObject_04_container ul.ta-submenu,
+  #imHeader_imMenuObject_04-menu-opened ul.ta-submenu{
+    display:block !important; list-style:none !important;
+    width:100% !important; max-width:none !important; min-height:0 !important;
+    margin:0 !important; padding:0 !important; box-shadow:none !important;
+    background:rgba(0,0,0,.22) !important; border-radius:0 !important;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu li,
+  #imHeader_imMenuObject_04-menu-opened ul.ta-submenu li{
+    display:block !important; width:100% !important; margin:0 !important; border:0 !important;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link,
+  #imHeader_imMenuObject_04-menu-opened ul.ta-submenu a.ta-sub-link{
+    display:block !important; text-decoration:none !important;
+    color:#cbd5e1 !important; font-size:1rem !important; font-weight:500 !important;
+    padding:13px 26px 13px 42px !important;
+    border-bottom:1px solid rgba(255,255,255,.08) !important;
+    background:transparent !important;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link:hover,
+  #imHeader_imMenuObject_04-menu-opened ul.ta-submenu a.ta-sub-link:hover{
+    background:rgba(255,255,255,.06) !important; color:#fff !important;
+  }
+  #imHeader_imMenuObject_04_container ul.ta-submenu a.ta-sub-link.ta-sub-active,
+  #imHeader_imMenuObject_04-menu-opened ul.ta-submenu a.ta-sub-link.ta-sub-active{
+    color:#fff !important; box-shadow:inset 4px 0 0 #2563EB !important;
+  }
+  .ta-caret{ display:none; }
 }
