@@ -1,8 +1,4 @@
 User-agent: *
-Disallow: /captcha
-Disallow: /menu
-Disallow: /imemail
-Disallow: /blog/index.php?start=0&length=20
-Disallow: /blog/index.php?start=20&length=20
+Allow: /
 
 Sitemap: https://www.tempo-assurance.com/sitemap.xml
