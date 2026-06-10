@@ -1,4 +1,10 @@
 /* ============================================================
+   NOTE D'ENTRETIEN : ce fichier est la SOURCE des styles, mais
+   les pages HTML embarquent une copie MINIFIEE dans <style>
+   (perf : zéro requête bloquante). Après toute modification ici,
+   réinjecter le CSS minifié dans les pages (voir la PR perf).
+   ============================================================ */
+/* ============================================================
    tempo-assurance.com — feuille de style unique
    Site statique fait main (sans générateur). Identité : sobre
    & premium — bleu nuit / gris / blanc, polices système.
@@ -170,8 +176,9 @@ main{ padding:28px 0 48px; }
   text-decoration:none; color:inherit; transition:box-shadow .2s ease, transform .2s ease;
 }
 .card:hover{ box-shadow:0 12px 30px rgba(15,23,42,.12); transform:translateY(-3px); }
-.card-ico{ width:84px; height:84px; border-radius:50%; background:#EFF4FF; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; }
+.card-ico{ width:84px; height:84px; border-radius:50%; background:#EFF4FF; display:flex; align-items:center; justify-content:center; margin:0 auto 18px; color:var(--blue); }
 .card-ico img{ width:52px; height:52px; object-fit:contain; }
+.card-ico svg{ width:40px; height:40px; }
 .card h3{ color:var(--navy); font-size:1.08rem; font-weight:700; margin:0 0 10px; }
 .card p{ color:var(--grey); font-size:.9rem; line-height:1.55; margin:0 0 16px; }
 .card-link{ color:var(--blue); font-weight:600; font-size:.92rem; }
