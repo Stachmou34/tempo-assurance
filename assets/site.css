@@ -1,4 +1,10 @@
 /* ============================================================
+   NOTE D'ENTRETIEN : ce fichier est la SOURCE des styles, mais
+   les pages HTML embarquent une copie MINIFIEE dans <style>
+   (perf : zéro requête bloquante). Après toute modification ici,
+   réinjecter le CSS minifié dans les pages (voir la PR perf).
+   ============================================================ */
+/* ============================================================
    tempo-assurance.com — feuille de style unique
    Site statique fait main (sans générateur). Identité : sobre
    & premium — bleu nuit / gris / blanc, polices système.
