@@ -232,6 +232,10 @@ main{ padding:28px 0 48px; }
 .card:hover .card-link{ text-decoration:underline; }
 @media (max-width:760px){ .cards{ grid-template-columns:1fr; gap:16px; } }
 
+/* ---------- Bloc « En bref » (réponse directe, citable) ---------- */
+.tldr{ background:#EFF4FF; border:1px solid #bfdbfe; border-radius:12px; padding:14px 18px; margin:14px 0 20px; color:var(--navy-2); line-height:1.55; }
+.tldr-label{ display:inline-block; background:var(--blue); color:#fff; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; border-radius:6px; padding:3px 9px; margin-right:9px; vertical-align:1px; }
+
 /* ---------- Encadré CTA contextuel ---------- */
 .callout{
   background:#fff; border:1px solid var(--border); border-left:4px solid var(--blue);
