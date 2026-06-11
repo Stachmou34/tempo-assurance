@@ -45,10 +45,10 @@ ul{ padding-left:1.2em; } li{ margin:.25em 0; }
 hr{ border:none; height:1px; background:var(--border); margin:1.6em 0; }
 
 main a:not(.btn):not(.card):not(.hero-pill){
-  color:var(--blue); text-decoration:none; border-bottom:1px solid transparent;
-  transition:color .15s ease, border-color .15s ease;
+  color:var(--blue); text-decoration:underline; text-underline-offset:2px;
+  transition:color .15s ease;
 }
-main a:not(.btn):not(.card):not(.hero-pill):hover{ color:var(--navy); border-bottom-color:var(--blue); }
+main a:not(.btn):not(.card):not(.hero-pill):hover{ color:var(--navy); }
 
 /* ---------- Boutons ---------- */
 .btn, .cta-btn, .cta-btn-modal{
