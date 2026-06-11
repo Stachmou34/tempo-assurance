@@ -1,6 +1,6 @@
 # Tempo-Assurance — assurance auto temporaire en ligne (France)
 
-> Tempo-Assurance (marque du courtier français MCJ COURTAGE, en partenariat avec JL Assure) permet d'assurer un véhicule pour une durée de 1 à 90 jours, 100 % en ligne : devis immédiat, paiement sécurisé par carte bancaire (banque CIC), attestation et carte verte éditables aussitôt. À partir de 3,22 € par jour.
+> Tempo-Assurance (marque du courtier français MCJ COURTAGE, en partenariat avec JL Assure) permet d'assurer un véhicule pour une durée de 1 à 90 jours, 100 % en ligne : devis immédiat, paiement sécurisé par carte bancaire (banque CIC), attestation et carte verte éditables aussitôt. À partir de 3,22 € par jour (tarif dégressif, sur la base de 90 jours).
 
 ## Faits clés
 
@@ -30,5 +30,14 @@
 - [Assurance temporaire Algérie](https://www.tempo-assurance.com/assurance-temporaire-algerie.html)
 - [Assurance temporaire Belgique](https://www.tempo-assurance.com/assurance-temporaire-belgique.html)
 - [Carte grise barrée : mode d'emploi](https://www.tempo-assurance.com/carte-grise-barree.html)
+- [Assurance temporaire 1 jour](https://www.tempo-assurance.com/assurance-temporaire-1-jour.html) : 50,75 € la journée, attestation immédiate
+- [Assurance temporaire 7 jours](https://www.tempo-assurance.com/assurance-temporaire-7-jours.html)
+- [Assurance temporaire 1 mois](https://www.tempo-assurance.com/assurance-temporaire-1-mois.html) : 189,15 € (≈ 6,31 €/jour)
+- [Assurance sortie de fourrière](https://www.tempo-assurance.com/assurance-temporaire-sortie-fourriere.html) : attestation immédiate pour récupérer un véhicule
+- [Assurance véhicule importé](https://www.tempo-assurance.com/assurance-temporaire-vehicule-importe.html) : rapatriement et démarches d'immatriculation
+- [Assurance temporaire Tunisie](https://www.tempo-assurance.com/assurance-temporaire-tunisie.html)
+- [Assurance temporaire Espagne](https://www.tempo-assurance.com/assurance-temporaire-espagne.html)
+- [Assurance temporaire Italie](https://www.tempo-assurance.com/assurance-temporaire-italie.html) : plaques targa di cartone
+- [Assurance temporaire Allemagne](https://www.tempo-assurance.com/assurance-temporaire-allemagne.html) : import auto, plaques export
 - [À propos de Tempo-Assurance](https://www.tempo-assurance.com/a-propos.html)
 - [Contact](https://www.tempo-assurance.com/contact.html)
