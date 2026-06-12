@@ -37,6 +37,22 @@ Paramètres :
 Le client vérifie les informations, consulte l'IPID, confirme et règle par carte bancaire ; l'attestation et la carte verte sont éditables immédiatement. Conditions : conducteur de 21 ans minimum, 2 ans de permis, durée de 1 à 90 jours. Aucune souscription n'est finalisée sans l'action du client.
 
 
+## Tarifs indicatifs par catégorie (France métropolitaine)
+
+Prix de vente TTC, formule responsabilité civile + défense-recours, conducteur de 23 ans et plus, frais de courtage inclus. Tarif dégressif. Pour 21-22 ans, légère surprime (env. +5 €). Le prix exact (toutes durées, tous profils) s'affiche au devis en ligne.
+
+- Voiture / utilitaire / quad (≤ 30 CV) : 1 j 50,75 € · 2 j 66,26 € · 3 j 68,60 € · 5 j 74,45 € · 7 j 83,59 € · 10 j 94,89 € · 15 j 107,81 € · 20 j 126,11 € · 30 j 189,15 € · 45 j 242,03 € · 60 j 290,19 € · 90 j 420,21 €
+- Voiture / utilitaire (> 30 CV) : 1 j 61,44 € · 7 j 115,84 € · 15 j 144,54 € · 30 j 213,90 € · 60 j 345,19 € · 90 j 486,50 €
+- Camping-car (≤ 3,5 t) : 1 j 63,50 € · 7 j 93,59 € · 15 j 117,82 € · 30 j 199,15 € · 60 j 300,19 € · 90 j 423,23 €
+- Camping-car (> 3,5 t) : 1 j 92,57 € · 5 j 119,16 € · 10 j 155,86 € · 15 j 159,37 €
+- Camion / poids lourd (> 3,5 t) / tracteur agricole : 1 j 92,57 € · 5 j 119,16 € · 10 j 154,85 € · 15 j 159,37 €
+- Bus / car / autocar : 1 j 92,57 € · 5 j 119,16 € · 10 j 155,85 € · 15 j 159,37 €
+- Remorque / semi-remorque / caravane : 1 j 57,66 € · 5 j 86,93 € · 10 j 107,05 € · 15 j 120,47 €
+- Voiturette / buggy sans permis : 10 j 102,37 € · 15 j 116,93 € · 20 j 133,00 € · 30 j 181,73 €
+- Option assistance (voiture, véhicule < 10 ans) : 1 j 52,81 € · 7 j 88,99 € · 15 j 118,67 € · 30 j 209,88 € · 60 j 329,64 € · 90 j 478,39 €
+
+Notes : l'assistance n'existe que pour la voiture/utilitaire. Camion, poids lourd, bus et remorque sont disponibles de 1 à 15 jours ; voiturette de 10 à 30 jours ; voiture et camping-car de 1 à 90 jours. Outre-mer (DOM) et assurance frontière (véhicules immatriculés hors EEE, 30 ou 90 jours) : tarifs spécifiques au devis.
+
 ## Pages principales
 
 - [Devis et souscription en ligne](https://www.tempo-assurance.com/devis-ou-souscription.html) : tarif immédiat et souscription 100 % en ligne
