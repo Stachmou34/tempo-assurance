@@ -53,10 +53,15 @@
   var modal = document.getElementById('modal-souscription');
   var modalClose = document.getElementById('btn-fermer-modal');
 
-  function openModal() {
+  function openModal(extra) {
     if (!modal) return;
     var frame = modal.querySelector('iframe[data-src]');
-    if (frame && !frame.src) frame.src = withPrefill(frame.getAttribute('data-src'));
+    if (frame && !frame.src) {
+      var url = withPrefill(frame.getAttribute('data-src'));
+      /* pré-remplissage propre à un bouton (ex. data-prefill="categorie_vehi=VL-VU") */
+      if (extra) url += (url.indexOf('?') > -1 ? '&' : '?') + extra;
+      frame.src = url;
+    }
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('no-scroll');
@@ -89,7 +94,7 @@
     var b = e.target.closest ? e.target.closest('.cta-btn-modal') : null;
     if (!b) return;
     e.preventDefault();
-    openModal();
+    openModal(b.getAttribute('data-prefill'));
     var label = (b.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80);
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'ouverture_tarificateur', { bouton: label, page_path: location.pathname });
