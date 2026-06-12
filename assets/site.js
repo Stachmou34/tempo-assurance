@@ -15,7 +15,8 @@
     var out = [];
     PREFILL_KEYS.forEach(function (k) {
       var v = sp.get(k);
-      if (v) out.push(k + '=' + encodeURIComponent(v));
+      /* v peut valoir "0" (ex. puissance=0 pour une remorque) : ne rejeter que null/vide */
+      if (v !== null && v !== '') out.push(k + '=' + encodeURIComponent(v));
     });
     return out.join('&');
   }
@@ -37,6 +38,7 @@
     document.body.classList.add('no-scroll');
   }
   function closeNav() {
+    if (!nav) return;
     nav.classList.remove('open');
     if (overlay) overlay.classList.remove('show');
     document.body.classList.remove('no-scroll');
@@ -83,6 +85,7 @@
 
   /* ---------- Clic souscription : ouverture + mesure ---------- */
   document.addEventListener('click', function (e) {
+    if (!modal) return; /* page sans modale : ne pas neutraliser le bouton ni fausser la mesure */
     var b = e.target.closest ? e.target.closest('.cta-btn-modal') : null;
     if (!b) return;
     e.preventDefault();
