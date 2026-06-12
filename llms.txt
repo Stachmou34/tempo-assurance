@@ -27,11 +27,12 @@ Paramètres :
 - age_vehicule : moins10 ou plus10
 - puissance : inf30 (<=30 CV) · sup30 (>30 CV) · 0 (remorque / caravane)
 - ptac : inf3500 ou sup3500 (selon la catégorie)
-- pays_immatriculation / pays_residence : en MAJUSCULES, ex. FRANCE METROPOLITAINE (DOM acceptés : FRANCE GUADELOUPE, FRANCE GUYANE, FRANCE MARTINIQUE, FRANCE MAYOTTE, FRANCE REUNION). Immatriculation : Pologne, Roumanie et Italie exclues.
+- pays_immatriculation / pays_residence : en MAJUSCULES, espaces encodées %20 (ex. FRANCE%20METROPOLITAINE) ; DOM acceptés : FRANCE GUADELOUPE, FRANCE GUYANE, FRANCE MARTINIQUE, FRANCE MAYOTTE, FRANCE REUNION. Immatriculation : Pologne, Roumanie et Italie exclues.
 - date_naissance : AAAA-MM-JJ (conducteur de 21 à 90 ans)
-- duree : nombre de jours, de 1 à 90
+- duree : nombre de jours, de 1 à 90 ; la valeur doit exister dans la grille tarifaire du profil, sinon elle est ignorée sans erreur (le client choisit alors la durée dans la liste affichée)
 - date_debut : AAAA-MM-JJ (>= aujourd'hui) ; heure_debut : HH:MM
 - motif_assurance_temporaire : achat_vente · resilie_non_paiement · sortie_fourriere · autre
+- motif_assurance_temporaire_autre : texte libre (max 255 caractères, espaces encodées %20), à fournir si motif_assurance_temporaire=autre
 
 Le client vérifie les informations, consulte l'IPID, confirme et règle par carte bancaire ; l'attestation et la carte verte sont éditables immédiatement. Conditions : conducteur de 21 ans minimum, 2 ans de permis, durée de 1 à 90 jours. Aucune souscription n'est finalisée sans l'action du client.
 
