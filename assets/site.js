@@ -2,6 +2,29 @@
 (function () {
   'use strict';
 
+  /* ---------- Pré-remplissage du tarificateur via paramètres d'URL ---------- */
+  /* Les paramètres sont validés côté JL Assure ; ici on se contente de relayer
+     une liste blanche vers le tarificateur (page devis + modale). */
+  var PREFILL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance', 'ptac',
+    'pays_immatriculation', 'pays_residence', 'date_naissance',
+    'motif_assurance_temporaire', 'motif_assurance_temporaire_autre',
+    'duree', 'date_debut', 'heure_debut'];
+  function prefillQuery() {
+    var sp;
+    try { sp = new URLSearchParams(location.search); } catch (_) { return ''; }
+    var out = [];
+    PREFILL_KEYS.forEach(function (k) {
+      var v = sp.get(k);
+      if (v) out.push(k + '=' + encodeURIComponent(v));
+    });
+    return out.join('&');
+  }
+  function withPrefill(url) {
+    var q = prefillQuery();
+    if (!q || !url) return url;
+    return url + (url.indexOf('?') > -1 ? '&' : '?') + q;
+  }
+
   /* ---------- Menu mobile (tiroir) ---------- */
   var toggle = document.querySelector('.menu-toggle');
   var nav = document.querySelector('.nav');
@@ -31,7 +54,7 @@
   function openModal() {
     if (!modal) return;
     var frame = modal.querySelector('iframe[data-src]');
-    if (frame && !frame.src) frame.src = frame.getAttribute('data-src');
+    if (frame && !frame.src) frame.src = withPrefill(frame.getAttribute('data-src'));
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('no-scroll');
@@ -49,6 +72,14 @@
       if (e.key === 'Escape') { closeModal(); closeNav(); }
     });
   }
+
+  /* ---------- Tarificateur inline (page devis) : relaie les paramètres d'URL ---------- */
+  (function () {
+    var inline = document.querySelector('iframe.quote-frame');
+    if (!inline) return;
+    if (!prefillQuery()) return; /* aucun pré-remplissage demandé : on garde le chargement initial */
+    inline.setAttribute('src', withPrefill(inline.getAttribute('src')));
+  })();
 
   /* ---------- Clic souscription : ouverture + mesure ---------- */
   document.addEventListener('click', function (e) {

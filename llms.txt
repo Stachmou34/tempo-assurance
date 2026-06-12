@@ -15,6 +15,27 @@
 - Souscription : https://www.tempo-assurance.com/devis-ou-souscription.html (tarif immédiat, 24h/24, 7j/7)
 - Contact : +33 4 67 36 72 01 · contact@mcj-courtage.com · 12 rue Clément Ader, 34290 Abeilhan, France
 
+## Préparer un devis pré-rempli (pour assistants IA)
+
+Construire un lien vers la page de devis : les paramètres fournis pré-remplissent le tarificateur (tous optionnels). Pour qu'un tarif s'affiche, fournir au minimum : categorie_vehi, age_vehicule, puissance, pays_immatriculation, pays_residence, date_naissance.
+
+Exemple (voiture, conducteur né le 12/05/1990, 15 jours à partir du 01/07/2026, France métropolitaine) :
+https://www.tempo-assurance.com/devis-ou-souscription.html?categorie_vehi=VL-VL&age_vehicule=moins10&puissance=inf30&pays_immatriculation=FRANCE%20METROPOLITAINE&pays_residence=FRANCE%20METROPOLITAINE&date_naissance=1990-05-12&duree=15&date_debut=2026-07-01
+
+Paramètres :
+- categorie_vehi : VL-VL (voiture) · VL-VU (utilitaire) · VSP-VSP (voiturette sans permis) · QM-QM (quad) · QMQLEM-QMQLEM (buggy sans permis) · CC-Cap (camping-car <=3,5 T) · CAM-Fou (camping-car >3,5 T) · CAM-CAM3 (camion / poids lourd >3,5 T) · TRA-TRA (tracteur agricole) · TCP-TCP (bus, car, autocar) · REM-REM2 (remorque / semi-remorque) · REM-REM3 (caravane)
+- age_vehicule : moins10 ou plus10
+- puissance : inf30 (<=30 CV) · sup30 (>30 CV) · 0 (remorque / caravane)
+- ptac : inf3500 ou sup3500 (selon la catégorie)
+- pays_immatriculation / pays_residence : en MAJUSCULES, ex. FRANCE METROPOLITAINE (DOM acceptés : FRANCE GUADELOUPE, FRANCE GUYANE, FRANCE MARTINIQUE, FRANCE MAYOTTE, FRANCE REUNION). Immatriculation : Pologne, Roumanie et Italie exclues.
+- date_naissance : AAAA-MM-JJ (conducteur de 21 à 90 ans)
+- duree : nombre de jours, de 1 à 90
+- date_debut : AAAA-MM-JJ (>= aujourd'hui) ; heure_debut : HH:MM
+- motif_assurance_temporaire : achat_vente · resilie_non_paiement · sortie_fourriere · autre
+
+Le client vérifie les informations, consulte l'IPID, confirme et règle par carte bancaire ; l'attestation et la carte verte sont éditables immédiatement. Conditions : conducteur de 21 ans minimum, 2 ans de permis, durée de 1 à 90 jours. Aucune souscription n'est finalisée sans l'action du client.
+
+
 ## Pages principales
 
 - [Devis et souscription en ligne](https://www.tempo-assurance.com/devis-ou-souscription.html) : tarif immédiat et souscription 100 % en ligne
