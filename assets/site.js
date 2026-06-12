@@ -2,6 +2,30 @@
 (function () {
   'use strict';
 
+  /* ---------- Pré-remplissage du tarificateur via paramètres d'URL ---------- */
+  /* Les paramètres sont validés côté JL Assure ; ici on se contente de relayer
+     une liste blanche vers le tarificateur (page devis + modale). */
+  var PREFILL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance', 'ptac',
+    'pays_immatriculation', 'pays_residence', 'date_naissance',
+    'motif_assurance_temporaire', 'motif_assurance_temporaire_autre',
+    'duree', 'date_debut', 'heure_debut'];
+  function prefillQuery() {
+    var sp;
+    try { sp = new URLSearchParams(location.search); } catch (_) { return ''; }
+    var out = [];
+    PREFILL_KEYS.forEach(function (k) {
+      var v = sp.get(k);
+      /* v peut valoir "0" (ex. puissance=0 pour une remorque) : ne rejeter que null/vide */
+      if (v !== null && v !== '') out.push(k + '=' + encodeURIComponent(v));
+    });
+    return out.join('&');
+  }
+  function withPrefill(url) {
+    var q = prefillQuery();
+    if (!q || !url) return url;
+    return url + (url.indexOf('?') > -1 ? '&' : '?') + q;
+  }
+
   /* ---------- Menu mobile (tiroir) ---------- */
   var toggle = document.querySelector('.menu-toggle');
   var nav = document.querySelector('.nav');
@@ -14,6 +38,7 @@
     document.body.classList.add('no-scroll');
   }
   function closeNav() {
+    if (!nav) return;
     nav.classList.remove('open');
     if (overlay) overlay.classList.remove('show');
     document.body.classList.remove('no-scroll');
@@ -28,10 +53,15 @@
   var modal = document.getElementById('modal-souscription');
   var modalClose = document.getElementById('btn-fermer-modal');
 
-  function openModal() {
+  function openModal(extra) {
     if (!modal) return;
     var frame = modal.querySelector('iframe[data-src]');
-    if (frame && !frame.src) frame.src = frame.getAttribute('data-src');
+    if (frame && !frame.src) {
+      var url = withPrefill(frame.getAttribute('data-src'));
+      /* pré-remplissage propre à un bouton (ex. data-prefill="categorie_vehi=VL-VU") */
+      if (extra) url += (url.indexOf('?') > -1 ? '&' : '?') + extra;
+      frame.src = url;
+    }
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('no-scroll');
@@ -50,12 +80,21 @@
     });
   }
 
+  /* ---------- Tarificateur inline (page devis) : relaie les paramètres d'URL ---------- */
+  (function () {
+    var inline = document.querySelector('iframe.quote-frame');
+    if (!inline) return;
+    if (!prefillQuery()) return; /* aucun pré-remplissage demandé : on garde le chargement initial */
+    inline.setAttribute('src', withPrefill(inline.getAttribute('src')));
+  })();
+
   /* ---------- Clic souscription : ouverture + mesure ---------- */
   document.addEventListener('click', function (e) {
+    if (!modal) return; /* page sans modale : ne pas neutraliser le bouton ni fausser la mesure */
     var b = e.target.closest ? e.target.closest('.cta-btn-modal') : null;
     if (!b) return;
     e.preventDefault();
-    openModal();
+    openModal(b.getAttribute('data-prefill'));
     var label = (b.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80);
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'ouverture_tarificateur', { bouton: label, page_path: location.pathname });
