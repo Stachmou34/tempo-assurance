@@ -106,7 +106,7 @@
 		<div class="page">
 			<nav class="breadcrumb" aria-label="Fil d'ariane"><a href="index.html">Accueil</a> <span aria-hidden="true">›</span> <span aria-current="page">Assurance temporaire auto</span></nav>
 			<h1>Assurance temporaire auto (voiture)</h1>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=VL-VL">✅ Je démarre ma souscription</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=VL-VL&ptac=inf3500&motif_assurance_temporaire=achat_vente">✅ Je démarre ma souscription</button></p>
 			<p class="tldr"><span class="tldr-label">En bref</span> L'assurance temporaire auto couvre une <strong>voiture de tourisme</strong> de <strong>1 à 90 jours</strong>, <strong>dès 50,75 €</strong>, en responsabilité civile + défense-recours (assistance en option), avec carte verte immédiate. Devis en ligne en 2 minutes.</p>
 			<div id="estimateur" style="background:#EFF4FF;border:1px solid #bfdbfe;border-radius:12px;padding:18px 20px;margin:18px 0">
 				<h2 style="margin-top:0">Estimez votre tarif en 2 secondes</h2>
@@ -115,7 +115,7 @@
 					<label style="font-weight:600"><input type="checkbox" id="est-assist" style="width:auto;margin-right:6px;vertical-align:-2px">avec assistance</label>
 				</div>
 				<p style="margin:14px 0 2px">Prix indicatif&nbsp;: <strong id="est-prix" style="font-size:1.5rem;color:var(--navy)">&mdash;</strong> <span style="color:var(--grey)">en responsabilité civile + défense-recours</span></p>
-				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=VL-VL">➜ Obtenir mon tarif exact et souscrire</button></p>
+				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=VL-VL&ptac=inf3500&motif_assurance_temporaire=achat_vente">➜ Obtenir mon tarif exact et souscrire</button></p>
 				<p class="muted" style="margin:4px 0 0">Estimation pour une voiture de tourisme, conducteur de 23&nbsp;ans et plus, véhicule de moins de 10&nbsp;ans. Le prix exact selon votre profil s'affiche au devis.</p>
 				<script>
 				(function(){
@@ -124,7 +124,7 @@
 					if(!sel)return;
 					Object.keys(P).map(Number).sort(function(a,b){return a-b}).forEach(function(d){var o=document.createElement("option");o.value=d;o.textContent=d+" jour"+(d>1?"s":"");if(d===15)o.selected=true;sel.appendChild(o);});
 					function fmt(n){return n.toFixed(2).replace(".",",")+"\u00a0\u20ac";}
-					function upd(){var d=sel.value,a=ass.checked?1:0;out.textContent=fmt(P[d][a]);cta.setAttribute("data-prefill","categorie_vehi=VL-VL&duree="+d);}
+					function upd(){var d=sel.value,a=ass.checked?1:0;out.textContent=fmt(P[d][a]);cta.setAttribute("data-prefill","categorie_vehi=VL-VL&ptac=inf3500&motif_assurance_temporaire=achat_vente&duree="+d);}
 					sel.addEventListener('change',upd);ass.addEventListener('change',upd);upd();
 				})();
 				</script>
@@ -150,7 +150,7 @@
 			<h2>Souscrire en quelques minutes</h2>
 			<p>Renseignez le véhicule, les dates et le conducteur (23&nbsp;ans minimum, 2&nbsp;ans de permis)&nbsp;: le tarif s'affiche, vous réglez par carte bancaire (banque partenaire CIC) et vous éditez l'attestation et la carte verte aussitôt. Choisissez la durée exacte&nbsp;: <a href="assurance-temporaire-1-jour.html">1 jour</a>, <a href="assurance-temporaire-7-jours.html">7 jours</a>, <a href="assurance-temporaire-1-mois.html">1 mois</a>… jusqu'à 90 jours.</p>
 			<p class="muted">Voir aussi&nbsp;: <a href="assurance-temporaire-vehicules.html">tous les véhicules</a> · <a href="assurance-temporaire-utilitaire.html">utilitaire / fourgon</a> · <a href="carte-grise-barree.html">carte grise barrée</a> · <a href="assurance-temporaire-frontiere.html">assurance frontière</a> · <a href="tarif-assurance-temporaire.html">tarifs</a> · <a href="faq-assurance-temporaire.html">FAQ</a>.</p>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=VL-VL">➜ Faire un devis et souscrire en ligne</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=VL-VL&ptac=inf3500&motif_assurance_temporaire=achat_vente">➜ Faire un devis et souscrire en ligne</button></p>
 		</div>
 	</main>
 	<footer class="site-footer">
