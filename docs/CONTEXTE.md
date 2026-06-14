@@ -55,6 +55,15 @@
 - **Pages auto / utilitaire** créées ; **poids-lourd** consolidée → camion (canonical), retirée du sitemap.
 - **Assistance** : uniquement voiture/utilitaire. Pas pour camion, PL, bus, remorque, voiturette.
 
+
+## Vision cible (long terme) — architecture de marque
+
+- **MCJ Courtage (`mcj-courtage.com`)** : à terme, **courtier généraliste** (auto à l'année, habitation, santé, pro…). C'est le **navire amiral corporate**, multi-produits.
+- **Tempo-Assurance (`tempo-assurance.com`)** : reste **dédié à la niche « assurance temporaire »**. Le domaine est un **actif fort** (mémorisable, spécialiste) → on ne le dilue pas.
+- **Règle d'étanchéité** : le temporaire reste **uniquement** sur tempo. mcj-courtage **ne crée pas** de pages temporaire (il **renvoie** vers tempo) → pas de doublon / cannibalisation.
+- **Séquencement** : **gagner d'abord la niche** (tempo, marché atteignable) avant d'investir le généraliste (marché très concurrentiel : comparateurs, gros courtiers). Toute l'énergie sur tempo pour l'instant.
+- **Au lancement du généraliste** : modéliser `mcj-courtage.com` = `parentOrganization` et tempo = marque spécialiste (`brand` / `subOrganization`). La fiche Google pourra alors pointer vers mcj-courtage (le « site web » se change en 1 clic ; les avis restent attachés à l'entité MCJ Courtage). La base `sameAs` déjà posée s'enchaîne dessus.
+
 ## Réserve importante sur le GEO
 `llms.txt` est un standard **émergent** : lu par **Perplexity et les agents**, mais **PAS** par ChatGPT/Claude en navigation classique (constaté en test). Pour ces IA, ce qui compte = **contenu visible + autorité (SEO/réputation)**. Le pré-remplissage automatique par lien = surtout pour agents/Perplexity + nos propres estimateurs on-site.
 
