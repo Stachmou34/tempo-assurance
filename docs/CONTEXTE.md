@@ -35,15 +35,15 @@
 | `VL-VL` | Voiture (VP) | assurance-temporaire-auto.html |
 | `VL-VU` | Utilitaire / fourgon ≤ 3,5 t (CTTE) | assurance-temporaire-utilitaire.html |
 | `CAM-CAM3` | Camion / tracteur routier > 3,5 t | assurance-temporaire-camion.html |
-| `CC-Cap` | Camping-car ≤ 3,5 t | assurance-temporaire-camping-car.html (partiel) |
-| `CAM-Fou` | Camping-car > 3,5 t | (à traiter) |
+| `CC-Cap` | Camping-car ≤ 3,5 t | assurance-temporaire-camping-car.html |
+| `CAM-Fou` | Camping-car > 3,5 t | (au devis ; pas de page dédiée) |
 | `TCP-TCP` | Bus / car / autocar | assurance-temporaire-bus.html |
-| `VSP-VSP` | Voiturette sans permis | (à créer) |
-| `QMQLEM-QMQLEM` | Buggy sans permis | (à créer) |
-| `QM-QM` | Quad | (à créer) |
-| `TRA-TRA` | Tracteur agricole | (à créer) |
-| `REM-REM2` | Remorque / semi-remorque | (à créer) |
-| `REM-REM3` | Caravane | (à créer) |
+| `VSP-VSP` | Voiturette sans permis | assurance-temporaire-voiturette.html |
+| `QMQLEM-QMQLEM` | Buggy sans permis | (couvert sur la page voiturette) |
+| `QM-QM` | Quad | assurance-temporaire-quad.html |
+| `TRA-TRA` | Tracteur agricole | assurance-temporaire-tracteur-agricole.html |
+| `REM-REM2` | Remorque / semi-remorque | assurance-temporaire-remorque.html |
+| `REM-REM3` | Caravane | assurance-temporaire-caravane.html |
 
 ## Décisions clés (à ne pas refaire)
 - **Âge conducteur** : minimum **21 ans** (le « 23 ans » est un seuil tarifaire, pas le minimum). 2 ans de permis.
