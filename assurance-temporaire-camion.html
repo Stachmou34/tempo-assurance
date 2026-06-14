@@ -38,7 +38,7 @@
     "addressLocality": "Abeilhan",
     "addressCountry": "FR"
   },
-  "priceRange": "de 50,75 € (1 jour) à 478,39 € (90 jours) — dégressif, dès 3,22 €/jour",
+  "priceRange": "de 50,75 € (1 jour) à 478,39 € (90 jours) — dégressif, dès 4,67 €/jour",
   "areaServed": "FR"
 }
 	</script>
@@ -106,8 +106,29 @@
 		<div class="page">
 			<nav class="breadcrumb" aria-label="Fil d'ariane"><a href="index.html">Accueil</a> <span aria-hidden="true">›</span> <span aria-current="page">Assurance temporaire camion</span></nav>
 			<h1>Assurance temporaire camion</h1>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal">✅ Je démarre ma souscription</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=VL-VU">✅ Je démarre ma souscription</button></p>
 			<p class="tldr"><span class="tldr-label">En bref</span> L'assurance temporaire camion couvre un camion ou utilitaire de <strong>moins de 3,5&nbsp;t</strong> pour <strong>1 à 90 jours</strong>, en responsabilité civile + défense et recours, avec carte verte immédiate. Devis en ligne en 2 minutes.</p>
+			<div id="estimateur" style="background:#EFF4FF;border:1px solid #bfdbfe;border-radius:12px;padding:18px 20px;margin:18px 0">
+				<h2 style="margin-top:0">Estimez votre tarif en 2 secondes</h2>
+				<div style="display:flex;flex-wrap:wrap;gap:16px 22px;align-items:center">
+					<label for="est-duree" style="font-weight:600">Durée&nbsp;: <select id="est-duree" style="margin-left:6px;padding:8px 10px;border-radius:8px;border:1px solid #bfdbfe;font-size:1rem"></select></label>
+					<label style="font-weight:600"><input type="checkbox" id="est-assist" style="width:auto;margin-right:6px;vertical-align:-2px">avec assistance</label>
+				</div>
+				<p style="margin:14px 0 2px">Prix indicatif&nbsp;: <strong id="est-prix" style="font-size:1.5rem;color:var(--navy)">&mdash;</strong> <span style="color:var(--grey)">en responsabilité civile + défense-recours</span></p>
+				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=VL-VU">➜ Obtenir mon tarif exact et souscrire</button></p>
+				<p class="muted" style="margin:4px 0 0">Estimation pour un utilitaire ≤&nbsp;3,5&nbsp;t, conducteur de 23&nbsp;ans et plus. Le prix exact selon votre profil s'affiche au devis. Pour un véhicule de plus de 3,5&nbsp;t, voir <a href="assurance-temporaire-poids-lourd.html">poids&nbsp;lourd</a>.</p>
+				<script>
+				(function(){
+					var P={"1":[50.75,52.81],"2":[66.27,68.39],"3":[68.6,71.77],"4":[71.46,75.69],"5":[74.45,78.74],"6":[77.43,82.78],"7":[83.59,88.99],"8":[89.58,96.04],"9":[92.23,98.75],"10":[94.89,102.47],"11":[96.34,104.97],"12":[100.0,108.69],"13":[102.66,112.41],"14":[105.99,115.8],"15":[107.81,118.67],"16":[111.81,123.73],"17":[115.14,127.12],"18":[118.8,131.84],"19":[122.13,135.22],"20":[126.11,140.26],"21":[145.57,159.78],"22":[150.23,165.5],"23":[154.89,171.21],"24":[160.22,176.6],"25":[163.55,180.99],"26":[168.2,185.7],"27":[174.19,192.74],"28":[177.85,196.46],"29":[182.51,202.18],"30":[189.15,209.88],"35":[210.45,233.46],"40":[233.74,260.04],"45":[242.03,271.62],"50":[258.96,291.84],"55":[277.9,314.06],"60":[290.19,329.64],"90":[420.21,478.39]};
+					var sel=document.getElementById('est-duree'),out=document.getElementById('est-prix'),ass=document.getElementById('est-assist'),cta=document.getElementById('est-cta');
+					if(!sel)return;
+					Object.keys(P).map(Number).sort(function(a,b){return a-b}).forEach(function(d){var o=document.createElement("option");o.value=d;o.textContent=d+" jour"+(d>1?"s":"");if(d===15)o.selected=true;sel.appendChild(o);});
+					function fmt(n){return n.toFixed(2).replace(".",",")+"\u00a0\u20ac";}
+					function upd(){var d=sel.value,a=ass.checked?1:0;out.textContent=fmt(P[d][a]);cta.setAttribute("data-prefill","categorie_vehi=VL-VU&duree="+d);}
+					sel.addEventListener('change',upd);ass.addEventListener('change',upd);upd();
+				})();
+				</script>
+			</div>
 <h2>Assurance temporaire pour camion et utilitaire</h2>
 <p>Vous devez convoyer un camion, déplacer un utilitaire fraîchement acheté ou remplacer ponctuellement un véhicule professionnel&nbsp;? L'<strong>assurance temporaire camion</strong> de Tempo-Assurance vous couvre pour une durée de <strong>1 à 90 jours</strong>, sans engagement, avec une attestation disponible immédiatement en ligne.</p>
 <h2>Ce que couvre la garantie</h2>
@@ -120,7 +141,7 @@
 <h2>Souscrire en quelques minutes</h2>
 <p>Réalisez votre devis en ligne, réglez par carte bancaire en toute sécurité via notre banque partenaire CIC, puis imprimez votre garantie. Vous pouvez aussi consulter un <a href="tarif-assurance-temporaire.html">exemple de tarif d'assurance temporaire</a>.</p>
 <p>Voir aussi : <a href="assurance-temporaire-vehicules.html">tous les véhicules</a> · <a href="assurance-temporaire-poids-lourd.html">poids lourd</a> · <a href="assurance-temporaire-bus.html">bus &amp; autocar</a> · <a href="assurance-temporaire-camping-car.html">camping-car</a> · <a href="tarif-assurance-temporaire.html">tarifs</a> · <a href="faq-assurance-temporaire.html">FAQ</a>.</p>
-<p class="btn-center"><button type="button" class="btn cta-btn-modal">➜ Faire un devis et souscrire en ligne</button></p>
+<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=VL-VU">➜ Faire un devis et souscrire en ligne</button></p>
 		</div>
 	</main>
 	<footer class="site-footer">
@@ -172,6 +193,6 @@
 			</div>
 		</div>
 	</div>
-	<script src="assets/site.js?v=1" defer></script>
+	<script src="assets/site.js?v=3" defer></script>
 </body>
 </html>
