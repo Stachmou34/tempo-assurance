@@ -4,7 +4,7 @@
 
 ## Faits clés
 
-- Véhicules couverts : voiture, utilitaire, camion (-3,5 t), poids lourd (+3,5 t), bus et autocar, camping-car, remorque et semi-remorque
+- Véhicules couverts : voiture (VP), utilitaire et fourgon (CTTE, ≤ 3,5 t), camion et tracteur routier (> 3,5 t), bus et autocar, camping-car, remorque, semi-remorque et caravane, voiturette et buggy sans permis, quad, tracteur agricole
 - Durée : de 1 à 90 jours, au choix, sans engagement
 - Garanties : responsabilité civile + défense et recours ; assistance selon la formule ; assureur HDI Global Specialty SE
 - Conditions : conducteur de plus de 21 ans, titulaire du permis depuis plus de 2 ans
@@ -20,7 +20,7 @@
 Construire un lien vers la page de devis : les paramètres fournis pré-remplissent le tarificateur (tous optionnels). Pour qu'un tarif s'affiche, fournir au minimum : categorie_vehi, age_vehicule, puissance, pays_immatriculation, pays_residence, date_naissance.
 
 Exemple (voiture, conducteur né le 12/05/1990, 15 jours à partir du 01/07/2026, France métropolitaine) :
-https://www.tempo-assurance.com/devis-ou-souscription.html?categorie_vehi=VL-VL&age_vehicule=moins10&puissance=inf30&pays_immatriculation=FRANCE%20METROPOLITAINE&pays_residence=FRANCE%20METROPOLITAINE&date_naissance=1990-05-12&duree=15&date_debut=2026-07-01
+https://www.tempo-assurance.com/devis-ou-souscription.html?categorie_vehi=VL-VL&age_vehicule=moins10&puissance=inf30&pays_immatriculation=FRANCE%20METROPOLITAINE&pays_residence=FRANCE%20METROPOLITAINE&date_naissance=1990-05-12&ptac=inf3500&motif_assurance_temporaire=achat_vente&duree=15&date_debut=2026-07-01
 
 Paramètres :
 - categorie_vehi : VL-VL (voiture) · VL-VU (utilitaire) · VSP-VSP (voiturette sans permis) · QM-QM (quad) · QMQLEM-QMQLEM (buggy sans permis) · CC-Cap (camping-car <=3,5 T) · CAM-Fou (camping-car >3,5 T) · CAM-CAM3 (camion / poids lourd >3,5 T) · TRA-TRA (tracteur agricole) · TCP-TCP (bus, car, autocar) · REM-REM2 (remorque / semi-remorque) · REM-REM3 (caravane)
@@ -59,8 +59,9 @@ Notes : l'assistance n'existe que pour la voiture/utilitaire. Camion, poids lour
 - [Tarifs de l'assurance temporaire](https://www.tempo-assurance.com/tarif-assurance-temporaire.html) : grilles de prix voiture et poids lourd
 - [FAQ assurance temporaire](https://www.tempo-assurance.com/faq-assurance-temporaire.html) : réponses aux questions fréquentes
 - [Assurance par type de véhicule](https://www.tempo-assurance.com/assurance-temporaire-vehicules.html)
-- [Assurance temporaire camion](https://www.tempo-assurance.com/assurance-temporaire-camion.html)
-- [Assurance temporaire poids lourd](https://www.tempo-assurance.com/assurance-temporaire-poids-lourd.html)
+- [Assurance temporaire auto (voiture)](https://www.tempo-assurance.com/assurance-temporaire-auto.html) : voiture de tourisme, 1 à 90 jours dès 50,75 €
+- [Assurance temporaire utilitaire / fourgon](https://www.tempo-assurance.com/assurance-temporaire-utilitaire.html) : fourgon ou camionnette ≤ 3,5 t
+- [Assurance temporaire camion (> 3,5 t)](https://www.tempo-assurance.com/assurance-temporaire-camion.html) : camion et tracteur routier, 1 à 15 jours
 - [Assurance temporaire bus et autocar](https://www.tempo-assurance.com/assurance-temporaire-bus.html)
 - [Assurance temporaire camping-car](https://www.tempo-assurance.com/assurance-temporaire-camping-car.html)
 - [Assurance frontière (véhicules étrangers)](https://www.tempo-assurance.com/assurance-temporaire-frontiere.html)
