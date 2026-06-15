@@ -3,10 +3,43 @@ RewriteEngine On
 RewriteCond %{HTTPS} !=on [OR]
 RewriteCond %{HTTP_HOST} !^www\. [NC]
 RewriteRule ^ https://www.tempo-assurance.com%{REQUEST_URI} [R=301,L]
-# Redirection de l'ancien blog/FAQ vers la nouvelle page FAQ (le ? final supprime la query string)
-# Cas specifique : l'article "carte grise barree" vers sa page dediee (avant la regle generale)
-RewriteCond %{QUERY_STRING} carte-grise-est-barree
-RewriteRule ^blog/?$ /carte-grise-barree.html? [R=301,L]
+# === Redirection de l'ancien blog vers les pages statiques pertinentes (301) ===
+# Chaque ancien article pointe vers la page la plus pertinente ; la FAQ sert de filet
+# de securite pour tout le reste. Le "?" final supprime la query string d'origine.
+# Les regles specifiques (avec leurs conditions sur la query string) passent AVANT le fallback.
+
+# Carte grise barree / pas a mon nom -> page dediee
+RewriteCond %{QUERY_STRING} carte-grise-est-barree [NC,OR]
+RewriteCond %{QUERY_STRING} carte-grise-n-est-pas-a-mon-nom [NC]
+RewriteRule ^blog(/index\.php)?/?$ /carte-grise-barree.html? [R=301,L]
+
+# Vehicule immobilise / fourriere -> page sortie de fourriere
+RewriteCond %{QUERY_STRING} fourriere [NC,OR]
+RewriteCond %{QUERY_STRING} vehicule-immobilise [NC]
+RewriteRule ^blog(/index\.php)?/?$ /assurance-temporaire-sortie-fourriere.html? [R=301,L]
+
+# Permis etranger / pays couverts -> page assurance frontiere
+RewriteCond %{QUERY_STRING} permis-etranger [NC,OR]
+RewriteCond %{QUERY_STRING} pays-couverts [NC]
+RewriteRule ^blog(/index\.php)?/?$ /assurance-temporaire-frontiere.html? [R=301,L]
+
+# Pourquoi / pour qui une assurance auto temporaire -> page auto
+RewriteCond %{QUERY_STRING} pour-qui [NC,OR]
+RewriteCond %{QUERY_STRING} pourquoi-une-assurance-auto [NC]
+RewriteRule ^blog(/index\.php)?/?$ /assurance-temporaire-auto.html? [R=301,L]
+
+# Comment / ou souscrire en ligne -> page devis et souscription
+RewriteCond %{QUERY_STRING} comment-souscrire [NC,OR]
+RewriteCond %{QUERY_STRING} souscrire-immediatement [NC,OR]
+RewriteCond %{QUERY_STRING} quel-site-pour-souscrire [NC]
+RewriteRule ^blog(/index\.php)?/?$ /devis-ou-souscription.html? [R=301,L]
+
+# Combien de temps pour etre assure -> page 1 jour (attestation immediate)
+RewriteCond %{QUERY_STRING} combien-de-temps-faut-il-pour-etre-assure [NC]
+RewriteRule ^blog(/index\.php)?/?$ /assurance-temporaire-1-jour.html? [R=301,L]
+
+# Filet de securite : tout le reste du blog (RC, accident, attestation, annulation,
+# resiliation, pages category/author/id...) -> FAQ
 RewriteRule ^blog(/.*)?$ /faq-assurance-temporaire.html? [R=301,L]
 # Page Espace professionnel supprimee -> redirection vers Contact
 RewriteRule ^espace-professionel\.html$ /contact.html [R=301,L]
