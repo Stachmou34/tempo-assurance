@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Devis assurance temporaire — Tempo-Assurance</title>
+<style>
+  :root { --navy:#0F172A; --blue:#2563EB; --green:#16A34A; --amber:#CA8A04; --border:#E2E8F0; --grey:#64748B; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; color:#1F2937; background:transparent; }
+  .card { max-width:520px; margin:0 auto; background:#fff; border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:0 6px 24px rgba(15,23,42,.10); }
+  .head { background:radial-gradient(120% 140% at 85% 0%,#1D4ED8 0%,#16265c 45%,#0F172A 80%); color:#fff; padding:18px 20px; }
+  .head .eyebrow { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:#bfdbfe; font-weight:700; }
+  .head h1 { margin:.3em 0 0; font-size:1.25rem; font-weight:800; }
+  .body { padding:18px 20px; }
+  .price-row { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .price { font-size:2rem; font-weight:800; color:var(--navy); }
+  .per { color:var(--grey); font-size:.95rem; }
+  .badge { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; padding:3px 9px; border-radius:999px; }
+  .badge.real { background:#ecfdf5; color:var(--green); border:1px solid #a7f3d0; }
+  .badge.ind { background:#fffbeb; color:var(--amber); border:1px solid #fde68a; }
+  .sub { color:var(--grey); font-size:.9rem; margin:8px 0 0; }
+  .durations { display:flex; flex-wrap:wrap; gap:6px; margin:14px 0 4px; }
+  .chip { font-size:.8rem; background:#f1f5f9; color:var(--navy); border:1px solid var(--border); border-radius:999px; padding:4px 10px; }
+  .cta { display:block; text-align:center; text-decoration:none; background:var(--navy); color:#fff; font-weight:700; padding:13px 18px; border-radius:10px; margin:18px 0 6px; transition:background .15s; }
+  .cta:hover { background:var(--blue); }
+  .note { color:var(--grey); font-size:.78rem; line-height:1.5; margin:10px 0 0; }
+  .hp { padding:8px 0; }
+  .hp h1 { color:var(--navy); font-size:1.15rem; margin:0 0 6px; }
+</style>
+</head>
+<body>
+<div id="app" class="card"><div class="body"><p class="sub">Chargement du devis…</p></div></div>
+
+<script>
+  /* Données d'exemple pour l'aperçu local (hors ChatGPT) */
+  var SAMPLE = {
+    source: 'jlassure_api', categorie: 'Voiture (VP)',
+    tarif: { duree: 15, prix_vente: '118,67 €', prix_reel: true },
+    durees_disponibles: [1, 2, 3, 5, 7, 10, 15, 30, 45, 60, 90],
+    lien_devis_pre_rempli: 'https://www.tempo-assurance.com/devis-ou-souscription.html?categorie_vehi=VL-VL&duree=15'
+  };
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+
+  function pickPrice(d) {
+    if (d.tarif && d.tarif.prix_vente) return { price: d.tarif.prix_vente, real: true, duree: d.tarif.duree };
+    if (d.tarif_indicatif && d.tarif_indicatif.prix_indicatif) return { price: d.tarif_indicatif.prix_indicatif, real: false, duree: d.tarif_indicatif.duree };
+    return null;
+  }
+
+  function render(d) {
+    if (!d) return;
+    var app = document.getElementById('app');
+    if (d.hors_perimetre) {
+      app.innerHTML = '<div class="body hp"><h1>Profil hors périmètre</h1><p class="sub">' +
+        esc(d.message || 'Ce profil n\'est pas tarifiable en ligne.') + '</p></div>';
+      return;
+    }
+    var p = pickPrice(d);
+    var cat = d.categorie || 'Assurance temporaire';
+    var badge = p ? (p.real ? '<span class="badge real">prix réel</span>' : '<span class="badge ind">indicatif</span>') : '';
+    var durees = Array.isArray(d.durees_disponibles) ? d.durees_disponibles : [];
+    var chips = durees.map(function (n) { return '<span class="chip">' + esc(n) + ' j</span>'; }).join('');
+    var link = d.lien_devis_pre_rempli || '#';
+
+    var priceBlock = p
+      ? '<div class="price-row"><span class="price">' + esc(p.price) + '</span><span class="per">pour ' + esc(p.duree) + ' jour(s)</span>' + badge + '</div>' +
+        '<p class="sub">Responsabilité civile + Défense et Recours, frais de courtage inclus.</p>'
+      : '<p class="sub">Choisissez une durée pour obtenir un tarif.</p>';
+
+    app.innerHTML =
+      '<div class="head"><div class="eyebrow">Assurance temporaire</div><h1>' + esc(cat) + '</h1></div>' +
+      '<div class="body">' + priceBlock +
+      (chips ? '<div class="durations">' + chips + '</div>' : '') +
+      '<a class="cta" href="' + esc(link) + '" target="_blank" rel="noopener">Souscrire (devis pré-rempli)</a>' +
+      '<p class="note">Le client vérifie les informations, consulte l\'IPID, confirme et règle par carte sur le tarificateur. Aucune souscription n\'est finalisée par l\'application.</p>' +
+      '</div>';
+  }
+
+  function current() { return (window.openai && window.openai.toolOutput) || null; }
+
+  /* En ChatGPT : window.openai existe → on attend les données.
+     En local : window.openai absent → on affiche l'exemple. */
+  render(current() || (window.openai ? null : SAMPLE));
+
+  /* Résultat d'outil poussé par l'hôte (MCP Apps) */
+  window.addEventListener('message', function (e) {
+    var m = e.data;
+    if (m && m.jsonrpc === '2.0' && m.method === 'ui/notifications/tool-result') {
+      render(m.params && m.params.structuredContent);
+    }
+  }, { passive: true });
+
+  /* Mise à jour des globals window.openai */
+  window.addEventListener('openai:set_globals', function () { render(current()); });
+</script>
+</body>
+</html>

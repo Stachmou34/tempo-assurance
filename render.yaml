@@ -1,0 +1,19 @@
+# Blueprint Render pour le serveur MCP de l'app ChatGPT Tempo-Assurance.
+# Déploiement : Render → New → Blueprint → choisir ce dépôt.
+# La clé API jlassure se renseigne ensuite dans le dashboard (non versionnée).
+#
+# N'affecte pas le site tempo-assurance.com (hébergé ailleurs) : ce fichier ne
+# sert qu'à déployer le dossier chatgpt-app/ sur Render.
+services:
+  - type: web
+    name: tempo-assurance-mcp
+    runtime: node
+    rootDir: chatgpt-app
+    plan: free            # passer à "starter" (~7 €/mois) pour la prod (pas de mise en veille)
+    buildCommand: npm install
+    startCommand: node server-http.js
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: JLASSURE_API_KEY
+        sync: false        # secret : à saisir manuellement dans le dashboard Render
