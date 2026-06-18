@@ -4,6 +4,7 @@
 
 const { devisAssuranceTemporaire, tarifsParCategorie } = require('./devis');
 const { CATEGORIES } = require('./tarifs');
+const { WIDGET_URI } = require('./resources');
 
 const profilProps = {
   categorie_vehi: { type: 'string', enum: CATEGORIES, description: 'Catégorie de véhicule (ex. VL-VL voiture, CAM-CAM3 camion, REM-REM2 remorque…)' },
@@ -63,6 +64,7 @@ const TOOLS = [
     inputSchema: { type: 'object', additionalProperties: false, properties: profilProps },
     outputSchema: devisOutputSchema,
     annotations: READONLY,
+    _meta: { 'openai/outputTemplate': WIDGET_URI },
     handler: devisAssuranceTemporaire
   },
   {

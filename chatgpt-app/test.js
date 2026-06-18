@@ -103,6 +103,14 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
         ok(/107,81/.test(call.result.content[0].text), 'HTTP tools/call → grille voiture (107,81 €)');
         const health = await (await fetch('http://localhost:' + port + '/')).json();
         ok(health.ok === true && health.endpoint === '/mcp', 'HTTP / health-check');
+        const devisTool = list.result.tools.find(function (t) { return t.name === 'devis_assurance_temporaire'; });
+        ok(devisTool._meta && devisTool._meta['openai/outputTemplate'] === 'ui://widget/devis.html', 'outil devis lié au widget (_meta outputTemplate)');
+        const rlist = await rpc({ jsonrpc: '2.0', id: 4, method: 'resources/list', params: {} });
+        ok(rlist.result.resources.some(function (r) { return r.uri === 'ui://widget/devis.html'; }), 'resources/list → widget exposé');
+        const rread = await rpc({ jsonrpc: '2.0', id: 5, method: 'resources/read', params: { uri: 'ui://widget/devis.html' } });
+        ok(/profile=mcp-app/.test(rread.result.contents[0].mimeType) && /Souscrire/.test(rread.result.contents[0].text), 'resources/read → HTML du widget (mimeType + contenu)');
+        const dcall = await rpc({ jsonrpc: '2.0', id: 6, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 15 } } });
+        ok(dcall.result._meta && dcall.result._meta['openai/outputTemplate'] === 'ui://widget/devis.html', 'tools/call devis → _meta widget dans le résultat');
       } catch (e) { ok(false, 'HTTP erreur : ' + e.message); }
       srv.kill();
       resolve();

@@ -56,9 +56,17 @@ Utilisateur <-> ChatGPT <-> [ce serveur MCP] -> tarif indicatif
 Fichiers :
 - `lib/tarifs.js` — grille de prix indicatifs + mapping catégorie → grille.
 - `lib/devis.js` — construction du lien pré-rempli + calcul du devis.
-- `lib/tools.js` — déclaration des 2 outils MCP (schémas JSON).
-- `server.js` — serveur MCP stdio (sans dépendance).
-- `test.js` — tests.
+- `lib/jlassureApi.js` — client de l'API tarif jlassure (tarif réel).
+- `lib/tools.js` — déclaration des 2 outils MCP (schémas + annotations + `_meta` widget).
+- `lib/resources.js` — ressource widget UI (Apps SDK).
+- `lib/rpc.js` — dispatch MCP partagé (tools + resources).
+- `server.js` / `server-http.js` — transports stdio / HTTP.
+- `web/devis.html` — widget UI (carte de devis) affiché dans ChatGPT.
+- `test.js` — tests (28).
+
+### Aperçu du widget
+Ouvrir `web/devis.html` dans un navigateur affiche la **carte de devis** avec des
+données d'exemple (en ChatGPT, les données réelles arrivent via `ui/notifications/tool-result`).
 
 ## Conformité Apps SDK (déjà en place)
 - Transport **HTTP `/mcp`** (`server-http.js`).
