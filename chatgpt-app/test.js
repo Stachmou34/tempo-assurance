@@ -43,7 +43,8 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   const api = await fetchTarif({ categorie_vehi: 'VL-VL', age_conducteur: 35, duree: '15', date_debut: '2026-07-01' }, fakeApi);
   ok(api.ok && api.data.prix_vente === 110.50, 'fetchTarif renvoie le prix réel');
   ok(captured.endpoint.indexOf('api_tarif_tempo.php') > -1, 'appel sur le bon endpoint');
-  ok(captured.headers.Authorization === 'Bearer TEST_KEY', 'en-tête Authorization Bearer transmis');
+  ok(captured.headers['X-Api-Key'] === 'TEST_KEY', 'en-tête X-Api-Key transmis (recommandé)');
+  ok(captured.headers.Authorization === 'Bearer TEST_KEY', 'en-tête Authorization Bearer transmis (doublon)');
   ok(captured.body.date_debut === undefined && captured.body.categorie_vehi === 'VL-VL', 'payload = champs API uniquement (pas de date_debut)');
 
   const dReal = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', age_conducteur: 35, duree: 15 }, fakeApi);

@@ -31,7 +31,13 @@ async function fetchTarif(profil, opts) {
   try {
     const res = await f(ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+      /* JL Assure recommande X-Api-Key ; on envoie aussi Authorization: Bearer
+         en doublon pour rester compatible avec les deux schémas. */
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Api-Key': apiKey,
+        'Authorization': 'Bearer ' + apiKey
+      },
       body: JSON.stringify(apiInput(profil))
     });
     if (!res.ok) return { ok: false, reason: 'http_' + res.status };
