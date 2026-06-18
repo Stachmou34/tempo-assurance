@@ -28,6 +28,10 @@ async function fetchTarif(profil, opts) {
   if (!apiKey) return { ok: false, reason: 'no_api_key' };
   const f = opts.fetchImpl || (typeof fetch === 'function' ? fetch : null);
   if (!f) return { ok: false, reason: 'no_fetch' };
+  /* Timeout anti-blocage : si l'API ne répond pas à temps, on bascule en
+     indicatif plutôt que de faire patienter ChatGPT. */
+  const controller = (typeof AbortController === 'function') ? new AbortController() : null;
+  const timer = controller ? setTimeout(function () { controller.abort(); }, opts.timeoutMs || 8000) : null;
   try {
     const res = await f(ENDPOINT, {
       method: 'POST',
@@ -38,13 +42,16 @@ async function fetchTarif(profil, opts) {
         'X-Api-Key': apiKey,
         'Authorization': 'Bearer ' + apiKey
       },
-      body: JSON.stringify(apiInput(profil))
+      body: JSON.stringify(apiInput(profil)),
+      signal: controller ? controller.signal : undefined
     });
     if (!res.ok) return { ok: false, reason: 'http_' + res.status };
     const data = await res.json();
     return { ok: true, data: data };
   } catch (e) {
     return { ok: false, reason: 'exception:' + e.message };
+  } finally {
+    if (timer) clearTimeout(timer);
   }
 }
 

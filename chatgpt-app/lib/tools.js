@@ -60,7 +60,10 @@ const TOOLS = [
     description: "Prépare un devis d'assurance auto temporaire (1 à 90 jours) sur Tempo-Assurance : " +
       'renvoie un tarif (réel via le tarificateur partenaire si disponible, sinon indicatif) et un ' +
       'lien de devis pré-rempli. La souscription et le paiement se font ensuite sur le tarificateur ' +
-      '(le client finalise lui-même).',
+      '(le client finalise lui-même). ' +
+      'Pour un TARIF RÉEL, fournir : categorie_vehi, age_vehicule (moins10/plus10), puissance ' +
+      '(inf30 = ≤30 CV / sup30 = >30 CV), pays_immatriculation, pays_residence, age_conducteur et ' +
+      'duree. À défaut, l\'outil suppose voiture ≤30 CV et véhicule <10 ans (préciser pour ajuster).',
     inputSchema: { type: 'object', additionalProperties: false, properties: profilProps },
     outputSchema: devisOutputSchema,
     annotations: READONLY,

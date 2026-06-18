@@ -29,6 +29,24 @@ function buildDevisUrl(params) {
 
 function euro(n) { return Number(n).toFixed(2).replace('.', ',') + ' €'; }
 
+/* Pour obtenir un tarif RÉEL, l'API jlassure exige age_vehicule + puissance.
+   Si le modèle ne les a pas fournis, on suppose des valeurs courantes (voiture
+   ≤30 CV, véhicule <10 ans ; remorque/caravane = pas de puissance) et on le
+   signale. Ces hypothèses ne sont PAS imposées dans le lien de devis. */
+function withDefaults(params) {
+  const p = Object.assign({}, params);
+  const assumed = [];
+  const remorque = (p.categorie_vehi === 'REM-REM2' || p.categorie_vehi === 'REM-REM3');
+  if (p.puissance === undefined || p.puissance === null || p.puissance === '') {
+    if (remorque) { p.puissance = '0'; }
+    else { p.puissance = 'inf30'; assumed.push('≤ 30 CV'); }
+  }
+  if (p.age_vehicule === undefined || p.age_vehicule === null || p.age_vehicule === '') {
+    p.age_vehicule = 'moins10'; assumed.push('véhicule de moins de 10 ans');
+  }
+  return { params: p, assumed: assumed };
+}
+
 /* Outil 1 : prépare un devis (tarif réel via API si possible, sinon indicatif). */
 async function devisAssuranceTemporaire(params, opts) {
   params = params || {};
@@ -37,8 +55,9 @@ async function devisAssuranceTemporaire(params, opts) {
     return { error: 'categorie_vehi inconnue : ' + cat, categories_valides: CATEGORIES };
   }
 
-  /* 1) Tentative tarif RÉEL via l'API jlassure */
-  const api = await fetchTarif(params, opts);
+  /* 1) Tentative tarif RÉEL via l'API jlassure (avec valeurs par défaut) */
+  const withDef = withDefaults(params);
+  const api = await fetchTarif(withDef.params, opts);
   if (api.ok && api.data) {
     const data = api.data;
     if (data.hors_perimetre) {
@@ -48,7 +67,7 @@ async function devisAssuranceTemporaire(params, opts) {
         message: 'Ce profil n\'est pas tarifiable en ligne (hors périmètre). Contactez-nous au 09 78 31 02 93.'
       };
     }
-    const url = data.prefill_url || buildDevisUrl(params);
+    const url = buildDevisUrl(params);
     const d = params.duree != null ? Number(params.duree) : null;
     const lignes = [];
     lignes.push('Assurance temporaire' + (cat ? ' — ' + LABELS[cat] : '') + ' sur Tempo-Assurance.');
@@ -57,6 +76,9 @@ async function devisAssuranceTemporaire(params, opts) {
     } else if (Array.isArray(data.durees)) {
       lignes.push('Durées disponibles (jours) : ' + data.durees.join(', ') + '. Précisez "duree" pour un tarif.');
     }
+    if (withDef.assumed.length) {
+      lignes.push('Hypothèses : ' + withDef.assumed.join(', ') + ' (précisez pour ajuster).');
+    }
     lignes.push('Finaliser la souscription (devis pré-rempli) : ' + url);
     lignes.push('Le client vérifie, consulte l\'IPID, confirme et règle par carte sur le tarificateur — aucune souscription n\'est finalisée par l\'application.');
     return {
@@ -64,6 +86,7 @@ async function devisAssuranceTemporaire(params, opts) {
       categorie: cat ? LABELS[cat] : null,
       tarif: (data.prix_vente != null && d != null) ? { duree: d, prix_vente: euro(data.prix_vente), prix_reel: true } : null,
       durees_disponibles: data.durees || null,
+      hypotheses: withDef.assumed.length ? withDef.assumed : null,
       lien_devis_pre_rempli: url,
       message: lignes.join('\n')
     };
@@ -94,7 +117,7 @@ async function devisAssuranceTemporaire(params, opts) {
     tarif_indicatif: tarif,
     durees_disponibles: durees,
     lien_devis_pre_rempli: url,
-    note_conformite: 'Tarif indicatif (prix exact à la souscription). Active la clé API jlassure pour un tarif réel.',
+    note_conformite: 'Tarif indicatif (le prix exact est confirmé au devis sur le tarificateur).',
     message: lignes.join('\n')
   };
 }

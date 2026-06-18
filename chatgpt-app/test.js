@@ -49,7 +49,10 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
 
   const dReal = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', age_conducteur: 35, duree: 15 }, fakeApi);
   ok(dReal.source === 'jlassure_api' && dReal.tarif.prix_vente === '110,50 €' && dReal.tarif.prix_reel === true, 'devis utilise le tarif réel (110,50 €)');
-  ok(dReal.lien_devis_pre_rempli.indexOf('jlassure.com') > -1, 'utilise le prefill_url renvoyé par l\'API');
+  ok(dReal.lien_devis_pre_rempli.indexOf('devis-ou-souscription.html') > -1, 'lien = page devis Tempo (params utilisateur)');
+
+  const dDef = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', age_conducteur: 35, duree: 15 }, fakeApi);
+  ok(dDef.source === 'jlassure_api' && dDef.hypotheses && dDef.hypotheses.length === 2, 'champs manquants → valeurs par défaut + hypothèses signalées (tarif réel quand même)');
 
   const fakeHors = { apiKey: 'K', fetchImpl: async function () { return { ok: true, json: async function () { return { hors_perimetre: true }; } }; } };
   const dHors = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', duree: 5 }, fakeHors);
