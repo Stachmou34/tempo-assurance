@@ -3,9 +3,17 @@
 Serveur **MCP** (le socle de l'**Apps SDK** d'OpenAI) exposant 2 outils pour préparer
 un devis d'assurance temporaire dans une conversation ChatGPT.
 
-> **MVP-light** : tarif **indicatif** (grille `llms.txt`) + **lien de devis pré-rempli**.
-> La souscription et le paiement restent sur le tarificateur jlassure (conformité
-> DDA/ACPR — modèle de redirection identique à APRIL Moto). Voir `../docs/cadrage-app-chatgpt.md`.
+> **Tarif réel** via l'**API jlassure** si la clé `JLASSURE_API_KEY` est configurée,
+> sinon **repli automatique** sur la grille indicative (`llms.txt`). Dans tous les cas,
+> souscription et paiement restent sur le tarificateur jlassure (conformité DDA/ACPR —
+> modèle de redirection identique à APRIL Moto). Voir `../docs/cadrage-app-chatgpt.md`.
+
+## Configuration
+```bash
+export JLASSURE_API_KEY="<clé fournie par JL Assure>"   # tarif réel ; sinon mode indicatif
+```
+Endpoint : `POST https://www.jlassure.com/sousfiche/api_tarif_tempo.php`
+(`Authorization: Bearer <clé>`). Sans clé, l'app fonctionne en tarif indicatif.
 
 ## Outils exposés
 | Outil | Rôle |
@@ -46,8 +54,8 @@ Fichiers :
 - `test.js` — tests.
 
 ## De ce prototype à la production
-1. **Tarif réel (V2)** : remplacer la grille de `lib/tarifs.js` par un appel à l'**API
-   tarif jlassure** (à demander — voir `../docs/note-jlassure-api-tarif.md`).
+1. **Tarif réel (V2)** : ✅ intégré (`lib/jlassureApi.js`). Il suffit de renseigner
+   `JLASSURE_API_KEY`. Repli sur la grille si l'API est indisponible.
 2. **Apps SDK OpenAI** : envelopper ces outils avec le transport **HTTP** de l'Apps SDK,
    ajouter le **manifest** de l'app et d'éventuels **composants UI**.
 3. **Hébergement** : déployer le serveur sur un hôte Node joignable par OpenAI.

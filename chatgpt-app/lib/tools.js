@@ -13,6 +13,7 @@ const profilProps = {
   pays_immatriculation: { type: 'string', description: "Pays d'immatriculation en MAJUSCULES (ex. FRANCE METROPOLITAINE)" },
   pays_residence: { type: 'string', description: 'Pays de résidence du conducteur, en MAJUSCULES' },
   date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: 'AAAA-MM-JJ (conducteur 21 à 90 ans)' },
+  age_conducteur: { type: 'integer', minimum: 21, maximum: 90, description: "Âge du conducteur (alternative à date_naissance pour l'API tarif)" },
   duree: { type: 'integer', minimum: 1, maximum: 90, description: 'Durée en jours (1 à 90)' },
   date_debut: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: "Date de début AAAA-MM-JJ (≥ aujourd'hui)" },
   heure_debut: { type: 'string', pattern: '^\\d{2}:\\d{2}$', description: 'Heure de début HH:MM' },

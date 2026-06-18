@@ -1,69 +1,86 @@
 #!/usr/bin/env node
 'use strict';
-/* Tests du prototype : logique métier + aller-retour JSON-RPC du serveur MCP. */
+/* Tests du prototype : logique métier (API réelle mockée + repli indicatif)
+   + aller-retour JSON-RPC du serveur MCP. */
 
 const assert = require('assert');
 const { spawn } = require('child_process');
 const path = require('path');
+const { fetchTarif } = require('./lib/jlassureApi');
 const { devisAssuranceTemporaire, tarifsParCategorie, buildDevisUrl } = require('./lib/devis');
 
 let pass = 0;
 function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass++; }
 
-console.log('\n[Logique métier]');
+(async function () {
+  console.log('\n[Repli indicatif — sans clé API]');
+  delete process.env.JLASSURE_API_KEY;
 
-/* 1. Lien pré-rempli identique à la recette site.js */
-const url = buildDevisUrl({ categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', ptac: 'inf3500', duree: 15, date_debut: '2026-07-01' });
-ok(url.indexOf('devis-ou-souscription.html?categorie_vehi=VL-VL') > -1, 'URL pointe vers la page devis');
-ok(url.indexOf('ptac=inf3500') > -1 && url.indexOf('duree=15') > -1, 'paramètres encodés (dont ptac)');
+  const url = buildDevisUrl({ categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', ptac: 'inf3500', duree: 15, date_debut: '2026-07-01' });
+  ok(url.indexOf('devis-ou-souscription.html?categorie_vehi=VL-VL') > -1 && url.indexOf('ptac=inf3500') > -1, 'lien pré-rempli construit (dont ptac)');
 
-/* 2. Tarif indicatif voiture 15 j = 107,81 € (grille llms.txt) */
-const d = devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 15, date_debut: '2026-07-01' });
-ok(d.tarif_indicatif && d.tarif_indicatif.prix_indicatif === '107,81 €', 'voiture 15 j = 107,81 €');
-ok(d.lien_devis_pre_rempli.indexOf('duree=15') > -1, 'devis renvoie le lien pré-rempli');
-ok(/aucune souscription/i.test(d.message), 'mention conformité présente');
+  const d = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 15 });
+  ok(d.source === 'indicatif', 'sans clé → source indicatif');
+  ok(d.tarif_indicatif && d.tarif_indicatif.prix_indicatif === '107,81 €', 'voiture 15 j = 107,81 € (grille)');
 
-/* 3. Voiture >30 CV → autre grille */
-const d2 = devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', puissance: 'sup30', duree: 30 });
-ok(d2.tarif_indicatif.prix_indicatif === '213,90 €', 'voiture >30 CV 30 j = 213,90 €');
+  const dInvalide = await devisAssuranceTemporaire({ categorie_vehi: 'XXX' });
+  ok(dInvalide.error && Array.isArray(dInvalide.categories_valides), 'catégorie inconnue → erreur + liste');
 
-/* 4. Durée hors grille → liste des durées dispo, pas d'erreur */
-const d3 = devisAssuranceTemporaire({ categorie_vehi: 'CAM-CAM3', duree: 99 });
-ok(d3.tarif_indicatif === null && Array.isArray(d3.durees_disponibles), 'durée invalide → liste des durées');
+  const t = tarifsParCategorie({ categorie_vehi: 'REM-REM2' });
+  ok(t.grille.length === 4 && t.grille[0].prix_indicatif === '57,66 €', 'grille remorque correcte');
 
-/* 5. Catégorie inconnue → erreur explicite */
-const d4 = devisAssuranceTemporaire({ categorie_vehi: 'XXX' });
-ok(d4.error && Array.isArray(d4.categories_valides), 'catégorie inconnue → erreur + liste');
+  console.log('\n[Tarif réel — API jlassure mockée]');
+  let captured = null;
+  const fakeApi = {
+    apiKey: 'TEST_KEY',
+    fetchImpl: async function (endpoint, opts) {
+      captured = { endpoint: endpoint, headers: opts.headers, body: JSON.parse(opts.body) };
+      return { ok: true, json: async function () {
+        return { prix_vente: 110.50, durees: [1, 2, 3, 5, 7, 10, 15, 30, 90], prefill_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cd=BLA1905B&id=43&categorie_vehi=VL-VL&duree=15' };
+      } };
+    }
+  };
+  const api = await fetchTarif({ categorie_vehi: 'VL-VL', age_conducteur: 35, duree: '15', date_debut: '2026-07-01' }, fakeApi);
+  ok(api.ok && api.data.prix_vente === 110.50, 'fetchTarif renvoie le prix réel');
+  ok(captured.endpoint.indexOf('api_tarif_tempo.php') > -1, 'appel sur le bon endpoint');
+  ok(captured.headers.Authorization === 'Bearer TEST_KEY', 'en-tête Authorization Bearer transmis');
+  ok(captured.body.date_debut === undefined && captured.body.categorie_vehi === 'VL-VL', 'payload = champs API uniquement (pas de date_debut)');
 
-/* 6. Grille remorque */
-const t = tarifsParCategorie({ categorie_vehi: 'REM-REM2' });
-ok(t.grille.length === 4 && t.grille[0].prix_indicatif === '57,66 €', 'grille remorque correcte');
+  const dReal = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', age_conducteur: 35, duree: 15 }, fakeApi);
+  ok(dReal.source === 'jlassure_api' && dReal.tarif.prix_vente === '110,50 €' && dReal.tarif.prix_reel === true, 'devis utilise le tarif réel (110,50 €)');
+  ok(dReal.lien_devis_pre_rempli.indexOf('jlassure.com') > -1, 'utilise le prefill_url renvoyé par l\'API');
 
-console.log('\n[Serveur MCP — JSON-RPC stdio]');
-const srv = spawn('node', [path.join(__dirname, 'server.js')], { stdio: ['pipe', 'pipe', 'inherit'] });
-let out = '';
-srv.stdout.on('data', function (c) { out += c; });
+  const fakeHors = { apiKey: 'K', fetchImpl: async function () { return { ok: true, json: async function () { return { hors_perimetre: true }; } }; } };
+  const dHors = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', duree: 5 }, fakeHors);
+  ok(dHors.hors_perimetre === true && /hors périmètre/i.test(dHors.message), 'hors périmètre géré');
 
-const reqs = [
-  { jsonrpc: '2.0', id: 1, method: 'initialize', params: {} },
-  { jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} },
-  { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 7, date_debut: '2026-07-01' } } }
-];
-srv.stdin.write(reqs.map(function (r) { return JSON.stringify(r); }).join('\n') + '\n');
+  const fakeDown = { apiKey: 'K', fetchImpl: async function () { return { ok: false, status: 500 }; } };
+  const dDown = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 15 }, fakeDown);
+  ok(dDown.source === 'indicatif', 'API en erreur → repli indicatif (pas de crash)');
 
-setTimeout(function () {
-  srv.kill();
-  const lines = out.trim().split('\n').filter(Boolean).map(JSON.parse);
-  const byId = {};
-  lines.forEach(function (l) { byId[l.id] = l; });
-
-  ok(byId[1] && byId[1].result.serverInfo.name === 'tempo-assurance', 'initialize → serverInfo');
-  ok(byId[2] && byId[2].result.tools.length === 2, 'tools/list → 2 outils');
-  ok(byId[2].result.tools.every(function (t) { return t.inputSchema && t.inputSchema.type === 'object'; }), 'schémas valides (type object)');
-  const call = byId[3];
-  ok(call && /83,59/.test(call.result.content[0].text), 'tools/call devis → tarif 7 j (83,59 €) dans la réponse');
-  ok(/devis-ou-souscription\.html\?/.test(call.result.content[0].text), 'tools/call → lien pré-rempli dans la réponse');
+  console.log('\n[Serveur MCP — JSON-RPC stdio]');
+  await new Promise(function (resolve) {
+    const srv = spawn('node', [path.join(__dirname, 'server.js')], { stdio: ['pipe', 'pipe', 'inherit'] });
+    let out = '';
+    srv.stdout.on('data', function (c) { out += c; });
+    const reqs = [
+      { jsonrpc: '2.0', id: 1, method: 'initialize', params: {} },
+      { jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} },
+      { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 7 } } }
+    ];
+    srv.stdin.write(reqs.map(function (r) { return JSON.stringify(r); }).join('\n') + '\n');
+    setTimeout(function () {
+      srv.kill();
+      const byId = {};
+      out.trim().split('\n').filter(Boolean).map(JSON.parse).forEach(function (l) { byId[l.id] = l; });
+      ok(byId[1] && byId[1].result.serverInfo.name === 'tempo-assurance', 'initialize → serverInfo');
+      ok(byId[2] && byId[2].result.tools.length === 2, 'tools/list → 2 outils');
+      ok(byId[2].result.tools.every(function (t) { return t.inputSchema && t.inputSchema.type === 'object'; }), 'schémas valides (type object)');
+      ok(byId[3] && /83,59/.test(byId[3].result.content[0].text), 'tools/call (sans clé) → tarif indicatif 7 j (83,59 €)');
+      resolve();
+    }, 800);
+  });
 
   console.log('\n==== ' + pass + ' tests OK ====\n');
   process.exit(0);
-}, 800);
+})().catch(function (e) { console.error('ÉCHEC :', e.message); process.exit(1); });

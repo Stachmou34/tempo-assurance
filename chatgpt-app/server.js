@@ -16,7 +16,7 @@ function send(msg) { process.stdout.write(JSON.stringify(msg) + '\n'); }
 function result(id, res) { send({ jsonrpc: '2.0', id: id, result: res }); }
 function error(id, code, message) { send({ jsonrpc: '2.0', id: id, error: { code: code, message: message } }); }
 
-function handle(msg) {
+async function handle(msg) {
   const id = msg.id;
   switch (msg.method) {
     case 'initialize':
@@ -38,7 +38,7 @@ function handle(msg) {
       const tool = TOOLS.find(function (t) { return t.name === params.name; });
       if (!tool) return error(id, -32602, 'Outil inconnu : ' + params.name);
       let out;
-      try { out = tool.handler(params.arguments || {}); }
+      try { out = await tool.handler(params.arguments || {}); }
       catch (e) { return error(id, -32603, 'Erreur outil : ' + e.message); }
       return result(id, {
         content: [{ type: 'text', text: out.message || JSON.stringify(out) }],

@@ -53,6 +53,9 @@ paiement** sans l'action du client sur le tunnel jlassure.
 
 ## État
 - [x] Cadrage + note jlassure rédigés
-- [x] Prototype MVP-light (`chatgpt-app/`) : 2 outils + grille + lien pré-rempli + tests
-- [ ] Demande API tarif envoyée à jlassure
+- [x] Prototype (`chatgpt-app/`) : 2 outils + lien pré-rempli + tests
+- [x] **API tarif jlassure reçue et intégrée** (`lib/jlassureApi.js`) : `POST
+  api_tarif_tempo.php`, `Authorization: Bearer`. Tarif réel si `JLASSURE_API_KEY`,
+  sinon repli indicatif. Hors-périmètre géré. 17 tests OK (API mockée).
+- [ ] Obtenir la **clé API** auprès de JL Assure (envoyée séparément)
 - [ ] Hébergement + manifest Apps SDK + revue OpenAI
