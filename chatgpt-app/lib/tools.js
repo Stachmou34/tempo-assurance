@@ -21,17 +21,53 @@ const profilProps = {
   motif_assurance_temporaire_autre: { type: 'string', maxLength: 255, description: 'Texte libre si motif=autre' }
 };
 
+/* Outils en lecture seule (préparation) : aucune écriture, aucun envoi de données
+   hors ChatGPT, cible bornée (notre produit / tarif jlassure). */
+const READONLY = { readOnlyHint: true, openWorldHint: false, destructiveHint: false };
+
+const devisOutputSchema = {
+  type: 'object', additionalProperties: true,
+  properties: {
+    source: { type: 'string', enum: ['jlassure_api', 'indicatif'] },
+    categorie: { type: ['string', 'null'] },
+    tarif: { type: ['object', 'null'] },
+    tarif_indicatif: { type: ['object', 'null'] },
+    durees_disponibles: { type: ['array', 'null'], items: { type: 'integer' } },
+    lien_devis_pre_rempli: { type: 'string' },
+    hors_perimetre: { type: 'boolean' },
+    message: { type: 'string' }
+  }
+};
+
+const tarifsOutputSchema = {
+  type: 'object', additionalProperties: true,
+  properties: {
+    categorie: { type: 'string' },
+    puissance: { type: 'string' },
+    grille: {
+      type: 'array',
+      items: { type: 'object', properties: { duree: { type: 'integer' }, prix_indicatif: { type: 'string' } } }
+    },
+    message: { type: 'string' }
+  }
+};
+
 const TOOLS = [
   {
     name: 'devis_assurance_temporaire',
+    title: 'Devis assurance temporaire',
     description: "Prépare un devis d'assurance auto temporaire (1 à 90 jours) sur Tempo-Assurance : " +
-      'renvoie un tarif indicatif et un lien de devis pré-rempli. La souscription et le paiement ' +
-      'se font ensuite sur le tarificateur (le client finalise lui-même).',
+      'renvoie un tarif (réel via le tarificateur partenaire si disponible, sinon indicatif) et un ' +
+      'lien de devis pré-rempli. La souscription et le paiement se font ensuite sur le tarificateur ' +
+      '(le client finalise lui-même).',
     inputSchema: { type: 'object', additionalProperties: false, properties: profilProps },
+    outputSchema: devisOutputSchema,
+    annotations: READONLY,
     handler: devisAssuranceTemporaire
   },
   {
     name: 'tarifs_par_categorie',
+    title: 'Tarifs par catégorie',
     description: "Donne la grille de tarifs indicatifs (par durée) pour une catégorie de véhicule.",
     inputSchema: {
       type: 'object', additionalProperties: false,
@@ -41,6 +77,8 @@ const TOOLS = [
         puissance: profilProps.puissance
       }
     },
+    outputSchema: tarifsOutputSchema,
+    annotations: READONLY,
     handler: tarifsParCategorie
   }
 ];

@@ -77,9 +77,36 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
       ok(byId[1] && byId[1].result.serverInfo.name === 'tempo-assurance', 'initialize → serverInfo');
       ok(byId[2] && byId[2].result.tools.length === 2, 'tools/list → 2 outils');
       ok(byId[2].result.tools.every(function (t) { return t.inputSchema && t.inputSchema.type === 'object'; }), 'schémas valides (type object)');
+      ok(byId[2].result.tools.every(function (t) { return t.annotations && t.annotations.readOnlyHint === true && t.annotations.destructiveHint === false; }), 'annotations Apps SDK (readOnlyHint/destructiveHint)');
+      ok(byId[2].result.tools.every(function (t) { return t.outputSchema && t.outputSchema.type === 'object'; }), 'outputSchema présent sur chaque outil');
       ok(byId[3] && /83,59/.test(byId[3].result.content[0].text), 'tools/call (sans clé) → tarif indicatif 7 j (83,59 €)');
       resolve();
     }, 800);
+  });
+
+  console.log('\n[Serveur MCP — HTTP /mcp (Apps SDK)]');
+  await new Promise(function (resolve) {
+    const port = 8799;
+    const env = Object.assign({}, process.env, { PORT: String(port) });
+    const srv = spawn('node', [path.join(__dirname, 'server-http.js')], { stdio: ['ignore', 'ignore', 'inherit'], env });
+    setTimeout(async function () {
+      async function rpc(m) {
+        const r = await fetch('http://localhost:' + port + '/mcp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(m) });
+        return r.status === 202 ? null : r.json();
+      }
+      try {
+        const init = await rpc({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} });
+        ok(init.result.serverInfo.name === 'tempo-assurance', 'HTTP initialize → serverInfo');
+        const list = await rpc({ jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} });
+        ok(list.result.tools.length === 2, 'HTTP tools/list → 2 outils');
+        const call = await rpc({ jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'tarifs_par_categorie', arguments: { categorie_vehi: 'VL-VL' } } });
+        ok(/107,81/.test(call.result.content[0].text), 'HTTP tools/call → grille voiture (107,81 €)');
+        const health = await (await fetch('http://localhost:' + port + '/')).json();
+        ok(health.ok === true && health.endpoint === '/mcp', 'HTTP / health-check');
+      } catch (e) { ok(false, 'HTTP erreur : ' + e.message); }
+      srv.kill();
+      resolve();
+    }, 600);
   });
 
   console.log('\n==== ' + pass + ' tests OK ====\n');

@@ -26,9 +26,16 @@ Aucune souscription / aucun paiement n'est effectué par l'app : elle **prépare
 ## Lancer / tester
 ```bash
 cd chatgpt-app
-node test.js     # 14 tests (logique + aller-retour JSON-RPC)
-node server.js   # serveur MCP en stdio (JSON-RPC délimité par des sauts de ligne)
+node test.js          # 24 tests (logique, API mockée, repli, stdio, HTTP /mcp)
+node server.js        # transport stdio (MCP Inspector / client local)
+node server-http.js   # transport HTTP Apps SDK -> http://localhost:8788/mcp
 ```
+
+## Deux transports
+- **stdio** (`server.js`) : pour tester avec le **MCP Inspector** ou un client MCP local.
+- **HTTP** (`server-http.js`) : transport « Streamable HTTP » attendu par l'**Apps SDK
+  OpenAI**. Endpoint unique **`POST /mcp`** (JSON-RPC), `GET /` = health-check.
+  Les deux partagent le même dispatch (`lib/rpc.js`) et les mêmes outils.
 
 Essai manuel (stdio) :
 ```bash
@@ -53,13 +60,22 @@ Fichiers :
 - `server.js` — serveur MCP stdio (sans dépendance).
 - `test.js` — tests.
 
-## De ce prototype à la production
-1. **Tarif réel (V2)** : ✅ intégré (`lib/jlassureApi.js`). Il suffit de renseigner
-   `JLASSURE_API_KEY`. Repli sur la grille si l'API est indisponible.
-2. **Apps SDK OpenAI** : envelopper ces outils avec le transport **HTTP** de l'Apps SDK,
-   ajouter le **manifest** de l'app et d'éventuels **composants UI**.
-3. **Hébergement** : déployer le serveur sur un hôte Node joignable par OpenAI.
-4. **Vérification de domaine** (tempo-assurance.com) + **soumission à la revue OpenAI**.
+## Conformité Apps SDK (déjà en place)
+- Transport **HTTP `/mcp`** (`server-http.js`).
+- Outils avec **`inputSchema` + `outputSchema`** et **annotations** requises
+  (`readOnlyHint: true`, `openWorldHint: false`, `destructiveHint: false` — outils de
+  préparation, lecture seule, cible bornée).
+- Tarif **réel** via l'API jlassure (validé en réel : HTTP 200, prix + durées + prefill_url).
+
+## De ce prototype à la publication dans ChatGPT
+1. **Déployer `server-http.js` derrière TLS** (HTTPS) sur un domaine joignable par OpenAI
+   (faible latence sur `/mcp`, logs/metrics). ⚠️ nouvelle brique : le site est statique.
+2. **Renseigner `JLASSURE_API_KEY`** en variable d'environnement de l'hôte.
+3. (Optionnel) **Composant UI** (widget) via `openai/outputTemplate` + `_meta` pour un
+   rendu enrichi dans ChatGPT (sinon ChatGPT affiche `structuredContent`/texte).
+4. **Enregistrer le connecteur** (URL `/mcp`) dans ChatGPT (mode développeur), valider
+   avec le **MCP Inspector**.
+5. **Vérification de domaine** (tempo-assurance.com) + **soumission à la revue OpenAI**.
 
 ## Conformité
 L'app n'effectue **aucune** souscription ni paiement. Elle fournit un tarif indicatif et
