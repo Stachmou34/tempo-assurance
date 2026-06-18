@@ -36,6 +36,14 @@ Paramètres :
 
 Le client vérifie les informations, consulte l'IPID, confirme et règle par carte bancaire ; l'attestation et la carte verte sont éditables immédiatement. Conditions : conducteur de 21 ans minimum, 2 ans de permis, durée de 1 à 90 jours. Aucune souscription n'est finalisée sans l'action du client.
 
+## Outils WebMCP (pour agents IA dans le navigateur)
+
+Sur les pages du site, des outils WebMCP sont déclarés via navigator.modelContext (API expérimentale) ; un agent compatible peut les appeler directement :
+- preparer_devis_temporaire(profil) : renvoie une URL de devis pré-remplie à partir des mêmes paramètres que ci-dessus (categorie_vehi, age_vehicule, puissance, pays_immatriculation, pays_residence, date_naissance, duree, date_debut, etc.).
+- preparer_message_contact(nom, email, telephone, message) : pré-remplit le formulaire de la page Contact (sans l'envoyer ; le visiteur valide l'anti-spam et soumet).
+
+Ces outils ne font que préparer : aucune souscription, aucun paiement et aucun envoi ne sont effectués sans l'action explicite du visiteur (conformité DDA / ACPR).
+
 
 ## Tarifs indicatifs par catégorie (France métropolitaine)
 

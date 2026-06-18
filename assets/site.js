@@ -103,4 +103,112 @@
       try { window.clarity('event', 'ouverture_tarificateur'); window.clarity('set', 'tarificateur', 'ouvert'); } catch (_) {}
     }
   }, true);
+
+  /* ---------- WebMCP : outils pour agents IA (expérimental) ---------- */
+  /* Expose des « outils » que les agents IA compatibles WebMCP peuvent appeler
+     directement via navigator.modelContext (équivalent de MCP, mais dans le
+     navigateur). L'API est encore expérimentale et son contour peut évoluer :
+     tout est encapsulé dans des gardes (feature-detection + try/catch) pour ne
+     JAMAIS casser la page si l'API est absente ou différente.
+     Conformité : ces outils ne font que préparer (lien de devis, pré-remplissage
+     du formulaire). Aucune souscription, aucun paiement, aucun envoi n'est
+     effectué sans l'action explicite du visiteur. */
+  (function registerWebMCP() {
+    var mc = navigator.modelContext;
+    if (!mc || typeof mc.registerTool !== 'function') return;
+
+    var DEVIS_URL = 'https://www.tempo-assurance.com/devis-ou-souscription.html';
+    function txt(s) { return { content: [{ type: 'text', text: s }] }; }
+
+    /* Construit l'URL de devis pré-rempli à partir d'un objet de paramètres
+       (même liste blanche que le relais d'URL ci-dessus). */
+    function buildDevisUrl(params) {
+      params = params || {};
+      var out = [];
+      PREFILL_KEYS.forEach(function (k) {
+        var v = params[k];
+        if (v === undefined || v === null || v === '') return;
+        out.push(k + '=' + encodeURIComponent(String(v)));
+      });
+      return out.length ? DEVIS_URL + '?' + out.join('&') : DEVIS_URL;
+    }
+
+    /* Outil 1 — préparer un devis pré-rempli (disponible sur toutes les pages). */
+    try {
+      mc.registerTool({
+        name: 'preparer_devis_temporaire',
+        description: "Prépare un devis d'assurance auto temporaire (1 à 90 jours) sur " +
+          "tempo-assurance.com. Renvoie une URL de devis pré-remplie d'après le profil " +
+          "fourni (tous les champs sont optionnels ; pour afficher un tarif, fournir au " +
+          "minimum categorie_vehi, age_vehicule, puissance, pays_immatriculation, " +
+          "pays_residence et date_naissance). Le visiteur vérifie les informations, " +
+          "consulte l'IPID, confirme et règle lui-même : aucune souscription n'est finalisée par l'outil.",
+        inputSchema: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            categorie_vehi: { type: 'string',
+              enum: ['VL-VL', 'VL-VU', 'VSP-VSP', 'QM-QM', 'QMQLEM-QMQLEM', 'CC-Cap', 'CAM-Fou', 'CAM-CAM3', 'TRA-TRA', 'TCP-TCP', 'REM-REM2', 'REM-REM3'],
+              description: 'Catégorie : VL-VL voiture · VL-VU utilitaire · VSP-VSP voiturette sans permis · QM-QM quad · QMQLEM-QMQLEM buggy sans permis · CC-Cap camping-car ≤3,5 t · CAM-Fou camping-car >3,5 t · CAM-CAM3 camion/poids lourd >3,5 t · TRA-TRA tracteur agricole · TCP-TCP bus/car · REM-REM2 remorque/semi-remorque · REM-REM3 caravane' },
+            age_vehicule: { type: 'string', enum: ['moins10', 'plus10'], description: 'Âge du véhicule : moins10 (<10 ans) ou plus10' },
+            puissance: { type: 'string', enum: ['inf30', 'sup30', '0'], description: 'Puissance : inf30 (≤30 CV) · sup30 (>30 CV) · 0 (remorque/caravane)' },
+            ptac: { type: 'string', enum: ['inf3500', 'sup3500'], description: 'PTAC : inf3500 (≤3,5 t) ou sup3500, selon la catégorie' },
+            pays_immatriculation: { type: 'string', description: "Pays d'immatriculation en MAJUSCULES (ex. FRANCE METROPOLITAINE, FRANCE REUNION). Pologne, Roumanie et Italie exclues." },
+            pays_residence: { type: 'string', description: 'Pays de résidence du conducteur, en MAJUSCULES' },
+            date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: 'Date de naissance AAAA-MM-JJ (conducteur de 21 à 90 ans)' },
+            duree: { type: 'integer', minimum: 1, maximum: 90, description: 'Durée en jours (1 à 90) ; doit exister dans la grille du profil, sinon ignorée' },
+            date_debut: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: "Date de début AAAA-MM-JJ (≥ aujourd'hui)" },
+            heure_debut: { type: 'string', pattern: '^\\d{2}:\\d{2}$', description: 'Heure de début HH:MM' },
+            motif_assurance_temporaire: { type: 'string', enum: ['achat_vente', 'resilie_non_paiement', 'sortie_fourriere', 'autre'], description: 'Motif du besoin' },
+            motif_assurance_temporaire_autre: { type: 'string', maxLength: 255, description: 'Texte libre si motif=autre' }
+          }
+        },
+        execute: function (params) {
+          var url = buildDevisUrl(params);
+          return Promise.resolve(txt(
+            'Devis pré-rempli prêt : ' + url + '\n' +
+            "Ouvrir cette URL affiche le tarificateur déjà rempli. Le visiteur vérifie les " +
+            "informations, consulte l'IPID, confirme et règle par carte bancaire — aucune " +
+            "souscription n'est finalisée sans son action."
+          ));
+        }
+      });
+    } catch (_) {}
+
+    /* Outil 2 — pré-remplir le formulaire de contact (seulement si présent). */
+    var form = document.getElementById('form-contact');
+    if (form) {
+      try {
+        mc.registerTool({
+          name: 'preparer_message_contact',
+          description: "Pré-remplit le formulaire de contact de tempo-assurance.com. " +
+            "N'envoie PAS le message : le visiteur doit répondre à la question anti-spam et " +
+            "cliquer sur « Envoyer » lui-même.",
+          inputSchema: {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+              nom: { type: 'string', maxLength: 120, description: 'Nom du visiteur' },
+              email: { type: 'string', format: 'email', maxLength: 160, description: 'Adresse e-mail' },
+              telephone: { type: 'string', maxLength: 30, description: 'Numéro de téléphone (optionnel)' },
+              message: { type: 'string', maxLength: 5000, description: 'Contenu du message' }
+            }
+          },
+          execute: function (p) {
+            p = p || {};
+            function set(name, val) {
+              var el = form.elements[name];
+              if (el && val !== undefined && val !== null) el.value = String(val);
+            }
+            set('nom', p.nom); set('email', p.email);
+            set('telephone', p.telephone); set('message', p.message);
+            return Promise.resolve(txt(
+              'Formulaire de contact pré-rempli. Le visiteur doit répondre à la question ' +
+              'anti-spam puis cliquer sur « Envoyer » pour transmettre le message.'
+            ));
+          }
+        });
+      } catch (_) {}
+    }
+  })();
 })();
