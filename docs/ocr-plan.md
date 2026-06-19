@@ -18,15 +18,24 @@ du client et la **description** de l'outil. On pilote donc le flux via 2 outils 
 | **1+ — Devis précis** | « j'ai ma carte grise » | 🟢 carte grise | idem, tarif exact (puissance/PTAC lus) |
 | **2 — Souscription facilitée** | « je veux souscrire / gagner du temps » | 🔴 carte grise **+ permis** | `preparer_session_souscription` (gated RGPD) |
 
-### Questions de l'IA au Niveau 1 (pour remplir précisément la 1re page tarif)
+### Questions de l'IA au Niveau 1 — AUCUNE hypothèse, tout est demandé
 1. **Quel type de véhicule ?** (voiture, utilitaire, camion, camping-car, remorque…) → `categorie_vehi`
-2. **Pour quelle durée, à partir de quand ?** → `duree`, `date_debut` (heure par défaut +15 min)
-3. **Âge (ou date de naissance) du conducteur ?** → `date_naissance` / `age_conducteur`
-4. **Véhicule immatriculé en France et conducteur résidant en France ?** (sinon préciser) → `pays_immatriculation`, `pays_residence`
-5. **Motif ?** (achat/vente, véhicule en attente, sortie de fourrière, autre) → `motif_assurance_temporaire`
+2. **Le véhicule a-t-il moins ou plus de 10 ans ?** → `age_vehicule`
+3. **Puissance fiscale : ≤ 30 CV ou > 30 CV ?** *(si le client ne sait pas → proposer la carte grise)* → `puissance`
+4. *(selon le véhicule)* **PTAC ≤ ou > 3,5 t ?** → `ptac`
+5. **Pour quelle durée, à partir de quand ?** → `duree`, `date_debut`
+6. **Âge (ou date de naissance) du conducteur ?** → `date_naissance` / `age_conducteur`
+7. **Véhicule immatriculé en France et conducteur résidant en France ?** (sinon préciser) → `pays_immatriculation`, `pays_residence`
+8. **Motif ?** (achat/vente, véhicule en attente, sortie de fourrière, autre) → `motif_assurance_temporaire`
 
-Hypothèses par défaut (annoncées) : **puissance ≤ 30 CV** et **véhicule < 10 ans** — affinées
-si le client envoie sa **carte grise** (Niveau 1+). Le client peut ajuster la durée dans le widget.
+> **Aucune valeur supposée.** Si un champ manque, l'IA le **demande** ; pour la puissance/PTAC
+> inconnues, elle propose d'envoyer la **carte grise** (Niveau 1+).
+> Seule commodité conservée (demandée) : si la **date de début** est donnée sans heure, l'heure
+> = **maintenant + 15 min** (modifiable). Le client peut ajuster la durée dans le widget.
+
+> ⚙️ Conséquence côté code : retirer le défaut « puissance ≤ 30 CV / véhicule < 10 ans »
+> (fonction `withDefaults`). À la place, si ces champs manquent, l'outil **signale les champs
+> à demander** plutôt que de produire un tarif sur une hypothèse.
 
 ### Documents requis par jlassure (à l'étape pièces — donc à fournir de toute façon)
 - **Conducteur** : permis de conduire **recto + verso**.
