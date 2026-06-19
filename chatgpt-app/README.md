@@ -11,7 +11,11 @@ un devis d'assurance temporaire dans une conversation ChatGPT.
 ## Configuration
 ```bash
 export JLASSURE_API_KEY="<clé fournie par JL Assure>"   # tarif réel ; sinon mode indicatif
+export ENABLE_PREFILL_SESSION=1                          # Phase 2 (données perso) : OFF par défaut
 ```
+⚠️ `ENABLE_PREFILL_SESSION` active l'outil `preparer_session_souscription` (pré-remplissage
+des pages identité/véhicule). **À n'activer qu'après validation RGPD** (consentement client) —
+voir `../docs/rgpd-checklist-ocr.md`. OFF par défaut.
 Endpoint : `POST https://www.jlassure.com/sousfiche/api_tarif_tempo.php`
 (`Authorization: Bearer <clé>`). Sans clé, l'app fonctionne en tarif indicatif.
 

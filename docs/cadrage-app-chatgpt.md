@@ -59,7 +59,10 @@ paiement** sans l'action du client sur le tunnel jlassure.
 - [x] **Validé EN RÉEL** : HTTP 200, prix 118,67 € (VL-VL 15 j), 37 durées, prefill_url.
 - [x] **Transport Apps SDK** : serveur HTTP `/mcp` (`server-http.js`) + annotations
   (`readOnlyHint`/`openWorldHint`/`destructiveHint`) + `outputSchema`. 24 tests OK.
-- [ ] **Déploiement** : héberger `server-http.js` en HTTPS sur domaine joignable
-- [ ] (Optionnel) composant UI (widget `openai/outputTemplate`)
-- [ ] Enregistrer le connecteur dans ChatGPT + **vérif domaine** + **revue OpenAI**
-- [ ] Faire **régénérer la clé API** (elle a transité par le chat)
+- [x] **Déployé sur Render** (HTTPS) + connecteur ChatGPT + widget interactif
+- [x] **Phase 2 — prefill sécurisé** : API jlassure `api_prefill_session.php` validée
+  (HTTP 201), intégrée via l'outil `preparer_session_souscription` (`lib/prefill.js`).
+  **OFF par défaut** (`ENABLE_PREFILL_SESSION`) ; URL sans données perso ; testé en réel
+  (données fictives). 42 tests OK.
+- [ ] **Feu vert RGPD** (consentement) avant d'activer le prefill identité en réel
+- [ ] Render Starter (anti-veille) + **régénérer la clé API** + vérif domaine + revue OpenAI

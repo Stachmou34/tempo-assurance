@@ -5,6 +5,7 @@
 const { devisAssuranceTemporaire, tarifsParCategorie } = require('./devis');
 const { CATEGORIES } = require('./tarifs');
 const { WIDGET_URI } = require('./resources');
+const { prefillTool, sessionEnabled } = require('./prefill');
 
 const profilProps = {
   categorie_vehi: { type: 'string', enum: CATEGORIES, description: 'Catégorie de véhicule (ex. VL-VL voiture, CAM-CAM3 camion, REM-REM2 remorque…)' },
@@ -97,5 +98,9 @@ const TOOLS = [
     handler: tarifsParCategorie
   }
 ];
+
+/* Phase 2 (données personnelles) : outil ajouté SEULEMENT si activé explicitement
+   (ENABLE_PREFILL_SESSION=1), après validation RGPD. OFF par défaut. */
+if (sessionEnabled()) TOOLS.push(prefillTool);
 
 module.exports = { TOOLS };

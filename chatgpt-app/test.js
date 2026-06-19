@@ -8,6 +8,7 @@ const { spawn } = require('child_process');
 const path = require('path');
 const { fetchTarif } = require('./lib/jlassureApi');
 const { devisAssuranceTemporaire, tarifsParCategorie, buildDevisUrl } = require('./lib/devis');
+const { buildSessionPayload, preparerSessionSouscription } = require('./lib/prefill');
 
 let pass = 0;
 function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass++; }
@@ -75,6 +76,27 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   const dDown = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 15 }, fakeDown);
   ok(dDown.source === 'indicatif', 'API en erreur → repli indicatif (pas de crash)');
 
+  console.log('\n[Phase 2 — prefill session (données perso)]');
+  // minimisation : seuls les champs fournis sont conservés
+  const pl = buildSessionPayload({ conducteur: { nom: 'X', truc: 'z' }, vehicule: { genre: 'VL-VL' }, profil_tarifaire: { duree: '7' } });
+  ok(pl.conducteur && pl.conducteur.nom === 'X' && pl.conducteur.truc === undefined, 'payload : champs inconnus filtrés (minimisation)');
+  ok(pl.vehicule.genre === 'VL-VL' && pl.profil_tarifaire.duree === '7', 'payload : conducteur/vehicule/profil structurés');
+
+  // interrupteur OFF -> désactivé
+  delete process.env.ENABLE_PREFILL_SESSION;
+  const off = await preparerSessionSouscription({ conducteur: { nom: 'X' }, vehicule: { genre: 'VL-VL' } });
+  ok(off.disabled === true, 'OFF par défaut : outil désactivé (gate RGPD)');
+
+  // interrupteur ON + API mockée -> session_url
+  process.env.ENABLE_PREFILL_SESSION = '1';
+  const fakeSession = { apiKey: 'K', fetchImpl: async function () {
+    return { ok: true, status: 201, json: async function () { return { success: true, token: 't-123', session_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cd=BLA1905B&id=43&prefill_token=t-123', expires_at: '2026-06-19T14:00:00+02:00', ttl_seconds: 1800 }; } };
+  } };
+  const on = await preparerSessionSouscription({ conducteur: { nom: 'MARTIN', prenom: 'Sophie' }, vehicule: { genre: 'VL-VL' } }, fakeSession);
+  ok(on.success === true && /prefill_token=t-123/.test(on.session_url), 'ON : renvoie la session_url (pas de donnée perso dans l\'URL)');
+  ok(/usage unique/.test(on.message) && /IPID/.test(on.message), 'message : rappel conformité (usage unique + IPID)');
+  delete process.env.ENABLE_PREFILL_SESSION;
+
   console.log('\n[Serveur MCP — JSON-RPC stdio]');
   await new Promise(function (resolve) {
     const srv = spawn('node', [path.join(__dirname, 'server.js')], { stdio: ['pipe', 'pipe', 'inherit'] });
@@ -128,6 +150,23 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
         const dcall = await rpc({ jsonrpc: '2.0', id: 6, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 15 } } });
         ok(dcall.result._meta && dcall.result._meta['openai/outputTemplate'] === 'ui://widget/devis.html', 'tools/call devis → _meta widget dans le résultat');
       } catch (e) { ok(false, 'HTTP erreur : ' + e.message); }
+      srv.kill();
+      resolve();
+    }, 600);
+  });
+
+  console.log('\n[Serveur HTTP — outil prefill activé]');
+  await new Promise(function (resolve) {
+    const port = 8801;
+    const env = Object.assign({}, process.env, { PORT: String(port), ENABLE_PREFILL_SESSION: '1' });
+    const srv = spawn('node', [path.join(__dirname, 'server-http.js')], { stdio: ['ignore', 'ignore', 'inherit'], env });
+    setTimeout(async function () {
+      try {
+        const r = await fetch('http://localhost:' + port + '/mcp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/list', params: {} }) });
+        const j = await r.json();
+        const names = j.result.tools.map(function (t) { return t.name; });
+        ok(names.indexOf('preparer_session_souscription') > -1, 'ENABLE_PREFILL_SESSION=1 → outil prefill exposé (' + names.length + ' outils)');
+      } catch (e) { ok(false, 'HTTP prefill erreur : ' + e.message); }
       srv.kill();
       resolve();
     }, 600);
