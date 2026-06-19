@@ -18,13 +18,44 @@ const PREFILL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance', 'ptac',
   'duree', 'date_debut', 'heure_debut'];
 
 function buildDevisUrl(params) {
+  const p = Object.assign({}, params);
+  /* Compléter les champs nécessaires pour qu'un tarif s'affiche au clic sur le lien :
+     - date_naissance déduite de age_conducteur si absente
+     - date_debut = aujourd'hui (Europe/Paris) si absente
+     - heure_debut = maintenant + 15 min si absente */
+  if ((p.date_naissance === undefined || p.date_naissance === null || p.date_naissance === '') && p.age_conducteur != null) {
+    const age = Number(p.age_conducteur);
+    if (!isNaN(age) && age >= 18 && age <= 99) {
+      const t = parisParts(0);
+      p.date_naissance = (Number(t.year) - age) + '-' + t.month + '-' + t.day;
+    }
+  }
+  if (p.date_debut === undefined || p.date_debut === null || p.date_debut === '') {
+    const t = parisParts(0);
+    p.date_debut = t.year + '-' + t.month + '-' + t.day;
+  }
+  if (p.heure_debut === undefined || p.heure_debut === null || p.heure_debut === '') {
+    const t = parisParts(15 * 60000);
+    p.heure_debut = t.hour + ':' + t.minute;
+  }
   const out = [];
   PREFILL_KEYS.forEach(function (k) {
-    const v = params[k];
+    const v = p[k];
     if (v === undefined || v === null || v === '') return;
     out.push(k + '=' + encodeURIComponent(String(v)));
   });
   return out.length ? DEVIS_URL + '?' + out.join('&') : DEVIS_URL;
+}
+
+/* Date/heure courantes en Europe/Paris (décalage en ms optionnel). */
+function parisParts(offsetMs) {
+  const d = new Date(Date.now() + (offsetMs || 0));
+  const parts = {};
+  new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hour12: false
+  }).formatToParts(d).forEach(function (x) { parts[x.type] = x.value; });
+  return parts;
 }
 
 function euro(n) { return Number(n).toFixed(2).replace('.', ',') + ' €'; }
