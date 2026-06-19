@@ -8,6 +8,34 @@ champs**, puis **appelle notre outil** avec ces champs. Notre serveur **converti
 valide** (déterministe). **Aucune image n'est stockée** par l'app ; les pièces officielles
 restent **téléversées par le client sur le tunnel jlassure**.
 
+## 1bis. Niveaux d'usage & déclenchement
+Dans ChatGPT, **pas de bouton** : le **modèle décide** d'appeler un outil selon l'intention
+du client et la **description** de l'outil. On pilote donc le flux via 2 outils distincts.
+
+| Niveau | Intention | OCR | Outil |
+|---|---|---|---|
+| **1 — Devis rapide** | « c'est combien ? » | ❌ | `devis_assurance_temporaire` (l'IA pose les questions) |
+| **1+ — Devis précis** | « j'ai ma carte grise » | 🟢 carte grise | idem, tarif exact (puissance/PTAC lus) |
+| **2 — Souscription facilitée** | « je veux souscrire / gagner du temps » | 🔴 carte grise **+ permis** | `preparer_session_souscription` (gated RGPD) |
+
+### Questions de l'IA au Niveau 1 (pour remplir précisément la 1re page tarif)
+1. **Quel type de véhicule ?** (voiture, utilitaire, camion, camping-car, remorque…) → `categorie_vehi`
+2. **Pour quelle durée, à partir de quand ?** → `duree`, `date_debut` (heure par défaut +15 min)
+3. **Âge (ou date de naissance) du conducteur ?** → `date_naissance` / `age_conducteur`
+4. **Véhicule immatriculé en France et conducteur résidant en France ?** (sinon préciser) → `pays_immatriculation`, `pays_residence`
+5. **Motif ?** (achat/vente, véhicule en attente, sortie de fourrière, autre) → `motif_assurance_temporaire`
+
+Hypothèses par défaut (annoncées) : **puissance ≤ 30 CV** et **véhicule < 10 ans** — affinées
+si le client envoie sa **carte grise** (Niveau 1+). Le client peut ajuster la durée dans le widget.
+
+### Documents requis par jlassure (à l'étape pièces — donc à fournir de toute façon)
+- **Conducteur** : permis de conduire **recto + verso**.
+- **Véhicule** : **carte grise** (barrée ou non) — ou CPI en cours de validité, fiche
+  d'immobilisation police (< 2 mois), facture d'enchères (< 2 mois), certificat de cession (+ talon).
+
+⚠️ L'OCR pré-remplit les **champs texte** ; le client devra **quand même téléverser les
+fichiers** sur le tunnel (obligation contractuelle). On gagne la **saisie**, pas l'upload.
+
 ## 2. Documents → champs extraits
 | Document | Champs | Usage | Sensibilité RGPD |
 |---|---|---|---|
