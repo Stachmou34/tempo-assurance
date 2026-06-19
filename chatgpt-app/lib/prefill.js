@@ -1,0 +1,140 @@
+'use strict';
+/* Phase 2 — préparation de souscription pré-remplie (données personnelles).
+   Appelle l'API prefill sécurisée de jlassure et renvoie une session_url
+   (jeton usage unique, 30 min, AUCUNE donnée perso dans l'URL).
+
+   ⚠️ Données personnelles : OUTIL DÉSACTIVÉ par défaut. Activer via la variable
+   d'environnement ENABLE_PREFILL_SESSION=1 UNIQUEMENT après validation RGPD
+   (consentement client, registre des traitements). Voir docs/rgpd-checklist-ocr.md.
+   L'outil ne fait que PRÉPARER : le client ouvre l'URL, vérifie, consulte l'IPID,
+   téléverse ses pièces et paie sur le tunnel (DDA/ACPR). */
+
+const { createPrefillSession } = require('./jlassureApi');
+const { CATEGORIES } = require('./tarifs');
+
+function sessionEnabled() {
+  const v = String(process.env.ENABLE_PREFILL_SESSION || '').toLowerCase();
+  return v === '1' || v === 'true' || v === 'on';
+}
+
+const CONDUCTEUR_KEYS = ['nom', 'prenom', 'date_naissance', 'adresse', 'code_postal',
+  'ville', 'pays_residence', 'mobile', 'email', 'num_permis', 'date_permis'];
+const VEHICULE_KEYS = ['immatriculation', 'date_premiere_mec', 'marque', 'modele',
+  'genre', 'puissance_fiscale', 'ptac_kg', 'places', 'chassis', 'pays_immatriculation'];
+const PROFIL_KEYS = ['motif_assurance_temporaire', 'duree', 'date_debut', 'heure_debut'];
+
+function pick(obj, keys) {
+  const o = {};
+  if (!obj) return o;
+  keys.forEach(function (k) {
+    const v = obj[k];
+    if (v !== undefined && v !== null && v !== '') o[k] = v;
+  });
+  return o;
+}
+
+/* Construit le payload jlassure en ne gardant que les champs fournis (minimisation). */
+function buildSessionPayload(args) {
+  args = args || {};
+  const payload = {};
+  const c = pick(args.conducteur, CONDUCTEUR_KEYS);
+  const v = pick(args.vehicule, VEHICULE_KEYS);
+  const p = pick(args.profil_tarifaire, PROFIL_KEYS);
+  if (Object.keys(c).length) payload.conducteur = c;
+  if (Object.keys(v).length) payload.vehicule = v;
+  if (Object.keys(p).length) payload.profil_tarifaire = p;
+  return payload;
+}
+
+async function preparerSessionSouscription(args, opts) {
+  if (!sessionEnabled()) {
+    return {
+      disabled: true,
+      message: "La préparation de souscription pré-remplie n'est pas activée. " +
+        "En attendant, proposez le devis et le lien de souscription standard (outil devis_assurance_temporaire)."
+    };
+  }
+  const payload = buildSessionPayload(args);
+  if (!payload.conducteur || !payload.vehicule) {
+    return { success: false, message: 'Fournir au moins les informations conducteur et véhicule (avec le consentement du client).' };
+  }
+  const r = await createPrefillSession(payload, opts);
+  if (r.ok && r.data && r.data.success && r.data.session_url) {
+    return {
+      success: true,
+      session_url: r.data.session_url,
+      expires_at: r.data.expires_at || null,
+      ttl_seconds: r.data.ttl_seconds || null,
+      message: 'Lien de souscription pré-rempli prêt (valable ~30 min, usage unique) :\n' +
+        r.data.session_url + '\n' +
+        "Le client ouvre ce lien, vérifie ses informations, consulte l'IPID, téléverse ses pièces " +
+        "(permis, carte grise) et règle par carte. Aucune souscription ni paiement n'est effectué par l'application."
+    };
+  }
+  return {
+    success: false,
+    message: "Impossible de préparer la session pré-remplie pour le moment. Proposez le devis + lien standard.",
+    details: (r.data && (r.data.error || r.data.ref)) || r.reason || ('http_' + r.status)
+  };
+}
+
+/* Schémas (objets imbriqués) */
+const conducteurSchema = {
+  type: 'object', additionalProperties: false,
+  properties: {
+    nom: { type: 'string' }, prenom: { type: 'string' },
+    date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
+    adresse: { type: 'string' }, code_postal: { type: 'string' }, ville: { type: 'string' },
+    pays_residence: { type: 'string' }, mobile: { type: 'string' },
+    email: { type: 'string', format: 'email' },
+    num_permis: { type: 'string' }, date_permis: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' }
+  }
+};
+const vehiculeSchema = {
+  type: 'object', additionalProperties: false,
+  properties: {
+    immatriculation: { type: 'string' }, date_premiere_mec: { type: 'string' },
+    marque: { type: 'string' }, modele: { type: 'string' },
+    genre: { type: 'string', enum: CATEGORIES, description: 'Mêmes valeurs que le tarificateur (VL-VL, VL-VU, …)' },
+    puissance_fiscale: { type: 'integer', description: 'Puissance fiscale en CV (carte grise P.6)' },
+    ptac_kg: { type: 'integer' }, places: { type: 'integer' },
+    chassis: { type: 'string' }, pays_immatriculation: { type: 'string' }
+  }
+};
+const profilSchema = {
+  type: 'object', additionalProperties: false,
+  properties: {
+    motif_assurance_temporaire: { type: 'string', enum: ['achat_vente', 'resilie_non_paiement', 'sortie_fourriere', 'autre'] },
+    duree: { type: 'string' }, date_debut: { type: 'string' }, heure_debut: { type: 'string' }
+  }
+};
+
+const prefillTool = {
+  name: 'preparer_session_souscription',
+  title: 'Préparer la souscription pré-remplie',
+  description: "Prépare une souscription d'assurance temporaire avec les pages conducteur et " +
+    "véhicule DÉJÀ pré-remplies, et renvoie un lien sécurisé (session_url, valable 30 min). " +
+    "⚠️ Traite des DONNÉES PERSONNELLES : n'appeler qu'APRÈS avoir (1) obtenu le consentement " +
+    "explicite du client pour traiter ses informations, et (2) collecté les informations nécessaires. " +
+    "Ne transmettre que les champs réellement fournis (minimisation). La souscription, l'IPID et le " +
+    "paiement restent réalisés par le client sur le tunnel.",
+  inputSchema: {
+    type: 'object', additionalProperties: false,
+    properties: { conducteur: conducteurSchema, vehicule: vehiculeSchema, profil_tarifaire: profilSchema }
+  },
+  outputSchema: {
+    type: 'object', additionalProperties: true,
+    properties: {
+      success: { type: 'boolean' }, disabled: { type: 'boolean' },
+      session_url: { type: 'string' }, expires_at: { type: 'string' },
+      ttl_seconds: { type: 'integer' }, message: { type: 'string' }
+    }
+  },
+  annotations: { readOnlyHint: false, openWorldHint: false, destructiveHint: false },
+  handler: preparerSessionSouscription
+};
+
+module.exports = {
+  sessionEnabled, buildSessionPayload, preparerSessionSouscription, prefillTool,
+  CONDUCTEUR_KEYS, VEHICULE_KEYS, PROFIL_KEYS
+};

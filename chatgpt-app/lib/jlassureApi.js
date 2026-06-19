@@ -7,6 +7,7 @@
    Sortie : prix_vente, durees, prefill_url, hors_perimetre */
 
 const ENDPOINT = 'https://www.jlassure.com/sousfiche/api_tarif_tempo.php';
+const SESSION_ENDPOINT = 'https://www.jlassure.com/sousfiche/api_prefill_session.php';
 const API_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance',
   'pays_immatriculation', 'pays_residence', 'age_conducteur', 'date_naissance', 'duree'];
 
@@ -55,4 +56,36 @@ async function fetchTarif(profil, opts) {
   }
 }
 
-module.exports = { ENDPOINT, apiInput, fetchTarif };
+/* Crée une session de pré-remplissage sécurisée (données personnelles).
+   POST api_prefill_session.php (X-Api-Key). Renvoie token + session_url.
+   Aucune donnée perso dans l'URL renvoyée (seulement cd/id/adrsite/prefill_token). */
+async function createPrefillSession(payload, opts) {
+  opts = opts || {};
+  const apiKey = opts.apiKey || process.env.JLASSURE_API_KEY;
+  if (!apiKey) return { ok: false, reason: 'no_api_key' };
+  const f = opts.fetchImpl || (typeof fetch === 'function' ? fetch : null);
+  if (!f) return { ok: false, reason: 'no_fetch' };
+  const controller = (typeof AbortController === 'function') ? new AbortController() : null;
+  const timer = controller ? setTimeout(function () { controller.abort(); }, opts.timeoutMs || 10000) : null;
+  try {
+    const res = await f(SESSION_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Api-Key': apiKey,
+        'Authorization': 'Bearer ' + apiKey
+      },
+      body: JSON.stringify(payload),
+      signal: controller ? controller.signal : undefined
+    });
+    let data = null;
+    try { data = await res.json(); } catch (_) {}
+    return { ok: res.ok, status: res.status, data: data };
+  } catch (e) {
+    return { ok: false, reason: 'exception:' + e.message };
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
+
+module.exports = { ENDPOINT, SESSION_ENDPOINT, apiInput, fetchTarif, createPrefillSession };
