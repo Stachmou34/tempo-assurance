@@ -160,7 +160,8 @@ const prefillTool = {
     "date de naissance, n° et date de permis, catégorie→type_permis, pays). Champs pays en MAJUSCULES ; " +
     "pays_permis = nationalité du permis. " +
     "Si un champ est illisible ou si le document n'est pas le bon, demander une photo nette (ne pas deviner). " +
-    "⚠️ DONNÉES PERSONNELLES : n'appeler qu'APRÈS (1) le CONSENTEMENT EXPLICITE du client et (2) la collecte des infos. " +
+    "AVANT d'appeler : RÉCAPITULER au client les informations collectées (véhicule + conducteur) et obtenir sa CONFIRMATION. " +
+    "⚠️ DONNÉES PERSONNELLES : n'appeler qu'APRÈS (1) le CONSENTEMENT EXPLICITE du client et (2) la collecte + confirmation des infos. " +
     "Minimisation : ne transmettre que les champs réellement fournis. " +
     "Rappel au client : il devra quand même téléverser les pièces (permis, carte grise) sur le tunnel. " +
     "La souscription, l'IPID et le paiement restent réalisés par le client sur le tunnel.",

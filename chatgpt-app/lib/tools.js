@@ -77,6 +77,7 @@ const TOOLS = [
       'automatiquement. ' +
       'NIVEAU 2 (souscription) — si le client veut souscrire / gagner du temps, lui proposer la carte ' +
       'grise + le permis et utiliser plutôt l\'outil preparer_session_souscription. ' +
+      'Avant de présenter le lien de souscription final, RÉCAPITULER le profil (véhicule, durée, conducteur) et demander confirmation. ' +
       'NE PAS extraire ni transmettre de données personnelles ici (nom, adresse, immatriculation, châssis, n° de permis).',
     inputSchema: { type: 'object', additionalProperties: false, properties: profilProps },
     outputSchema: devisOutputSchema,
