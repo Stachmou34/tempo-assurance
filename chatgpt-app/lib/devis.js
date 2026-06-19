@@ -108,22 +108,21 @@ function normalizeFromCarteGrise(params) {
   return { params: p, deduits: deduits };
 }
 
-/* Pour obtenir un tarif RÉEL, l'API jlassure exige age_vehicule + puissance.
-   Si le modèle ne les a pas fournis, on suppose des valeurs courantes (voiture
-   ≤30 CV, véhicule <10 ans ; remorque/caravane = pas de puissance) et on le
-   signale. Ces hypothèses ne sont PAS imposées dans le lien de devis. */
-function withDefaults(params) {
-  const p = Object.assign({}, params);
-  const assumed = [];
+function empty(v) { return v === undefined || v === null || v === ''; }
+
+/* AUCUNE hypothèse : on liste les champs de tarif manquants pour que l'IA les
+   DEMANDE (au lieu de supposer une valeur). Remorque/caravane : puissance = 0
+   (fait, pas une hypothèse). */
+function missingTarifFields(p) {
+  const miss = [];
+  if (empty(p.categorie_vehi)) miss.push('le type de véhicule');
   const remorque = (p.categorie_vehi === 'REM-REM2' || p.categorie_vehi === 'REM-REM3');
-  if (p.puissance === undefined || p.puissance === null || p.puissance === '') {
-    if (remorque) { p.puissance = '0'; }
-    else { p.puissance = 'inf30'; assumed.push('≤ 30 CV'); }
-  }
-  if (p.age_vehicule === undefined || p.age_vehicule === null || p.age_vehicule === '') {
-    p.age_vehicule = 'moins10'; assumed.push('véhicule de moins de 10 ans');
-  }
-  return { params: p, assumed: assumed };
+  if (!remorque && empty(p.puissance)) miss.push('la puissance fiscale (≤ 30 CV ou > 30 CV — sur la carte grise, champ P.6)');
+  if (empty(p.age_vehicule)) miss.push("l'âge du véhicule (moins ou plus de 10 ans)");
+  if (empty(p.pays_immatriculation)) miss.push("le pays d'immatriculation");
+  if (empty(p.pays_residence)) miss.push('le pays de résidence du conducteur');
+  if (empty(p.date_naissance) && p.age_conducteur == null) miss.push("l'âge ou la date de naissance du conducteur");
+  return miss;
 }
 
 /* Outil 1 : prépare un devis (tarif réel via API si possible, sinon indicatif). */
@@ -135,10 +134,26 @@ async function devisAssuranceTemporaire(params, opts) {
   if (cat && !LABELS[cat]) {
     return { error: 'categorie_vehi inconnue : ' + cat, categories_valides: CATEGORIES };
   }
+  /* Remorque / caravane : pas de puissance (fait, pas une hypothèse) */
+  if ((cat === 'REM-REM2' || cat === 'REM-REM3') && empty(params.puissance)) params.puissance = '0';
 
-  /* 1) Tentative tarif RÉEL via l'API jlassure (avec valeurs par défaut) */
-  const withDef = withDefaults(params);
-  const api = await fetchTarif(withDef.params, opts);
+  /* AUCUNE hypothèse : si des champs de tarif manquent, on les fait demander par l'IA. */
+  const miss = missingTarifFields(params);
+  if (miss.length) {
+    const lignes = ['Pour calculer le tarif, il me manque :'];
+    miss.forEach(function (m) { lignes.push('• ' + m); });
+    lignes.push("Pouvez-vous me préciser ces éléments ? (Pour la puissance/le PTAC, vous pouvez aussi m'envoyer une photo de la carte grise.)");
+    return {
+      source: 'incomplet',
+      besoin_infos: miss,
+      categorie: cat ? LABELS[cat] : null,
+      deduits_carte_grise: norm.deduits.length ? norm.deduits : null,
+      message: lignes.join('\n')
+    };
+  }
+
+  /* 1) Tarif RÉEL via l'API jlassure (sans aucune valeur supposée) */
+  const api = await fetchTarif(params, opts);
   if (api.ok && api.data) {
     const data = api.data;
     if (data.hors_perimetre) {
@@ -155,13 +170,10 @@ async function devisAssuranceTemporaire(params, opts) {
     if (data.prix_vente != null && d != null) {
       lignes.push('Tarif : ' + euro(data.prix_vente) + ' pour ' + d + ' jour(s) (prix réel, RC + Défense et Recours, frais inclus).');
     } else if (Array.isArray(data.durees)) {
-      lignes.push('Durées disponibles (jours) : ' + data.durees.join(', ') + '. Précisez "duree" pour un tarif.');
+      lignes.push('Durées disponibles (jours) : ' + data.durees.join(', ') + '. Précisez la durée pour un tarif.');
     }
     if (norm.deduits.length) {
       lignes.push('Lu sur la carte grise : ' + norm.deduits.join(', ') + '.');
-    }
-    if (withDef.assumed.length) {
-      lignes.push('Hypothèses : ' + withDef.assumed.join(', ') + ' (précisez pour ajuster).');
     }
     lignes.push('Finaliser la souscription (devis pré-rempli) : ' + url);
     lignes.push('Le client vérifie, consulte l\'IPID, confirme et règle par carte sur le tarificateur — aucune souscription n\'est finalisée par l\'application.');
@@ -170,9 +182,8 @@ async function devisAssuranceTemporaire(params, opts) {
       categorie: cat ? LABELS[cat] : null,
       tarif: (data.prix_vente != null && d != null) ? { duree: d, prix_vente: euro(data.prix_vente), prix_reel: true } : null,
       durees_disponibles: data.durees || null,
-      hypotheses: withDef.assumed.length ? withDef.assumed : null,
       lien_devis_pre_rempli: url,
-      echo_args: echoArgs(withDef.params),
+      echo_args: echoArgs(params),
       message: lignes.join('\n')
     };
   }
