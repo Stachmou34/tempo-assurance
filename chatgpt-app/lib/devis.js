@@ -29,6 +29,20 @@ function buildDevisUrl(params) {
 
 function euro(n) { return Number(n).toFixed(2).replace('.', ',') + ' €'; }
 
+/* Sous-ensemble de paramètres permettant au widget de re-tarifer une autre durée
+   (clic sur une pastille) via window.openai.callTool. */
+const ECHO_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance', 'ptac',
+  'pays_immatriculation', 'pays_residence', 'date_naissance', 'age_conducteur',
+  'motif_assurance_temporaire', 'motif_assurance_temporaire_autre',
+  'duree', 'date_debut', 'heure_debut'];
+function echoArgs(p) {
+  const o = {};
+  ECHO_KEYS.forEach(function (k) {
+    if (p[k] !== undefined && p[k] !== null && p[k] !== '') o[k] = p[k];
+  });
+  return o;
+}
+
 /* Conversion des champs BRUTS d'une carte grise (lus par OCR côté ChatGPT) vers
    nos valeurs de tarif. Déterministe côté serveur → pas d'erreur de mapping.
    Genre (J.1) -> categorie_vehi ; P.6 (CV) -> puissance ; F.2 (kg) -> ptac ;
@@ -127,6 +141,7 @@ async function devisAssuranceTemporaire(params, opts) {
       durees_disponibles: data.durees || null,
       hypotheses: withDef.assumed.length ? withDef.assumed : null,
       lien_devis_pre_rempli: url,
+      echo_args: echoArgs(withDef.params),
       message: lignes.join('\n')
     };
   }
@@ -156,6 +171,7 @@ async function devisAssuranceTemporaire(params, opts) {
     tarif_indicatif: tarif,
     durees_disponibles: durees,
     lien_devis_pre_rempli: url,
+    echo_args: echoArgs(params),
     note_conformite: 'Tarif indicatif (le prix exact est confirmé au devis sur le tarificateur).',
     message: lignes.join('\n')
   };
