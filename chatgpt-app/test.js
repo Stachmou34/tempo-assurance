@@ -84,6 +84,8 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   const pl = buildSessionPayload({ conducteur: { nom: 'X', truc: 'z' }, vehicule: { genre: 'VL-VL' }, profil_tarifaire: { duree: '7' } });
   ok(pl.conducteur && pl.conducteur.nom === 'X' && pl.conducteur.truc === undefined, 'payload : champs inconnus filtrés (minimisation)');
   ok(pl.vehicule.genre === 'VL-VL' && pl.profil_tarifaire.duree === '7', 'payload : conducteur/vehicule/profil structurés');
+  const pl2 = buildSessionPayload({ conducteur: { date_naissance: '1990-05-12' }, vehicule: { genre: 'VL-VL', puissance_fiscale: 5, date_premiere_mec: '2019-03-15' } });
+  ok(pl2.profil_tarifaire.categorie_vehi === 'VL-VL' && pl2.profil_tarifaire.puissance === 'inf30' && pl2.profil_tarifaire.age_vehicule === 'moins10' && pl2.profil_tarifaire.date_naissance === '1990-05-12', 'profil_tarifaire complété depuis conducteur/véhicule (tarif pré-rempli)');
 
   // interrupteur OFF -> désactivé
   delete process.env.ENABLE_PREFILL_SESSION;
