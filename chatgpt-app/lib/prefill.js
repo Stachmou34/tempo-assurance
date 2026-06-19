@@ -17,8 +17,8 @@ function sessionEnabled() {
   return v === '1' || v === 'true' || v === 'on';
 }
 
-const CONDUCTEUR_KEYS = ['nom', 'prenom', 'date_naissance', 'adresse', 'code_postal',
-  'ville', 'pays_residence', 'mobile', 'email', 'num_permis', 'date_permis'];
+const CONDUCTEUR_KEYS = ['nom', 'prenom', 'date_naissance', 'pays_naissance', 'adresse', 'code_postal',
+  'ville', 'pays_residence', 'mobile', 'email', 'num_permis', 'date_permis', 'pays_permis', 'type_permis'];
 const VEHICULE_KEYS = ['immatriculation', 'date_premiere_mec', 'marque', 'modele',
   'genre', 'puissance_fiscale', 'ptac_kg', 'places', 'chassis', 'pays_immatriculation'];
 /* profil_tarifaire = champs du formulaire de tarif (équivalent des paramètres GET).
@@ -113,10 +113,13 @@ const conducteurSchema = {
   properties: {
     nom: { type: 'string' }, prenom: { type: 'string' },
     date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
+    pays_naissance: { type: 'string', description: 'Pays de naissance en MAJUSCULES (même référentiel que pays_residence, ex. FRANCE METROPOLITAINE)' },
     adresse: { type: 'string' }, code_postal: { type: 'string' }, ville: { type: 'string' },
     pays_residence: { type: 'string' }, mobile: { type: 'string' },
     email: { type: 'string', format: 'email' },
-    num_permis: { type: 'string' }, date_permis: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' }
+    num_permis: { type: 'string' }, date_permis: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
+    pays_permis: { type: 'string', description: 'Pays du permis (nationalité du permis) en MAJUSCULES, ex. FRANCE METROPOLITAINE' },
+    type_permis: { type: 'string', description: 'Code court : B (voiture), C/C1 (poids lourd), D/D1 (car/bus)' }
   }
 };
 const vehiculeSchema = {
