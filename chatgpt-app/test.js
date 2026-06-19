@@ -49,7 +49,22 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
 
   const dReal = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', age_conducteur: 35, duree: 15 }, fakeApi);
   ok(dReal.source === 'jlassure_api' && dReal.tarif.prix_vente === '110,50 €' && dReal.tarif.prix_reel === true, 'devis utilise le tarif réel (110,50 €)');
-  ok(dReal.lien_devis_pre_rempli.indexOf('jlassure.com') > -1, 'utilise le prefill_url renvoyé par l\'API');
+  ok(dReal.lien_devis_pre_rempli.indexOf('devis-ou-souscription.html') > -1, 'lien = page devis Tempo (params utilisateur)');
+
+  const dDef = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', age_conducteur: 35, duree: 15 }, fakeApi);
+  ok(dDef.source === 'jlassure_api' && dDef.hypotheses && dDef.hypotheses.length === 2, 'champs manquants → valeurs par défaut + hypothèses signalées (tarif réel quand même)');
+
+  console.log('\n[OCR carte grise → champs de tarif]');
+  let cap2 = null;
+  const fakeCapture = { apiKey: 'K', fetchImpl: async function (e, o) { cap2 = JSON.parse(o.body); return { ok: true, json: async function () { return { prix_vente: 144.54, durees: [15], prefill_url: 'x' }; } }; } };
+  const dCG = await devisAssuranceTemporaire({ genre_carte_grise: 'VP', puissance_cv: 35, ptac_kg: 1800, date_mise_circulation: '03/08/2014', age_conducteur: 40, pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', duree: 15 }, fakeCapture);
+  ok(cap2.categorie_vehi === 'VL-VL', 'genre VP → categorie_vehi VL-VL');
+  ok(cap2.puissance === 'sup30', 'P.6=35 CV → puissance sup30');
+  ok(cap2.age_vehicule === 'plus10', 'mise en circulation 2014 → age_vehicule plus10');
+  ok(dCG.source === 'jlassure_api' && dCG.tarif.prix_vente === '144,54 €', 'tarif réel calculé depuis la carte grise (144,54 €)');
+  ok(/carte grise/i.test(dCG.message), 'message signale les champs lus sur la carte grise');
+  const dCG2 = await devisAssuranceTemporaire({ genre_carte_grise: 'REM', ptac_kg: 600, duree: 5 }, fakeCapture);
+  ok(cap2.categorie_vehi === 'REM-REM2' && cap2.puissance === '0', 'genre REM → remorque + puissance 0');
 
   const fakeHors = { apiKey: 'K', fetchImpl: async function () { return { ok: true, json: async function () { return { hors_perimetre: true }; } }; } };
   const dHors = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', duree: 5 }, fakeHors);
