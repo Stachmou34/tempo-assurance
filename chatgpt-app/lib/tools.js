@@ -19,7 +19,13 @@ const profilProps = {
   date_debut: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: "Date de début AAAA-MM-JJ (≥ aujourd'hui)" },
   heure_debut: { type: 'string', pattern: '^\\d{2}:\\d{2}$', description: 'Heure de début HH:MM' },
   motif_assurance_temporaire: { type: 'string', enum: ['achat_vente', 'resilie_non_paiement', 'sortie_fourriere', 'autre'], description: 'Motif du besoin' },
-  motif_assurance_temporaire_autre: { type: 'string', maxLength: 255, description: 'Texte libre si motif=autre' }
+  motif_assurance_temporaire_autre: { type: 'string', maxLength: 255, description: 'Texte libre si motif=autre' },
+  /* Champs BRUTS lus sur une carte grise (OCR) : convertis automatiquement.
+     Ne PAS demander/transmettre les champs personnels (nom, immatriculation, châssis). */
+  puissance_cv: { type: 'integer', description: 'Carte grise P.6 : puissance fiscale en CV (ex. 6). Converti en inf30/sup30.' },
+  ptac_kg: { type: 'integer', description: 'Carte grise F.2 : PTAC en kg (ex. 1800). Converti en inf3500/sup3500.' },
+  date_mise_circulation: { type: 'string', description: 'Carte grise B : date de 1re mise en circulation (JJ/MM/AAAA ou AAAA-MM-JJ). Converti en age_vehicule.' },
+  genre_carte_grise: { type: 'string', description: 'Carte grise J.1 : genre national (VP, CTTE, CAM, TCP, REM, VASP, TRA, QM…). Converti en categorie_vehi.' }
 };
 
 /* Outils en lecture seule (préparation) : aucune écriture, aucun envoi de données
@@ -63,7 +69,11 @@ const TOOLS = [
       '(le client finalise lui-même). ' +
       'Pour un TARIF RÉEL, fournir : categorie_vehi, age_vehicule (moins10/plus10), puissance ' +
       '(inf30 = ≤30 CV / sup30 = >30 CV), pays_immatriculation, pays_residence, age_conducteur et ' +
-      'duree. À défaut, l\'outil suppose voiture ≤30 CV et véhicule <10 ans (préciser pour ajuster).',
+      'duree. À défaut, l\'outil suppose voiture ≤30 CV et véhicule <10 ans (préciser pour ajuster). ' +
+      'Si le client partage une PHOTO DE CARTE GRISE, en extraire les champs techniques et les passer ' +
+      'en brut : puissance_cv (P.6), ptac_kg (F.2), date_mise_circulation (B), genre_carte_grise (J.1) ' +
+      '— convertis automatiquement. NE PAS extraire ni transmettre les données personnelles ' +
+      '(nom, adresse, immatriculation, n° de châssis, n° de permis).',
     inputSchema: { type: 'object', additionalProperties: false, properties: profilProps },
     outputSchema: devisOutputSchema,
     annotations: READONLY,

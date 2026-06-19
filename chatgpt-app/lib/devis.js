@@ -29,6 +29,40 @@ function buildDevisUrl(params) {
 
 function euro(n) { return Number(n).toFixed(2).replace('.', ',') + ' €'; }
 
+/* Conversion des champs BRUTS d'une carte grise (lus par OCR côté ChatGPT) vers
+   nos valeurs de tarif. Déterministe côté serveur → pas d'erreur de mapping.
+   Genre (J.1) -> categorie_vehi ; P.6 (CV) -> puissance ; F.2 (kg) -> ptac ;
+   date 1re mise en circulation -> age_vehicule. */
+const GENRE_MAP = {
+  'VP': 'VL-VL', 'CTTE': 'VL-VU', 'CAM': 'CAM-CAM3', 'TRR': 'REM-REM2',
+  'REM': 'REM-REM2', 'RESP': 'REM-REM2', 'SREM': 'REM-REM2', 'CARAVANE': 'REM-REM3',
+  'TCP': 'TCP-TCP', 'TRA': 'TRA-TRA', 'QM': 'QM-QM', 'VASP': 'CC-Cap'
+};
+function parseYear(s) { const m = String(s).match(/(\d{4})/); return m ? Number(m[1]) : null; }
+
+function normalizeFromCarteGrise(params) {
+  const p = Object.assign({}, params);
+  const deduits = [];
+  if (!p.categorie_vehi && p.genre_carte_grise) {
+    const g = String(p.genre_carte_grise).toUpperCase().trim();
+    if (GENRE_MAP[g]) { p.categorie_vehi = GENRE_MAP[g]; deduits.push('catégorie'); }
+  }
+  if ((p.puissance === undefined || p.puissance === null || p.puissance === '') && p.puissance_cv != null) {
+    const cv = Number(p.puissance_cv);
+    if (!isNaN(cv)) { p.puissance = cv <= 30 ? 'inf30' : 'sup30'; deduits.push('puissance'); }
+  }
+  if ((p.ptac === undefined || p.ptac === null || p.ptac === '') && p.ptac_kg != null) {
+    const kg = Number(p.ptac_kg);
+    if (!isNaN(kg)) { p.ptac = kg <= 3500 ? 'inf3500' : 'sup3500'; deduits.push('PTAC'); }
+  }
+  if (p.categorie_vehi === 'CC-Cap' && p.ptac === 'sup3500') { p.categorie_vehi = 'CAM-Fou'; }
+  if ((p.age_vehicule === undefined || p.age_vehicule === null || p.age_vehicule === '') && p.date_mise_circulation) {
+    const y = parseYear(p.date_mise_circulation);
+    if (y) { p.age_vehicule = (new Date().getFullYear() - y) < 10 ? 'moins10' : 'plus10'; deduits.push('âge du véhicule'); }
+  }
+  return { params: p, deduits: deduits };
+}
+
 /* Pour obtenir un tarif RÉEL, l'API jlassure exige age_vehicule + puissance.
    Si le modèle ne les a pas fournis, on suppose des valeurs courantes (voiture
    ≤30 CV, véhicule <10 ans ; remorque/caravane = pas de puissance) et on le
@@ -50,6 +84,8 @@ function withDefaults(params) {
 /* Outil 1 : prépare un devis (tarif réel via API si possible, sinon indicatif). */
 async function devisAssuranceTemporaire(params, opts) {
   params = params || {};
+  const norm = normalizeFromCarteGrise(params); /* champs carte grise -> valeurs de tarif */
+  params = norm.params;
   const cat = params.categorie_vehi;
   if (cat && !LABELS[cat]) {
     return { error: 'categorie_vehi inconnue : ' + cat, categories_valides: CATEGORIES };
@@ -75,6 +111,9 @@ async function devisAssuranceTemporaire(params, opts) {
       lignes.push('Tarif : ' + euro(data.prix_vente) + ' pour ' + d + ' jour(s) (prix réel, RC + Défense et Recours, frais inclus).');
     } else if (Array.isArray(data.durees)) {
       lignes.push('Durées disponibles (jours) : ' + data.durees.join(', ') + '. Précisez "duree" pour un tarif.');
+    }
+    if (norm.deduits.length) {
+      lignes.push('Lu sur la carte grise : ' + norm.deduits.join(', ') + '.');
     }
     if (withDef.assumed.length) {
       lignes.push('Hypothèses : ' + withDef.assumed.join(', ') + ' (précisez pour ajuster).');
