@@ -13,10 +13,6 @@
   .head .eyebrow { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:#bfdbfe; font-weight:700; }
   .head h1 { margin:.3em 0 0; font-size:1.25rem; font-weight:800; }
   .body { padding:18px 20px; }
-  .field { margin:0 0 14px; }
-  .field label { display:block; font-size:.78rem; font-weight:700; color:var(--navy); margin:0 0 5px; }
-  select { width:100%; font:inherit; font-size:.95rem; color:var(--navy); background:#fff; border:1px solid var(--border); border-radius:9px; padding:9px 11px; cursor:pointer; }
-  select:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.15); }
   .price-row { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; min-height:42px; }
   .price { font-size:2rem; font-weight:800; color:var(--navy); transition:opacity .15s; }
   .price.loading { opacity:.35; }
@@ -25,13 +21,11 @@
   .badge.real { background:#ecfdf5; color:var(--green); border:1px solid #a7f3d0; }
   .badge.ind { background:#fffbeb; color:var(--amber); border:1px solid #fde68a; }
   .sub { color:var(--grey); font-size:.9rem; margin:8px 0 0; }
-  .pick { color:var(--navy); font-size:.82rem; font-weight:700; margin:16px 0 6px; }
-  .durations { display:flex; flex-wrap:wrap; gap:6px; max-height:96px; overflow:auto; }
-  .chip { font:inherit; font-size:.8rem; background:#f1f5f9; color:var(--navy); border:1px solid var(--border); border-radius:999px; padding:5px 11px; cursor:pointer; transition:all .12s; }
-  .chip:hover { border-color:var(--blue); }
-  .chip.sel { background:var(--navy); color:#fff; border-color:var(--navy); }
-  .cg { display:flex; gap:8px; align-items:center; background:#EFF4FF; border:1px solid #bfdbfe; color:var(--navy); border-radius:10px; padding:9px 12px; font-size:.82rem; margin:14px 0 0; }
-  .cta { display:block; text-align:center; text-decoration:none; background:var(--navy); color:#fff; font-weight:700; padding:13px 18px; border-radius:10px; margin:14px 0 6px; transition:background .15s; }
+  .field { margin:16px 0 0; }
+  .field label { display:block; font-size:.8rem; font-weight:700; color:var(--navy); margin:0 0 5px; }
+  select { width:100%; font:inherit; font-size:1rem; color:var(--navy); background:#fff; border:1px solid var(--border); border-radius:9px; padding:11px 12px; cursor:pointer; }
+  select:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.15); }
+  .cta { display:block; text-align:center; text-decoration:none; background:var(--navy); color:#fff; font-weight:700; padding:13px 18px; border-radius:10px; margin:18px 0 6px; transition:background .15s; }
   .cta:hover { background:var(--blue); }
   .note { color:var(--grey); font-size:.78rem; line-height:1.5; margin:10px 0 0; }
   .hp h1 { color:var(--navy); font-size:1.15rem; margin:0 0 6px; }
@@ -41,13 +35,6 @@
 <div id="app" class="card"><div class="body"><p class="sub">Chargement du devis…</p></div></div>
 
 <script>
-  var CATS = [
-    ['VL-VL', 'Voiture (VP)'], ['VL-VU', 'Utilitaire / fourgon'], ['CAM-CAM3', 'Camion (> 3,5 t)'],
-    ['TCP-TCP', 'Bus / car'], ['CC-Cap', 'Camping-car (≤ 3,5 t)'], ['CAM-Fou', 'Camping-car (> 3,5 t)'],
-    ['REM-REM2', 'Remorque / semi-remorque'], ['REM-REM3', 'Caravane'], ['VSP-VSP', 'Voiturette sans permis'],
-    ['QMQLEM-QMQLEM', 'Buggy sans permis'], ['QM-QM', 'Quad'], ['TRA-TRA', 'Tracteur agricole']
-  ];
-
   var SAMPLE = {
     source: 'jlassure_api', categorie: 'Voiture (VP)',
     tarif: { duree: 15, prix_vente: '118,67 €', prix_reel: true },
@@ -76,16 +63,11 @@
     }
     var p = pickPrice(d);
     var cat = d.categorie || 'Assurance temporaire';
-    var curCat = (d.echo_args && d.echo_args.categorie_vehi) || 'VL-VL';
     var badge = p ? (p.real ? '<span class="badge real">prix réel</span>' : '<span class="badge ind">indicatif</span>') : '';
     var durees = Array.isArray(d.durees_disponibles) ? d.durees_disponibles : [];
     var sel = p ? Number(p.duree) : null;
-
-    var options = CATS.map(function (c) {
-      return '<option value="' + c[0] + '"' + (c[0] === curCat ? ' selected' : '') + '>' + esc(c[1]) + '</option>';
-    }).join('');
-    var chips = durees.map(function (n) {
-      return '<button class="chip' + (Number(n) === sel ? ' sel' : '') + '" data-duree="' + esc(n) + '">' + esc(n) + ' j</button>';
+    var options = durees.map(function (n) {
+      return '<option value="' + esc(n) + '"' + (Number(n) === sel ? ' selected' : '') + '>' + esc(n) + ' jour' + (Number(n) > 1 ? 's' : '') + '</option>';
     }).join('');
     var link = d.lien_devis_pre_rempli || '#';
 
@@ -96,26 +78,17 @@
 
     app.innerHTML =
       '<div class="head"><div class="eyebrow">Assurance temporaire</div><h1>' + esc(cat) + '</h1></div>' +
-      '<div class="body">' +
-      '<div class="field"><label>Type de véhicule</label><select id="cat">' + options + '</select></div>' +
-      priceBlock +
-      (chips ? '<div class="pick">Choisissez la durée :</div><div class="durations">' + chips + '</div>' : '') +
-      '<div class="cg">📷 Pour un <b>tarif exact</b>, partagez une <b>photo de votre carte grise</b> dans la conversation.</div>' +
+      '<div class="body">' + priceBlock +
+      (options ? '<div class="field"><label for="duree-select">Durée</label><select id="duree-select">' + options + '</select></div>' : '') +
       '<a class="cta" href="' + esc(link) + '" target="_blank" rel="noopener">Souscrire (devis pré-rempli)</a>' +
       '<p class="note">Le client vérifie les informations, consulte l\'IPID, confirme et règle par carte sur le tarificateur. Aucune souscription n\'est finalisée par l\'application.</p>' +
       '</div>';
   }
 
-  function setLoading() {
-    var pr = document.querySelector('#app .price'); if (pr) pr.classList.add('loading');
-  }
-
-  async function reprice(overrides, dropKeys) {
+  async function reprice(overrides) {
     if (!lastData) return;
-    var base = Object.assign({}, lastData.echo_args || {});
-    (dropKeys || []).forEach(function (k) { delete base[k]; });
-    var args = Object.assign(base, overrides);
-    setLoading();
+    var args = Object.assign({}, lastData.echo_args || {}, overrides);
+    var pr = document.querySelector('#app .price'); if (pr) pr.classList.add('loading');
     if (window.openai && typeof window.openai.callTool === 'function') {
       try {
         var res = await window.openai.callTool('devis_assurance_temporaire', args);
@@ -123,23 +96,12 @@
         if (data && (data.tarif || data.tarif_indicatif || data.hors_perimetre)) { render(data); return; }
       } catch (e) { /* on garde l'état précédent */ }
       render(lastData);
-    } else {
-      var pr = document.querySelector('#app .price'); if (pr) pr.classList.remove('loading');
-    }
+    } else if (pr) { pr.classList.remove('loading'); }
   }
 
-  /* Clic durée */
-  document.addEventListener('click', function (e) {
-    var chip = e.target.closest ? e.target.closest('[data-duree]') : null;
-    if (!chip) return;
-    var d = Number(chip.getAttribute('data-duree'));
-    var chips = document.querySelectorAll('#app [data-duree]');
-    for (var i = 0; i < chips.length; i++) chips[i].classList.toggle('sel', Number(chips[i].getAttribute('data-duree')) === d);
-    reprice({ duree: d }, []);
-  });
-  /* Changement de véhicule (on laisse le serveur re-déduire puissance/ptac) */
+  /* Changement de durée (liste déroulante) */
   document.addEventListener('change', function (e) {
-    if (e.target && e.target.id === 'cat') reprice({ categorie_vehi: e.target.value }, ['puissance', 'ptac']);
+    if (e.target && e.target.id === 'duree-select') reprice({ duree: Number(e.target.value) });
   });
 
   function current() { return (window.openai && window.openai.toolOutput) || null; }

@@ -19,6 +19,9 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
 
   const url = buildDevisUrl({ categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', ptac: 'inf3500', duree: 15, date_debut: '2026-07-01' });
   ok(url.indexOf('devis-ou-souscription.html?categorie_vehi=VL-VL') > -1 && url.indexOf('ptac=inf3500') > -1, 'lien pré-rempli construit (dont ptac)');
+  const uDef = buildDevisUrl({ categorie_vehi: 'VL-VL', age_conducteur: 35 });
+  ok(/date_naissance=\d{4}-\d{2}-\d{2}/.test(uDef), 'lien : date_naissance déduite de age_conducteur');
+  ok(/date_debut=\d{4}-\d{2}-\d{2}/.test(uDef) && /heure_debut=\d{2}%3A\d{2}/.test(uDef), 'lien : date_debut + heure_debut par défaut');
 
   const d = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 15 });
   ok(d.source === 'indicatif', 'sans clé → source indicatif');
@@ -81,6 +84,8 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   const pl = buildSessionPayload({ conducteur: { nom: 'X', truc: 'z' }, vehicule: { genre: 'VL-VL' }, profil_tarifaire: { duree: '7' } });
   ok(pl.conducteur && pl.conducteur.nom === 'X' && pl.conducteur.truc === undefined, 'payload : champs inconnus filtrés (minimisation)');
   ok(pl.vehicule.genre === 'VL-VL' && pl.profil_tarifaire.duree === '7', 'payload : conducteur/vehicule/profil structurés');
+  const pl2 = buildSessionPayload({ conducteur: { date_naissance: '1990-05-12' }, vehicule: { genre: 'VL-VL', puissance_fiscale: 5, date_premiere_mec: '2019-03-15' } });
+  ok(pl2.profil_tarifaire.categorie_vehi === 'VL-VL' && pl2.profil_tarifaire.puissance === 'inf30' && pl2.profil_tarifaire.age_vehicule === 'moins10' && pl2.profil_tarifaire.date_naissance === '1990-05-12', 'profil_tarifaire complété depuis conducteur/véhicule (tarif pré-rempli)');
 
   // interrupteur OFF -> désactivé
   delete process.env.ENABLE_PREFILL_SESSION;

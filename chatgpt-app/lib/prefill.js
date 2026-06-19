@@ -17,11 +17,16 @@ function sessionEnabled() {
   return v === '1' || v === 'true' || v === 'on';
 }
 
-const CONDUCTEUR_KEYS = ['nom', 'prenom', 'date_naissance', 'adresse', 'code_postal',
-  'ville', 'pays_residence', 'mobile', 'email', 'num_permis', 'date_permis'];
+const CONDUCTEUR_KEYS = ['nom', 'prenom', 'date_naissance', 'pays_naissance', 'adresse', 'code_postal',
+  'ville', 'pays_residence', 'mobile', 'email', 'num_permis', 'date_permis', 'pays_permis', 'type_permis'];
 const VEHICULE_KEYS = ['immatriculation', 'date_premiere_mec', 'marque', 'modele',
   'genre', 'puissance_fiscale', 'ptac_kg', 'places', 'chassis', 'pays_immatriculation'];
-const PROFIL_KEYS = ['motif_assurance_temporaire', 'duree', 'date_debut', 'heure_debut'];
+/* profil_tarifaire = champs du formulaire de tarif (équivalent des paramètres GET).
+   Doit être complet pour que le tarif se pré-remplisse à l'ouverture. */
+const PROFIL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance', 'ptac',
+  'pays_immatriculation', 'pays_residence', 'date_naissance',
+  'motif_assurance_temporaire', 'motif_assurance_temporaire_autre',
+  'duree', 'date_debut', 'heure_debut'];
 
 function pick(obj, keys) {
   const o = {};
@@ -33,13 +38,37 @@ function pick(obj, keys) {
   return o;
 }
 
+/* Construit un profil_tarifaire complet : reprend les champs fournis, puis complète
+   les champs de tarif manquants à partir des blocs conducteur/véhicule. */
+function buildProfil(args) {
+  const c = args.conducteur || {}, v = args.vehicule || {}, pt = args.profil_tarifaire || {};
+  const prof = pick(pt, PROFIL_KEYS);
+  if (!prof.categorie_vehi && v.genre) prof.categorie_vehi = v.genre;
+  if (!prof.date_naissance && c.date_naissance) prof.date_naissance = c.date_naissance;
+  if (!prof.pays_residence && c.pays_residence) prof.pays_residence = c.pays_residence;
+  if (!prof.pays_immatriculation && v.pays_immatriculation) prof.pays_immatriculation = v.pays_immatriculation;
+  if (!prof.puissance && v.puissance_fiscale != null) {
+    const cv = Number(v.puissance_fiscale);
+    if (!isNaN(cv)) prof.puissance = cv <= 30 ? 'inf30' : 'sup30';
+  }
+  if (!prof.ptac && v.ptac_kg != null) {
+    const kg = Number(v.ptac_kg);
+    if (!isNaN(kg)) prof.ptac = kg <= 3500 ? 'inf3500' : 'sup3500';
+  }
+  if (!prof.age_vehicule && v.date_premiere_mec) {
+    const m = String(v.date_premiere_mec).match(/(\d{4})/);
+    if (m) prof.age_vehicule = (new Date().getFullYear() - Number(m[1])) < 10 ? 'moins10' : 'plus10';
+  }
+  return prof;
+}
+
 /* Construit le payload jlassure en ne gardant que les champs fournis (minimisation). */
 function buildSessionPayload(args) {
   args = args || {};
   const payload = {};
   const c = pick(args.conducteur, CONDUCTEUR_KEYS);
   const v = pick(args.vehicule, VEHICULE_KEYS);
-  const p = pick(args.profil_tarifaire, PROFIL_KEYS);
+  const p = buildProfil(args);
   if (Object.keys(c).length) payload.conducteur = c;
   if (Object.keys(v).length) payload.vehicule = v;
   if (Object.keys(p).length) payload.profil_tarifaire = p;
@@ -84,10 +113,13 @@ const conducteurSchema = {
   properties: {
     nom: { type: 'string' }, prenom: { type: 'string' },
     date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
+    pays_naissance: { type: 'string', description: 'Pays de naissance en MAJUSCULES (même référentiel que pays_residence, ex. FRANCE METROPOLITAINE)' },
     adresse: { type: 'string' }, code_postal: { type: 'string' }, ville: { type: 'string' },
     pays_residence: { type: 'string' }, mobile: { type: 'string' },
     email: { type: 'string', format: 'email' },
-    num_permis: { type: 'string' }, date_permis: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' }
+    num_permis: { type: 'string' }, date_permis: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
+    pays_permis: { type: 'string', description: 'Pays du permis (nationalité du permis) en MAJUSCULES, ex. FRANCE METROPOLITAINE' },
+    type_permis: { type: 'string', description: 'Code court : B (voiture), C/C1 (poids lourd), D/D1 (car/bus)' }
   }
 };
 const vehiculeSchema = {
@@ -103,7 +135,15 @@ const vehiculeSchema = {
 };
 const profilSchema = {
   type: 'object', additionalProperties: false,
+  description: 'Champs de tarif. Si omis, déduits des blocs conducteur/véhicule.',
   properties: {
+    categorie_vehi: { type: 'string', enum: CATEGORIES },
+    age_vehicule: { type: 'string', enum: ['moins10', 'plus10'] },
+    puissance: { type: 'string', enum: ['inf30', 'sup30', '0'] },
+    ptac: { type: 'string', enum: ['inf3500', 'sup3500'] },
+    pays_immatriculation: { type: 'string' },
+    pays_residence: { type: 'string' },
+    date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
     motif_assurance_temporaire: { type: 'string', enum: ['achat_vente', 'resilie_non_paiement', 'sortie_fourriere', 'autre'] },
     duree: { type: 'string' }, date_debut: { type: 'string' }, heure_debut: { type: 'string' }
   }

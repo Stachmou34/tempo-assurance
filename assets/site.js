@@ -18,6 +18,13 @@
       /* v peut valoir "0" (ex. puissance=0 pour une remorque) : ne rejeter que null/vide */
       if (v !== null && v !== '') out.push(k + '=' + encodeURIComponent(v));
     });
+    /* Heure de début par défaut : si une date de début est fournie sans heure,
+       on propose l'heure courante + 15 min (le client peut la modifier). */
+    if (sp.get('date_debut') && !sp.get('heure_debut')) {
+      var d = new Date(Date.now() + 15 * 60000);
+      var hh = ('0' + d.getHours()).slice(-2), mm = ('0' + d.getMinutes()).slice(-2);
+      out.push('heure_debut=' + encodeURIComponent(hh + ':' + mm));
+    }
     return out.join('&');
   }
   function withPrefill(url) {
