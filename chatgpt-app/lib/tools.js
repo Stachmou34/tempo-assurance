@@ -65,16 +65,20 @@ const TOOLS = [
     name: 'devis_assurance_temporaire',
     title: 'Devis assurance temporaire',
     description: "Prépare un devis d'assurance auto temporaire (1 à 90 jours) sur Tempo-Assurance : " +
-      'renvoie un tarif (réel via le tarificateur partenaire si disponible, sinon indicatif) et un ' +
-      'lien de devis pré-rempli. La souscription et le paiement se font ensuite sur le tarificateur ' +
-      '(le client finalise lui-même). ' +
-      'Pour un TARIF RÉEL, fournir : categorie_vehi, age_vehicule (moins10/plus10), puissance ' +
-      '(inf30 = ≤30 CV / sup30 = >30 CV), pays_immatriculation, pays_residence, age_conducteur et ' +
-      'duree. À défaut, l\'outil suppose voiture ≤30 CV et véhicule <10 ans (préciser pour ajuster). ' +
-      'Si le client partage une PHOTO DE CARTE GRISE, en extraire les champs techniques et les passer ' +
-      'en brut : puissance_cv (P.6), ptac_kg (F.2), date_mise_circulation (B), genre_carte_grise (J.1) ' +
-      '— convertis automatiquement. NE PAS extraire ni transmettre les données personnelles ' +
-      '(nom, adresse, immatriculation, n° de châssis, n° de permis).',
+      'renvoie un tarif et un lien de devis pré-rempli. La souscription et le paiement se font ' +
+      'ensuite sur le tarificateur (le client finalise lui-même). ' +
+      'NIVEAU 1 (devis) — DEMANDER au client, sans rien supposer : categorie_vehi · age_vehicule ' +
+      '(moins/plus de 10 ans) · puissance (≤30 / >30 CV) · ptac si pertinent · pays_immatriculation · ' +
+      'pays_residence · age_conducteur (ou date_naissance) · duree · date_debut · motif. ' +
+      "Si l'outil répond source=incomplet, poser les questions listées dans besoin_infos (NE PAS inventer de valeur). " +
+      'NIVEAU 1+ (tarif précis) — si le client ne connaît pas la puissance/le PTAC, lui PROPOSER ' +
+      "d'envoyer une photo de CARTE GRISE ; en extraire les champs TECHNIQUES et les passer en brut : " +
+      'puissance_cv (P.6), ptac_kg (F.2), date_mise_circulation (B), genre_carte_grise (J.1) — convertis ' +
+      'automatiquement. ' +
+      'NIVEAU 2 (souscription) — si le client veut souscrire / gagner du temps, lui proposer la carte ' +
+      'grise + le permis et utiliser plutôt l\'outil preparer_session_souscription. ' +
+      'Avant de présenter le lien de souscription final, RÉCAPITULER le profil (véhicule, durée, conducteur) et demander confirmation. ' +
+      'NE PAS extraire ni transmettre de données personnelles ici (nom, adresse, immatriculation, châssis, n° de permis).',
     inputSchema: { type: 'object', additionalProperties: false, properties: profilProps },
     outputSchema: devisOutputSchema,
     annotations: READONLY,

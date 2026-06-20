@@ -23,9 +23,13 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   ok(/date_naissance=\d{4}-\d{2}-\d{2}/.test(uDef), 'lien : date_naissance déduite de age_conducteur');
   ok(/date_debut=\d{4}-\d{2}-\d{2}/.test(uDef) && /heure_debut=\d{2}%3A\d{2}/.test(uDef), 'lien : date_debut + heure_debut par défaut');
 
-  const d = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 15 });
+  const FULL = { categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', date_naissance: '1990-05-12', duree: 15 };
+  const d = await devisAssuranceTemporaire(FULL);
   ok(d.source === 'indicatif', 'sans clé → source indicatif');
   ok(d.tarif_indicatif && d.tarif_indicatif.prix_indicatif === '107,81 €', 'voiture 15 j = 107,81 € (grille)');
+
+  const inc = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', duree: 15 });
+  ok(inc.source === 'incomplet' && Array.isArray(inc.besoin_infos) && inc.besoin_infos.length >= 3, 'champs manquants → demande (AUCUNE hypothèse)');
 
   const dInvalide = await devisAssuranceTemporaire({ categorie_vehi: 'XXX' });
   ok(dInvalide.error && Array.isArray(dInvalide.categories_valides), 'catégorie inconnue → erreur + liste');
@@ -51,13 +55,10 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   ok(captured.headers.Authorization === 'Bearer TEST_KEY', 'en-tête Authorization Bearer transmis (doublon)');
   ok(captured.body.date_debut === undefined && captured.body.categorie_vehi === 'VL-VL', 'payload = champs API uniquement (pas de date_debut)');
 
-  const dReal = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', age_conducteur: 35, duree: 15 }, fakeApi);
+  const dReal = await devisAssuranceTemporaire(Object.assign({}, FULL), fakeApi);
   ok(dReal.source === 'jlassure_api' && dReal.tarif.prix_vente === '110,50 €' && dReal.tarif.prix_reel === true, 'devis utilise le tarif réel (110,50 €)');
   ok(dReal.lien_devis_pre_rempli.indexOf('devis-ou-souscription.html') > -1, 'lien = page devis Tempo (params utilisateur)');
   ok(dReal.echo_args && dReal.echo_args.categorie_vehi === 'VL-VL' && dReal.echo_args.duree === 15, 'echo_args fourni (re-tarification dynamique du widget)');
-
-  const dDef = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', age_conducteur: 35, duree: 15 }, fakeApi);
-  ok(dDef.source === 'jlassure_api' && dDef.hypotheses && dDef.hypotheses.length === 2, 'champs manquants → valeurs par défaut + hypothèses signalées (tarif réel quand même)');
 
   console.log('\n[OCR carte grise → champs de tarif]');
   let cap2 = null;
@@ -68,15 +69,15 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   ok(cap2.age_vehicule === 'plus10', 'mise en circulation 2014 → age_vehicule plus10');
   ok(dCG.source === 'jlassure_api' && dCG.tarif.prix_vente === '144,54 €', 'tarif réel calculé depuis la carte grise (144,54 €)');
   ok(/carte grise/i.test(dCG.message), 'message signale les champs lus sur la carte grise');
-  const dCG2 = await devisAssuranceTemporaire({ genre_carte_grise: 'REM', ptac_kg: 600, duree: 5 }, fakeCapture);
-  ok(cap2.categorie_vehi === 'REM-REM2' && cap2.puissance === '0', 'genre REM → remorque + puissance 0');
+  const dCG2 = await devisAssuranceTemporaire({ genre_carte_grise: 'REM', ptac_kg: 600, age_vehicule: 'plus10', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', age_conducteur: 40, duree: 5 }, fakeCapture);
+  ok(cap2.categorie_vehi === 'REM-REM2' && cap2.puissance === '0', 'genre REM → remorque + puissance 0 (sans hypothèse)');
 
   const fakeHors = { apiKey: 'K', fetchImpl: async function () { return { ok: true, json: async function () { return { hors_perimetre: true }; } }; } };
-  const dHors = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', duree: 5 }, fakeHors);
+  const dHors = await devisAssuranceTemporaire(Object.assign({}, FULL, { duree: 5 }), fakeHors);
   ok(dHors.hors_perimetre === true && /hors périmètre/i.test(dHors.message), 'hors périmètre géré');
 
   const fakeDown = { apiKey: 'K', fetchImpl: async function () { return { ok: false, status: 500 }; } };
-  const dDown = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 15 }, fakeDown);
+  const dDown = await devisAssuranceTemporaire(Object.assign({}, FULL), fakeDown);
   ok(dDown.source === 'indicatif', 'API en erreur → repli indicatif (pas de crash)');
 
   console.log('\n[Phase 2 — prefill session (données perso)]');
@@ -110,7 +111,7 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
     const reqs = [
       { jsonrpc: '2.0', id: 1, method: 'initialize', params: {} },
       { jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} },
-      { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 7 } } }
+      { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', date_naissance: '1990-05-12', duree: 7 } } }
     ];
     srv.stdin.write(reqs.map(function (r) { return JSON.stringify(r); }).join('\n') + '\n');
     setTimeout(function () {
@@ -152,7 +153,7 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
         ok(rlist.result.resources.some(function (r) { return r.uri === 'ui://widget/devis.html'; }), 'resources/list → widget exposé');
         const rread = await rpc({ jsonrpc: '2.0', id: 5, method: 'resources/read', params: { uri: 'ui://widget/devis.html' } });
         ok(/profile=mcp-app/.test(rread.result.contents[0].mimeType) && /Souscrire/.test(rread.result.contents[0].text), 'resources/read → HTML du widget (mimeType + contenu)');
-        const dcall = await rpc({ jsonrpc: '2.0', id: 6, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', puissance: 'inf30', duree: 15 } } });
+        const dcall = await rpc({ jsonrpc: '2.0', id: 6, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', date_naissance: '1990-05-12', duree: 15 } } });
         ok(dcall.result._meta && dcall.result._meta['openai/outputTemplate'] === 'ui://widget/devis.html', 'tools/call devis → _meta widget dans le résultat');
       } catch (e) { ok(false, 'HTTP erreur : ' + e.message); }
       srv.kill();

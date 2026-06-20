@@ -152,12 +152,19 @@ const profilSchema = {
 const prefillTool = {
   name: 'preparer_session_souscription',
   title: 'Préparer la souscription pré-remplie',
-  description: "Prépare une souscription d'assurance temporaire avec les pages conducteur et " +
-    "véhicule DÉJÀ pré-remplies, et renvoie un lien sécurisé (session_url, valable 30 min). " +
-    "⚠️ Traite des DONNÉES PERSONNELLES : n'appeler qu'APRÈS avoir (1) obtenu le consentement " +
-    "explicite du client pour traiter ses informations, et (2) collecté les informations nécessaires. " +
-    "Ne transmettre que les champs réellement fournis (minimisation). La souscription, l'IPID et le " +
-    "paiement restent réalisés par le client sur le tunnel.",
+  description: "NIVEAU 2 (souscription facilitée) — prépare une souscription avec les pages conducteur " +
+    "et véhicule DÉJÀ pré-remplies, et renvoie un lien sécurisé (session_url, valable 30 min). " +
+    "À utiliser quand le client veut SOUSCRIRE / gagner du temps. " +
+    "Recueillir les infos en proposant d'envoyer une photo de la CARTE GRISE (véhicule : genre, marque D.1, " +
+    "modèle D.3, immatriculation, châssis E, P.6, F.2, date 1re MEC) ET du PERMIS (conducteur : nom, prénom, " +
+    "date de naissance, n° et date de permis, catégorie→type_permis, pays). Champs pays en MAJUSCULES ; " +
+    "pays_permis = nationalité du permis. " +
+    "Si un champ est illisible ou si le document n'est pas le bon, demander une photo nette (ne pas deviner). " +
+    "AVANT d'appeler : RÉCAPITULER au client les informations collectées (véhicule + conducteur) et obtenir sa CONFIRMATION. " +
+    "⚠️ DONNÉES PERSONNELLES : n'appeler qu'APRÈS (1) le CONSENTEMENT EXPLICITE du client et (2) la collecte + confirmation des infos. " +
+    "Minimisation : ne transmettre que les champs réellement fournis. " +
+    "Rappel au client : il devra quand même téléverser les pièces (permis, carte grise) sur le tunnel. " +
+    "La souscription, l'IPID et le paiement restent réalisés par le client sur le tunnel.",
   inputSchema: {
     type: 'object', additionalProperties: false,
     properties: { conducteur: conducteurSchema, vehicule: vehiculeSchema, profil_tarifaire: profilSchema }
