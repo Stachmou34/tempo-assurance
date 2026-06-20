@@ -28,6 +28,15 @@ const server = http.createServer(function (req, res) {
     return json(res, 200, { ok: true, server: SERVER_INFO, endpoint: '/mcp' });
   }
 
+  /* Vérification de domaine OpenAI : sert le token (env OPENAI_DOMAIN_VERIFICATION)
+     sur les URL .well-known du host MCP. Renseigner le token sur l'hébergeur. */
+  if (req.method === 'GET' && url.indexOf('/.well-known/') === 0) {
+    const tok = process.env.OPENAI_DOMAIN_VERIFICATION || '';
+    if (!tok) { res.writeHead(404); return res.end('not configured'); }
+    res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+    return res.end(tok);
+  }
+
   if (url !== '/mcp') { res.writeHead(404); return res.end('Not found'); }
 
   /* GET /mcp : ouverture du canal SSE (aucun message proactif à émettre ici) */

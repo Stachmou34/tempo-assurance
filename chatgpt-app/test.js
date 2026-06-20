@@ -131,7 +131,7 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   console.log('\n[Serveur MCP — HTTP /mcp (Apps SDK)]');
   await new Promise(function (resolve) {
     const port = 8799;
-    const env = Object.assign({}, process.env, { PORT: String(port) });
+    const env = Object.assign({}, process.env, { PORT: String(port), OPENAI_DOMAIN_VERIFICATION: 'tok-test-123' });
     const srv = spawn('node', [path.join(__dirname, 'server-http.js')], { stdio: ['ignore', 'ignore', 'inherit'], env });
     setTimeout(async function () {
       async function rpc(m) {
@@ -147,6 +147,8 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
         ok(/107,81/.test(call.result.content[0].text), 'HTTP tools/call → grille voiture (107,81 €)');
         const health = await (await fetch('http://localhost:' + port + '/')).json();
         ok(health.ok === true && health.endpoint === '/mcp', 'HTTP / health-check');
+        const wk = await fetch('http://localhost:' + port + '/.well-known/openai-domain');
+        ok(wk.status === 200 && (await wk.text()) === 'tok-test-123', 'HTTP /.well-known → token de vérification de domaine');
         const devisTool = list.result.tools.find(function (t) { return t.name === 'devis_assurance_temporaire'; });
         ok(devisTool._meta && devisTool._meta['openai/outputTemplate'] === 'ui://widget/devis.html', 'outil devis lié au widget (_meta outputTemplate)');
         const rlist = await rpc({ jsonrpc: '2.0', id: 4, method: 'resources/list', params: {} });
