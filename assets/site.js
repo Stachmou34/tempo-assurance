@@ -113,6 +113,29 @@
     setTimeout(function () { if (!got) f.style.height = '720px'; }, 1500);
   })();
 
+  /* ---------- Tarificateur en modale : redimensionnement dynamique ---------- */
+  /* Même principe pour la modale : on ajuste sa hauteur à celle postée par
+     jlassure, plafonnée à 92vh (scroll au-delà) pour ne pas déborder. */
+  (function () {
+    var modalEl = document.getElementById('modal-souscription');
+    if (!modalEl) return;
+    var content = modalEl.querySelector('.modal-content');
+    var body = modalEl.querySelector('.modal-body');
+    var frame = modalEl.querySelector('iframe');
+    if (!content || !frame) return;
+    frame.style.transition = 'height .25s ease';
+    if (body) { body.style.overflow = 'auto'; body.style.minHeight = '0'; }
+    window.addEventListener('message', function (e) {
+      if (e.origin !== 'https://www.jlassure.com') return;
+      if (!modalEl.classList.contains('show')) return; /* seulement modale ouverte */
+      var h = Number(e.data);
+      if (isNaN(h) || h < 200) return;
+      content.style.height = 'auto';
+      content.style.maxHeight = '92vh';
+      frame.style.height = h + 'px';
+    }, false);
+  })();
+
   /* ---------- Clic souscription : ouverture + mesure ---------- */
   document.addEventListener('click', function (e) {
     if (!modal) return; /* page sans modale : ne pas neutraliser le bouton ni fausser la mesure */
