@@ -96,21 +96,20 @@
   })();
 
   /* ---------- Tarificateur inline : redimensionnement dynamique ---------- */
-  /* Le tarificateur jlassure poste sa hauteur (un nombre) via postMessage.
-     On ajuste l'iframe en conséquence → l'iframe "se déroule" selon l'étape. */
+  /* jlassure poste sa hauteur via postMessage ; on l'applique (transition douce).
+     PAS de hauteur de départ imposée + anti-rebond → aucun "saut" à l'ouverture. */
   (function () {
     var f = document.querySelector('iframe.quote-frame');
     if (!f) return;
     f.style.transition = 'height .25s ease';
-    f.style.height = '360px'; /* départ compact ; grandit avec les réponses */
-    var got = false;
+    var t;
     window.addEventListener('message', function (e) {
       if (e.origin !== 'https://www.jlassure.com') return;
       var h = Number(e.data);
-      if (!isNaN(h) && h >= 200) { got = true; f.style.height = h + 'px'; }
+      if (isNaN(h) || h < 200) return;
+      clearTimeout(t);
+      t = setTimeout(function () { f.style.height = h + 'px'; }, 250);
     }, false);
-    /* Filet de sécurité : si aucune hauteur reçue, on garde une iframe haute */
-    setTimeout(function () { if (!got) f.style.height = '720px'; }, 1500);
   })();
 
   /* ---------- Tarificateur en modale : redimensionnement dynamique ---------- */
@@ -125,14 +124,18 @@
     if (!content || !frame) return;
     frame.style.transition = 'height .25s ease';
     if (body) { body.style.overflow = 'auto'; body.style.minHeight = '0'; }
+    var t;
     window.addEventListener('message', function (e) {
       if (e.origin !== 'https://www.jlassure.com') return;
       if (!modalEl.classList.contains('show')) return; /* seulement modale ouverte */
       var h = Number(e.data);
       if (isNaN(h) || h < 200) return;
-      content.style.height = 'auto';
-      content.style.maxHeight = '92vh';
-      frame.style.height = h + 'px';
+      clearTimeout(t);
+      t = setTimeout(function () {
+        content.style.height = 'auto';
+        content.style.maxHeight = '92vh';
+        frame.style.height = h + 'px';
+      }, 250);
     }, false);
   })();
 
