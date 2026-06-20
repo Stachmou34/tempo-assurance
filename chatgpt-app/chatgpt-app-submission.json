@@ -1,0 +1,45 @@
+{
+  "$comment": "Brouillon de soumission app ChatGPT - Tempo-Assurance. A RELIRE avant upload. Phase 2 (prefill identite) volontairement NON exposee (ENABLE_PREFILL_SESSION non defini).",
+  "name": "Assurance temporaire",
+  "short_description": "Devis d'assurance auto temporaire (1 a 90 jours) en quelques questions.",
+  "description": "Preparez en quelques secondes un devis d'assurance temporaire (voiture, utilitaire, camion, camping-car, voiturette, remorque, quad...) pour 1 a 90 jours. L'assistant pose les questions utiles - ou lit votre carte grise pour un tarif precis - puis vous renvoie vers le tarificateur en ligne pour finaliser. La souscription et le paiement se font sur le tunnel securise du partenaire ; l'assistant ne fait que preparer le devis.",
+  "categories": ["finance", "automotive"],
+  "locales": ["fr-FR"],
+  "developer": {
+    "name": "MCJ Courtage",
+    "legal_name": "MCJ COURTAGE",
+    "brand": "Tempo-Assurance",
+    "website": "https://www.tempo-assurance.com",
+    "support_email": "contact@mcj-courtage.com"
+  },
+  "privacy_policy_url": "https://www.tempo-assurance.com/confidentialite-ia.html",
+  "legal_url": "https://www.tempo-assurance.com/mentions-legales.html",
+  "verified_domain": "tempo-assurance.com",
+  "mcp_server": {
+    "url": "https://tempo-assurance-mcp.onrender.com/mcp",
+    "transport": "streamable_http",
+    "authentication": "none"
+  },
+  "tools": [
+    {
+      "name": "devis_assurance_temporaire",
+      "description": "Prepare un devis d'assurance auto temporaire et renvoie un tarif + un lien de devis pre-rempli.",
+      "annotations": { "readOnlyHint": true, "openWorldHint": false, "destructiveHint": false }
+    },
+    {
+      "name": "tarifs_par_categorie",
+      "description": "Donne la grille de tarifs indicatifs par duree pour une categorie de vehicule.",
+      "annotations": { "readOnlyHint": true, "openWorldHint": false, "destructiveHint": false }
+    }
+  ],
+  "example_prompts": [
+    "Assure ma voiture 15 jours pour mes vacances.",
+    "Combien pour assurer un utilitaire 1 mois ?",
+    "Devis 7 jours, voiture immatriculee en France, conducteur 30 ans.",
+    "Voici ma carte grise, fais-moi un tarif pour 15 jours."
+  ],
+  "data_handling": {
+    "collects_personal_data": false,
+    "notes": "Perimetre public : seuls des parametres de tarification non personnels sont traites par le serveur. Les images de carte grise sont lues par ChatGPT pour en extraire des champs techniques ; aucune donnee n'est stockee. Aucune souscription ni paiement n'est effectue par l'app (redirection vers le tunnel regule du partenaire)."
+  }
+}
