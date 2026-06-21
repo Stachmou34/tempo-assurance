@@ -1,21 +1,22 @@
 # Contexte projet — Tempo-Assurance
 
-> Document interne (mémoire projet). Mis à jour : 2026-06-14.
+> Document interne (mémoire projet). Mis à jour : 2026-06-21.
 
 ## C'est quoi
 **tempo-assurance.com** : site d'**assurance temporaire de véhicules** (1 à 90 jours), 100 % en ligne.
-- **Marque** de **MCJ Courtage** (courtier français, à Abeilhan 34290).
+- **Marque** de **MCJ Courtage** (courtier français), immatriculé **ORIAS n° 26008651**, contrôle ACPR.
 - **Tarificateur / souscription** = moteur **jlassure** (JL Assure), intégré en **iframe** (compte apporteur `cd=BLA1905B`, `id=43`). On ne gère pas le devis/paiement nous-mêmes.
 - Paiement par CB via banque partenaire **CIC**.
 
-## Les 3 axes de travail
+## Les axes de travail
 1. **Conformité + SEO + contenu** — fiabiliser le site, corriger les erreurs, créer les pages manquantes.
 2. **GEO (référencement par les IA)** — être cité/recommandé par ChatGPT, Claude, Perplexity…
 3. **Devis assisté par IA (« Route A »)** — qu'un lien ouvre un devis **pré-rempli** sur le tarificateur.
+4. **Application ChatGPT (Apps SDK / serveur MCP)** — préparer un devis dans ChatGPT (tarif réel JL Assure + OCR carte grise), redirection vers le tunnel sécurisé. Soumise à OpenAI (en revue). Code dans `chatgpt-app/`. Phase 2 (zéro formulaire) **OFF** jusqu'au feu vert RGPD.
 
 ## Architecture technique
-- Site **statique** : ~40 pages HTML, CSS inline (dupliqué par page), `assets/site.js` (vanilla, partagé), `llms.txt`, `robots.txt`, `sitemap.xml`.
-- Dépôt Git : `Stachmou34/tempo-assurance`, branche de travail `claude/geo-pages-reponses`, base `main`.
+- Site **statique** : ~48 pages HTML, CSS inline (dupliqué par page — choix perf volontaire), `assets/site.js` (vanilla, partagé), `llms.txt`, `robots.txt`, `sitemap.xml`, `.htaccess`. (`assets/site.css` supprimé car orphelin.)
+- Dépôt Git : `Stachmou34/tempo-assurance`, branche de travail courante `claude/upbeat-cerf-yjyYC`, base `main`.
 - Le devis = iframe jlassure sur `devis-ou-souscription.html` + une modale (`#modal-souscription`) ouverte par les boutons `.cta-btn-modal` sur les autres pages.
 
 ## Route A — comment marche le pré-remplissage
@@ -52,7 +53,7 @@
 - **Frontière** : véhicules immatriculés **hors EEE** ; immatriculation **Pologne, Roumanie, Italie exclues** ; durées 30 ou 90 jours.
 - **DOM / outre-mer** : couverts (confirmé) — on garde.
 - **Prix 90 j voiture = 420,21 €** (4,67 €/jour). L'ancien 290,16 € était le tarif **60 jours** (erreur corrigée).
-- **Pages auto / utilitaire** créées ; **poids-lourd** consolidée → camion (canonical), retirée du sitemap.
+- **Pages auto / utilitaire** créées ; **poids-lourd** consolidée → camion : page supprimée + **301 fait** dans `.htaccess`.
 - **Assistance** : uniquement voiture/utilitaire. Pas pour camion, PL, bus, remorque, voiturette.
 
 

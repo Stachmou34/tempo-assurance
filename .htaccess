@@ -43,6 +43,8 @@ RewriteRule ^blog(/index\.php)?/?$ /assurance-temporaire-1-jour.html? [R=301,L]
 RewriteRule ^blog(/.*)?$ /faq-assurance-temporaire.html? [R=301,L]
 # Page Espace professionnel supprimee -> redirection vers Contact
 RewriteRule ^espace-professionel\.html$ /contact.html [R=301,L]
+# Page Poids lourd consolidee -> Camion (+3,5 t)
+RewriteRule ^assurance-temporaire-poids-lourd\.html$ /assurance-temporaire-camion.html [R=301,L]
 # Anciennes pages news fusionnees dans la page Actualites
 RewriteRule ^news---blocage-des-tarifs\.html$ /actualites.html [R=301,L]
 RewriteRule ^news---extension-dom\.html$ /actualites.html [R=301,L]
