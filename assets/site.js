@@ -69,6 +69,17 @@
       if (extra) url += (url.indexOf('?') > -1 ? '&' : '?') + extra;
       frame.src = url;
     }
+    /* Démarrer l'iframe COMPACTE (avant que jlassure mesure sa hauteur) :
+       le contenu remplit l'iframe, donc une iframe petite => hauteur compacte
+       postée par jlassure, puis ça grandit selon l'étape. */
+    if (frame) {
+      var c = modal.querySelector('.modal-content');
+      var bd = modal.querySelector('.modal-body');
+      if (c) { c.style.height = 'auto'; c.style.maxHeight = '92vh'; }
+      if (bd) { bd.style.overflow = 'auto'; bd.style.minHeight = '0'; }
+      frame.style.transition = 'height .25s ease';
+      frame.style.height = '420px';
+    }
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('no-scroll');
