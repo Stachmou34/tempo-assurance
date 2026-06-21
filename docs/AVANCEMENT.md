@@ -1,52 +1,47 @@
 # Avancement — ce qui a été fait
 
-> Document interne. Mis à jour : 2026-06-14. Branche : `claude/geo-pages-reponses`.
+> Document interne. Mis à jour : 2026-06-21. Branche de travail : `claude/upbeat-cerf-yjyYC`.
+
+## 0. Réglementaire
+- **ORIAS obtenu : n° 26008651** (remplace « en cours » partout : mentions légales, llms.txt, pages app IA, schémas).
 
 ## 1. Conformité produit
-- **Moto retirée** : la FAQ déclarait couvrir « motos ≥ 125 cm³ » (en JSON-LD) — garantie inexistante → supprimée.
-- **Dérives « Italie / targa di cartone »** supprimées (page Italie, FAQ, accueil).
-- **Frontière** : durées corrigées « 15/30 » → **30 ou 90 jours** ; mention exclusion **Pologne/Roumanie/Italie** à l'immatriculation.
-- **Âge** : « 20 / 23 ans » → **21 ans** partout (FAQ, pages, llms.txt).
-- **Durée camion FAQ** « 1-15 » cohérence ; caption tarif « < 23 CV » → **« ≤ 30 CV »**.
+- **Moto retirée** (garantie inexistante), **dérives « Italie / targa di cartone »** supprimées.
+- **Frontière** : durées **30 ou 90 jours** ; exclusion **Pologne/Roumanie/Italie** à l'immatriculation.
+- **Âge** : **21 ans** partout ; caption tarif « ≤ 30 CV ».
+- **Adresse postale** retirée partout **sauf mentions légales** ; téléphone unifié **09 78 31 02 93**.
 
-## 2. Correction de prix (important)
-- **90 jours voiture : 290,16 € → 420,21 €** (et « 3,22 €/jour » → **4,67 €/jour**). Le 290,16 € était le tarif **60 jours**. Vérifié via la formule `get_tarifs.php` (`prix_achat + marge_brute + frais 7 €`) et la centrale (420,23 €). Corrigé partout (tarif, pages durée, FAQ, llms.txt, schémas).
+## 2. Prix
+- **90 jours voiture : 420,21 €** (4,67 €/jour) — l'ancien 290,16 € était le 60 jours. Corrigé partout.
 
 ## 3. SEO technique
-- **Canonical accueil** → racine `/` (au lieu de `/index.html`) + og:url + sitemap alignés.
-- **Title/meta** : page tarif et accueil réécrits.
-- **Fil d'ariane visible + schema BreadcrumbList** sur 26 pages.
-- **Ordre des titres** (h1→h2→h3) rétabli (footer h3→h2 ; h2 « Nos engagements » sur l'accueil ; h1 FAQ restauré).
-- **Fix mobile** : icône menu corrompue « ³0 » → **☰** (37 pages).
+- Canonical accueil → racine `/` ; titles/meta réécrits ; fil d'ariane + BreadcrumbList ; ordre des titres ; menu mobile ☰.
+- **Poids-lourd** : **301 fait** dans `.htaccess` (`assurance-temporaire-poids-lourd.html → assurance-temporaire-camion.html`) ; page supprimée du repo (canonical pointait déjà vers camion, page orpheline + hors sitemap).
+- **Nettoyage** : `assets/site.css` supprimé (orphelin, 0 référence — le site utilise du CSS inline + `assets/site.js`).
 
 ## 4. Contenu / pages
-- **8 pages créées** (réécrites uniques, anti-templated) : durées **2 j, 3 j, 15 j, 2 mois, 3 mois** ; situations **contrôle technique, week-end, plaque WW**.
-- **Page Auto (voiture, VL-VL)** créée — n'existait pas.
-- **Page Utilitaire / fourgon (VL-VU)** créée.
-- **Page Camion corrigée** : catégorie **CAM-CAM3 > 3,5 t**, durée 1-15 j, sans assistance.
-- **Poids-lourd** consolidée → camion (canonical → camion, retirée du sitemap). *Reste : 301 côté hébergeur.*
-- Maillage : nav + footer + accueil + annuaire véhicules mis à jour (Auto/Utilitaire ajoutés, Poids lourd retiré), pastilles hero accueil corrigées.
+- 8 pages durées/situations créées ; pages **Auto** et **Utilitaire** créées ; **Camion** corrigée (CAM-CAM3 > 3,5 t).
 
 ## 5. GEO (référencement IA)
-- **`llms.txt`** : présent et à jour — résumé, faits clés, **barème indicatif par catégorie** (prix publics IFRAMEUR), **recette du lien de devis pré-rempli**, liste des pages.
-- **`robots.txt`** : accès explicitement autorisé aux bots IA (GPTBot, ClaudeBot, PerplexityBot, Google-Extended…) + Sitemap.
+- `llms.txt` à jour (faits clés, barème indicatif, recette du lien pré-rempli, **outils WebMCP** documentés, ORIAS).
+- `robots.txt` : bots IA autorisés + sitemap. `/docs/` en `Disallow`.
 
-## 6. Route A — devis assisté par IA (FONCTIONNE, testé live)
-- `assets/site.js` : relais d'une **liste blanche de 12 paramètres** d'URL vers l'iframe (page devis + modale). Garde anti-injection, accepte la valeur `0`, cache-bust `?v=3`.
-- **Estimateurs on-page** (durée → prix indicatif) sur **auto, utilitaire, camion** ; CTA pré-remplis (bonne catégorie).
-- **ptac + motif=achat_vente** ajoutés par défaut aux liens (Poids + Motif remplis).
-- **Test live OK** : appel du formulaire jlassure avec params → champs `pref_*` injectés (categorie, ptac, motif, duree, dates, pays, âge…). Valeur invalide ignorée sans erreur.
-- jlassure a **déployé** le pré-remplissage GET en prod le 2026-06-14.
+## 6. Route A — devis pré-rempli par lien (live)
+- `assets/site.js` : relais d'une **liste blanche de 12 paramètres** vers l'iframe (page devis + modale), défaut heure début = +15 min.
+- Estimateurs on-page (auto, utilitaire, camion) + CTA pré-remplis.
+- jlassure a déployé le pré-remplissage GET en prod (2026-06-14).
 
-## 7. Réputation
-- **Badge Trustpilot** (lien profil) dans le footer des 37 pages, sans note inventée.
+## 7. Application ChatGPT (OpenAI Apps SDK / serveur MCP)
+- **Serveur MCP** (`chatgpt-app/`) : Streamable HTTP `/mcp`, widget `ui://widget/devis.html`, outils `devis_assurance_temporaire` (tarif réel ou grille indicative), OCR carte grise (niveaux + **sans hypothèse** : on demande les champs manquants), `echo` re-pricing.
+- **Intégration JL Assure** : API **tarif temps réel** + API **session de pré-remplissage sécurisée** (Phase 2) validées en live. Clé d'API en **variable d'environnement uniquement** (jamais commitée).
+- **Phase 2 (zéro formulaire / données perso) : OFF** tant que le feu vert RGPD n'est pas donné (`ENABLE_PREFILL_SESSION`).
+- **Soumission OpenAI** : dossier, politique de confidentialité (`confidentialite-ia.html`), CGU (`cgu-ia.html`), vérification de domaine, KYB — **soumis, en revue**.
 
-## 8. Données tarifaires (référence)
-- Barème **IFRAMEUR « avec frais de courtage »** extrait de la centrale jlassure pour toutes les catégories/durées (scénario standard : conducteur ≥ 23 ans, véhicule < 10 ans). Sert au site/llms.txt. **Prix publics uniquement** (jamais les coûts/marges).
+## 8. Tarificateur marque blanche — analyse page 1
+- Analyse profonde UI + UX + **vérification JS (aucune erreur)** : `docs/analyse-tarificateur-page1.md`.
+- **Note de transmission JL Assure** : `docs/note-jlassure-tarificateur-page1.md` (branding par client vs moteur partagé).
+- **Habillage côté Tempo** (ce qu'on maîtrise, l'iframe étant cross-origin) sur `devis-ou-souscription.html` : bandeau de confiance (ORIAS, assureur HDI, attestation immédiate, sans engagement, paiement CIC) + bande garanties + tarif dégressif. Resize dynamique de l'iframe non affecté.
+- Visuels avant/après : `docs/visuals/`.
 
-## Historique des PR (vers `main`)
-- **#30** mergée — conformité, SEO/GEO, contenu, accessibilité, réputation.
-- **#31** mergée — âge 21 ans.
-- **#32** mergée — Route A (relais params), correction prix 90 j, barème llms.txt, estimateur camion, corrections QA.
-- **#33** mergée — pages Auto + Utilitaire, correction catégorie Camion.
-- **#34** ouverte — ptac + motif par défaut, pastilles hero, cohérence liens/llms.txt.
+## 9. Réputation
+- Badge Trustpilot (lien profil) dans le footer.
