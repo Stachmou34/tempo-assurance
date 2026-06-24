@@ -75,8 +75,24 @@ C'est **le cross-sell le plus naturel possible** : nos motifs d'assurance tempor
 6. **Exclusivité / volumes** : conditions, paliers de rémunération.
 7. **Habilitation** : numéro à afficher légalement sur notre page.
 
+## 6 bis. Iframe Certimat — analyse technique (CONFIRMÉE)
+Certimat est la **plateforme technique** derrière l'offre carte grise. Iframe fournie :
+`https://certimat.fr/iframe/prescripteurs?partner=7999` (notre **ID partenaire = 7999**, attribue les dossiers/commission).
+
+- **Parcours** : sélecteur en **tuiles** (mise à nom, vente/don, changement d'adresse, perte/vol, immatriculation France/étranger, WW provisoire, fin de leasing, FIV/COC/situation administrative), **entrée par plaque**, calcul auto des taxes, **4 étapes**, traitement **15 min**, **paiement en plusieurs fois**.
+- **Branding** : **thème vert, logo Certimat visible** → semi-marque-blanche (attribution partenaire, mais pas notre charte). On l'**habille autour** (bandeau de confiance navy/bleu), comme le tarificateur jlassure. Restylage interne impossible (cross-origin).
+- **RGPD** : bandeau de consentement **Cookiebot** présent dans l'iframe (géré côté Certimat).
+
+### 🔴 BLOCAGE technique à lever absolument
+L'iframe renvoie un en-tête **`Content-Security-Policy: frame-ancestors '<liste blanche>'`**. La liste contient ~35 domaines partenaires (dont des **concurrents temporaires** : `assutempo.fr`, `assutemporaire.fr`) **mais PAS `tempo-assurance.com`**.
+→ Tant que notre domaine n'est pas ajouté à leur `frame-ancestors`, **le navigateur bloque l'affichage de l'iframe** sur notre site.
+- **Action Certimat** : ajouter `https://www.tempo-assurance.com` **et** `https://tempo-assurance.com` à la whitelist `frame-ancestors`.
+- **Action de notre côté** : ajouter `https://certimat.fr` au **CSP `frame-src`** de notre `.htaccess` (à côté de `https://www.jlassure.com`).
+
+Tant que ces deux points ne sont pas faits, la page peut être préparée mais l'iframe ne s'affichera pas en réel.
+
 ## 7. Recommandation / next steps
-1. **Confirmer le mode d'intégration** (iframe marque blanche vs lien apporteur) — bloquant pour le « comment ».
+1. **Demander à Certimat** d'ajouter nos 2 domaines à `frame-ancestors` (bloquant n°1).
 2. Démarrer en **Niveau 1** (page dédiée + modale) — rapide, SEO, et réutilise notre charte + le pattern jlassure.
 3. Ajouter le **cross-sell post-souscription** (Niveau 3) dès que le lien apporteur est actif → meilleur ROI.
 4. Chiffrer le potentiel avec **nos volumes réels** de souscriptions par motif (achat-vente / import / carte grise barrée).
