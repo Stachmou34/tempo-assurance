@@ -60,7 +60,7 @@ Header always append X-Frame-Options SAMEORIGIN
 Header set X-XSS-Protection "1; mode=block"
 Header set X-Content-Type-Options nosniff
 # CSP : sans 'unsafe-eval' (le moteur WebSite X5 qui en avait besoin a ete retire)
-Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.googletagmanager.com https://*.clarity.ms https://c.bing.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; frame-src https://www.jlassure.com https://www.google.com https://maps.google.com; object-src 'none'; base-uri 'self'"
+Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.google-analytics.com https://*.clarity.ms; connect-src 'self' https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.googletagmanager.com https://*.clarity.ms https://c.bing.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; frame-src https://www.jlassure.com https://certimat.fr https://www.google.com https://maps.google.com; object-src 'none'; base-uri 'self'"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 Header set Permissions-Policy "accelerometer=(), payment=(self), geolocation=(self), fullscreen=(), autoplay=(), camera=(), display-capture=(self), tools=(self \"https://www.jlassure.com\")"
 </ifModule>
