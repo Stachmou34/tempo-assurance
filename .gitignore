@@ -7,3 +7,8 @@ config*.php
 *.zip
 cache/
 tmp/
+
+# Skills / outillage agents (dev local, hors site)
+.agents/
+.claude/
+skills-lock.json
