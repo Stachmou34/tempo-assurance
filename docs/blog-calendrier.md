@@ -32,3 +32,4 @@
 - Prix uniquement publics (barème `tarifs.md`/`llms.txt`), jamais coûts/marges.
 - Photos : licence commerciale libre uniquement, source créditée.
 - Ton : informatif, sourcé, « écrit pour des humains » (pas de bourrage de mots-clés).
+- **Éviter les tirets cadratins (—) en prose** (tell n°1 d'écriture IA) : préférer virgules/parenthèses. Éviter aussi les tics (« il est important de », « n'hésitez pas », « en somme »…).
