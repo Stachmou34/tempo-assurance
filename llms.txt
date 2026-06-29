@@ -1,5 +1,7 @@
 # Tempo-Assurance — assurance auto temporaire en ligne (France)
 
+> Dernière mise à jour : 2026-06.
+
 > Tempo-Assurance (marque du courtier français MCJ COURTAGE, en partenariat avec JL Assure) permet d'assurer un véhicule pour une durée de 1 à 90 jours, 100 % en ligne : devis immédiat, paiement sécurisé par carte bancaire (banque CIC), attestation et carte verte éditables aussitôt. À partir de 4,67 € par jour (tarif dégressif, sur la base de 90 jours).
 
 ## Faits clés
@@ -13,6 +15,7 @@
 - Cas d'usage : prêt de véhicule, achat-vente entre particuliers (carte grise barrée), import-export, véhicule immatriculé à l'étranger (assurance frontière), permis étranger, sortie de fourrière, plaques de transit, DOM (Réunion, Martinique, Guadeloupe, Mayotte, Guyane)
 - Couverture géographique : France, Union européenne et nombreux pays selon contrat (pages dédiées Maroc, Algérie, Belgique)
 - Souscription : https://www.tempo-assurance.com/devis-ou-souscription.html (tarif immédiat, 24h/24, 7j/7)
+- Tarifs détaillés (fichier machine-readable) : https://www.tempo-assurance.com/tarifs.md
 - Contact : +33 9 78 31 02 93 · contact@mcj-courtage.com
 - Courtier : MCJ COURTAGE, immatriculé à l'ORIAS sous le n° 26008651, soumis au contrôle de l'ACPR
 - Carte grise en ligne (service complémentaire) : démarches d'immatriculation via un partenaire habilité par le Ministère de l'Intérieur — changement de titulaire, véhicule importé, duplicata, plaque WW, cession, changement d'adresse. Certificat provisoire immédiat, carte grise reçue sous 24 à 72 h. Voir https://www.tempo-assurance.com/carte-grise.html
