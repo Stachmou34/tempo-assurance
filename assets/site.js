@@ -43,12 +43,15 @@
     nav.classList.add('open');
     if (overlay) overlay.classList.add('show');
     document.body.classList.add('no-scroll');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    if (closeBtn) closeBtn.focus();
   }
   function closeNav() {
     if (!nav) return;
     nav.classList.remove('open');
     if (overlay) overlay.classList.remove('show');
     document.body.classList.remove('no-scroll');
+    if (toggle) { toggle.setAttribute('aria-expanded', 'false'); }
   }
   if (toggle && nav) {
     toggle.addEventListener('click', openNav);
@@ -59,9 +62,11 @@
   /* ---------- Modale tarificateur ---------- */
   var modal = document.getElementById('modal-souscription');
   var modalClose = document.getElementById('btn-fermer-modal');
+  var lastModalFocus = null;
 
   function openModal(extra) {
     if (!modal) return;
+    lastModalFocus = document.activeElement;
     var frame = modal.querySelector('iframe[data-src]');
     if (frame && !frame.src) {
       var url = withPrefill(frame.getAttribute('data-src'));
@@ -83,16 +88,27 @@
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('no-scroll');
+    if (modalClose) modalClose.focus(); /* focus initial dans la modale */
   }
   function closeModal() {
     if (!modal) return;
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('no-scroll');
+    if (lastModalFocus && lastModalFocus.focus) { lastModalFocus.focus(); lastModalFocus = null; } /* restaure le focus sur le déclencheur */
   }
   if (modal) {
     if (modalClose) modalClose.addEventListener('click', closeModal);
     modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+    /* piège du focus : Tab/Shift+Tab bouclent dans la modale */
+    modal.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab' || !modal.classList.contains('show')) return;
+      var f = modal.querySelectorAll('button, a[href], iframe, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') { closeModal(); closeNav(); }
     });
