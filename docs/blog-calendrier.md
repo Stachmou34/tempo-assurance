@@ -26,6 +26,26 @@
 | 11 | à faire | Camping-car & van : bien s'assurer pour les vacances | assurance temporaire camping-car | temp vacances |
 | 12 | à faire | Permis étranger en France : assurer sa voiture | assurance permis étranger | frontière + temp |
 
+## Planning des sorties (1 article / semaine — lundi)
+Cadence : **chaque lundi ~9 h** (cron `74d29a1a`, voir réserves sur l'expiration 7 j). Démarrage le 29/06/2026.
+
+| Semaine | Date | # | Article | Statut |
+|---|---|---|---|---|
+| S1 | **lun. 29/06/2026** | 1 | Prêter sa voiture : qui est assuré ? | ✅ publié |
+| S2 | lun. 06/07/2026 | 2 | Acheter une voiture d'occasion : être assuré le jour de l'achat | à venir |
+| S3 | lun. 13/07/2026 | 3 | Jeune conducteur : rouler assuré sans ruiner son budget | à venir |
+| S4 | lun. 20/07/2026 | 4 | Carte grise barrée : assurer et ré-immatriculer | à venir |
+| S5 | lun. 27/07/2026 | 5 | Conduire un véhicule importé : assurance frontière et démarches | à venir |
+| S6 | lun. 03/08/2026 | 6 | Résilié par son assureur : quelles solutions pour rouler | à venir |
+| S7 | lun. 10/08/2026 | 7 | Convoyer une voiture achetée loin : comment l'assurer | à venir |
+| S8 | lun. 17/08/2026 | 8 | Emprunter une voiture le temps d'un week-end | à venir |
+| S9 | lun. 24/08/2026 | 9 | Sortie de fourrière : rouler légalement tout de suite | à venir |
+| S10 | lun. 31/08/2026 | 10 | Bonus-malus : tout comprendre (et comment le protéger) | à venir |
+| S11 | lun. 07/09/2026 | 11 | Camping-car & van : bien s'assurer pour les vacances | à venir |
+| S12 | lun. 14/09/2026 | 12 | Permis étranger en France : assurer sa voiture | à venir |
+
+> Après S12 (14/09), la boucle propose **6 nouveaux sujets** avant de continuer. Idée : faire coïncider certains sujets avec la saisonnalité (ex. camping-car avant l'été, achat-vente en septembre/octobre — rentrée auto d'occasion).
+
 ## Règles de conformité (rappel)
 - Jamais : moto, « camion < 3,5 t », âge ≥ 23 comme minimum, prix 90 j à 290,16 €.
 - Durées : voiture/camping-car 1-90 ; camion/PL/bus/remorque 1-15 ; voiturette 10-30.
