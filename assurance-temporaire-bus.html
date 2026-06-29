@@ -117,21 +117,41 @@
 		<div class="page">
 			<nav class="breadcrumb" aria-label="Fil d'ariane"><a href="/">Accueil</a> <span aria-hidden="true">›</span> <span aria-current="page">Assurance temporaire bus, car et autocar</span></nav>
 			<h1>Assurance temporaire bus, car et autocar</h1>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal">✅ Je démarre ma souscription</button></p>
-			<p class="tldr"><span class="tldr-label">En bref</span> L'assurance temporaire bus et autocar couvre un transport ponctuel, un convoyage ou un remplacement de <strong>1 à 90 jours</strong>, en responsabilité civile obligatoire, avec carte verte éditable dès la souscription en ligne.</p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=TCP-TCP&motif_assurance_temporaire=achat_vente">✅ Je démarre ma souscription</button></p>
+			<p class="tldr"><span class="tldr-label">En bref</span> L'assurance temporaire bus et autocar couvre un transport ponctuel, un convoyage ou un remplacement de <strong>1 à 15 jours</strong>, en responsabilité civile obligatoire, avec carte verte éditable dès la souscription en ligne.</p>
+			<div id="estimateur" style="background:#EFF4FF;border:1px solid #bfdbfe;border-radius:12px;padding:18px 20px;margin:18px 0">
+				<h2 style="margin-top:0">Estimez votre tarif en 2 secondes</h2>
+				<div style="display:flex;flex-wrap:wrap;gap:16px 22px;align-items:center">
+					<label for="est-duree" style="font-weight:600">Durée&nbsp;: <select id="est-duree" style="margin-left:6px;padding:8px 10px;border-radius:8px;border:1px solid #bfdbfe;font-size:1rem"></select></label>
+				</div>
+				<p style="margin:14px 0 2px">Prix indicatif&nbsp;: <strong id="est-prix" style="font-size:1.5rem;color:var(--navy)">&mdash;</strong> <span style="color:var(--grey)">en responsabilité civile + défense-recours</span></p>
+				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=TCP-TCP&motif_assurance_temporaire=achat_vente">➜ Obtenir mon tarif exact et souscrire</button></p>
+				<p class="muted" style="margin:4px 0 0">Estimation pour un bus, car ou autocar, conducteur de 23&nbsp;ans et plus, sur 1 à 15&nbsp;jours. Le prix exact selon votre profil s'affiche au devis.</p>
+				<script>
+				(function(){
+					var P={"1":92.57,"5":119.16,"10":155.85,"15":159.37};
+					var sel=document.getElementById('est-duree'),out=document.getElementById('est-prix'),cta=document.getElementById('est-cta');
+					if(!sel)return;
+					Object.keys(P).map(Number).sort(function(a,b){return a-b}).forEach(function(d){var o=document.createElement("option");o.value=d;o.textContent=d+" jour"+(d>1?"s":"");if(d===15)o.selected=true;sel.appendChild(o);});
+					function fmt(n){return n.toFixed(2).replace(".",",")+" €";}
+					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=TCP-TCP&motif_assurance_temporaire=achat_vente&duree="+d);}
+					sel.addEventListener('change',upd);upd();
+				})();
+				</script>
+			</div>
 <h2>Assurance temporaire pour bus, car et autocar</h2>
-<p>Pour un convoyage, un événement ponctuel ou le remplacement temporaire d'un véhicule, l'<strong>assurance temporaire bus et autocar</strong> de Tempo-Assurance vous couvre de <strong>1 à 90 jours</strong> avec une mise en place rapide et entièrement en ligne.</p>
+<p>Pour un convoyage, un événement ponctuel ou le remplacement temporaire d'un véhicule, l'<strong>assurance temporaire bus et autocar</strong> de Tempo-Assurance vous couvre de <strong>1 à 15 jours</strong> avec une mise en place rapide et entièrement en ligne.</p>
 <h2>Une couverture adaptée</h2>
 <ul>
-<li>Responsabilité Civile obligatoire&nbsp;;</li>
-<li>Assistance selon la formule choisie&nbsp;;</li>
+<li>Responsabilité Civile obligatoire (dommages causés aux tiers)&nbsp;;</li>
+<li>Défense pénale et recours suite à accident&nbsp;;</li>
 <li>Carte verte éditable dès la souscription.</li>
 </ul>
 <p>Besoin d'assurer un autre type de véhicule&nbsp;? Voir nos pages <a href="assurance-temporaire-camion.html">camion</a> et <a href="assurance-temporaire-auto.html">voiture</a>.</p>
 <h2>Devis et souscription</h2>
 <p>Effectuez votre devis en ligne et réglez en toute sécurité&nbsp;; votre garantie est imprimable immédiatement.</p>
 <p>Voir aussi : <a href="assurance-temporaire-vehicules.html">tous les véhicules</a> · <a href="assurance-temporaire-camion.html">assurance camion</a> · <a href="assurance-temporaire-auto.html">voiture</a> · <a href="assurance-temporaire-camping-car.html">camping-car</a> · <a href="tarif-assurance-temporaire.html">tarifs</a> · <a href="faq-assurance-temporaire.html">FAQ</a>.</p>
-<p class="btn-center"><button type="button" class="btn cta-btn-modal">➜ Faire un devis et souscrire en ligne</button></p>
+<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=TCP-TCP&motif_assurance_temporaire=achat_vente">➜ Faire un devis et souscrire en ligne</button></p>
 		</div>
 	</main>
 	<footer class="site-footer">
