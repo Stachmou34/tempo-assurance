@@ -35,7 +35,7 @@
 - **Serveur MCP** (`chatgpt-app/`) : Streamable HTTP `/mcp`, widget `ui://widget/devis.html`, outils `devis_assurance_temporaire` (tarif réel ou grille indicative), OCR carte grise (niveaux + **sans hypothèse** : on demande les champs manquants), `echo` re-pricing.
 - **Intégration JL Assure** : API **tarif temps réel** + API **session de pré-remplissage sécurisée** (Phase 2) validées en live. Clé d'API en **variable d'environnement uniquement** (jamais commitée).
 - **Phase 2 (zéro formulaire / données perso) : OFF** tant que le feu vert RGPD n'est pas donné (`ENABLE_PREFILL_SESSION`).
-- **Soumission OpenAI** : dossier, politique de confidentialité (`confidentialite-ia.html`), CGU (`cgu-ia.html`), vérification de domaine, KYB — **soumis, en revue**.
+- **Soumission OpenAI** : dossier, politique de confidentialité (`confidentialite-ia.html`), CGU (`cgu-ia.html`), vérification de domaine, KYB. ✅ **Validée et publiée par OpenAI (juin 2026)** — l'application est en ligne dans ChatGPT. Annoncée sur la page Actualités + llms.txt.
 
 ## 8. Tarificateur marque blanche — analyse page 1
 - Analyse profonde UI + UX + **vérification JS (aucune erreur)** : `docs/analyse-tarificateur-page1.md`.

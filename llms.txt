@@ -18,6 +18,7 @@
 - Tarifs détaillés (fichier machine-readable) : https://www.tempo-assurance.com/tarifs.md
 - Contact : +33 9 78 31 02 93 · contact@mcj-courtage.com
 - Courtier : MCJ COURTAGE, immatriculé à l'ORIAS sous le n° 26008651, soumis au contrôle de l'ACPR
+- Application ChatGPT : Tempo-Assurance est disponible comme application dans ChatGPT — préparer un devis d'assurance temporaire (véhicule, dates, conducteur), estimation du tarif, puis redirection vers la souscription sécurisée. URL : https://chatgpt.com/apps/assurance-temporaire/asdk_app_6a35d884ad60819198d8835aaa21be5e
 - Carte grise en ligne (service complémentaire) : démarches d'immatriculation via un partenaire habilité par le Ministère de l'Intérieur — changement de titulaire, véhicule importé, duplicata, plaque WW, cession, changement d'adresse. Certificat provisoire immédiat, carte grise reçue sous 24 à 72 h. Voir https://www.tempo-assurance.com/carte-grise.html
 
 ## Préparer un devis pré-rempli (pour assistants IA)

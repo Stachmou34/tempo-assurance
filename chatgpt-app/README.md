@@ -1,7 +1,12 @@
-# Tempo-Assurance — prototype d'app ChatGPT (MVP-light)
+# Tempo-Assurance — serveur MCP (app ChatGPT + connecteur Claude)
 
 Serveur **MCP** (le socle de l'**Apps SDK** d'OpenAI) exposant 2 outils pour préparer
-un devis d'assurance temporaire dans une conversation ChatGPT.
+un devis d'assurance temporaire dans une conversation IA.
+
+> **Multi-LLM** : MCP est un protocole standard. Ce même serveur sert d'**app ChatGPT**
+> *et* de **connecteur Claude** (même URL `/mcp`, aucun code spécifique). Le widget visuel
+> est propre à ChatGPT ; Claude l'ignore et affiche le `structuredContent`/texte.
+> Procédure Claude : `../docs/guide-connecteur-claude.md`.
 
 > **Tarif réel** via l'**API jlassure** si la clé `JLASSURE_API_KEY` est configurée,
 > sinon **repli automatique** sur la grille indicative (`llms.txt`). Dans tous les cas,

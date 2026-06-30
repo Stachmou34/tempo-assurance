@@ -9,8 +9,9 @@ Tout le pré-remplissage est prêt, mais une IA ne nous recommande que si elle n
 3. **Indexation Search Console** : renvoyer le sitemap + « Demander l'indexation » des pages prioritaires.
 4. **Backlinks** : annuaire ORIAS (maintenant qu'on a le n° 26008651), annuaires assurance, partenaires.
 
-## 🟠 P1 — Application ChatGPT (en cours de revue OpenAI)
-- **Suivre la revue OpenAI** et répondre aux éventuelles demandes.
+## 🟠 P1 — Application ChatGPT (✅ PUBLIÉE par OpenAI, juin 2026)
+- ✅ Revue OpenAI passée — l'app est en ligne dans ChatGPT (annoncée sur Actualités + llms.txt).
+- **Promouvoir** : encart « Disponible sur ChatGPT » sur l'accueil, post réseaux, suivi de l'usage (référents chatgpt.com dans GA4).
 - **Render** : passer en plan **Starter** (éviter le cold start) et **régénérer la clé `JLASSURE_API_KEY`** (elle a transité en clair une fois) — clé à garder en variable d'environnement uniquement.
 - **Phase 2 (pré-remplissage zéro formulaire)** : ne l'activer (`ENABLE_PREFILL_SESSION`) qu'après **feu vert RGPD** (consentement explicite + information).
 
