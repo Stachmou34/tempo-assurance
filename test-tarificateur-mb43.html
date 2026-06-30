@@ -16,12 +16,8 @@
 		h1 { font-size:1.35rem; margin:.2em 0 .35em; }
 		.meta { font-size:.85rem; color:var(--muted); word-break:break-all; }
 		.meta code { background:#fff; border:1px solid var(--line); border-radius:6px; padding:1px 6px; }
-		.quote { background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-top:18px; box-shadow:0 1px 3px rgba(15,23,42,.06); }
-		.quote-head { display:flex; align-items:center; gap:8px; padding:12px 16px; border-bottom:1px solid var(--line); font-weight:600; font-size:.95rem; }
-		.dot { width:9px; height:9px; border-radius:50%; background:#22C55E; box-shadow:0 0 0 3px rgba(34,197,94,.18); }
-		.quote-frame { width:100%; border:0; display:block; min-height:620px; transition:height .25s ease; }
-		.quote-secure { padding:10px 16px; border-top:1px solid var(--line); font-size:.82rem; color:var(--muted); }
-		ul.chk { margin:14px 0 0; padding-left:1.1em; font-size:.9rem; color:var(--muted); }
+		.quote-frame { width:100%; border:0; display:block; min-height:620px; margin-top:18px; transition:height .25s ease; }
+		ul.chk { margin:18px 0 0; padding-left:1.1em; font-size:.9rem; color:var(--muted); }
 		ul.chk li { margin:.2em 0; }
 	</style>
 </head>
@@ -33,11 +29,7 @@
 		<p class="meta">Source iframe : <code>https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb43.php</code><br>
 		Paramètres : <code>cd=BLA1905B</code> · <code>id=43</code> · <code>adrsite=www.tempo-assurance.com</code> (identiques à la prod).</p>
 
-		<div class="quote" id="tarificateur">
-			<div class="quote-head"><span class="dot"></span> Votre devis d'assurance temporaire (moteur mb43)</div>
-			<iframe class="quote-frame" allow="tools" src="https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb43.php?cat=&amp;&amp;tip=09.78.31.02.93&amp;&amp;id=43&amp;&amp;cd=BLA1905B&amp;&amp;adrsite=www.tempo-assurance.com" title="Tarificateur d'assurance temporaire (test mb43)" loading="lazy"></iframe>
-			<div class="quote-secure">Connexion sécurisée · paiement par carte bancaire (banque partenaire CIC)</div>
-		</div>
+		<iframe class="quote-frame" id="tarificateur" allow="tools" src="https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb43.php?cat=&amp;&amp;tip=09.78.31.02.93&amp;&amp;id=43&amp;&amp;cd=BLA1905B&amp;&amp;adrsite=www.tempo-assurance.com" title="Tarificateur d'assurance temporaire (test mb43)" loading="lazy"></iframe>
 
 		<ul class="chk">
 			<li>Vérifier : 9 étapes (motif + PTAC retirés), PTAC auto, dates saisies en JJ-MM-AAAA.</li>
