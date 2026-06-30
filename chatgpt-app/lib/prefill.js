@@ -23,9 +23,8 @@ const VEHICULE_KEYS = ['immatriculation', 'date_premiere_mec', 'marque', 'modele
   'genre', 'puissance_fiscale', 'ptac_kg', 'places', 'chassis', 'pays_immatriculation'];
 /* profil_tarifaire = champs du formulaire de tarif (équivalent des paramètres GET).
    Doit être complet pour que le tarif se pré-remplisse à l'ouverture. */
-const PROFIL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance', 'ptac',
+const PROFIL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance',
   'pays_immatriculation', 'pays_residence', 'date_naissance',
-  'motif_assurance_temporaire', 'motif_assurance_temporaire_autre',
   'duree', 'date_debut', 'heure_debut'];
 
 function pick(obj, keys) {
@@ -51,9 +50,11 @@ function buildProfil(args) {
     const cv = Number(v.puissance_fiscale);
     if (!isNaN(cv)) prof.puissance = cv <= 30 ? 'inf30' : 'sup30';
   }
-  if (!prof.ptac && v.ptac_kg != null) {
+  /* PTAC non transmis (calculé auto par le tunnel) ; pour un camping-car,
+     ptac_kg > 3500 sélectionne la catégorie CAM-Fou plutôt que CC-Cap. */
+  if (prof.categorie_vehi === 'CC-Cap' && v.ptac_kg != null) {
     const kg = Number(v.ptac_kg);
-    if (!isNaN(kg)) prof.ptac = kg <= 3500 ? 'inf3500' : 'sup3500';
+    if (!isNaN(kg) && kg > 3500) prof.categorie_vehi = 'CAM-Fou';
   }
   if (!prof.age_vehicule && v.date_premiere_mec) {
     const m = String(v.date_premiere_mec).match(/(\d{4})/);
@@ -140,11 +141,9 @@ const profilSchema = {
     categorie_vehi: { type: 'string', enum: CATEGORIES },
     age_vehicule: { type: 'string', enum: ['moins10', 'plus10'] },
     puissance: { type: 'string', enum: ['inf30', 'sup30', '0'] },
-    ptac: { type: 'string', enum: ['inf3500', 'sup3500'] },
     pays_immatriculation: { type: 'string' },
     pays_residence: { type: 'string' },
     date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
-    motif_assurance_temporaire: { type: 'string', enum: ['achat_vente', 'resilie_non_paiement', 'sortie_fourriere', 'autre'] },
     duree: { type: 'string' }, date_debut: { type: 'string' }, heure_debut: { type: 'string' }
   }
 };

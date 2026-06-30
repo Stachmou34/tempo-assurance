@@ -5,9 +5,8 @@
   /* ---------- Pré-remplissage du tarificateur via paramètres d'URL ---------- */
   /* Les paramètres sont validés côté JL Assure ; ici on se contente de relayer
      une liste blanche vers le tarificateur (page devis + modale). */
-  var PREFILL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance', 'ptac',
+  var PREFILL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance',
     'pays_immatriculation', 'pays_residence', 'date_naissance',
-    'motif_assurance_temporaire', 'motif_assurance_temporaire_autre',
     'duree', 'date_debut', 'heure_debut'];
   function prefillQuery() {
     var sp;
@@ -230,15 +229,12 @@
               description: 'Catégorie : VL-VL voiture · VL-VU utilitaire · VSP-VSP voiturette sans permis · QM-QM quad · QMQLEM-QMQLEM buggy sans permis · CC-Cap camping-car ≤3,5 t · CAM-Fou camping-car >3,5 t · CAM-CAM3 camion/poids lourd >3,5 t · TRA-TRA tracteur agricole · TCP-TCP bus/car · REM-REM2 remorque/semi-remorque · REM-REM3 caravane' },
             age_vehicule: { type: 'string', enum: ['moins10', 'plus10'], description: 'Âge du véhicule : moins10 (<10 ans) ou plus10' },
             puissance: { type: 'string', enum: ['inf30', 'sup30', '0'], description: 'Puissance : inf30 (≤30 CV) · sup30 (>30 CV) · 0 (remorque/caravane)' },
-            ptac: { type: 'string', enum: ['inf3500', 'sup3500'], description: 'PTAC : inf3500 (≤3,5 t) ou sup3500, selon la catégorie' },
             pays_immatriculation: { type: 'string', description: "Pays d'immatriculation en MAJUSCULES (ex. FRANCE METROPOLITAINE, FRANCE REUNION). Pologne, Roumanie et Italie exclues." },
             pays_residence: { type: 'string', description: 'Pays de résidence du conducteur, en MAJUSCULES' },
             date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: 'Date de naissance AAAA-MM-JJ (conducteur de 21 à 90 ans)' },
             duree: { type: 'integer', minimum: 1, maximum: 90, description: 'Durée en jours (1 à 90) ; doit exister dans la grille du profil, sinon ignorée' },
             date_debut: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: "Date de début AAAA-MM-JJ (≥ aujourd'hui)" },
-            heure_debut: { type: 'string', pattern: '^\\d{2}:\\d{2}$', description: 'Heure de début HH:MM' },
-            motif_assurance_temporaire: { type: 'string', enum: ['achat_vente', 'resilie_non_paiement', 'sortie_fourriere', 'autre'], description: 'Motif du besoin' },
-            motif_assurance_temporaire_autre: { type: 'string', maxLength: 255, description: 'Texte libre si motif=autre' }
+            heure_debut: { type: 'string', pattern: '^\\d{2}:\\d{2}$', description: 'Heure de début HH:MM' }
           }
         },
         execute: function (params) {

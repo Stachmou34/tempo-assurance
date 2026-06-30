@@ -11,7 +11,6 @@ const profilProps = {
   categorie_vehi: { type: 'string', enum: CATEGORIES, description: 'Catégorie de véhicule (ex. VL-VL voiture, CAM-CAM3 camion, REM-REM2 remorque…)' },
   age_vehicule: { type: 'string', enum: ['moins10', 'plus10'], description: 'Âge du véhicule' },
   puissance: { type: 'string', enum: ['inf30', 'sup30', '0'], description: 'inf30 (≤30 CV) · sup30 (>30 CV) · 0 (remorque/caravane)' },
-  ptac: { type: 'string', enum: ['inf3500', 'sup3500'], description: 'PTAC selon la catégorie' },
   pays_immatriculation: { type: 'string', description: "Pays d'immatriculation en MAJUSCULES (ex. FRANCE METROPOLITAINE)" },
   pays_residence: { type: 'string', description: 'Pays de résidence du conducteur, en MAJUSCULES' },
   date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: 'AAAA-MM-JJ (conducteur 21 à 90 ans)' },
@@ -19,12 +18,10 @@ const profilProps = {
   duree: { type: 'integer', minimum: 1, maximum: 90, description: 'Durée en jours (1 à 90)' },
   date_debut: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: "Date de début AAAA-MM-JJ (≥ aujourd'hui)" },
   heure_debut: { type: 'string', pattern: '^\\d{2}:\\d{2}$', description: 'Heure de début HH:MM' },
-  motif_assurance_temporaire: { type: 'string', enum: ['achat_vente', 'resilie_non_paiement', 'sortie_fourriere', 'autre'], description: 'Motif du besoin' },
-  motif_assurance_temporaire_autre: { type: 'string', maxLength: 255, description: 'Texte libre si motif=autre' },
   /* Champs BRUTS lus sur une carte grise (OCR) : convertis automatiquement.
      Ne PAS demander/transmettre les champs personnels (nom, immatriculation, châssis). */
   puissance_cv: { type: 'integer', description: 'Carte grise P.6 : puissance fiscale en CV (ex. 6). Converti en inf30/sup30.' },
-  ptac_kg: { type: 'integer', description: 'Carte grise F.2 : PTAC en kg (ex. 1800). Converti en inf3500/sup3500.' },
+  ptac_kg: { type: 'integer', description: 'Carte grise F.2 : PTAC en kg. Sert uniquement à distinguer un camping-car ≤ 3,5 t (CC-Cap) d\'un camping-car > 3,5 t (CAM-Fou). Le PTAC n\'est pas transmis au tunnel.' },
   date_mise_circulation: { type: 'string', description: 'Carte grise B : date de 1re mise en circulation (JJ/MM/AAAA ou AAAA-MM-JJ). Converti en age_vehicule.' },
   genre_carte_grise: { type: 'string', description: 'Carte grise J.1 : genre national (VP, CTTE, CAM, TCP, REM, VASP, TRA, QM…). Converti en categorie_vehi.' }
 };
@@ -68,13 +65,15 @@ const TOOLS = [
       'renvoie un tarif et un lien de devis pré-rempli. La souscription et le paiement se font ' +
       'ensuite sur le tarificateur (le client finalise lui-même). ' +
       'NIVEAU 1 (devis) — DEMANDER au client, sans rien supposer : categorie_vehi · age_vehicule ' +
-      '(moins/plus de 10 ans) · puissance (≤30 / >30 CV) · ptac si pertinent · pays_immatriculation · ' +
-      'pays_residence · age_conducteur (ou date_naissance) · duree · date_debut · motif. ' +
+      '(moins/plus de 10 ans) · puissance (≤30 / >30 CV) · pays_immatriculation · ' +
+      'pays_residence · age_conducteur (ou date_naissance) · duree · date_debut. ' +
+      'NE PAS demander le PTAC ni le motif (le PTAC est calculé automatiquement depuis categorie_vehi ; ' +
+      'pour un camping-car, choisir CC-Cap si ≤ 3,5 t ou CAM-Fou si > 3,5 t). ' +
       "Si l'outil répond source=incomplet, poser les questions listées dans besoin_infos (NE PAS inventer de valeur). " +
-      'NIVEAU 1+ (tarif précis) — si le client ne connaît pas la puissance/le PTAC, lui PROPOSER ' +
+      'NIVEAU 1+ (tarif précis) — si le client ne connaît pas la puissance, lui PROPOSER ' +
       "d'envoyer une photo de CARTE GRISE ; en extraire les champs TECHNIQUES et les passer en brut : " +
-      'puissance_cv (P.6), ptac_kg (F.2), date_mise_circulation (B), genre_carte_grise (J.1) — convertis ' +
-      'automatiquement. ' +
+      'puissance_cv (P.6), date_mise_circulation (B), genre_carte_grise (J.1) — et ptac_kg (F.2) seulement ' +
+      'pour un camping-car (CC-Cap vs CAM-Fou) — convertis automatiquement. ' +
       'NIVEAU 2 (souscription) — si le client veut souscrire / gagner du temps, lui proposer la carte ' +
       'grise + le permis et utiliser plutôt l\'outil preparer_session_souscription. ' +
       'Avant de présenter le lien de souscription final, RÉCAPITULER le profil (véhicule, durée, conducteur) et demander confirmation. ' +

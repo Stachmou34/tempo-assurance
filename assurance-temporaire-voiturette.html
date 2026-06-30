@@ -127,7 +127,7 @@
 		<div class="page">
 			<nav class="breadcrumb" aria-label="Fil d'ariane"><a href="/">Accueil</a> <span aria-hidden="true">›</span> <span aria-current="page">Assurance temporaire voiturette</span></nav>
 			<h1>Assurance temporaire voiturette sans permis</h1>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=VSP-VSP&ptac=inf3500&motif_assurance_temporaire=achat_vente">✅ Je démarre ma souscription</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=VSP-VSP">✅ Je démarre ma souscription</button></p>
 			<p class="tldr"><span class="tldr-label">En bref</span> L'assurance temporaire pour une <strong>voiturette sans permis</strong> (VSP) couvre votre véhicule de <strong>10 à 30 jours</strong>, <strong>dès 102,37 €</strong>, en responsabilité civile + défense-recours, avec carte verte immédiate. Buggy sans permis également couvert.</p>
 			<div id="estimateur" style="background:#EFF4FF;border:1px solid #bfdbfe;border-radius:12px;padding:18px 20px;margin:18px 0">
 				<h2 style="margin-top:0">Estimez votre tarif en 2 secondes</h2>
@@ -135,8 +135,8 @@
 					<label for="est-duree" style="font-weight:600">Durée&nbsp;: <select id="est-duree" style="margin-left:6px;padding:8px 10px;border-radius:8px;border:1px solid #bfdbfe;font-size:1rem"></select></label>
 				</div>
 				<p style="margin:14px 0 2px">Prix indicatif&nbsp;: <strong id="est-prix" style="font-size:1.5rem;color:var(--navy)">&mdash;</strong> <span style="color:var(--grey)">en responsabilité civile + défense-recours</span></p>
-				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=VSP-VSP&ptac=inf3500&motif_assurance_temporaire=achat_vente">➜ Obtenir mon tarif exact et souscrire</button></p>
-				<p class="muted" style="margin:4px 0 0">Estimation pour une voiturette / buggy sans permis, conducteur de 23&nbsp;ans et plus. Durées disponibles de 10 à 30&nbsp;jours. Le prix exact s'affiche au devis.</p>
+				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=VSP-VSP">➜ Obtenir mon tarif exact et souscrire</button></p>
+				<p class="muted" style="margin:4px 0 0">Estimation pour une voiturette / buggy sans permis, conducteur dès 21&nbsp;ans. Durées disponibles de 10 à 30&nbsp;jours. Le prix exact s'affiche au devis.</p>
 				<script>
 				(function(){
 					var P={"10":102.37,"15":116.93,"20":133.00,"30":181.73};
@@ -144,7 +144,7 @@
 					if(!sel)return;
 					Object.keys(P).map(Number).sort(function(a,b){return a-b}).forEach(function(d){var o=document.createElement("option");o.value=d;o.textContent=d+" jours";if(d===15)o.selected=true;sel.appendChild(o);});
 					function fmt(n){return n.toFixed(2).replace(".",",")+"\u00a0\u20ac";}
-					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=VSP-VSP&ptac=inf3500&motif_assurance_temporaire=achat_vente&duree="+d);}
+					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=VSP-VSP&duree="+d);}
 					sel.addEventListener('change',upd);upd();
 				})();
 				</script>
@@ -166,9 +166,9 @@
 			<h2>Combien coûte une assurance voiturette temporaire&nbsp;?</h2>
 			<p>En RC + défense-recours&nbsp;: <strong>102,37&nbsp;€</strong> pour 10 jours, <strong>116,93&nbsp;€</strong> pour 15 jours, jusqu'à <strong>181,73&nbsp;€</strong> pour 30 jours. Les durées proposées vont de <strong>10 à 30 jours</strong>. Le montant exact s'affiche dans le <a href="devis-ou-souscription.html">devis en ligne</a>.</p>
 			<h2>Souscrire en quelques minutes</h2>
-			<p>Renseignez le véhicule, les dates et le conducteur (23&nbsp;ans et plus)&nbsp;: le tarif s'affiche, vous réglez par carte bancaire (CIC) et vous éditez l'attestation et la carte verte aussitôt.</p>
+			<p>Renseignez le véhicule, les dates et le conducteur (dès 21&nbsp;ans)&nbsp;: le tarif s'affiche, vous réglez par carte bancaire (CIC) et vous éditez l'attestation et la carte verte aussitôt.</p>
 			<p class="muted">Voir aussi&nbsp;: <a href="assurance-temporaire-vehicules.html">tous les véhicules</a> · <a href="assurance-temporaire-auto.html">voiture</a> · <a href="carte-grise-barree.html">carte grise barrée</a> · <a href="tarif-assurance-temporaire.html">tarifs</a> · <a href="faq-assurance-temporaire.html">FAQ</a>.</p>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=VSP-VSP&ptac=inf3500&motif_assurance_temporaire=achat_vente">➜ Faire un devis et souscrire en ligne</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=VSP-VSP">➜ Faire un devis et souscrire en ligne</button></p>
 		</div>
 	</main>
 	<footer class="site-footer">
@@ -228,6 +228,6 @@
 		</div>
 	</div>
 	<div class="sticky-cta"><a class="cta-btn-modal" href="devis-ou-souscription.html">Obtenir mon tarif en 2 min</a></div>
-	<script src="assets/site.js?v=10" defer></script>
+	<script src="assets/site.js?v=11" defer></script>
 </body>
 </html>
