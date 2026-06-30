@@ -127,7 +127,7 @@
 		<div class="page">
 			<nav class="breadcrumb" aria-label="Fil d'ariane"><a href="/">Accueil</a> <span aria-hidden="true">›</span> <span aria-current="page">Assurance temporaire camping-car</span></nav>
 			<h1>Assurance temporaire camping-car</h1>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=CC-Cap&ptac=inf3500&motif_assurance_temporaire=achat_vente">✅ Je démarre ma souscription</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=CC-Cap">✅ Je démarre ma souscription</button></p>
 			<p class="tldr"><span class="tldr-label">En bref</span> L'assurance temporaire camping-car couvre vos vacances, un essai, un achat ou un convoyage de <strong>1 à 90 jours</strong>, sans engagement, avec attestation et carte verte immédiates en ligne.</p>
 			<div id="estimateur" style="background:#EFF4FF;border:1px solid #bfdbfe;border-radius:12px;padding:18px 20px;margin:18px 0">
 				<h2 style="margin-top:0">Estimez votre tarif en 2 secondes</h2>
@@ -135,8 +135,8 @@
 					<label for="est-duree" style="font-weight:600">Durée&nbsp;: <select id="est-duree" style="margin-left:6px;padding:8px 10px;border-radius:8px;border:1px solid #bfdbfe;font-size:1rem"></select></label>
 				</div>
 				<p style="margin:14px 0 2px">Prix indicatif&nbsp;: <strong id="est-prix" style="font-size:1.5rem;color:var(--navy)">&mdash;</strong> <span style="color:var(--grey)">en responsabilité civile + défense-recours</span></p>
-				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=CC-Cap&ptac=inf3500&motif_assurance_temporaire=achat_vente">➜ Obtenir mon tarif exact et souscrire</button></p>
-				<p class="muted" style="margin:4px 0 0">Estimation pour un camping-car de moins de 3,5&nbsp;t, conducteur de 23&nbsp;ans et plus. Le prix exact s'affiche au devis. Au-delà de 3,5&nbsp;t, sélectionnez la catégorie camping-car &gt; 3,5&nbsp;t au devis.</p>
+				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=CC-Cap">➜ Obtenir mon tarif exact et souscrire</button></p>
+				<p class="muted" style="margin:4px 0 0">Estimation pour un camping-car de moins de 3,5&nbsp;t, conducteur dès 21&nbsp;ans. Le prix exact s'affiche au devis. Au-delà de 3,5&nbsp;t, sélectionnez la catégorie camping-car &gt; 3,5&nbsp;t au devis.</p>
 				<script>
 				(function(){
 					var P={"1":63.5,"2":76.26,"3":78.6,"4":82.45,"5":84.45,"6":87.43,"7":93.59,"8":99.57,"9":102.23,"10":104.89,"11":106.34,"12":110.0,"13":112.66,"14":115.98,"15":117.82,"16":121.82,"17":125.14,"18":128.8,"19":136.11,"20":136.11,"21":155.57,"22":160.23,"23":164.89,"24":170.22,"25":173.55,"26":178.2,"27":183.2,"28":187.86,"29":192.5,"30":199.15,"35":220.45,"40":243.74,"45":252.03,"50":268.97,"55":286.9,"60":300.19,"90":423.23};
@@ -144,7 +144,7 @@
 					if(!sel)return;
 					Object.keys(P).map(Number).sort(function(a,b){return a-b}).forEach(function(d){var o=document.createElement("option");o.value=d;o.textContent=d+" jour"+(d>1?"s":"");if(d===15)o.selected=true;sel.appendChild(o);});
 					function fmt(n){return n.toFixed(2).replace(".",",")+"\u00a0\u20ac";}
-					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=CC-Cap&ptac=inf3500&motif_assurance_temporaire=achat_vente&duree="+d);}
+					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=CC-Cap&duree="+d);}
 					sel.addEventListener('change',upd);upd();
 				})();
 				</script>
@@ -160,7 +160,7 @@
 <h2>Souscrire en ligne</h2>
 <p>Obtenez votre devis en quelques minutes et imprimez votre garantie. Consultez aussi un <a href="tarif-assurance-temporaire.html">exemple de tarif</a>.</p>
 <p>Voir aussi : <a href="assurance-temporaire-vehicules.html">tous les véhicules</a> · <a href="assurance-temporaire-camion.html">assurance camion</a> · <a href="assurance-temporaire-auto.html">voiture</a> · <a href="assurance-temporaire-bus.html">bus &amp; autocar</a> · <a href="tarif-assurance-temporaire.html">tarifs</a> · <a href="faq-assurance-temporaire.html">FAQ</a>.</p>
-<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=CC-Cap&ptac=inf3500&motif_assurance_temporaire=achat_vente">➜ Faire un devis et souscrire en ligne</button></p>
+<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=CC-Cap">➜ Faire un devis et souscrire en ligne</button></p>
 		</div>
 	</main>
 	<footer class="site-footer">
@@ -220,6 +220,6 @@
 		</div>
 	</div>
 	<div class="sticky-cta"><a class="cta-btn-modal" href="devis-ou-souscription.html">Obtenir mon tarif en 2 min</a></div>
-	<script src="assets/site.js?v=10" defer></script>
+	<script src="assets/site.js?v=11" defer></script>
 </body>
 </html>

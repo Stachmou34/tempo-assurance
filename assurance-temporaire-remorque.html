@@ -127,7 +127,7 @@
 		<div class="page">
 			<nav class="breadcrumb" aria-label="Fil d'ariane"><a href="/">Accueil</a> <span aria-hidden="true">›</span> <span aria-current="page">Assurance temporaire remorque</span></nav>
 			<h1>Assurance temporaire remorque et semi-remorque</h1>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=REM-REM2&puissance=0&motif_assurance_temporaire=achat_vente">✅ Je démarre ma souscription</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=REM-REM2&puissance=0">✅ Je démarre ma souscription</button></p>
 			<p class="tldr"><span class="tldr-label">En bref</span> L'assurance temporaire pour une <strong>remorque ou semi-remorque</strong> couvre votre attelage de <strong>1 à 15 jours</strong>, <strong>dès 57,66 €</strong>, en RC + défense-recours, avec carte verte immédiate. Idéale pour un transport ponctuel ou un déménagement.</p>
 			<div id="estimateur" style="background:#EFF4FF;border:1px solid #bfdbfe;border-radius:12px;padding:18px 20px;margin:18px 0">
 				<h2 style="margin-top:0">Estimez votre tarif en 2 secondes</h2>
@@ -135,8 +135,8 @@
 					<label for="est-duree" style="font-weight:600">Durée&nbsp;: <select id="est-duree" style="margin-left:6px;padding:8px 10px;border-radius:8px;border:1px solid #bfdbfe;font-size:1rem"></select></label>
 				</div>
 				<p style="margin:14px 0 2px">Prix indicatif&nbsp;: <strong id="est-prix" style="font-size:1.5rem;color:var(--navy)">&mdash;</strong> <span style="color:var(--grey)">en responsabilité civile + défense-recours</span></p>
-				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=REM-REM2&puissance=0&motif_assurance_temporaire=achat_vente">➜ Obtenir mon tarif exact et souscrire</button></p>
-				<p class="muted" style="margin:4px 0 0">Estimation pour une remorque / semi-remorque, conducteur de 23&nbsp;ans et plus. Durées de 1 à 15&nbsp;jours. Le prix exact s'affiche au devis.</p>
+				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=REM-REM2&puissance=0">➜ Obtenir mon tarif exact et souscrire</button></p>
+				<p class="muted" style="margin:4px 0 0">Estimation pour une remorque / semi-remorque, conducteur dès 21&nbsp;ans. Durées de 1 à 15&nbsp;jours. Le prix exact s'affiche au devis.</p>
 				<script>
 				(function(){
 					var P={"1":57.66,"2":63.76,"3":67.76,"4":78.93,"5":86.93,"6":91.25,"7":93.75,"8":95.75,"9":102.05,"10":107.05,"15":120.47};
@@ -144,7 +144,7 @@
 					if(!sel)return;
 					Object.keys(P).map(Number).sort(function(a,b){return a-b}).forEach(function(d){var o=document.createElement("option");o.value=d;o.textContent=d+" jour"+(d>1?"s":"");if(d===7)o.selected=true;sel.appendChild(o);});
 					function fmt(n){return n.toFixed(2).replace(".",",")+"\u00a0\u20ac";}
-					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=REM-REM2&puissance=0&motif_assurance_temporaire=achat_vente&duree="+d);}
+					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=REM-REM2&puissance=0&duree="+d);}
 					sel.addEventListener('change',upd);upd();
 				})();
 				</script>
@@ -166,9 +166,9 @@
 			<h2>Combien coûte une assurance remorque temporaire&nbsp;?</h2>
 			<p>En RC + défense-recours&nbsp;: <strong>57,66&nbsp;€</strong> pour 1 jour, <strong>86,93&nbsp;€</strong> pour 5 jours, jusqu'à <strong>120,47&nbsp;€</strong> pour 15 jours (durées de 1 à 15&nbsp;jours). Le montant exact s'affiche dans le <a href="devis-ou-souscription.html">devis en ligne</a>.</p>
 			<h2>Souscrire en quelques minutes</h2>
-			<p>Renseignez la remorque, les dates et le conducteur (23&nbsp;ans et plus)&nbsp;: le tarif s'affiche, paiement par carte (CIC), attestation et carte verte éditables aussitôt.</p>
+			<p>Renseignez la remorque, les dates et le conducteur (dès 21&nbsp;ans)&nbsp;: le tarif s'affiche, paiement par carte (CIC), attestation et carte verte éditables aussitôt.</p>
 			<p class="muted">Voir aussi&nbsp;: <a href="assurance-temporaire-caravane.html">caravane</a> · <a href="assurance-temporaire-utilitaire.html">utilitaire</a> · <a href="tarif-assurance-temporaire.html">tarifs</a> · <a href="faq-assurance-temporaire.html">FAQ</a>.</p>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=REM-REM2&puissance=0&motif_assurance_temporaire=achat_vente">➜ Faire un devis et souscrire en ligne</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=REM-REM2&puissance=0">➜ Faire un devis et souscrire en ligne</button></p>
 		</div>
 	</main>
 	<footer class="site-footer">
@@ -228,6 +228,6 @@
 		</div>
 	</div>
 	<div class="sticky-cta"><a class="cta-btn-modal" href="devis-ou-souscription.html">Obtenir mon tarif en 2 min</a></div>
-	<script src="assets/site.js?v=10" defer></script>
+	<script src="assets/site.js?v=11" defer></script>
 </body>
 </html>

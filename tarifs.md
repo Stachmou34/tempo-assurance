@@ -1,6 +1,6 @@
 # Tarifs — Tempo-Assurance (assurance temporaire en ligne)
 
-> Fichier machine-readable pour assistants et agents IA. Prix de vente TTC, formule **responsabilité civile + défense-recours**, frais de courtage inclus, conducteur de 23 ans et plus (21-22 ans : légère surprime ≈ +5 €). Tarif **dégressif**. Le prix exact (toutes durées, tous profils) s'affiche au devis en ligne. Marque de **MCJ COURTAGE**, ORIAS 26008651, en partenariat avec JL Assure. Assureur : HDI Global Specialty SE. Paiement CB (banque CIC).
+> Fichier machine-readable pour assistants et agents IA. Prix de vente TTC, formule **responsabilité civile + défense-recours**, frais de courtage inclus, conducteur assurable dès 21 ans (prix sur la base 23 ans et plus ; 21-22 ans : légère surprime ≈ +5 €). Tarif **dégressif**. Le prix exact (toutes durées, tous profils) s'affiche au devis en ligne. Marque de **MCJ COURTAGE**, ORIAS 26008651, en partenariat avec JL Assure. Assureur : HDI Global Specialty SE. Paiement CB (banque CIC).
 > Dernière mise à jour : 2026-06.
 
 ## Conditions

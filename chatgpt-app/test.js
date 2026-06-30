@@ -17,8 +17,8 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   console.log('\n[Repli indicatif — sans clé API]');
   delete process.env.JLASSURE_API_KEY;
 
-  const url = buildDevisUrl({ categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', ptac: 'inf3500', duree: 15, date_debut: '2026-07-01' });
-  ok(url.indexOf('devis-ou-souscription.html?categorie_vehi=VL-VL') > -1 && url.indexOf('ptac=inf3500') > -1, 'lien pré-rempli construit (dont ptac)');
+  const url = buildDevisUrl({ categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', ptac: 'inf3500', motif_assurance_temporaire: 'achat_vente', duree: 15, date_debut: '2026-07-01' });
+  ok(url.indexOf('devis-ou-souscription.html?categorie_vehi=VL-VL') > -1 && url.indexOf('ptac=') === -1 && url.indexOf('motif') === -1, 'lien pré-rempli construit (ptac + motif retirés du lien)');
   const uDef = buildDevisUrl({ categorie_vehi: 'VL-VL', age_conducteur: 35 });
   ok(/date_naissance=\d{4}-\d{2}-\d{2}/.test(uDef), 'lien : date_naissance déduite de age_conducteur');
   ok(/date_debut=\d{4}-\d{2}-\d{2}/.test(uDef) && /heure_debut=\d{2}%3A\d{2}/.test(uDef), 'lien : date_debut + heure_debut par défaut');

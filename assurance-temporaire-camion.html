@@ -127,7 +127,7 @@
 		<div class="page">
 			<nav class="breadcrumb" aria-label="Fil d'ariane"><a href="/">Accueil</a> <span aria-hidden="true">›</span> <span aria-current="page">Assurance temporaire camion</span></nav>
 			<h1>Assurance temporaire camion</h1>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=CAM-CAM3&ptac=sup3500&motif_assurance_temporaire=achat_vente">✅ Je démarre ma souscription</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=CAM-CAM3">✅ Je démarre ma souscription</button></p>
 			<p class="tldr"><span class="tldr-label">En bref</span> L'assurance temporaire camion couvre un camion ou porteur de <strong>plus de 3,5&nbsp;t</strong> pour <strong>1 à 15 jours</strong>, en responsabilité civile + défense et recours, avec carte verte immédiate. Devis en ligne en 2 minutes.</p>
 			<div id="estimateur" style="background:#EFF4FF;border:1px solid #bfdbfe;border-radius:12px;padding:18px 20px;margin:18px 0">
 				<h2 style="margin-top:0">Estimez votre tarif en 2 secondes</h2>
@@ -135,8 +135,8 @@
 					<label for="est-duree" style="font-weight:600">Durée&nbsp;: <select id="est-duree" style="margin-left:6px;padding:8px 10px;border-radius:8px;border:1px solid #bfdbfe;font-size:1rem"></select></label>
 				</div>
 				<p style="margin:14px 0 2px">Prix indicatif&nbsp;: <strong id="est-prix" style="font-size:1.5rem;color:var(--navy)">&mdash;</strong> <span style="color:var(--grey)">en responsabilité civile + défense-recours</span></p>
-				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=CAM-CAM3&ptac=sup3500&motif_assurance_temporaire=achat_vente">➜ Obtenir mon tarif exact et souscrire</button></p>
-				<p class="muted" style="margin:4px 0 0">Estimation pour un camion / porteur de plus de 3,5&nbsp;t, conducteur de 23&nbsp;ans et plus, sur 1 à 15&nbsp;jours. Le prix exact selon votre profil s'affiche au devis. Pour un utilitaire ou fourgon ≤&nbsp;3,5&nbsp;t, voir l'<a href="assurance-temporaire-utilitaire.html">assurance utilitaire</a>.</p>
+				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=CAM-CAM3">➜ Obtenir mon tarif exact et souscrire</button></p>
+				<p class="muted" style="margin:4px 0 0">Estimation pour un camion / porteur de plus de 3,5&nbsp;t, conducteur dès 21&nbsp;ans, sur 1 à 15&nbsp;jours. Le prix exact selon votre profil s'affiche au devis. Pour un utilitaire ou fourgon ≤&nbsp;3,5&nbsp;t, voir l'<a href="assurance-temporaire-utilitaire.html">assurance utilitaire</a>.</p>
 				<script>
 				(function(){
 					var P={"1":92.57,"2":102.99,"3":112.99,"4":116.16,"5":119.16,"6":130.12,"7":134.62,"8":135.62,"9":150.86,"10":155.86,"15":159.37};
@@ -144,7 +144,7 @@
 					if(!sel)return;
 					Object.keys(P).map(Number).sort(function(a,b){return a-b}).forEach(function(d){var o=document.createElement("option");o.value=d;o.textContent=d+" jour"+(d>1?"s":"");if(d===15)o.selected=true;sel.appendChild(o);});
 					function fmt(n){return n.toFixed(2).replace(".",",")+"\u00a0\u20ac";}
-					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=CAM-CAM3&ptac=sup3500&motif_assurance_temporaire=achat_vente&duree="+d);}
+					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=CAM-CAM3&duree="+d);}
 					sel.addEventListener('change',upd);upd();
 				})();
 				</script>
@@ -160,7 +160,7 @@
 <h2>Souscrire en quelques minutes</h2>
 <p>Réalisez votre devis en ligne, réglez par carte bancaire en toute sécurité via notre banque partenaire CIC, puis imprimez votre garantie. Vous pouvez aussi consulter un <a href="tarif-assurance-temporaire.html">exemple de tarif d'assurance temporaire</a>.</p>
 <p>Voir aussi : <a href="assurance-temporaire-vehicules.html">tous les véhicules</a> · <a href="assurance-temporaire-auto.html">voiture</a> · <a href="assurance-temporaire-bus.html">bus &amp; autocar</a> · <a href="assurance-temporaire-camping-car.html">camping-car</a> · <a href="tarif-assurance-temporaire.html">tarifs</a> · <a href="faq-assurance-temporaire.html">FAQ</a>.</p>
-<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=CAM-CAM3&ptac=sup3500&motif_assurance_temporaire=achat_vente">➜ Faire un devis et souscrire en ligne</button></p>
+<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=CAM-CAM3">➜ Faire un devis et souscrire en ligne</button></p>
 		</div>
 	</main>
 	<footer class="site-footer">
@@ -220,6 +220,6 @@
 		</div>
 	</div>
 	<div class="sticky-cta"><a class="cta-btn-modal" href="devis-ou-souscription.html">Obtenir mon tarif en 2 min</a></div>
-	<script src="assets/site.js?v=10" defer></script>
+	<script src="assets/site.js?v=11" defer></script>
 </body>
 </html>

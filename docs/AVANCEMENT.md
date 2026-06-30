@@ -27,9 +27,10 @@
 - `robots.txt` : bots IA autorisés + sitemap. `/docs/` en `Disallow`.
 
 ## 6. Route A — devis pré-rempli par lien (live)
-- `assets/site.js` : relais d'une **liste blanche de 12 paramètres** vers l'iframe (page devis + modale), défaut heure début = +15 min.
+- `assets/site.js` : relais d'une **liste blanche de 9 paramètres** vers l'iframe (page devis + modale), défaut heure début = +15 min.
 - Estimateurs on-page (auto, utilitaire, camion) + CTA pré-remplis.
 - jlassure a déployé le pré-remplissage GET en prod (2026-06-14).
+- **MàJ tunnel JL Assure (2026-06)** : `ptac` et `motif_*` **retirés** (tunnel à 9 étapes ; PTAC auto depuis `categorie_vehi` ; dates affichées JJ-MM-AAAA, paramètre GET inchangé en AAAA-MM-JJ). Répercuté : `site.js` (liste blanche + outil WebMCP), CTA `data-prefill` (10 pages), `llms.txt`, serveur MCP (`devis.js`/`tools.js`/`prefill.js`). Camping-car : CC-Cap / CAM-Fou. Anciens liens compatibles (params ignorés). Cache-bust `site.js?v=11`.
 
 ## 7. Application ChatGPT (OpenAI Apps SDK / serveur MCP)
 - **Serveur MCP** (`chatgpt-app/`) : Streamable HTTP `/mcp`, widget `ui://widget/devis.html`, outils `devis_assurance_temporaire` (tarif réel ou grille indicative), OCR carte grise (niveaux + **sans hypothèse** : on demande les champs manquants), `echo` re-pricing.

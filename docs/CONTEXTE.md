@@ -25,9 +25,10 @@
 3. jlassure **valide** chaque paramètre (liste blanche serveur), injecte les valeurs dans des champs cachés `pref_*`, puis son JS les applique au formulaire et calcule le tarif.
 4. Le client vérifie, lit l'IPID, signe et paie. **La souscription/paiement restent humains (obligation DDA/ACPR).**
 
-### Les 12 paramètres de pré-remplissage
-`categorie_vehi, age_vehicule, puissance, ptac, pays_immatriculation, pays_residence, date_naissance, motif_assurance_temporaire, motif_assurance_temporaire_autre, duree, date_debut, heure_debut`
+### Les 9 paramètres de pré-remplissage
+`categorie_vehi, age_vehicule, puissance, pays_immatriculation, pays_residence, date_naissance, duree, date_debut, heure_debut`
 - Minimum pour afficher un tarif : `categorie_vehi + age_vehicule + puissance + pays_immatriculation + pays_residence + date_naissance`.
+- **MàJ tunnel JL Assure (2026-06)** : `ptac` et `motif_assurance_temporaire`/`_autre` **retirés** du tunnel. Le **PTAC est calculé automatiquement** depuis `categorie_vehi` (CC-Cap → ≤ 3,5 t · CAM-Fou / CAM-CAM3 / TCP-TCP → > 3,5 t · reste → ≤ 3,5 t) ; le **motif** a été supprimé. Le tunnel passe de 10 à **9 étapes** ; dates saisies en **JJ-MM-AAAA** (le paramètre GET reste en `AAAA-MM-JJ`). Camping-car : choisir **CC-Cap** ou **CAM-Fou**. Les anciens liens avec `ptac=`/`motif_*` restent valides (paramètres ignorés).
 - Détail des valeurs : voir `llms.txt` (section « Préparer un devis pré-rempli »).
 
 ## Catégories de véhicules (codes jlassure) → nos pages

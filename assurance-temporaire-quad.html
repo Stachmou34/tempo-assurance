@@ -127,7 +127,7 @@
 		<div class="page">
 			<nav class="breadcrumb" aria-label="Fil d'ariane"><a href="/">Accueil</a> <span aria-hidden="true">›</span> <span aria-current="page">Assurance temporaire quad</span></nav>
 			<h1>Assurance temporaire quad</h1>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=QM-QM&puissance=inf30&ptac=inf3500&motif_assurance_temporaire=achat_vente">✅ Je démarre ma souscription</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=QM-QM&puissance=inf30">✅ Je démarre ma souscription</button></p>
 			<p class="tldr"><span class="tldr-label">En bref</span> L'assurance temporaire pour un <strong>quad</strong> (jusqu'à 9 CV fiscaux) couvre votre véhicule de <strong>1 à 90 jours</strong>, <strong>dès 50,75 €</strong>, en RC + défense-recours, avec carte verte immédiate.</p>
 			<div id="estimateur" style="background:#EFF4FF;border:1px solid #bfdbfe;border-radius:12px;padding:18px 20px;margin:18px 0">
 				<h2 style="margin-top:0">Estimez votre tarif en 2 secondes</h2>
@@ -135,8 +135,8 @@
 					<label for="est-duree" style="font-weight:600">Durée&nbsp;: <select id="est-duree" style="margin-left:6px;padding:8px 10px;border-radius:8px;border:1px solid #bfdbfe;font-size:1rem"></select></label>
 				</div>
 				<p style="margin:14px 0 2px">Prix indicatif&nbsp;: <strong id="est-prix" style="font-size:1.5rem;color:var(--navy)">&mdash;</strong> <span style="color:var(--grey)">en responsabilité civile + défense-recours</span></p>
-				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=QM-QM&puissance=inf30&ptac=inf3500&motif_assurance_temporaire=achat_vente">➜ Obtenir mon tarif exact et souscrire</button></p>
-				<p class="muted" style="margin:4px 0 0">Estimation pour un quad (≤ 9 CV fiscaux), conducteur de 23&nbsp;ans et plus. Le prix exact s'affiche au devis.</p>
+				<p class="btn-center" style="margin:12px 0 2px"><button type="button" class="btn cta-btn-modal" id="est-cta" data-prefill="categorie_vehi=QM-QM&puissance=inf30">➜ Obtenir mon tarif exact et souscrire</button></p>
+				<p class="muted" style="margin:4px 0 0">Estimation pour un quad (≤ 9 CV fiscaux), conducteur dès 21&nbsp;ans. Le prix exact s'affiche au devis.</p>
 				<script>
 				(function(){
 					var P={"1":50.75,"2":66.27,"3":68.6,"4":71.46,"5":74.45,"6":77.43,"7":83.59,"8":89.58,"9":92.23,"10":94.89,"11":96.34,"12":100.0,"13":102.66,"14":105.99,"15":107.81,"16":111.81,"17":115.14,"18":118.8,"19":122.13,"20":126.11,"21":145.57,"22":150.23,"23":154.89,"24":160.22,"25":163.55,"26":168.2,"27":174.19,"28":177.85,"29":182.51,"30":189.15,"35":210.45,"40":233.74,"45":242.03,"50":258.96,"55":277.9,"60":290.19,"90":420.21};
@@ -144,7 +144,7 @@
 					if(!sel)return;
 					Object.keys(P).map(Number).sort(function(a,b){return a-b}).forEach(function(d){var o=document.createElement("option");o.value=d;o.textContent=d+" jour"+(d>1?"s":"");if(d===15)o.selected=true;sel.appendChild(o);});
 					function fmt(n){return n.toFixed(2).replace(".",",")+"\u00a0\u20ac";}
-					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=QM-QM&puissance=inf30&ptac=inf3500&motif_assurance_temporaire=achat_vente&duree="+d);}
+					function upd(){var d=sel.value;out.textContent=fmt(P[d]);cta.setAttribute("data-prefill","categorie_vehi=QM-QM&puissance=inf30&duree="+d);}
 					sel.addEventListener('change',upd);upd();
 				})();
 				</script>
@@ -166,9 +166,9 @@
 			<h2>Combien coûte une assurance quad temporaire&nbsp;?</h2>
 			<p>En RC + défense-recours&nbsp;: <strong>50,75&nbsp;€</strong> pour 1 jour, <strong>107,81&nbsp;€</strong> pour 15 jours, <strong>189,15&nbsp;€</strong> pour 30 jours, jusqu'à <strong>420,21&nbsp;€</strong> pour 90 jours (tarif dégressif). Le montant exact s'affiche dans le <a href="devis-ou-souscription.html">devis en ligne</a>.</p>
 			<h2>Souscrire en quelques minutes</h2>
-			<p>Renseignez le quad (puissance ≤ 9 CV), les dates et le conducteur (23&nbsp;ans et plus)&nbsp;: le tarif s'affiche, paiement par carte (CIC), attestation et carte verte éditables aussitôt.</p>
+			<p>Renseignez le quad (puissance ≤ 9 CV), les dates et le conducteur (dès 21&nbsp;ans)&nbsp;: le tarif s'affiche, paiement par carte (CIC), attestation et carte verte éditables aussitôt.</p>
 			<p class="muted">Voir aussi&nbsp;: <a href="assurance-temporaire-vehicules.html">tous les véhicules</a> · <a href="assurance-temporaire-voiturette.html">voiturette sans permis</a> · <a href="tarif-assurance-temporaire.html">tarifs</a> · <a href="faq-assurance-temporaire.html">FAQ</a>.</p>
-			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=QM-QM&puissance=inf30&ptac=inf3500&motif_assurance_temporaire=achat_vente">➜ Faire un devis et souscrire en ligne</button></p>
+			<p class="btn-center"><button type="button" class="btn cta-btn-modal" data-prefill="categorie_vehi=QM-QM&puissance=inf30">➜ Faire un devis et souscrire en ligne</button></p>
 		</div>
 	</main>
 	<footer class="site-footer">
@@ -228,6 +228,6 @@
 		</div>
 	</div>
 	<div class="sticky-cta"><a class="cta-btn-modal" href="devis-ou-souscription.html">Obtenir mon tarif en 2 min</a></div>
-	<script src="assets/site.js?v=10" defer></script>
+	<script src="assets/site.js?v=11" defer></script>
 </body>
 </html>

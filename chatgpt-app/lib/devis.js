@@ -11,10 +11,11 @@ const { fetchTarif } = require('./jlassureApi');
 
 const DEVIS_URL = 'https://www.tempo-assurance.com/devis-ou-souscription.html';
 
-/* Liste blanche identique à celle relayée par assets/site.js vers l'iframe */
-const PREFILL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance', 'ptac',
+/* Liste blanche identique à celle relayée par assets/site.js vers l'iframe.
+   PTAC retiré : le tunnel le calcule automatiquement depuis categorie_vehi.
+   Motif retiré : supprimé du tunnel. (Anciens liens : paramètres ignorés sans erreur.) */
+const PREFILL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance',
   'pays_immatriculation', 'pays_residence', 'date_naissance',
-  'motif_assurance_temporaire', 'motif_assurance_temporaire_autre',
   'duree', 'date_debut', 'heure_debut'];
 
 function buildDevisUrl(params) {
@@ -62,9 +63,8 @@ function euro(n) { return Number(n).toFixed(2).replace('.', ',') + ' €'; }
 
 /* Sous-ensemble de paramètres permettant au widget de re-tarifer une autre durée
    (clic sur une pastille) via window.openai.callTool. */
-const ECHO_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance', 'ptac',
+const ECHO_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance',
   'pays_immatriculation', 'pays_residence', 'date_naissance', 'age_conducteur',
-  'motif_assurance_temporaire', 'motif_assurance_temporaire_autre',
   'duree', 'date_debut', 'heure_debut'];
 function echoArgs(p) {
   const o = {};
@@ -76,8 +76,8 @@ function echoArgs(p) {
 
 /* Conversion des champs BRUTS d'une carte grise (lus par OCR côté ChatGPT) vers
    nos valeurs de tarif. Déterministe côté serveur → pas d'erreur de mapping.
-   Genre (J.1) -> categorie_vehi ; P.6 (CV) -> puissance ; F.2 (kg) -> ptac ;
-   date 1re mise en circulation -> age_vehicule. */
+   Genre (J.1) -> categorie_vehi ; P.6 (CV) -> puissance ; F.2 (kg) -> camping-car
+   ≤/> 3,5 t (CC-Cap vs CAM-Fou) ; date 1re mise en circulation -> age_vehicule. */
 const GENRE_MAP = {
   'VP': 'VL-VL', 'CTTE': 'VL-VU', 'CAM': 'CAM-CAM3', 'TRR': 'REM-REM2',
   'REM': 'REM-REM2', 'RESP': 'REM-REM2', 'SREM': 'REM-REM2', 'CARAVANE': 'REM-REM3',
@@ -96,11 +96,14 @@ function normalizeFromCarteGrise(params) {
     const cv = Number(p.puissance_cv);
     if (!isNaN(cv)) { p.puissance = cv <= 30 ? 'inf30' : 'sup30'; deduits.push('puissance'); }
   }
-  if ((p.ptac === undefined || p.ptac === null || p.ptac === '') && p.ptac_kg != null) {
+  /* PTAC n'est plus transmis (calculé auto par le tunnel depuis categorie_vehi).
+     ptac_kg ne sert plus qu'à distinguer le camping-car ≤ 3,5 t (CC-Cap) du
+     camping-car > 3,5 t (CAM-Fou), tous deux de genre VASP sur la carte grise. */
+  if (p.categorie_vehi === 'CC-Cap' && p.ptac_kg != null) {
     const kg = Number(p.ptac_kg);
-    if (!isNaN(kg)) { p.ptac = kg <= 3500 ? 'inf3500' : 'sup3500'; deduits.push('PTAC'); }
+    if (!isNaN(kg) && kg > 3500) { p.categorie_vehi = 'CAM-Fou'; deduits.push('camping-car > 3,5 t'); }
   }
-  if (p.categorie_vehi === 'CC-Cap' && p.ptac === 'sup3500') { p.categorie_vehi = 'CAM-Fou'; }
+  delete p.ptac;
   if ((p.age_vehicule === undefined || p.age_vehicule === null || p.age_vehicule === '') && p.date_mise_circulation) {
     const y = parseYear(p.date_mise_circulation);
     if (y) { p.age_vehicule = (new Date().getFullYear() - y) < 10 ? 'moins10' : 'plus10'; deduits.push('âge du véhicule'); }
