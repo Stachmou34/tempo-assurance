@@ -28,6 +28,14 @@ const server = http.createServer(function (req, res) {
     return json(res, 200, { ok: true, server: SERVER_INFO, endpoint: '/mcp' });
   }
 
+  /* Sondes de découverte OAuth (clients MCP, p.ex. Claude) : un 404 explicite
+     indique que le connecteur est « sans authentification » (outils en lecture
+     seule, publics). À garder AVANT le catch-all token ci-dessous. */
+  if (req.method === 'GET' && (url === '/.well-known/oauth-protected-resource' ||
+      url === '/.well-known/oauth-authorization-server')) {
+    res.writeHead(404); return res.end('no auth');
+  }
+
   /* Vérification de domaine OpenAI : sert le token (env OPENAI_DOMAIN_VERIFICATION)
      sur les URL .well-known du host MCP. Renseigner le token sur l'hébergeur. */
   if (req.method === 'GET' && url.indexOf('/.well-known/') === 0) {

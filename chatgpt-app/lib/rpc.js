@@ -7,6 +7,10 @@ const { RESOURCES, readResource } = require('./resources');
 
 const SERVER_INFO = { name: 'tempo-assurance', version: '0.1.0' };
 const PROTOCOL_VERSION = '2024-11-05';
+/* Versions du protocole MCP que ce serveur sait honorer. On renvoie celle demandée
+   par le client si elle est connue (négociation conforme à la spec), sinon le défaut.
+   Permet à la fois ChatGPT (Apps SDK) et Claude (connecteurs MCP) de se connecter. */
+const SUPPORTED_PROTOCOLS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 
 function res(id, result) { return { jsonrpc: '2.0', id: id, result: result }; }
 function err(id, code, message) { return { jsonrpc: '2.0', id: id, error: { code: code, message: message } }; }
@@ -14,12 +18,15 @@ function err(id, code, message) { return { jsonrpc: '2.0', id: id, error: { code
 async function dispatch(msg) {
   const id = msg.id;
   switch (msg.method) {
-    case 'initialize':
+    case 'initialize': {
+      const requested = (msg.params || {}).protocolVersion;
+      const negotiated = SUPPORTED_PROTOCOLS.indexOf(requested) !== -1 ? requested : PROTOCOL_VERSION;
       return res(id, {
-        protocolVersion: PROTOCOL_VERSION,
+        protocolVersion: negotiated,
         capabilities: { tools: {}, resources: {} },
         serverInfo: SERVER_INFO
       });
+    }
     case 'notifications/initialized':
     case 'notifications/cancelled':
       return null; /* notifications : pas de réponse */
