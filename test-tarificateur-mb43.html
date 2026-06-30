@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr-FR" dir="ltr">
+<head>
+	<meta charset="utf-8" />
+	<title>TEST interne — tarificateur mb43 (ne pas indexer)</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- Page de test privée : jamais indexée, non liée, hors sitemap. -->
+	<meta name="robots" content="noindex, nofollow, noarchive" />
+	<meta name="referrer" content="no-referrer-when-downgrade" />
+	<style>
+		:root { --ink:#0F172A; --muted:#64748B; --line:#E2E8F0; --bg:#F8FAFC; --accent:#1D4ED8; }
+		* { box-sizing: border-box; }
+		body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+		.wrap { max-width:880px; margin:0 auto; padding:24px 16px 64px; }
+		.note { background:#FEF3C7; border:1px solid #FCD34D; border-radius:10px; padding:12px 14px; font-size:.92rem; color:#78350F; margin-bottom:18px; }
+		h1 { font-size:1.35rem; margin:.2em 0 .35em; }
+		.meta { font-size:.85rem; color:var(--muted); word-break:break-all; }
+		.meta code { background:#fff; border:1px solid var(--line); border-radius:6px; padding:1px 6px; }
+		.quote { background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-top:18px; box-shadow:0 1px 3px rgba(15,23,42,.06); }
+		.quote-head { display:flex; align-items:center; gap:8px; padding:12px 16px; border-bottom:1px solid var(--line); font-weight:600; font-size:.95rem; }
+		.dot { width:9px; height:9px; border-radius:50%; background:#22C55E; box-shadow:0 0 0 3px rgba(34,197,94,.18); }
+		.quote-frame { width:100%; border:0; display:block; min-height:620px; transition:height .25s ease; }
+		.quote-secure { padding:10px 16px; border-top:1px solid var(--line); font-size:.82rem; color:var(--muted); }
+		ul.chk { margin:14px 0 0; padding-left:1.1em; font-size:.9rem; color:var(--muted); }
+		ul.chk li { margin:.2em 0; }
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="note">⚠️ <strong>Page de test interne</strong> — visible uniquement via cette URL, non indexée (noindex), absente du menu et du sitemap. À supprimer après validation du nouveau moteur.</div>
+
+		<h1>Tarificateur — nouveau moteur <code>mb43</code></h1>
+		<p class="meta">Source iframe : <code>https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb43.php</code><br>
+		Paramètres : <code>cd=BLA1905B</code> · <code>id=43</code> · <code>adrsite=www.tempo-assurance.com</code> (identiques à la prod).</p>
+
+		<div class="quote" id="tarificateur">
+			<div class="quote-head"><span class="dot"></span> Votre devis d'assurance temporaire (moteur mb43)</div>
+			<iframe class="quote-frame" allow="tools" src="https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb43.php?cat=&amp;&amp;tip=09.78.31.02.93&amp;&amp;id=43&amp;&amp;cd=BLA1905B&amp;&amp;adrsite=www.tempo-assurance.com" title="Tarificateur d'assurance temporaire (test mb43)" loading="lazy"></iframe>
+			<div class="quote-secure">Connexion sécurisée · paiement par carte bancaire (banque partenaire CIC)</div>
+		</div>
+
+		<ul class="chk">
+			<li>Vérifier : 9 étapes (motif + PTAC retirés), PTAC auto, dates saisies en JJ-MM-AAAA.</li>
+			<li>Camping-car : sélection CC-Cap / CAM-Fou (pas de PTAC à saisir).</li>
+			<li>Tester sur mobile (saisie des dates, suite des antécédents) et le redimensionnement de l'iframe.</li>
+		</ul>
+	</div>
+
+	<!-- Redimensionnement dynamique : jlassure poste sa hauteur via postMessage
+	     (nombre brut = scrollHeight). Script autonome, identique à assets/site.js. -->
+	<script>
+	(function () {
+		var f = document.querySelector('iframe.quote-frame');
+		if (!f) return;
+		var t;
+		window.addEventListener('message', function (e) {
+			if (e.origin !== 'https://www.jlassure.com') return;
+			var h = Number(e.data);
+			if (isNaN(h) || h < 200) return;
+			clearTimeout(t);
+			t = setTimeout(function () { f.style.height = h + 'px'; }, 250);
+		}, false);
+	})();
+	</script>
+</body>
+</html>
