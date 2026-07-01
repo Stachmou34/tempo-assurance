@@ -25,8 +25,8 @@
 
 Construire un lien vers la page de devis : les paramètres fournis pré-remplissent le tarificateur (tous optionnels). Pour qu'un tarif s'affiche, fournir au minimum : categorie_vehi, age_vehicule, puissance, pays_immatriculation, pays_residence, date_naissance.
 
-Exemple (voiture, conducteur né le 12/05/1990, 15 jours à partir du 01/07/2026, France métropolitaine) :
-https://www.tempo-assurance.com/devis-ou-souscription.html?categorie_vehi=VL-VL&age_vehicule=moins10&puissance=inf30&pays_immatriculation=FRANCE%20METROPOLITAINE&pays_residence=FRANCE%20METROPOLITAINE&date_naissance=1990-05-12&duree=15&date_debut=2026-07-01
+Exemple (voiture, conducteur né le 12/05/1990, 15 jours, France métropolitaine) :
+https://www.tempo-assurance.com/devis-ou-souscription.html?categorie_vehi=VL-VL&age_vehicule=moins10&puissance=inf30&pays_immatriculation=FRANCE%20METROPOLITAINE&pays_residence=FRANCE%20METROPOLITAINE&date_naissance=1990-05-12&duree=15
 
 Paramètres :
 - categorie_vehi : VL-VL (voiture) · VL-VU (utilitaire) · VSP-VSP (voiturette sans permis) · QM-QM (quad) · QMQLEM-QMQLEM (buggy sans permis) · CC-Cap (camping-car <=3,5 T) · CAM-Fou (camping-car >3,5 T) · CAM-CAM3 (camion / poids lourd >3,5 T) · TRA-TRA (tracteur agricole) · TCP-TCP (bus, car, autocar) · REM-REM2 (remorque / semi-remorque) · REM-REM3 (caravane)
@@ -35,7 +35,7 @@ Paramètres :
 - pays_immatriculation / pays_residence : en MAJUSCULES, espaces encodées %20 (ex. FRANCE%20METROPOLITAINE) ; DOM acceptés : FRANCE GUADELOUPE, FRANCE GUYANE, FRANCE MARTINIQUE, FRANCE MAYOTTE, FRANCE REUNION. Immatriculation : Pologne, Roumanie et Italie exclues.
 - date_naissance : AAAA-MM-JJ (conducteur de 21 à 90 ans)
 - duree : nombre de jours, de 1 à 90 ; la valeur doit exister dans la grille tarifaire du profil, sinon elle est ignorée sans erreur (le client choisit alors la durée dans la liste affichée)
-- date_debut : AAAA-MM-JJ (>= aujourd'hui) ; heure_debut : HH:MM
+- date_debut / heure_debut : ne pas transmettre pour l'instant (le tarificateur renvoie une erreur si date_debut est fourni) ; le client choisit la date de début directement dans le tunnel.
 - PTAC : ne pas transmettre — calculé automatiquement depuis categorie_vehi. Pour un camping-car, choisir CC-Cap (≤ 3,5 t) ou CAM-Fou (> 3,5 t).
 - motif : ne pas transmettre — le motif a été retiré du tunnel.
 - Note : les anciens liens contenant ptac= ou motif_assurance_temporaire= restent valides (paramètres obsolètes simplement ignorés).

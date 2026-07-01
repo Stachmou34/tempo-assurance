@@ -16,8 +16,8 @@ const profilProps = {
   date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: 'AAAA-MM-JJ (conducteur 21 à 90 ans)' },
   age_conducteur: { type: 'integer', minimum: 21, maximum: 90, description: "Âge du conducteur (alternative à date_naissance pour l'API tarif)" },
   duree: { type: 'integer', minimum: 1, maximum: 90, description: 'Durée en jours (1 à 90)' },
-  date_debut: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: "Date de début AAAA-MM-JJ (≥ aujourd'hui)" },
-  heure_debut: { type: 'string', pattern: '^\\d{2}:\\d{2}$', description: 'Heure de début HH:MM' },
+  /* date_debut / heure_debut NON exposés : ils font planter le tarificateur
+     (500 côté JL Assure). Le client saisit la date de début dans le tunnel. */
   /* Champs BRUTS lus sur une carte grise (OCR) : convertis automatiquement.
      Ne PAS demander/transmettre les champs personnels (nom, immatriculation, châssis). */
   puissance_cv: { type: 'integer', description: 'Carte grise P.6 : puissance fiscale en CV (ex. 6). Converti en inf30/sup30.' },
@@ -66,7 +66,7 @@ const TOOLS = [
       'ensuite sur le tarificateur (le client finalise lui-même). ' +
       'NIVEAU 1 (devis) — DEMANDER au client, sans rien supposer : categorie_vehi · age_vehicule ' +
       '(moins/plus de 10 ans) · puissance (≤30 / >30 CV) · pays_immatriculation · ' +
-      'pays_residence · age_conducteur (ou date_naissance) · duree · date_debut. ' +
+      'pays_residence · age_conducteur (ou date_naissance) · duree. ' +
       'NE PAS demander le PTAC ni le motif (le PTAC est calculé automatiquement depuis categorie_vehi ; ' +
       'pour un camping-car, choisir CC-Cap si ≤ 3,5 t ou CAM-Fou si > 3,5 t). ' +
       "Si l'outil répond source=incomplet, poser les questions listées dans besoin_infos (NE PAS inventer de valeur). " +

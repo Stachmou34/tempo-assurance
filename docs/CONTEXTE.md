@@ -25,10 +25,11 @@
 3. jlassure **valide** chaque paramètre (liste blanche serveur), injecte les valeurs dans des champs cachés `pref_*`, puis son JS les applique au formulaire et calcule le tarif.
 4. Le client vérifie, lit l'IPID, signe et paie. **La souscription/paiement restent humains (obligation DDA/ACPR).**
 
-### Les 9 paramètres de pré-remplissage
-`categorie_vehi, age_vehicule, puissance, pays_immatriculation, pays_residence, date_naissance, duree, date_debut, heure_debut`
+### Les 7 paramètres de pré-remplissage
+`categorie_vehi, age_vehicule, puissance, pays_immatriculation, pays_residence, date_naissance, duree`
 - Minimum pour afficher un tarif : `categorie_vehi + age_vehicule + puissance + pays_immatriculation + pays_residence + date_naissance`.
-- **MàJ tunnel JL Assure (2026-06)** : `ptac` et `motif_assurance_temporaire`/`_autre` **retirés** du tunnel. Le **PTAC est calculé automatiquement** depuis `categorie_vehi` (CC-Cap → ≤ 3,5 t · CAM-Fou / CAM-CAM3 / TCP-TCP → > 3,5 t · reste → ≤ 3,5 t) ; le **motif** a été supprimé. Le tunnel passe de 10 à **9 étapes** ; dates saisies en **JJ-MM-AAAA** (le paramètre GET reste en `AAAA-MM-JJ`). Camping-car : choisir **CC-Cap** ou **CAM-Fou**. Les anciens liens avec `ptac=`/`motif_*` restent valides (paramètres ignorés).
+- **MàJ tunnel JL Assure (2026-06)** : `ptac` et `motif_assurance_temporaire`/`_autre` **retirés** du tunnel. Le **PTAC est calculé automatiquement** depuis `categorie_vehi` (CC-Cap → ≤ 3,5 t · CAM-Fou / CAM-CAM3 / TCP-TCP → > 3,5 t · reste → ≤ 3,5 t) ; le **motif** a été supprimé. Camping-car : choisir **CC-Cap** ou **CAM-Fou**. Les anciens liens avec `ptac=`/`motif_*` restent valides (paramètres ignorés).
+- ⚠️ **`date_debut` / `heure_debut` retirés du relais (2026-07-01)** : le tarificateur renvoie une **erreur 500** quand `date_debut` est passé en GET (bug serveur JL Assure, `mb.php` ET `mb43.php`, tout format). Le client saisit la date dans le tunnel. À réactiver après correctif — cf. `docs/message-jlassure-date-debut-500.md`.
 - Détail des valeurs : voir `llms.txt` (section « Préparer un devis pré-rempli »).
 
 ## Catégories de véhicules (codes jlassure) → nos pages

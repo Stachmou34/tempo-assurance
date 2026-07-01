@@ -14,9 +14,11 @@ const DEVIS_URL = 'https://www.tempo-assurance.com/devis-ou-souscription.html';
 /* Liste blanche identique à celle relayée par assets/site.js vers l'iframe.
    PTAC retiré : le tunnel le calcule automatiquement depuis categorie_vehi.
    Motif retiré : supprimé du tunnel. (Anciens liens : paramètres ignorés sans erreur.) */
+/* date_debut / heure_debut retirés : le tarificateur JL Assure renvoie une 500
+   quand date_debut est passé en GET (bug serveur, mb.php ET mb43.php). Le client
+   choisit la date dans le tunnel. Réactiver après correctif JL Assure. */
 const PREFILL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance',
-  'pays_immatriculation', 'pays_residence', 'date_naissance',
-  'duree', 'date_debut', 'heure_debut'];
+  'pays_immatriculation', 'pays_residence', 'date_naissance', 'duree'];
 
 function buildDevisUrl(params) {
   const p = Object.assign({}, params);
@@ -31,14 +33,8 @@ function buildDevisUrl(params) {
       p.date_naissance = (Number(t.year) - age) + '-' + t.month + '-' + t.day;
     }
   }
-  if (p.date_debut === undefined || p.date_debut === null || p.date_debut === '') {
-    const t = parisParts(0);
-    p.date_debut = t.year + '-' + t.month + '-' + t.day;
-  }
-  if (p.heure_debut === undefined || p.heure_debut === null || p.heure_debut === '') {
-    const t = parisParts(15 * 60000);
-    p.heure_debut = t.hour + ':' + t.minute;
-  }
+  /* date_debut / heure_debut NON pré-remplis : ils déclenchent une 500 côté
+     tarificateur JL Assure (bug serveur). Le client saisit la date dans le tunnel. */
   const out = [];
   PREFILL_KEYS.forEach(function (k) {
     const v = p[k];
@@ -64,8 +60,7 @@ function euro(n) { return Number(n).toFixed(2).replace('.', ',') + ' €'; }
 /* Sous-ensemble de paramètres permettant au widget de re-tarifer une autre durée
    (clic sur une pastille) via window.openai.callTool. */
 const ECHO_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance',
-  'pays_immatriculation', 'pays_residence', 'date_naissance', 'age_conducteur',
-  'duree', 'date_debut', 'heure_debut'];
+  'pays_immatriculation', 'pays_residence', 'date_naissance', 'age_conducteur', 'duree'];
 function echoArgs(p) {
   const o = {};
   ECHO_KEYS.forEach(function (k) {
