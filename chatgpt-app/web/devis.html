@@ -5,34 +5,74 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Devis assurance temporaire — Tempo-Assurance</title>
 <style>
-  :root { --navy:#0F172A; --blue:#2563EB; --green:#16A34A; --amber:#CA8A04; --border:#E2E8F0; --grey:#64748B; }
+  :root {
+    --ink:#0F172A; --ink-soft:#334155; --muted:#64748B; --faint:#94A3B8;
+    --line:#E7EBF0; --surface:#FFFFFF; --wash:#F6F8FB;
+    --gold:#B7791F; --gold-soft:#FBF1DC;
+    --green:#15803D; --green-soft:#ECFDF3; --green-line:#A7F3D0;
+  }
   * { box-sizing:border-box; }
-  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; color:#1F2937; background:transparent; }
-  .card { max-width:520px; margin:0 auto; background:#fff; border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:0 6px 24px rgba(15,23,42,.10); }
-  .head { background:radial-gradient(120% 140% at 85% 0%,#1D4ED8 0%,#16265c 45%,#0F172A 80%); color:#fff; padding:18px 20px; }
-  .head .eyebrow { font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:#bfdbfe; font-weight:700; }
-  .head h1 { margin:.3em 0 0; font-size:1.25rem; font-weight:800; }
-  .body { padding:18px 20px; }
-  .price-row { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; min-height:42px; }
-  .price { font-size:2rem; font-weight:800; color:var(--navy); transition:opacity .15s; }
-  .price.loading { opacity:.35; }
-  .per { color:var(--grey); font-size:.95rem; }
-  .badge { font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; padding:3px 9px; border-radius:999px; }
-  .badge.real { background:#ecfdf5; color:var(--green); border:1px solid #a7f3d0; }
-  .badge.ind { background:#fffbeb; color:var(--amber); border:1px solid #fde68a; }
-  .sub { color:var(--grey); font-size:.9rem; margin:8px 0 0; }
-  .field { margin:16px 0 0; }
-  .field label { display:block; font-size:.8rem; font-weight:700; color:var(--navy); margin:0 0 5px; }
-  select { width:100%; font:inherit; font-size:1rem; color:var(--navy); background:#fff; border:1px solid var(--border); border-radius:9px; padding:11px 12px; cursor:pointer; }
-  select:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(37,99,235,.15); }
-  .cta { display:block; text-align:center; text-decoration:none; background:var(--navy); color:#fff; font-weight:700; padding:13px 18px; border-radius:10px; margin:18px 0 6px; transition:background .15s; }
-  .cta:hover { background:var(--blue); }
-  .note { color:var(--grey); font-size:.78rem; line-height:1.5; margin:10px 0 0; }
-  .hp h1 { color:var(--navy); font-size:1.15rem; margin:0 0 6px; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; color:var(--ink); background:transparent; -webkit-font-smoothing:antialiased; }
+
+  .card { max-width:520px; margin:0 auto; background:var(--surface); border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 1px 2px rgba(15,23,42,.04), 0 10px 30px rgba(15,23,42,.08); }
+  .accent { height:3px; background:linear-gradient(90deg,var(--gold) 0%,#DCA83A 60%,var(--gold) 100%); }
+  .pad { padding:20px 22px; }
+
+  /* Header */
+  .top { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .brand { display:flex; align-items:center; gap:7px; font-size:.72rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  .brand b { color:var(--ink); }
+  .brand .tick { width:7px; height:7px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 3px var(--gold-soft); }
+  .cat { margin:12px 0 0; font-size:1.15rem; font-weight:800; letter-spacing:-.01em; line-height:1.2; }
+
+  /* Price */
+  .price-row { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; min-height:46px; margin:14px 0 0; }
+  .price { font-size:2.35rem; font-weight:800; letter-spacing:-.03em; line-height:1; color:var(--ink); font-variant-numeric:tabular-nums; transition:opacity .18s ease; }
+  .price.loading { opacity:.3; }
+  .per { color:var(--muted); font-size:.95rem; font-variant-numeric:tabular-nums; }
+  .badge { display:inline-flex; align-items:center; gap:5px; font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; padding:4px 9px; border-radius:999px; white-space:nowrap; }
+  .badge.real { background:var(--green-soft); color:var(--green); border:1px solid var(--green-line); }
+  .badge.ind { background:var(--gold-soft); color:var(--gold); border:1px solid #F1DDB0; }
+  .cover { color:var(--ink-soft); font-size:.86rem; margin:8px 0 0; }
+
+  /* Duration — the signature control */
+  .field { margin:20px 0 0; }
+  .field-label { font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin:0 0 9px; }
+  .segs { display:flex; flex-wrap:wrap; gap:7px; }
+  .seg { position:relative; font:inherit; font-size:.9rem; font-weight:700; font-variant-numeric:tabular-nums; color:var(--ink-soft); background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:8px 12px; cursor:pointer; transition:border-color .12s, background .12s, color .12s, transform .06s; }
+  .seg:hover { background:var(--wash); border-color:#D3DBE6; }
+  .seg:active { transform:translateY(1px); }
+  .seg[aria-pressed="true"] { background:var(--ink); border-color:var(--ink); color:#fff; }
+  .seg[aria-pressed="true"]::after { content:""; position:absolute; left:12px; right:12px; bottom:5px; height:2px; border-radius:2px; background:var(--gold); }
+  .seg:focus-visible { outline:none; box-shadow:0 0 0 3px rgba(183,121,31,.35); border-color:var(--gold); }
+
+  /* Trust */
+  .trust { display:flex; flex-wrap:wrap; gap:8px 16px; margin:18px 0 0; padding:14px 0 0; border-top:1px solid var(--line); }
+  .trust span { display:inline-flex; align-items:center; gap:7px; font-size:.84rem; color:var(--ink-soft); }
+  .trust svg { flex:none; width:15px; height:15px; color:var(--green); }
+
+  /* CTA */
+  .cta { display:flex; align-items:center; justify-content:center; gap:8px; text-decoration:none; background:var(--ink); color:#fff; font-weight:800; font-size:.98rem; letter-spacing:.01em; padding:14px 18px; border-radius:12px; margin:18px 0 0; transition:background .15s, transform .06s; }
+  .cta:hover { background:#1E293B; }
+  .cta:active { transform:translateY(1px); }
+  .cta:focus-visible { outline:none; box-shadow:0 0 0 3px rgba(183,121,31,.4); }
+  .cta .arw { transition:transform .15s; }
+  .cta:hover .arw { transform:translateX(3px); }
+
+  .note { color:var(--faint); font-size:.76rem; line-height:1.55; margin:11px 0 0; }
+
+  /* States */
+  .empty, .hp { color:var(--ink-soft); }
+  .hp h2 { color:var(--ink); font-size:1.1rem; margin:2px 0 6px; font-weight:800; }
+  .hp .sub { color:var(--muted); font-size:.9rem; margin:0; }
+  .callbtn { display:inline-flex; align-items:center; gap:8px; margin:14px 0 0; text-decoration:none; font-weight:700; color:var(--ink); border:1px solid var(--line); border-radius:10px; padding:10px 14px; }
+  .callbtn svg { width:15px; height:15px; color:var(--gold); }
+
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
 </style>
 </head>
 <body>
-<div id="app" class="card"><div class="body"><p class="sub">Chargement du devis…</p></div></div>
+<div id="app" class="card"><div class="accent"></div><div class="pad"><p class="cover">Chargement du devis…</p></div></div>
 
 <script>
   var SAMPLE = {
@@ -43,6 +83,7 @@
     echo_args: { categorie_vehi: 'VL-VL', puissance: 'inf30', age_vehicule: 'moins10', age_conducteur: 35, duree: 15 }
   };
 
+  var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
   var lastData = null;
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
@@ -56,32 +97,51 @@
     if (!d) return;
     lastData = d;
     var app = document.getElementById('app');
+
     if (d.hors_perimetre) {
-      app.innerHTML = '<div class="body hp"><h1>Profil hors périmètre</h1><p class="sub">' +
-        esc(d.message || 'Ce profil n\'est pas tarifiable en ligne.') + '</p></div>';
+      app.innerHTML = '<div class="accent"></div><div class="pad hp">' +
+        '<div class="brand"><span class="tick"></span><b>Tempo</b>-Assurance</div>' +
+        '<h2>Profil hors périmètre</h2>' +
+        '<p class="sub">' + esc(d.message || "Ce profil n'est pas tarifiable en ligne.") + '</p>' +
+        '<a class="callbtn" href="tel:+33978310293"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 11.5a16 16 0 0 0 6 6l1-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>Nous appeler — 09 78 31 02 93</a>' +
+        '</div>';
       return;
     }
+
     var p = pickPrice(d);
     var cat = d.categorie || 'Assurance temporaire';
-    var badge = p ? (p.real ? '<span class="badge real">prix réel</span>' : '<span class="badge ind">indicatif</span>') : '';
+    var badge = p ? (p.real
+      ? '<span class="badge real">' + CHECK + 'Prix réel</span>'
+      : '<span class="badge ind">Tarif indicatif</span>') : '';
     var durees = Array.isArray(d.durees_disponibles) ? d.durees_disponibles : [];
     var sel = p ? Number(p.duree) : null;
-    var options = durees.map(function (n) {
-      return '<option value="' + esc(n) + '"' + (Number(n) === sel ? ' selected' : '') + '>' + esc(n) + ' jour' + (Number(n) > 1 ? 's' : '') + '</option>';
-    }).join('');
     var link = d.lien_devis_pre_rempli || '#';
 
     var priceBlock = p
-      ? '<div class="price-row"><span class="price">' + esc(p.price) + '</span><span class="per">pour ' + esc(p.duree) + ' jour(s)</span>' + badge + '</div>' +
-        '<p class="sub">Responsabilité civile + Défense et Recours, frais de courtage inclus.</p>'
-      : '<p class="sub">Choisissez une durée pour obtenir un tarif.</p>';
+      ? '<div class="price-row"><span class="price">' + esc(p.price) + '</span>' +
+        '<span class="per">pour ' + esc(p.duree) + ' jour' + (Number(p.duree) > 1 ? 's' : '') + '</span>' + badge + '</div>' +
+        '<p class="cover">Responsabilité civile + Défense et Recours, frais de courtage inclus.</p>'
+      : '<p class="cover empty">Choisissez une durée pour afficher votre tarif.</p>';
+
+    var segs = durees.map(function (n) {
+      var on = Number(n) === sel;
+      return '<button type="button" class="seg" role="radio" data-duree="' + esc(n) + '" aria-pressed="' + (on ? 'true' : 'false') + '" aria-checked="' + (on ? 'true' : 'false') + '" tabindex="' + (on ? '0' : '-1') + '">' + esc(n) + ' j</button>';
+    }).join('');
 
     app.innerHTML =
-      '<div class="head"><div class="eyebrow">Assurance temporaire</div><h1>' + esc(cat) + '</h1></div>' +
-      '<div class="body">' + priceBlock +
-      (options ? '<div class="field"><label for="duree-select">Durée</label><select id="duree-select">' + options + '</select></div>' : '') +
-      '<a class="cta" href="' + esc(link) + '" target="_blank" rel="noopener">Souscrire (devis pré-rempli)</a>' +
-      '<p class="note">Le client vérifie les informations, consulte l\'IPID, confirme et règle par carte sur le tarificateur. Aucune souscription n\'est finalisée par l\'application.</p>' +
+      '<div class="accent"></div>' +
+      '<div class="pad">' +
+        '<div class="top"><div class="brand"><span class="tick"></span><b>Tempo</b>-Assurance</div></div>' +
+        '<div class="cat">' + esc(cat) + '</div>' +
+        priceBlock +
+        (segs ? '<div class="field"><div class="field-label">Durée</div><div class="segs" role="radiogroup" aria-label="Durée du contrat">' + segs + '</div></div>' : '') +
+        '<div class="trust">' +
+          '<span>' + CHECK + 'Attestation immédiate</span>' +
+          '<span>' + CHECK + 'Sans engagement</span>' +
+          '<span>' + CHECK + 'Paiement sécurisé (CIC)</span>' +
+        '</div>' +
+        '<a class="cta" href="' + esc(link) + '" target="_blank" rel="noopener">Souscrire en ligne <span class="arw">&rarr;</span></a>' +
+        '<p class="note">Vous vérifiez vos informations, consultez l\'IPID et réglez par carte sur le tarificateur. Rien n\'est souscrit automatiquement par l\'application.</p>' +
       '</div>';
   }
 
@@ -99,9 +159,22 @@
     } else if (pr) { pr.classList.remove('loading'); }
   }
 
-  /* Changement de durée (liste déroulante) */
-  document.addEventListener('change', function (e) {
-    if (e.target && e.target.id === 'duree-select') reprice({ duree: Number(e.target.value) });
+  /* Sélection d'une durée (contrôle segmenté) */
+  document.addEventListener('click', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('.seg') : null;
+    if (b && b.getAttribute('aria-pressed') !== 'true') reprice({ duree: Number(b.getAttribute('data-duree')) });
+  });
+
+  /* Navigation clavier façon radiogroup (flèches) */
+  document.addEventListener('keydown', function (e) {
+    var b = e.target && e.target.classList && e.target.classList.contains('seg') ? e.target : null;
+    if (!b) return;
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    e.preventDefault();
+    var segs = Array.prototype.slice.call(b.parentNode.querySelectorAll('.seg'));
+    var i = segs.indexOf(b);
+    var next = (e.key === 'ArrowRight' || e.key === 'ArrowDown') ? segs[i + 1] : segs[i - 1];
+    if (next) { next.focus(); reprice({ duree: Number(next.getAttribute('data-duree')) }); }
   });
 
   function current() { return (window.openai && window.openai.toolOutput) || null; }
