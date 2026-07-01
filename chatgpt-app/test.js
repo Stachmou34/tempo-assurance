@@ -19,10 +19,9 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
 
   const url = buildDevisUrl({ categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', ptac: 'inf3500', motif_assurance_temporaire: 'achat_vente', duree: 15, date_debut: '2026-07-01' });
   ok(url.indexOf('devis-ou-souscription.html?categorie_vehi=VL-VL') > -1 && url.indexOf('ptac=') === -1 && url.indexOf('motif') === -1, 'lien pré-rempli construit (ptac + motif retirés du lien)');
-  ok(url.indexOf('date_debut') === -1 && url.indexOf('heure_debut') === -1, 'lien : date_debut/heure_debut NON relayés (bug 500 tarificateur JL Assure)');
   const uDef = buildDevisUrl({ categorie_vehi: 'VL-VL', age_conducteur: 35 });
   ok(/date_naissance=\d{4}-\d{2}-\d{2}/.test(uDef), 'lien : date_naissance déduite de age_conducteur');
-  ok(uDef.indexOf('date_debut') === -1 && uDef.indexOf('heure_debut') === -1, 'lien : pas de date_debut/heure_debut par défaut');
+  ok(/date_debut=\d{4}-\d{2}-\d{2}/.test(uDef) && /heure_debut=\d{2}%3A\d{2}/.test(uDef), 'lien : date_debut + heure_debut par défaut');
 
   const FULL = { categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', date_naissance: '1990-05-12', duree: 15 };
   const d = await devisAssuranceTemporaire(FULL);

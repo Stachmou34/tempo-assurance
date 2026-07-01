@@ -19,7 +19,7 @@ Tout le pré-remplissage est prêt, mais une IA ne nous recommande que si elle n
 - **Envoyer la note à JL Assure** (`docs/note-jlassure-tarificateur-page1.md`) et **poser la question du thème par client** (couleurs/logo/ORIAS via `id=43`).
 - Selon leur réponse : suivre les évolutions du moteur partagé (min-height 100vh, encadré valeur visible, PTAC conditionnel, impasses silencieuses, spinner, etc.).
 - ✅ **MàJ tunnel JL Assure (2026-06) intégrée** : suppression `ptac` + `motif` (PTAC auto, camping-car CC-Cap/CAM-Fou).
-- 🔴 **BUG JL Assure `date_debut` → 500** (2026-07-01) : `date_debut` en GET fait planter le tarificateur (page blanche), `mb.php` ET `mb43.php`. **Contournement en place** : `date_debut`/`heure_debut` retirés du relais partout (site + app). **À faire** : envoyer `docs/message-jlassure-date-debut-500.md` à christophe.p@jlassure.com, puis **réactiver** `date_debut` une fois corrigé.
+- ✅ **BUG JL Assure `date_debut` → 500 : CORRIGÉ** (2026-07-02). `date_debut` renvoie de nouveau 200 (mb.php + mb43.php). Contournement **retiré** : `date_debut`/`heure_debut` **réactivés** partout (site + app). Historique : `docs/message-jlassure-date-debut-500.md`.
 
 ## 🟡 P3 — Pages catégories manquantes (SEO + couverture devis)
 À créer sur le modèle auto/utilitaire/camion (estimateur + CTA pré-rempli) :

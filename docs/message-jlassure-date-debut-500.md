@@ -1,5 +1,7 @@
 # Signalement bug à JL Assure — `date_debut` provoque une erreur 500
 
+> ✅ **RÉSOLU le 2026-07-02** — JL Assure a corrigé : `date_debut` renvoie de nouveau 200 (mb.php + mb43.php). Le paramètre a été **réactivé** partout côté MCJ (site + app ChatGPT). Document conservé pour l'historique.
+
 > Contact : christophe.p@jlassure.com
 
 ## Résumé

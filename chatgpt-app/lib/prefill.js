@@ -24,7 +24,8 @@ const VEHICULE_KEYS = ['immatriculation', 'date_premiere_mec', 'marque', 'modele
 /* profil_tarifaire = champs du formulaire de tarif (équivalent des paramètres GET).
    Doit être complet pour que le tarif se pré-remplisse à l'ouverture. */
 const PROFIL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance',
-  'pays_immatriculation', 'pays_residence', 'date_naissance', 'duree'];
+  'pays_immatriculation', 'pays_residence', 'date_naissance',
+  'duree', 'date_debut', 'heure_debut'];
 
 function pick(obj, keys) {
   const o = {};
@@ -143,7 +144,7 @@ const profilSchema = {
     pays_immatriculation: { type: 'string' },
     pays_residence: { type: 'string' },
     date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
-    duree: { type: 'string' }
+    duree: { type: 'string' }, date_debut: { type: 'string' }, heure_debut: { type: 'string' }
   }
 };
 

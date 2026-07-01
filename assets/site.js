@@ -5,12 +5,9 @@
   /* ---------- Pré-remplissage du tarificateur via paramètres d'URL ---------- */
   /* Les paramètres sont validés côté JL Assure ; ici on se contente de relayer
      une liste blanche vers le tarificateur (page devis + modale). */
-  /* date_debut / heure_debut RETIRÉS du relais : le tarificateur JL Assure renvoie
-     une erreur 500 quand date_debut est passé en paramètre (bug serveur, mb.php ET
-     mb43.php, tout format). Le client choisit la date de début dans le tunnel.
-     À réactiver quand JL Assure aura corrigé (voir docs/message-jlassure-date-debut-500.md). */
   var PREFILL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance',
-    'pays_immatriculation', 'pays_residence', 'date_naissance', 'duree'];
+    'pays_immatriculation', 'pays_residence', 'date_naissance',
+    'duree', 'date_debut', 'heure_debut'];
   function prefillQuery() {
     var sp;
     try { sp = new URLSearchParams(location.search); } catch (_) { return ''; }
@@ -20,6 +17,13 @@
       /* v peut valoir "0" (ex. puissance=0 pour une remorque) : ne rejeter que null/vide */
       if (v !== null && v !== '') out.push(k + '=' + encodeURIComponent(v));
     });
+    /* Heure de début par défaut : si une date de début est fournie sans heure,
+       on propose l'heure courante + 15 min (le client peut la modifier). */
+    if (sp.get('date_debut') && !sp.get('heure_debut')) {
+      var d = new Date(Date.now() + 15 * 60000);
+      var hh = ('0' + d.getHours()).slice(-2), mm = ('0' + d.getMinutes()).slice(-2);
+      out.push('heure_debut=' + encodeURIComponent(hh + ':' + mm));
+    }
     return out.join('&');
   }
   function withPrefill(url) {
@@ -228,7 +232,9 @@
             pays_immatriculation: { type: 'string', description: "Pays d'immatriculation en MAJUSCULES (ex. FRANCE METROPOLITAINE, FRANCE REUNION). Pologne, Roumanie et Italie exclues." },
             pays_residence: { type: 'string', description: 'Pays de résidence du conducteur, en MAJUSCULES' },
             date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: 'Date de naissance AAAA-MM-JJ (conducteur de 21 à 90 ans)' },
-            duree: { type: 'integer', minimum: 1, maximum: 90, description: 'Durée en jours (1 à 90) ; doit exister dans la grille du profil, sinon ignorée' }
+            duree: { type: 'integer', minimum: 1, maximum: 90, description: 'Durée en jours (1 à 90) ; doit exister dans la grille du profil, sinon ignorée' },
+            date_debut: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: "Date de début AAAA-MM-JJ (≥ aujourd'hui)" },
+            heure_debut: { type: 'string', pattern: '^\\d{2}:\\d{2}$', description: 'Heure de début HH:MM' }
           }
         },
         execute: function (params) {
