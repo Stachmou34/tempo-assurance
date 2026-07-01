@@ -68,6 +68,14 @@
   .callbtn { display:inline-flex; align-items:center; gap:8px; margin:14px 0 0; text-decoration:none; font-weight:700; color:var(--ink); border:1px solid var(--line); border-radius:10px; padding:10px 14px; }
   .callbtn svg { width:15px; height:15px; color:var(--gold); }
 
+  /* État « infos manquantes » */
+  .need { margin:12px 0 0; padding:0; list-style:none; }
+  .need li { position:relative; padding:7px 0 7px 20px; font-size:.9rem; color:var(--ink-soft); border-top:1px solid var(--line); }
+  .need li:first-child { border-top:0; }
+  .need li::before { content:""; position:absolute; left:2px; top:14px; width:6px; height:6px; border-radius:50%; background:var(--gold); }
+  .cg { display:flex; gap:10px; align-items:flex-start; margin:16px 0 0; padding:13px 14px; background:var(--wash); border:1px solid var(--line); border-radius:12px; font-size:.85rem; color:var(--ink-soft); line-height:1.5; }
+  .cg svg { flex:none; width:18px; height:18px; color:var(--gold); margin-top:1px; }
+
   @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
 </style>
 </head>
@@ -109,6 +117,30 @@
     }
 
     var p = pickPrice(d);
+    var durees0 = Array.isArray(d.durees_disponibles) ? d.durees_disponibles : [];
+
+    /* État « infos manquantes » : l'outil demande des précisions (pas de prix,
+       pas de durées). On liste ce qu'il faut et on invite à répondre / envoyer
+       la carte grise — plutôt qu'un CTA mort. */
+    if (d.source === 'incomplet' || (!p && !durees0.length)) {
+      var needs = Array.isArray(d.besoin_infos) && d.besoin_infos.length ? d.besoin_infos : [
+        'le type de véhicule', 'la puissance fiscale (≤ 30 CV ou > 30 CV)',
+        "l'âge du véhicule (moins ou plus de 10 ans)", "le pays d'immatriculation et de résidence",
+        "l'âge ou la date de naissance du conducteur"
+      ];
+      var items = needs.map(function (n) { return '<li>' + esc(n) + '</li>'; }).join('');
+      app.innerHTML =
+        '<div class="accent"></div><div class="pad">' +
+          '<div class="top"><div class="brand"><span class="tick"></span><b>Tempo</b>-Assurance</div></div>' +
+          '<div class="cat">Encore quelques infos</div>' +
+          '<p class="cover">Pour calculer votre tarif, précisez&nbsp;:</p>' +
+          '<ul class="need">' + items + '</ul>' +
+          '<div class="cg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>' +
+            '<span>Répondez juste en dessous dans la conversation — ou <strong>envoyez une photo de votre carte grise</strong> et je récupère la puissance, le PTAC et l\'âge du véhicule automatiquement.</span></div>' +
+        '</div>';
+      return;
+    }
+
     var cat = d.categorie || 'Assurance temporaire';
     var badge = p ? (p.real
       ? '<span class="badge real">' + CHECK + 'Prix réel</span>'
@@ -163,6 +195,21 @@
   document.addEventListener('click', function (e) {
     var b = e.target && e.target.closest ? e.target.closest('.seg') : null;
     if (b && b.getAttribute('aria-pressed') !== 'true') reprice({ duree: Number(b.getAttribute('data-duree')) });
+  });
+
+  /* CTA : ouverture fiable du lien dans ChatGPT (l'iframe peut bloquer un
+     <a target=_blank>). On passe par openExternal si dispo, sinon window.open. */
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a.cta, a.callbtn') : null;
+    if (!a) return;
+    var url = a.getAttribute('href');
+    if (!url || url === '#') { e.preventDefault(); return; }
+    if (url.indexOf('tel:') === 0) return; /* laisser le comportement natif */
+    if (window.openai && typeof window.openai.openExternal === 'function') {
+      e.preventDefault();
+      try { window.openai.openExternal({ href: url }); }
+      catch (_) { window.open(url, '_blank', 'noopener'); }
+    }
   });
 
   /* Navigation clavier façon radiogroup (flèches) */

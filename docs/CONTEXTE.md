@@ -28,7 +28,8 @@
 ### Les 9 paramètres de pré-remplissage
 `categorie_vehi, age_vehicule, puissance, pays_immatriculation, pays_residence, date_naissance, duree, date_debut, heure_debut`
 - Minimum pour afficher un tarif : `categorie_vehi + age_vehicule + puissance + pays_immatriculation + pays_residence + date_naissance`.
-- **MàJ tunnel JL Assure (2026-06)** : `ptac` et `motif_assurance_temporaire`/`_autre` **retirés** du tunnel. Le **PTAC est calculé automatiquement** depuis `categorie_vehi` (CC-Cap → ≤ 3,5 t · CAM-Fou / CAM-CAM3 / TCP-TCP → > 3,5 t · reste → ≤ 3,5 t) ; le **motif** a été supprimé. Le tunnel passe de 10 à **9 étapes** ; dates saisies en **JJ-MM-AAAA** (le paramètre GET reste en `AAAA-MM-JJ`). Camping-car : choisir **CC-Cap** ou **CAM-Fou**. Les anciens liens avec `ptac=`/`motif_*` restent valides (paramètres ignorés).
+- **MàJ tunnel JL Assure (2026-06)** : `ptac` et `motif_assurance_temporaire`/`_autre` **retirés** du tunnel. Le **PTAC est calculé automatiquement** depuis `categorie_vehi` (CC-Cap → ≤ 3,5 t · CAM-Fou / CAM-CAM3 / TCP-TCP → > 3,5 t · reste → ≤ 3,5 t) ; le **motif** a été supprimé. Camping-car : choisir **CC-Cap** ou **CAM-Fou**. Les anciens liens avec `ptac=`/`motif_*` restent valides (paramètres ignorés).
+- ✅ **`date_debut` / `heure_debut` réactivés (2026-07-02)** : le bug 500 côté JL Assure (date_debut en GET) est **corrigé** — `date_debut` renvoie désormais 200 (mb.php et mb43.php). Le pré-remplissage de la date de début fonctionne à nouveau (défaut = aujourd'hui, heure = +15 min). Historique : `docs/message-jlassure-date-debut-500.md`.
 - Détail des valeurs : voir `llms.txt` (section « Préparer un devis pré-rempli »).
 
 ## Catégories de véhicules (codes jlassure) → nos pages
