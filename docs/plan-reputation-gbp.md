@@ -5,7 +5,8 @@
 ## 0. NAP canonique (à figer — à utiliser PARTOUT à l'identique)
 La cohérence NAP (Name, Address, Phone) est la base. Toujours écrire **exactement** :
 - **Nom** : `Tempo-Assurance` (marque) — entité légale `MCJ COURTAGE`
-- **Adresse** : 15 rue … 34290 Abeilhan (à reprendre des mentions légales, format identique partout)
+- **Adresse** : 12 rue Clément Ader, 34290 Abeilhan, France (format identique partout)
+- **Contenu prêt à coller** (description, catégories, services, messages avis…) : `docs/gbp-a-coller.md`
 - **Téléphone** : `09 78 31 02 93`
 - **Site** : `https://www.tempo-assurance.com`
 - **E-mail** : `contact@mcj-courtage.com`
