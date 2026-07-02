@@ -57,6 +57,14 @@ const tarifsOutputSchema = {
   }
 };
 
+/* La consigne NIVEAU 2 n'est incluse que si l'outil preparer_session_souscription
+   est réellement exposé (ENABLE_PREFILL_SESSION=1) — sinon le modèle tenterait
+   d'appeler un outil inexistant. */
+const NIVEAU2 = sessionEnabled()
+  ? 'NIVEAU 2 (souscription) — si le client veut souscrire / gagner du temps, lui proposer la carte ' +
+    'grise + le permis et utiliser plutôt l\'outil preparer_session_souscription. '
+  : '';
+
 const TOOLS = [
   {
     name: 'devis_assurance_temporaire',
@@ -74,8 +82,7 @@ const TOOLS = [
       "d'envoyer une photo de CARTE GRISE ; en extraire les champs TECHNIQUES et les passer en brut : " +
       'puissance_cv (P.6), date_mise_circulation (B), genre_carte_grise (J.1) — et ptac_kg (F.2) seulement ' +
       'pour un camping-car (CC-Cap vs CAM-Fou) — convertis automatiquement. ' +
-      'NIVEAU 2 (souscription) — si le client veut souscrire / gagner du temps, lui proposer la carte ' +
-      'grise + le permis et utiliser plutôt l\'outil preparer_session_souscription. ' +
+      NIVEAU2 +
       'Avant de présenter le lien de souscription final, RÉCAPITULER le profil (véhicule, durée, conducteur) et demander confirmation. ' +
       'NE PAS extraire ni transmettre de données personnelles ici (nom, adresse, immatriculation, châssis, n° de permis).',
     inputSchema: { type: 'object', additionalProperties: false, properties: profilProps },
