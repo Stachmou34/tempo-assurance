@@ -98,9 +98,29 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   const fakeSession = { apiKey: 'K', fetchImpl: async function () {
     return { ok: true, status: 201, json: async function () { return { success: true, token: 't-123', session_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cd=BLA1905B&id=43&prefill_token=t-123', expires_at: '2026-06-19T14:00:00+02:00', ttl_seconds: 1800 }; } };
   } };
-  const on = await preparerSessionSouscription({ conducteur: { nom: 'MARTIN', prenom: 'Sophie' }, vehicule: { genre: 'VL-VL' } }, fakeSession);
+  const CONDUCTEUR_OK = { nom: 'MARTIN', prenom: 'Sophie', date_naissance: '1990-05-12', num_permis: '123456789' };
+  const VEHICULE_OK = { genre: 'VL-VL', immatriculation: 'AA-123-BB' };
+  const on = await preparerSessionSouscription({ conducteur: CONDUCTEUR_OK, vehicule: VEHICULE_OK }, fakeSession);
   ok(on.success === true && /prefill_token=t-123/.test(on.session_url), 'ON : renvoie la session_url (pas de donnée perso dans l\'URL)');
   ok(/usage unique/.test(on.message) && /IPID/.test(on.message), 'message : rappel conformité (usage unique + IPID)');
+
+  // Dialogue de correction : champs clés manquants/illisibles -> besoin_confirmation (pas de session)
+  const conf = await preparerSessionSouscription({ conducteur: { nom: 'MARTIN' }, vehicule: { genre: 'VL-VL' } }, fakeSession);
+  ok(conf.success === false && Array.isArray(conf.besoin_confirmation) && conf.besoin_confirmation.length >= 3, 'correction : champs manquants -> besoin_confirmation (aucune session créée)');
+  const confDate = await preparerSessionSouscription({ conducteur: { nom: 'X', prenom: 'Y', date_naissance: '12/05/1990', num_permis: '1' }, vehicule: { genre: 'VL-VL', immatriculation: 'AA-1-BB' } }, fakeSession);
+  ok(confDate.success === false && confDate.besoin_confirmation.some(function (f) { return /date de naissance/.test(f.champ); }), 'correction : date au mauvais format -> à confirmer');
+
+  // Accompagnement : champs utiles non recueillis -> listés (transparence), session quand même créée
+  ok(Array.isArray(on.champs_restants) && on.champs_restants.indexOf('adresse') > -1 && on.champs_restants.indexOf('e-mail') > -1 && /Restera à saisir/.test(on.message), 'accompagnement : champs_restants listés (adresse, e-mail…)');
+  const FULL_ARGS = {
+    conducteur: { nom: 'MARTIN', prenom: 'Sophie', date_naissance: '1990-05-12', pays_naissance: 'FRANCE METROPOLITAINE', adresse: '1 rue A', code_postal: '34000', ville: 'Montpellier', pays_residence: 'FRANCE METROPOLITAINE', mobile: '0600000000', email: 'a@b.fr', num_permis: '123456789', date_permis: '2010-06-01', type_permis: 'B', pays_permis: 'FRANCE METROPOLITAINE' },
+    vehicule: { immatriculation: 'AA-123-BB', pays_immatriculation: 'FRANCE METROPOLITAINE', marque: 'RENAULT', modele: 'CLIO', chassis: 'VF1XXXXX', date_premiere_mec: '2019-03-15', puissance_fiscale: 5, places: 5, ptac_kg: 1800, genre: 'VL-VL' },
+    profil_tarifaire: { duree: '15', date_debut: '2026-07-10', heure_debut: '09:00' }
+  };
+  const full = await preparerSessionSouscription(FULL_ARGS, fakeSession);
+  ok(full.success === true && full.champs_restants === null, 'accompagnement : dossier complet (minimum utile JL Assure) -> rien à saisir sur le tunnel');
+  const plFull = buildSessionPayload(FULL_ARGS);
+  ok(plFull.profil_tarifaire.ptac === 'inf3500' && plFull.profil_tarifaire.puissance === 'inf30' && plFull.profil_tarifaire.age_vehicule === 'moins10', 'profil : ptac déduit de ptac_kg (S2S) + puissance + âge véhicule');
 
   console.log('\n[Phase 2bis — pièces jointes (photos -> dossier JL Assure)]');
   const SESSION_JSON = { success: true, token: 't-123', session_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cd=BLA1905B&id=43&prefill_token=t-123', ttl_seconds: 1800 };
@@ -116,7 +136,7 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
     } } };
   }
   const ARGS_DOCS = {
-    conducteur: { nom: 'MARTIN', prenom: 'Sophie' }, vehicule: { genre: 'VL-VL' },
+    conducteur: CONDUCTEUR_OK, vehicule: VEHICULE_OK,
     photo_permis: { file_id: 'f1', download_url: 'https://files.example/f1', mime_type: 'image/jpeg', file_name: 'permis.jpg' },
     photo_carte_grise: { file_id: 'f2', download_url: 'https://files.example/f2' }
   };
@@ -141,6 +161,8 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   // outil : fileParams déclarés
   const { prefillTool } = require('./lib/prefill');
   ok(prefillTool._meta && Array.isArray(prefillTool._meta['openai/fileParams']) && prefillTool._meta['openai/fileParams'].indexOf('photo_permis') > -1, 'outil : _meta openai/fileParams déclare les photos');
+  ok(prefillTool._meta['openai/outputTemplate'] === 'ui://widget/souscription.html', 'outil : lié au widget souscription (_meta outputTemplate)');
+  ok(okDocs.vehicule_label === 'Voiture (VP)', 'sortie : vehicule_label fourni pour le widget souscription');
   delete process.env.ENABLE_PREFILL_SESSION;
 
   console.log('\n[Serveur MCP — JSON-RPC stdio]');
@@ -195,6 +217,9 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
         ok(rlist.result.resources.some(function (r) { return r.uri === 'ui://widget/devis.html'; }), 'resources/list → widget exposé');
         const rread = await rpc({ jsonrpc: '2.0', id: 5, method: 'resources/read', params: { uri: 'ui://widget/devis.html' } });
         ok(/profile=mcp-app/.test(rread.result.contents[0].mimeType) && /Souscrire/.test(rread.result.contents[0].text), 'resources/read → HTML du widget (mimeType + contenu)');
+        ok(rlist.result.resources.some(function (r) { return r.uri === 'ui://widget/souscription.html'; }), 'resources/list → widget souscription exposé');
+        const sread = await rpc({ jsonrpc: '2.0', id: 7, method: 'resources/read', params: { uri: 'ui://widget/souscription.html' } });
+        ok(/profile=mcp-app/.test(sread.result.contents[0].mimeType) && /Souscription prête/.test(sread.result.contents[0].text), 'resources/read → HTML du widget souscription');
         const dcall = await rpc({ jsonrpc: '2.0', id: 6, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', date_naissance: '1990-05-12', duree: 15 } } });
         ok(dcall.result._meta && dcall.result._meta['openai/outputTemplate'] === 'ui://widget/devis.html', 'tools/call devis → _meta widget dans le résultat');
       } catch (e) { ok(false, 'HTTP erreur : ' + e.message); }
