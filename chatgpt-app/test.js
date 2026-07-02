@@ -130,6 +130,10 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   h = fakeHttp({ ok: false, status: 422, json: { success: false, details: [{ field: 'permis', code: 'unreadable_document', error: 'Image trop petite' }] } });
   const bad = await preparerSessionSouscription(ARGS_DOCS, h.opts);
   ok(bad.success === true && bad.pieces_en_echec && bad.pieces_en_echec[0].code === 'unreadable_document' && /nette/.test(bad.message), 'pièces : illisible -> session OK + consigne « photo nette »');
+  // succès partiel : HTTP 207 avec warnings -> 1 pièce jointe + 1 en échec
+  h = fakeHttp({ status: 207, json: { success: true, pieces: ['permis'], warnings: [{ field: 'carte_grise', code: 'unreadable_document', error: 'Image trop petite' }] } });
+  const part = await preparerSessionSouscription(ARGS_DOCS, h.opts);
+  ok(part.success === true && part.pieces_jointes.length === 1 && part.pieces_en_echec && part.pieces_en_echec.some(function (e) { return e.code === 'unreadable_document'; }), 'pièces : 207 partiel (warnings) -> 1 jointe + 1 en échec signalée');
   // référence incomplète (bug mobile) : pas de download_url -> repli tunnel, session OK
   h = fakeHttp({ json: { success: true, pieces: ['carte_grise'], documents: [] } });
   const mob = await preparerSessionSouscription(Object.assign({}, ARGS_DOCS, { photo_permis: { file_id: 'f1' } }), h.opts);
