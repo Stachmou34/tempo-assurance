@@ -141,6 +141,8 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   // outil : fileParams déclarés
   const { prefillTool } = require('./lib/prefill');
   ok(prefillTool._meta && Array.isArray(prefillTool._meta['openai/fileParams']) && prefillTool._meta['openai/fileParams'].indexOf('photo_permis') > -1, 'outil : _meta openai/fileParams déclare les photos');
+  ok(prefillTool._meta['openai/outputTemplate'] === 'ui://widget/souscription.html', 'outil : lié au widget souscription (_meta outputTemplate)');
+  ok(okDocs.vehicule_label === 'Voiture (VP)', 'sortie : vehicule_label fourni pour le widget souscription');
   delete process.env.ENABLE_PREFILL_SESSION;
 
   console.log('\n[Serveur MCP — JSON-RPC stdio]');
@@ -195,6 +197,9 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
         ok(rlist.result.resources.some(function (r) { return r.uri === 'ui://widget/devis.html'; }), 'resources/list → widget exposé');
         const rread = await rpc({ jsonrpc: '2.0', id: 5, method: 'resources/read', params: { uri: 'ui://widget/devis.html' } });
         ok(/profile=mcp-app/.test(rread.result.contents[0].mimeType) && /Souscrire/.test(rread.result.contents[0].text), 'resources/read → HTML du widget (mimeType + contenu)');
+        ok(rlist.result.resources.some(function (r) { return r.uri === 'ui://widget/souscription.html'; }), 'resources/list → widget souscription exposé');
+        const sread = await rpc({ jsonrpc: '2.0', id: 7, method: 'resources/read', params: { uri: 'ui://widget/souscription.html' } });
+        ok(/profile=mcp-app/.test(sread.result.contents[0].mimeType) && /Souscription prête/.test(sread.result.contents[0].text), 'resources/read → HTML du widget souscription');
         const dcall = await rpc({ jsonrpc: '2.0', id: 6, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', date_naissance: '1990-05-12', duree: 15 } } });
         ok(dcall.result._meta && dcall.result._meta['openai/outputTemplate'] === 'ui://widget/devis.html', 'tools/call devis → _meta widget dans le résultat');
       } catch (e) { ok(false, 'HTTP erreur : ' + e.message); }

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Souscription pré-remplie — Tempo-Assurance</title>
+<style>
+  :root {
+    --ink:#0F172A; --ink-soft:#334155; --muted:#64748B; --faint:#94A3B8;
+    --line:#E7EBF0; --surface:#FFFFFF; --wash:#F6F8FB;
+    --gold:#B7791F; --gold-soft:#FBF1DC;
+    --green:#15803D; --green-soft:#ECFDF3; --green-line:#A7F3D0;
+    --amber:#B45309; --amber-soft:#FEF6E7; --amber-line:#FCD9A5;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; color:var(--ink); background:transparent; -webkit-font-smoothing:antialiased; }
+
+  .card { max-width:520px; margin:0 auto; background:var(--surface); border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 1px 2px rgba(15,23,42,.04), 0 10px 30px rgba(15,23,42,.08); }
+  .accent { height:3px; background:linear-gradient(90deg,var(--gold) 0%,#DCA83A 60%,var(--gold) 100%); }
+  .pad { padding:20px 22px; }
+
+  .brand { display:flex; align-items:center; gap:7px; font-size:.72rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  .brand b { color:var(--ink); }
+  .brand .tick { width:7px; height:7px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 3px var(--gold-soft); }
+
+  .title { display:flex; align-items:center; gap:9px; margin:12px 0 0; font-size:1.25rem; font-weight:800; letter-spacing:-.01em; }
+  .title .ok { flex:none; width:24px; height:24px; border-radius:50%; background:var(--green-soft); border:1px solid var(--green-line); display:flex; align-items:center; justify-content:center; }
+  .title .ok svg { width:14px; height:14px; color:var(--green); }
+  .sub { color:var(--ink-soft); font-size:.92rem; margin:6px 0 0; font-variant-numeric:tabular-nums; }
+
+  .label { font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin:18px 0 9px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { display:inline-flex; align-items:center; gap:7px; font-size:.86rem; font-weight:600; padding:7px 12px; border-radius:10px; border:1px solid var(--green-line); background:var(--green-soft); color:var(--green); }
+  .chip svg { width:14px; height:14px; flex:none; }
+  .chip.warn { border-color:var(--amber-line); background:var(--amber-soft); color:var(--amber); }
+
+  .cta { display:flex; align-items:center; justify-content:center; gap:8px; text-decoration:none; background:var(--ink); color:#fff; font-weight:800; font-size:.98rem; letter-spacing:.01em; padding:14px 18px; border-radius:12px; margin:20px 0 0; transition:background .15s, transform .06s; }
+  .cta:hover { background:#1E293B; }
+  .cta:active { transform:translateY(1px); }
+  .cta:focus-visible { outline:none; box-shadow:0 0 0 3px rgba(183,121,31,.4); }
+  .cta .arw { transition:transform .15s; }
+  .cta:hover .arw { transform:translateX(3px); }
+
+  .note { color:var(--faint); font-size:.76rem; line-height:1.55; margin:11px 0 0; }
+  .warnline { color:var(--amber); font-size:.8rem; line-height:1.5; margin:9px 0 0; }
+
+  .state h2 { font-size:1.12rem; margin:2px 0 6px; font-weight:800; }
+  .state p { color:var(--muted); font-size:.9rem; margin:0; }
+
+  @media (prefers-color-scheme: dark) {}
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
+</style>
+</head>
+<body>
+<div id="app" class="card"><div class="accent"></div><div class="pad"><p class="sub">Préparation de la souscription…</p></div></div>
+
+<script>
+  var SAMPLE = {
+    success: true,
+    session_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cd=BLA1905B&id=43&prefill_token=demo',
+    ttl_seconds: 1800,
+    vehicule_label: 'Voiture (VP)', duree: 15,
+    pieces_jointes: ['permis (recto)', 'carte grise (recto)'],
+    pieces_en_echec: null
+  };
+
+  var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+  var WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>';
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]; }); }
+  function cap(s) { s = String(s); return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  function render(d) {
+    if (!d) return;
+    var app = document.getElementById('app');
+
+    if (d.disabled) {
+      app.innerHTML = '<div class="accent"></div><div class="pad state">' +
+        '<div class="brand"><span class="tick"></span><b>Tempo</b>-Assurance</div>' +
+        '<h2 style="margin-top:12px">Souscription facilitée indisponible</h2>' +
+        '<p>' + esc(d.message || "Proposez le devis et le lien de souscription standard.") + '</p></div>';
+      return;
+    }
+    if (d.success === false) {
+      app.innerHTML = '<div class="accent"></div><div class="pad state">' +
+        '<div class="brand"><span class="tick"></span><b>Tempo</b>-Assurance</div>' +
+        '<h2 style="margin-top:12px">Souscription à finaliser sur le tunnel</h2>' +
+        '<p>' + esc(d.message || "La préparation n'a pas abouti ; le client peut souscrire sur le tarificateur.") + '</p></div>';
+      return;
+    }
+
+    var jointes = Array.isArray(d.pieces_jointes) ? d.pieces_jointes : [];
+    var echecs = Array.isArray(d.pieces_en_echec) ? d.pieces_en_echec : [];
+    var min = d.ttl_seconds ? Math.round(Number(d.ttl_seconds) / 60) : 30;
+    var soustitre = [d.vehicule_label, (d.duree ? d.duree + ' jour' + (Number(d.duree) > 1 ? 's' : '') : null)]
+      .filter(Boolean).join(' · ');
+
+    var chipsJointes = jointes.map(function (p) {
+      return '<span class="chip">' + CHECK + esc(cap(p)) + '</span>';
+    }).join('');
+    var chipsEchecs = echecs.map(function (e) {
+      return '<span class="chip warn">' + WARN + esc(cap(e.piece || 'pièce')) + '</span>';
+    }).join('');
+
+    var link = d.session_url || '#';
+    var blocs = '';
+    if (chipsJointes) {
+      blocs += '<div class="label">Pièces jointes au dossier</div><div class="chips">' + chipsJointes + '</div>';
+    }
+    if (chipsEchecs) {
+      blocs += '<div class="label">À déposer sur le tunnel</div><div class="chips">' + chipsEchecs + '</div>' +
+        '<p class="warnline">Ces pièces n\'ont pas pu être jointes (illisibles ou refusées) : le client pourra les téléverser sur le tunnel.</p>';
+    }
+    if (!chipsJointes && !chipsEchecs) {
+      blocs += '<p class="sub" style="margin-top:14px">Le client téléversera ses pièces (permis, carte grise) sur le tunnel.</p>';
+    }
+
+    app.innerHTML =
+      '<div class="accent"></div><div class="pad">' +
+        '<div class="brand"><span class="tick"></span><b>Tempo</b>-Assurance</div>' +
+        '<div class="title"><span class="ok">' + CHECK + '</span>Souscription prête</div>' +
+        (soustitre ? '<p class="sub">' + esc(soustitre) + '</p>' : '') +
+        blocs +
+        '<a class="cta" href="' + esc(link) + '" target="_blank" rel="noopener">Ouvrir ma souscription <span class="arw">&rarr;</span></a>' +
+        '<p class="note">Lien valable ~' + min + '&nbsp;min, usage unique. Vous vérifiez vos informations, consultez l\'IPID, signez et réglez par carte sur le tunnel sécurisé. Rien n\'est souscrit ni payé par l\'application.</p>' +
+      '</div>';
+  }
+
+  /* Ouverture fiable du lien dans ChatGPT (openExternal), repli window.open. */
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a.cta') : null;
+    if (!a) return;
+    var url = a.getAttribute('href');
+    if (!url || url === '#') { e.preventDefault(); return; }
+    if (window.openai && typeof window.openai.openExternal === 'function') {
+      e.preventDefault();
+      try { window.openai.openExternal({ href: url }); } catch (_) { window.open(url, '_blank', 'noopener'); }
+    }
+  });
+
+  function current() { return (window.openai && window.openai.toolOutput) || null; }
+  render(current() || (window.openai ? null : SAMPLE));
+
+  window.addEventListener('message', function (e) {
+    var m = e.data;
+    if (m && m.jsonrpc === '2.0' && m.method === 'ui/notifications/tool-result') {
+      render(m.params && m.params.structuredContent);
+    }
+  }, { passive: true });
+  window.addEventListener('openai:set_globals', function () { render(current()); });
+</script>
+</body>
+</html>

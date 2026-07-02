@@ -10,7 +10,8 @@
    téléverse ses pièces et paie sur le tunnel (DDA/ACPR). */
 
 const { createPrefillSession, downloadDocument, uploadPrefillDocs } = require('./jlassureApi');
-const { CATEGORIES } = require('./tarifs');
+const { CATEGORIES, LABELS } = require('./tarifs');
+const { SOUSCRIPTION_URI } = require('./resources');
 
 /* --- Phase 2bis : pièces jointes (photos partagées dans ChatGPT -> dossier JL Assure) ---
    ChatGPT fournit pour chaque photo une référence { file_id, download_url, mime_type?, file_name? }
@@ -185,11 +186,18 @@ async function preparerSessionSouscription(args, opts) {
     }
     lignes.push("Le client ouvre le lien, vérifie ses informations, consulte l'IPID et règle par carte. Aucune souscription ni paiement n'est effectué par l'application.");
 
+    /* Champs pour le widget « souscription prête » (openai/outputTemplate). */
+    const prof = args.profil_tarifaire || {};
+    const catCode = prof.categorie_vehi || (args.vehicule && args.vehicule.genre);
+    const dureeNum = prof.duree != null ? Number(prof.duree) : null;
+
     return {
       success: true,
       session_url: r.data.session_url,
       expires_at: r.data.expires_at || null,
       ttl_seconds: r.data.ttl_seconds || null,
+      vehicule_label: (catCode && LABELS[catCode]) || null,
+      duree: (dureeNum != null && !isNaN(dureeNum)) ? dureeNum : null,
       pieces_jointes: pieces.transmises,
       pieces_en_echec: pieces.echecs.length ? pieces.echecs : null,
       message: lignes.join('\n')
@@ -288,13 +296,17 @@ const prefillTool = {
       success: { type: 'boolean' }, disabled: { type: 'boolean' },
       session_url: { type: 'string' }, expires_at: { type: 'string' },
       ttl_seconds: { type: 'integer' },
+      vehicule_label: { type: ['string', 'null'] }, duree: { type: ['integer', 'null'] },
       pieces_jointes: { type: 'array', items: { type: 'string' } },
       pieces_en_echec: { type: ['array', 'null'], items: { type: 'object' } },
       message: { type: 'string' }
     }
   },
   annotations: { readOnlyHint: false, openWorldHint: false, destructiveHint: false },
-  _meta: { 'openai/fileParams': ['photo_permis', 'photo_permis_verso', 'photo_carte_grise', 'photo_carte_grise_verso'] },
+  _meta: {
+    'openai/fileParams': ['photo_permis', 'photo_permis_verso', 'photo_carte_grise', 'photo_carte_grise_verso'],
+    'openai/outputTemplate': SOUSCRIPTION_URI
+  },
   handler: preparerSessionSouscription
 };
 
