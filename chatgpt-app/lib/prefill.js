@@ -214,7 +214,7 @@ const conducteurSchema = {
     email: { type: 'string', format: 'email' },
     num_permis: { type: 'string' }, date_permis: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
     pays_permis: { type: 'string', description: 'Pays du permis (nationalité du permis) en MAJUSCULES, ex. FRANCE METROPOLITAINE' },
-    type_permis: { type: 'string', description: 'Code court : B (voiture), C/C1 (poids lourd), D/D1 (car/bus)' }
+    type_permis: { type: 'string', enum: ['B', 'C1', 'C', 'D1', 'D', 'BE', 'C1E', 'CE', 'D1E', 'DE'], description: 'Catégorie du permis (rubrique 9/12 du permis) mappée depuis la catégorie du véhicule : voiture/utilitaire -> B · poids lourd -> C1 ou C · car/bus -> D1 ou D · avec remorque -> ajouter E. Pour l\'assurance temporaire, généralement B.' }
   }
 };
 const vehiculeSchema = {
@@ -261,7 +261,8 @@ const prefillTool = {
     "(session_url, valable 30 min). À utiliser quand le client veut SOUSCRIRE / gagner du temps. " +
     "Recueillir les infos en proposant d'envoyer une photo de la CARTE GRISE (véhicule : genre, marque D.1, " +
     "modèle D.3, immatriculation, châssis E, P.6, F.2, date 1re MEC) ET du PERMIS (conducteur : nom, prénom, " +
-    "date de naissance, n° et date de permis, catégorie→type_permis, pays). Champs pays en MAJUSCULES ; " +
+    "date de naissance, n° et date de permis, type_permis = catégorie du permis selon le véhicule " +
+    "(voiture/utilitaire=B, poids lourd=C1/C, car/bus=D1/D), pays). Champs pays en MAJUSCULES ; " +
     "pays_permis = nationalité du permis. TOUJOURS inclure conducteur.nom et conducteur.prenom " +
     "(rattachement des pièces au dossier). " +
     "PIÈCES : passer les photos partagées via photo_permis / photo_carte_grise (+ _verso si fournis) — " +
