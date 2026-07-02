@@ -64,13 +64,17 @@ async function transmettrePieces(args, prefillToken, opts) {
   const up = await uploadPrefillDocs(prefillToken, aTransmettre, opts);
   const data = (up && up.data) || {};
   const transmises = Array.isArray(data.pieces) ? data.pieces : [];
-  /* Échecs signalés par l'API (200/207/422) : details = [{ field, error, code }] */
-  if (Array.isArray(data.details)) {
-    data.details.forEach(function (d) {
+  /* Pièces refusées, signalées par l'API selon le cas (spec JL Assure) :
+     - HTTP 207 succès partiel : data.warnings = [{ field, error, code }]
+     - HTTP 422 échec total    : data.details  = [{ field, error, code }] */
+  const problemes = (Array.isArray(data.warnings) ? data.warnings : [])
+    .concat(Array.isArray(data.details) ? data.details : []);
+  if (problemes.length) {
+    problemes.forEach(function (d) {
       echecs.push({ piece: labels[d.field] || d.field, code: d.code || 'erreur', message: libelleEchec(d.code, d.error) });
     });
   } else if (!up.ok && !transmises.length) {
-    /* Erreur globale (réseau, 401, 500…) : aucune pièce jointe, repli tunnel */
+    /* Erreur globale (réseau, 401, 500, ou 4xx sans corps structuré) : repli tunnel */
     aTransmettre.forEach(function (doc) {
       echecs.push({ piece: labels[doc.field] || doc.field, code: up.reason || ('http_' + up.status), message: 'transmission impossible — le client pourra déposer cette pièce sur le tunnel' });
     });
