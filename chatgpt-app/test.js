@@ -220,6 +220,8 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
         ok(rlist.result.resources.some(function (r) { return r.uri === 'ui://widget/souscription.html'; }), 'resources/list → widget souscription exposé');
         const sread = await rpc({ jsonrpc: '2.0', id: 7, method: 'resources/read', params: { uri: 'ui://widget/souscription.html' } });
         ok(/profile=mcp-app/.test(sread.result.contents[0].mimeType) && /Souscription prête/.test(sread.result.contents[0].text), 'resources/read → HTML du widget souscription');
+        ok(rlist.result.resources.every(function (r) { return r._meta && r._meta['openai/widgetCSP'] && r._meta['openai/widgetDomain'] && r._meta.ui && r._meta.ui.csp; }), 'resources/list → CSP + domaine du widget déclarés (validation app)');
+        ok(sread.result.contents[0]._meta && sread.result.contents[0]._meta['openai/widgetCSP'].redirect_domains.indexOf('https://www.jlassure.com') > -1, 'resources/read → _meta CSP (redirect_domains jlassure pour openExternal)');
         const dcall = await rpc({ jsonrpc: '2.0', id: 6, method: 'tools/call', params: { name: 'devis_assurance_temporaire', arguments: { categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', date_naissance: '1990-05-12', duree: 15 } } });
         ok(dcall.result._meta && dcall.result._meta['openai/outputTemplate'] === 'ui://widget/devis.html', 'tools/call devis → _meta widget dans le résultat');
       } catch (e) { ok(false, 'HTTP erreur : ' + e.message); }
