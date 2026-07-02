@@ -61,8 +61,11 @@ const tarifsOutputSchema = {
    est réellement exposé (ENABLE_PREFILL_SESSION=1) — sinon le modèle tenterait
    d'appeler un outil inexistant. */
 const NIVEAU2 = sessionEnabled()
-  ? 'NIVEAU 2 (souscription) — si le client veut souscrire / gagner du temps, lui proposer la carte ' +
-    'grise + le permis et utiliser plutôt l\'outil preparer_session_souscription. '
+  ? "NIVEAU 2 (souscription) — DÉTECTER L'INTENTION : si le client exprime l'envie d'ASSURER son " +
+    "véhicule (« je veux assurer… », « il me faut une assurance… ») et pas seulement d'avoir un prix, " +
+    "lui proposer D'EMBLÉE la souscription facilitée : envoyer les photos du PERMIS + de la CARTE GRISE " +
+    "pour un dossier pré-rempli avec pièces déjà jointes (outil preparer_session_souscription). " +
+    "Et APRÈS CHAQUE TARIF affiché, rappeler en une phrase cette option (permis + carte grise = souscription en 2 minutes). "
   : '';
 
 const TOOLS = [
