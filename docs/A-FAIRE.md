@@ -13,7 +13,7 @@ Tout le pré-remplissage est prêt, mais une IA ne nous recommande que si elle n
 - ✅ Revue OpenAI passée — l'app est en ligne dans ChatGPT (annoncée sur Actualités + llms.txt).
 - **Promouvoir** : encart « Disponible sur ChatGPT » sur l'accueil, post réseaux, suivi de l'usage (référents chatgpt.com dans GA4).
 - **Render** : passer en plan **Starter** (éviter le cold start) et **régénérer la clé `JLASSURE_API_KEY`** (elle a transité en clair une fois) — clé à garder en variable d'environnement uniquement.
-- **Phase 2 (pré-remplissage zéro formulaire)** : ne l'activer (`ENABLE_PREFILL_SESSION`) qu'après **feu vert RGPD** (consentement explicite + information).
+- **Phase 2 (souscription pré-remplie permis + carte grise)** : ✅ **prête à activer** — code + API validés, politique de confidentialité à jour (2026-07-02), consentement/récap dans le flux. **À faire (toi)** : valider `rgpd-checklist-ocr.md` (DPA, registre, AIPD ?) puis mettre `ENABLE_PREFILL_SESSION=1` sur Render — procédure : `docs/guide-activation-prefill.md`.
 
 ## 🟡 P2 — Tarificateur (marque blanche) : suite
 - **Envoyer la note à JL Assure** (`docs/note-jlassure-tarificateur-page1.md`) et **poser la question du thème par client** (couleurs/logo/ORIAS via `id=43`).
