@@ -98,9 +98,17 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   const fakeSession = { apiKey: 'K', fetchImpl: async function () {
     return { ok: true, status: 201, json: async function () { return { success: true, token: 't-123', session_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cd=BLA1905B&id=43&prefill_token=t-123', expires_at: '2026-06-19T14:00:00+02:00', ttl_seconds: 1800 }; } };
   } };
-  const on = await preparerSessionSouscription({ conducteur: { nom: 'MARTIN', prenom: 'Sophie' }, vehicule: { genre: 'VL-VL' } }, fakeSession);
+  const CONDUCTEUR_OK = { nom: 'MARTIN', prenom: 'Sophie', date_naissance: '1990-05-12', num_permis: '123456789' };
+  const VEHICULE_OK = { genre: 'VL-VL', immatriculation: 'AA-123-BB' };
+  const on = await preparerSessionSouscription({ conducteur: CONDUCTEUR_OK, vehicule: VEHICULE_OK }, fakeSession);
   ok(on.success === true && /prefill_token=t-123/.test(on.session_url), 'ON : renvoie la session_url (pas de donnée perso dans l\'URL)');
   ok(/usage unique/.test(on.message) && /IPID/.test(on.message), 'message : rappel conformité (usage unique + IPID)');
+
+  // Dialogue de correction : champs clés manquants/illisibles -> besoin_confirmation (pas de session)
+  const conf = await preparerSessionSouscription({ conducteur: { nom: 'MARTIN' }, vehicule: { genre: 'VL-VL' } }, fakeSession);
+  ok(conf.success === false && Array.isArray(conf.besoin_confirmation) && conf.besoin_confirmation.length >= 3, 'correction : champs manquants -> besoin_confirmation (aucune session créée)');
+  const confDate = await preparerSessionSouscription({ conducteur: { nom: 'X', prenom: 'Y', date_naissance: '12/05/1990', num_permis: '1' }, vehicule: { genre: 'VL-VL', immatriculation: 'AA-1-BB' } }, fakeSession);
+  ok(confDate.success === false && confDate.besoin_confirmation.some(function (f) { return /date de naissance/.test(f.champ); }), 'correction : date au mauvais format -> à confirmer');
 
   console.log('\n[Phase 2bis — pièces jointes (photos -> dossier JL Assure)]');
   const SESSION_JSON = { success: true, token: 't-123', session_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cd=BLA1905B&id=43&prefill_token=t-123', ttl_seconds: 1800 };
@@ -116,7 +124,7 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
     } } };
   }
   const ARGS_DOCS = {
-    conducteur: { nom: 'MARTIN', prenom: 'Sophie' }, vehicule: { genre: 'VL-VL' },
+    conducteur: CONDUCTEUR_OK, vehicule: VEHICULE_OK,
     photo_permis: { file_id: 'f1', download_url: 'https://files.example/f1', mime_type: 'image/jpeg', file_name: 'permis.jpg' },
     photo_carte_grise: { file_id: 'f2', download_url: 'https://files.example/f2' }
   };

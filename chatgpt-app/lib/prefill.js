@@ -147,6 +147,28 @@ function buildSessionPayload(args) {
   return payload;
 }
 
+/* Dialogue de correction : on ne crée PAS de session tant que les champs clés
+   ne sont pas présents et bien formés. Le modèle demande alors au client de
+   confirmer/corriger (par écrit ou nouvelle photo) plutôt que de deviner. */
+function estVide(v) { return v === undefined || v === null || String(v).trim() === ''; }
+const DATE_ISO = /^\d{4}-\d{2}-\d{2}$/;
+const TYPES_PERMIS = ['B', 'C1', 'C', 'D1', 'D', 'BE', 'C1E', 'CE', 'D1E', 'DE'];
+
+function champsAConfirmer(payload) {
+  const c = payload.conducteur || {}, v = payload.vehicule || {};
+  const out = [];
+  /* Présence des champs clés (issus du permis + carte grise) */
+  [['nom', 'le nom du conducteur'], ['prenom', 'le prénom du conducteur'],
+   ['date_naissance', 'la date de naissance'], ['num_permis', 'le numéro de permis']
+  ].forEach(function (f) { if (estVide(c[f[0]])) out.push({ champ: f[1], raison: 'non lu ou manquant' }); });
+  if (estVide(v.immatriculation)) out.push({ champ: "l'immatriculation du véhicule", raison: 'non lue ou manquante' });
+  /* Cohérence de format (une date/valeur mal lue = à confirmer) */
+  if (!estVide(c.date_naissance) && !DATE_ISO.test(c.date_naissance)) out.push({ champ: 'la date de naissance', raison: 'format illisible (attendu JJ/MM/AAAA)' });
+  if (!estVide(c.date_permis) && !DATE_ISO.test(c.date_permis)) out.push({ champ: "la date d'obtention du permis", raison: 'format illisible (attendu JJ/MM/AAAA)' });
+  if (!estVide(c.type_permis) && TYPES_PERMIS.indexOf(c.type_permis) === -1) out.push({ champ: 'la catégorie du permis', raison: 'valeur non reconnue (ex. B, C, D)' });
+  return out;
+}
+
 async function preparerSessionSouscription(args, opts) {
   if (!sessionEnabled()) {
     return {
@@ -159,6 +181,17 @@ async function preparerSessionSouscription(args, opts) {
   if (!payload.conducteur || !payload.vehicule) {
     return { success: false, message: 'Fournir au moins les informations conducteur et véhicule (avec le consentement du client).' };
   }
+
+  /* Filet de sécurité : champs clés manquants/illisibles -> on demande au client
+     de confirmer/corriger AVANT de créer la session (aucune supposition). */
+  const aConfirmer = champsAConfirmer(payload);
+  if (aConfirmer.length) {
+    const lignes = ['Avant de préparer la souscription, à confirmer ou corriger avec le client :'];
+    aConfirmer.forEach(function (f) { lignes.push('• ' + f.champ + ' — ' + f.raison + '.'); });
+    lignes.push('Demandez-lui de fournir ou corriger ces informations (il peut les écrire, ou renvoyer une photo plus nette du document). NE RIEN deviner ; rappeler l\'outil une fois corrigé.');
+    return { success: false, besoin_confirmation: aConfirmer, message: lignes.join('\n') };
+  }
+
   const r = await createPrefillSession(payload, opts);
   if (r.ok && r.data && r.data.success && r.data.session_url) {
     /* Phase 2bis : joindre les photos partagées (permis / carte grise) au dossier,
@@ -275,8 +308,13 @@ const prefillTool = {
     "(rattachement des pièces au dossier). " +
     "PIÈCES : passer les photos partagées via photo_permis / photo_carte_grise (+ _verso si fournis) — " +
     "elles seront jointes automatiquement au dossier, le client n'aura pas à les re-téléverser. " +
-    "Si un champ est illisible ou si le document n'est pas le bon, demander une photo nette (ne pas deviner). " +
-    "AVANT d'appeler : RÉCAPITULER au client les informations collectées (véhicule + conducteur) et obtenir sa CONFIRMATION. " +
+    "DIALOGUE DE CORRECTION — après lecture des documents, si un champ est illisible, manquant, " +
+    "ambigu ou que tu n'es PAS SÛR de l'avoir bien lu, NE DEVINE PAS : liste ces champs au client et " +
+    "demande-lui de les CONFIRMER ou de les CORRIGER (par écrit, ou en renvoyant une photo plus nette). " +
+    "AVANT d'appeler : RÉCAPITULER au client TOUTES les informations collectées (véhicule + conducteur), en " +
+    "signalant explicitement les champs incertains, et obtenir sa CONFIRMATION. " +
+    "Si l'outil répond avec besoin_confirmation, transmets ces champs au client, recueille les corrections, " +
+    "puis rappelle l'outil avec les valeurs confirmées. " +
     "⚠️ DONNÉES PERSONNELLES : n'appeler qu'APRÈS (1) le CONSENTEMENT EXPLICITE du client et (2) la collecte + confirmation des infos. " +
     "Minimisation : ne transmettre que les champs réellement fournis. " +
     "Si pieces_en_echec contient une pièce illisible, proposer au client de renvoyer une photo nette " +
@@ -294,6 +332,7 @@ const prefillTool = {
     type: 'object', additionalProperties: true,
     properties: {
       success: { type: 'boolean' }, disabled: { type: 'boolean' },
+      besoin_confirmation: { type: ['array', 'null'], items: { type: 'object' } },
       session_url: { type: 'string' }, expires_at: { type: 'string' },
       ttl_seconds: { type: 'integer' },
       vehicule_label: { type: ['string', 'null'] }, duree: { type: ['integer', 'null'] },
@@ -312,6 +351,6 @@ const prefillTool = {
 
 module.exports = {
   sessionEnabled, buildSessionPayload, preparerSessionSouscription, prefillTool,
-  transmettrePieces, FILE_FIELDS,
+  transmettrePieces, champsAConfirmer, FILE_FIELDS,
   CONDUCTEUR_KEYS, VEHICULE_KEYS, PROFIL_KEYS
 };
