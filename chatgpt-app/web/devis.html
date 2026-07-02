@@ -136,7 +136,9 @@
           '<p class="cover">Pour calculer votre tarif, précisez&nbsp;:</p>' +
           '<ul class="need">' + items + '</ul>' +
           '<div class="cg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>' +
-            '<span>Répondez juste en dessous dans la conversation — ou <strong>envoyez une photo de votre carte grise</strong> et je récupère la puissance, le PTAC et l\'âge du véhicule automatiquement.</span></div>' +
+            '<span>Répondez juste en dessous dans la conversation — ou <strong>envoyez une photo de votre carte grise</strong> et je récupère la puissance, le PTAC et l\'âge du véhicule automatiquement.' +
+            (d.souscription_disponible ? ' Pour <strong>souscrire directement</strong>, envoyez aussi votre <strong>permis</strong> : je prépare le dossier complet, pièces jointes comprises.' : '') +
+            '</span></div>' +
         '</div>';
       return;
     }
@@ -173,6 +175,7 @@
           '<span>' + CHECK + 'Paiement sécurisé (CIC)</span>' +
         '</div>' +
         '<a class="cta" href="' + esc(link) + '" target="_blank" rel="noopener">Souscrire en ligne <span class="arw">&rarr;</span></a>' +
+        (d.souscription_disponible ? '<p class="note" style="color:var(--ink-soft)">&#9889; Encore plus rapide : envoyez votre <strong>permis + carte grise</strong> dans la conversation, je pré-remplis tout et je joins vos pièces au dossier.</p>' : '') +
         '<p class="note">Vous vérifiez vos informations, consultez l\'IPID et réglez par carte sur le tarificateur. Rien n\'est souscrit automatiquement par l\'application.</p>' +
       '</div>';
   }

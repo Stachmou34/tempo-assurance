@@ -27,6 +27,7 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   const d = await devisAssuranceTemporaire(FULL);
   ok(d.source === 'indicatif', 'sans clé → source indicatif');
   ok(d.tarif_indicatif && d.tarif_indicatif.prix_indicatif === '107,81 €', 'voiture 15 j = 107,81 € (grille)');
+  ok(d.souscription_disponible === false && !/souscription rapide/.test(d.message), 'devis : pas d\'option souscription quand la Phase 2 est OFF');
 
   const inc = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', duree: 15 });
   ok(inc.source === 'incomplet' && Array.isArray(inc.besoin_infos) && inc.besoin_infos.length >= 3, 'champs manquants → demande (AUCUNE hypothèse)');
@@ -121,6 +122,10 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   ok(full.success === true && full.champs_restants === null, 'accompagnement : dossier complet (minimum utile JL Assure) -> rien à saisir sur le tunnel');
   const plFull = buildSessionPayload(FULL_ARGS);
   ok(plFull.profil_tarifaire.ptac === 'inf3500' && plFull.profil_tarifaire.puissance === 'inf30' && plFull.profil_tarifaire.age_vehicule === 'moins10', 'profil : ptac déduit de ptac_kg (S2S) + puissance + âge véhicule');
+
+  // Détection d'intention : quand la Phase 2 est active, le devis signale l'option souscription rapide
+  const dOpt = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', date_naissance: '1990-05-12', duree: 15 });
+  ok(dOpt.souscription_disponible === true && /souscription rapide/.test(dOpt.message) && /permis/.test(dOpt.message), 'devis : option « souscription rapide » (permis + carte grise) proposée quand la Phase 2 est active');
 
   console.log('\n[Phase 2bis — pièces jointes (photos -> dossier JL Assure)]');
   const SESSION_JSON = { success: true, token: 't-123', session_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cd=BLA1905B&id=43&prefill_token=t-123', ttl_seconds: 1800 };

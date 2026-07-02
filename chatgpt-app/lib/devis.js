@@ -8,6 +8,7 @@
 
 const { LABELS, CATEGORIES, gridFor } = require('./tarifs');
 const { fetchTarif } = require('./jlassureApi');
+const { sessionEnabled } = require('./prefill');
 
 const DEVIS_URL = 'https://www.tempo-assurance.com/devis-ou-souscription.html';
 
@@ -151,6 +152,7 @@ async function devisAssuranceTemporaire(params, opts) {
       besoin_infos: miss,
       categorie: cat ? LABELS[cat] : null,
       deduits_carte_grise: norm.deduits.length ? norm.deduits : null,
+      souscription_disponible: sessionEnabled(),
       message: lignes.join('\n')
     };
   }
@@ -178,6 +180,7 @@ async function devisAssuranceTemporaire(params, opts) {
     if (norm.deduits.length) {
       lignes.push('Lu sur la carte grise : ' + norm.deduits.join(', ') + '.');
     }
+    if (sessionEnabled()) lignes.push('Option souscription rapide : en envoyant les photos de son permis et de sa carte grise, le client obtient un dossier pré-rempli avec pièces déjà jointes (2 minutes).');
     lignes.push('Finaliser la souscription (devis pré-rempli) : ' + url);
     lignes.push('Le client vérifie, consulte l\'IPID, confirme et règle par carte sur le tarificateur — aucune souscription n\'est finalisée par l\'application.');
     return {
@@ -187,6 +190,7 @@ async function devisAssuranceTemporaire(params, opts) {
       durees_disponibles: data.durees || null,
       lien_devis_pre_rempli: url,
       echo_args: echoArgs(params),
+      souscription_disponible: sessionEnabled(),
       message: lignes.join('\n')
     };
   }
@@ -208,6 +212,7 @@ async function devisAssuranceTemporaire(params, opts) {
     lignes.push('Durées disponibles (jours) : ' + durees.join(', ') + '. Précisez "duree" pour un tarif.');
   }
   lignes.push('Surprime légère (~5 €) pour les conducteurs de 21-22 ans.');
+  if (sessionEnabled()) lignes.push('Option souscription rapide : en envoyant les photos de son permis et de sa carte grise, le client obtient un dossier pré-rempli avec pièces déjà jointes (2 minutes).');
   lignes.push('Finaliser le devis pré-rempli : ' + url);
   lignes.push('Le client vérifie, consulte l\'IPID, confirme et règle par carte — aucune souscription n\'est finalisée par l\'application.');
   return {
@@ -217,6 +222,7 @@ async function devisAssuranceTemporaire(params, opts) {
     durees_disponibles: durees,
     lien_devis_pre_rempli: url,
     echo_args: echoArgs(params),
+    souscription_disponible: sessionEnabled(),
     note_conformite: 'Tarif indicatif (le prix exact est confirmé au devis sur le tarificateur).',
     message: lignes.join('\n')
   };
