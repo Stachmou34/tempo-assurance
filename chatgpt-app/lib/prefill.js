@@ -93,10 +93,34 @@ const CONDUCTEUR_KEYS = ['nom', 'prenom', 'date_naissance', 'pays_naissance', 'a
 const VEHICULE_KEYS = ['immatriculation', 'date_premiere_mec', 'marque', 'modele',
   'genre', 'puissance_fiscale', 'ptac_kg', 'places', 'chassis', 'pays_immatriculation'];
 /* profil_tarifaire = champs du formulaire de tarif (équivalent des paramètres GET).
-   Doit être complet pour que le tarif se pré-remplisse à l'ouverture. */
-const PROFIL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance',
+   Doit être complet pour que le tarif se pré-remplisse à l'ouverture.
+   ptac : accepté par l'API S2S (synthèse JL Assure) même si le tunnel le calcule. */
+const PROFIL_KEYS = ['categorie_vehi', 'age_vehicule', 'puissance', 'ptac',
   'pays_immatriculation', 'pays_residence', 'date_naissance',
   'duree', 'date_debut', 'heure_debut'];
+
+/* Champs utiles au dossier que les DOCUMENTS ne contiennent pas (ou peuvent
+   manquer) : s'ils sont absents au moment de la session, on les liste au client
+   (« restera à saisir sur le tunnel ») — transparence + accompagnement. */
+const CHAMPS_RECOMMANDES = [
+  ['conducteur', 'adresse', 'adresse'],
+  ['conducteur', 'code_postal', 'code postal'],
+  ['conducteur', 'ville', 'ville'],
+  ['conducteur', 'mobile', 'téléphone mobile'],
+  ['conducteur', 'email', 'e-mail'],
+  ['conducteur', 'pays_naissance', 'pays de naissance'],
+  ['conducteur', 'date_permis', "date d'obtention du permis"],
+  ['vehicule', 'marque', 'marque du véhicule'],
+  ['vehicule', 'modele', 'modèle du véhicule'],
+  ['vehicule', 'date_premiere_mec', 'date de 1re mise en circulation'],
+  ['profil_tarifaire', 'duree', 'durée souhaitée'],
+  ['profil_tarifaire', 'date_debut', 'date de début']
+];
+function champsRestants(payload) {
+  return CHAMPS_RECOMMANDES
+    .filter(function (f) { const bloc = payload[f[0]] || {}; return bloc[f[1]] === undefined || bloc[f[1]] === null || String(bloc[f[1]]).trim() === ''; })
+    .map(function (f) { return f[2]; });
+}
 
 function pick(obj, keys) {
   const o = {};
@@ -121,11 +145,15 @@ function buildProfil(args) {
     const cv = Number(v.puissance_fiscale);
     if (!isNaN(cv)) prof.puissance = cv <= 30 ? 'inf30' : 'sup30';
   }
-  /* PTAC non transmis (calculé auto par le tunnel) ; pour un camping-car,
-     ptac_kg > 3500 sélectionne la catégorie CAM-Fou plutôt que CC-Cap. */
-  if (prof.categorie_vehi === 'CC-Cap' && v.ptac_kg != null) {
+  /* PTAC : le tunnel le calcule depuis la catégorie, mais l'API S2S l'accepte
+     (synthèse JL Assure) → on le déduit de ptac_kg quand il est disponible.
+     Pour un camping-car, ptac_kg > 3500 bascule CC-Cap → CAM-Fou. */
+  if (v.ptac_kg != null) {
     const kg = Number(v.ptac_kg);
-    if (!isNaN(kg) && kg > 3500) prof.categorie_vehi = 'CAM-Fou';
+    if (!isNaN(kg)) {
+      if (!prof.ptac) prof.ptac = kg <= 3500 ? 'inf3500' : 'sup3500';
+      if (prof.categorie_vehi === 'CC-Cap' && kg > 3500) prof.categorie_vehi = 'CAM-Fou';
+    }
   }
   if (!prof.age_vehicule && v.date_premiere_mec) {
     const m = String(v.date_premiere_mec).match(/(\d{4})/);
@@ -217,6 +245,13 @@ async function preparerSessionSouscription(args, opts) {
     if (!pieces.transmises.length && !pieces.echecs.length) {
       lignes.push('Le client devra téléverser ses pièces (permis, carte grise) sur le tunnel.');
     }
+    /* Accompagnement : lister ce qui restera à saisir sur le tunnel (champs
+       utiles que les documents ne contiennent pas / non recueillis). */
+    const restants = champsRestants(payload);
+    if (restants.length) {
+      lignes.push('Restera à saisir sur le tunnel : ' + restants.join(', ') + '. ' +
+        'Si le client préfère tout finir dans la conversation, recueillir ces informations puis rappeler l\'outil.');
+    }
     lignes.push("Le client ouvre le lien, vérifie ses informations, consulte l'IPID et règle par carte. Aucune souscription ni paiement n'est effectué par l'application.");
 
     /* Champs pour le widget « souscription prête » (openai/outputTemplate). */
@@ -233,6 +268,7 @@ async function preparerSessionSouscription(args, opts) {
       duree: (dureeNum != null && !isNaN(dureeNum)) ? dureeNum : null,
       pieces_jointes: pieces.transmises,
       pieces_en_echec: pieces.echecs.length ? pieces.echecs : null,
+      champs_restants: restants.length ? restants : null,
       message: lignes.join('\n')
     };
   }
@@ -276,6 +312,7 @@ const profilSchema = {
     categorie_vehi: { type: 'string', enum: CATEGORIES },
     age_vehicule: { type: 'string', enum: ['moins10', 'plus10'] },
     puissance: { type: 'string', enum: ['inf30', 'sup30', '0'] },
+    ptac: { type: 'string', enum: ['inf3500', 'sup3500'], description: 'Déduit automatiquement de vehicule.ptac_kg si absent' },
     pays_immatriculation: { type: 'string' },
     pays_residence: { type: 'string' },
     date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
@@ -300,21 +337,25 @@ const prefillTool = {
   description: "NIVEAU 2 (souscription facilitée) — prépare une souscription avec les pages conducteur " +
     "et véhicule DÉJÀ pré-remplies ET les pièces jointes au dossier, et renvoie un lien sécurisé " +
     "(session_url, valable 30 min). À utiliser quand le client veut SOUSCRIRE / gagner du temps. " +
-    "Recueillir les infos en proposant d'envoyer une photo de la CARTE GRISE (véhicule : genre, marque D.1, " +
-    "modèle D.3, immatriculation, châssis E, P.6, F.2, date 1re MEC) ET du PERMIS (conducteur : nom, prénom, " +
-    "date de naissance, n° et date de permis, type_permis = catégorie du permis selon le véhicule " +
-    "(voiture/utilitaire=B, poids lourd=C1/C, car/bus=D1/D), pays). Champs pays en MAJUSCULES ; " +
-    "pays_permis = nationalité du permis. TOUJOURS inclure conducteur.nom et conducteur.prenom " +
-    "(rattachement des pièces au dossier). " +
+    "PARCOURS D'ACCOMPAGNEMENT (objectif : dossier complet, plus rien à saisir sur le tunnel) — " +
+    "ÉTAPE 1 · PHOTOS : proposer d'envoyer le PERMIS (conducteur : nom, prénom, date de naissance, n° et " +
+    "date de permis, type_permis = catégorie selon le véhicule (voiture/utilitaire=B, poids lourd=C1/C, " +
+    "car/bus=D1/D), pays_permis = nationalité du permis) et la CARTE GRISE (véhicule : immatriculation, " +
+    "genre J.1, marque D.1, modèle D.3, châssis E, puissance P.6, PTAC F.2, places S.1, date 1re MEC B, " +
+    "pays d'immatriculation). Champs pays en MAJUSCULES. TOUJOURS inclure conducteur.nom et conducteur.prenom. " +
+    "ÉTAPE 2 · COMPLÉMENTS (les documents ne les contiennent PAS) : demander au client son ADRESSE complète " +
+    "(adresse, code_postal, ville), son MOBILE, son E-MAIL, son PAYS DE NAISSANCE, et confirmer la DURÉE, " +
+    "la DATE et l'HEURE DE DÉBUT souhaitées — poser ces questions simplement, en une ou deux fois. " +
+    "ÉTAPE 3 · RÉCAPITULER l'ensemble (conducteur + véhicule + période) en signalant explicitement les champs " +
+    "incertains, obtenir la CONFIRMATION, puis appeler l'outil. " +
     "PIÈCES : passer les photos partagées via photo_permis / photo_carte_grise (+ _verso si fournis) — " +
     "elles seront jointes automatiquement au dossier, le client n'aura pas à les re-téléverser. " +
-    "DIALOGUE DE CORRECTION — après lecture des documents, si un champ est illisible, manquant, " +
-    "ambigu ou que tu n'es PAS SÛR de l'avoir bien lu, NE DEVINE PAS : liste ces champs au client et " +
-    "demande-lui de les CONFIRMER ou de les CORRIGER (par écrit, ou en renvoyant une photo plus nette). " +
-    "AVANT d'appeler : RÉCAPITULER au client TOUTES les informations collectées (véhicule + conducteur), en " +
-    "signalant explicitement les champs incertains, et obtenir sa CONFIRMATION. " +
-    "Si l'outil répond avec besoin_confirmation, transmets ces champs au client, recueille les corrections, " +
-    "puis rappelle l'outil avec les valeurs confirmées. " +
+    "DIALOGUE DE CORRECTION — si un champ est illisible, manquant, ambigu ou que tu n'es PAS SÛR de l'avoir " +
+    "bien lu, NE DEVINE PAS : liste ces champs au client et demande-lui de les CONFIRMER ou CORRIGER " +
+    "(par écrit, ou en renvoyant une photo plus nette). Si l'outil répond avec besoin_confirmation, " +
+    "transmets ces champs au client, recueille les corrections, puis rappelle l'outil. " +
+    "Si l'outil répond avec champs_restants, informer le client de ce qui restera à saisir sur le tunnel — " +
+    "et lui proposer de le compléter maintenant dans la conversation (puis rappeler l'outil). " +
     "⚠️ DONNÉES PERSONNELLES : n'appeler qu'APRÈS (1) le CONSENTEMENT EXPLICITE du client et (2) la collecte + confirmation des infos. " +
     "Minimisation : ne transmettre que les champs réellement fournis. " +
     "Si pieces_en_echec contient une pièce illisible, proposer au client de renvoyer une photo nette " +
@@ -338,6 +379,7 @@ const prefillTool = {
       vehicule_label: { type: ['string', 'null'] }, duree: { type: ['integer', 'null'] },
       pieces_jointes: { type: 'array', items: { type: 'string' } },
       pieces_en_echec: { type: ['array', 'null'], items: { type: 'object' } },
+      champs_restants: { type: ['array', 'null'], items: { type: 'string' }, description: 'Champs utiles non pré-remplis, à saisir sur le tunnel (ou à recueillir puis rappeler l\'outil)' },
       message: { type: 'string' }
     }
   },
@@ -351,6 +393,6 @@ const prefillTool = {
 
 module.exports = {
   sessionEnabled, buildSessionPayload, preparerSessionSouscription, prefillTool,
-  transmettrePieces, champsAConfirmer, FILE_FIELDS,
+  transmettrePieces, champsAConfirmer, champsRestants, FILE_FIELDS,
   CONDUCTEUR_KEYS, VEHICULE_KEYS, PROFIL_KEYS
 };

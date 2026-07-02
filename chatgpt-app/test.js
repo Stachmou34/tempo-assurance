@@ -110,6 +110,18 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   const confDate = await preparerSessionSouscription({ conducteur: { nom: 'X', prenom: 'Y', date_naissance: '12/05/1990', num_permis: '1' }, vehicule: { genre: 'VL-VL', immatriculation: 'AA-1-BB' } }, fakeSession);
   ok(confDate.success === false && confDate.besoin_confirmation.some(function (f) { return /date de naissance/.test(f.champ); }), 'correction : date au mauvais format -> à confirmer');
 
+  // Accompagnement : champs utiles non recueillis -> listés (transparence), session quand même créée
+  ok(Array.isArray(on.champs_restants) && on.champs_restants.indexOf('adresse') > -1 && on.champs_restants.indexOf('e-mail') > -1 && /Restera à saisir/.test(on.message), 'accompagnement : champs_restants listés (adresse, e-mail…)');
+  const FULL_ARGS = {
+    conducteur: { nom: 'MARTIN', prenom: 'Sophie', date_naissance: '1990-05-12', pays_naissance: 'FRANCE METROPOLITAINE', adresse: '1 rue A', code_postal: '34000', ville: 'Montpellier', pays_residence: 'FRANCE METROPOLITAINE', mobile: '0600000000', email: 'a@b.fr', num_permis: '123456789', date_permis: '2010-06-01', type_permis: 'B', pays_permis: 'FRANCE METROPOLITAINE' },
+    vehicule: { immatriculation: 'AA-123-BB', pays_immatriculation: 'FRANCE METROPOLITAINE', marque: 'RENAULT', modele: 'CLIO', chassis: 'VF1XXXXX', date_premiere_mec: '2019-03-15', puissance_fiscale: 5, places: 5, ptac_kg: 1800, genre: 'VL-VL' },
+    profil_tarifaire: { duree: '15', date_debut: '2026-07-10', heure_debut: '09:00' }
+  };
+  const full = await preparerSessionSouscription(FULL_ARGS, fakeSession);
+  ok(full.success === true && full.champs_restants === null, 'accompagnement : dossier complet (minimum utile JL Assure) -> rien à saisir sur le tunnel');
+  const plFull = buildSessionPayload(FULL_ARGS);
+  ok(plFull.profil_tarifaire.ptac === 'inf3500' && plFull.profil_tarifaire.puissance === 'inf30' && plFull.profil_tarifaire.age_vehicule === 'moins10', 'profil : ptac déduit de ptac_kg (S2S) + puissance + âge véhicule');
+
   console.log('\n[Phase 2bis — pièces jointes (photos -> dossier JL Assure)]');
   const SESSION_JSON = { success: true, token: 't-123', session_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cd=BLA1905B&id=43&prefill_token=t-123', ttl_seconds: 1800 };
   function fakeHttp(docsResponse) {

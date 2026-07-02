@@ -135,6 +135,10 @@
     if (!chipsJointes && !chipsEchecs) {
       blocs += '<p class="sub" style="margin-top:14px">Le client téléversera ses pièces (permis, carte grise) sur le tunnel.</p>';
     }
+    var restants = Array.isArray(d.champs_restants) ? d.champs_restants : [];
+    if (restants.length) {
+      blocs += '<p class="warnline" style="color:var(--muted)">À compléter sur le tunnel : ' + esc(restants.join(', ')) + '.</p>';
+    }
 
     app.innerHTML =
       '<div class="accent"></div><div class="pad">' +
