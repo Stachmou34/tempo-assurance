@@ -101,6 +101,42 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   const on = await preparerSessionSouscription({ conducteur: { nom: 'MARTIN', prenom: 'Sophie' }, vehicule: { genre: 'VL-VL' } }, fakeSession);
   ok(on.success === true && /prefill_token=t-123/.test(on.session_url), 'ON : renvoie la session_url (pas de donnée perso dans l\'URL)');
   ok(/usage unique/.test(on.message) && /IPID/.test(on.message), 'message : rappel conformité (usage unique + IPID)');
+
+  console.log('\n[Phase 2bis — pièces jointes (photos -> dossier JL Assure)]');
+  const SESSION_JSON = { success: true, token: 't-123', session_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cd=BLA1905B&id=43&prefill_token=t-123', ttl_seconds: 1800 };
+  function fakeHttp(docsResponse) {
+    const seen = { docsBody: null, downloads: [] };
+    return { seen: seen, opts: { apiKey: 'K', fetchImpl: async function (url, o) {
+      url = String(url);
+      if (url.indexOf('api_prefill_session') > -1) return { ok: true, status: 201, json: async function () { return SESSION_JSON; } };
+      if (url.indexOf('api_prefill_docs') > -1) { seen.docsBody = o.body; return { ok: docsResponse.ok !== false, status: docsResponse.status || 200, json: async function () { return docsResponse.json; } }; }
+      /* URL de téléchargement ChatGPT (openai/fileParams) */
+      seen.downloads.push(url);
+      return { ok: true, headers: { get: function () { return 'image/jpeg'; } }, arrayBuffer: async function () { return new ArrayBuffer(4096); } };
+    } } };
+  }
+  const ARGS_DOCS = {
+    conducteur: { nom: 'MARTIN', prenom: 'Sophie' }, vehicule: { genre: 'VL-VL' },
+    photo_permis: { file_id: 'f1', download_url: 'https://files.example/f1', mime_type: 'image/jpeg', file_name: 'permis.jpg' },
+    photo_carte_grise: { file_id: 'f2', download_url: 'https://files.example/f2' }
+  };
+  // succès total : pièces téléchargées puis jointes
+  let h = fakeHttp({ json: { success: true, pieces: ['permis', 'carte_grise'], documents: [] } });
+  const okDocs = await preparerSessionSouscription(ARGS_DOCS, h.opts);
+  ok(okDocs.success === true && h.seen.downloads.length === 2, 'pièces : les 2 photos sont téléchargées depuis les URLs ChatGPT');
+  ok(h.seen.docsBody && typeof h.seen.docsBody.get === 'function' && h.seen.docsBody.get('prefill_token') === 't-123', 'pièces : multipart avec prefill_token vers api_prefill_docs');
+  ok(okDocs.pieces_jointes.length === 2 && /déjà jointes/.test(okDocs.message), 'pièces : message « déjà jointes » (zéro re-téléversement)');
+  // pièce illisible : 422 unreadable_document -> relance photo nette
+  h = fakeHttp({ ok: false, status: 422, json: { success: false, details: [{ field: 'permis', code: 'unreadable_document', error: 'Image trop petite' }] } });
+  const bad = await preparerSessionSouscription(ARGS_DOCS, h.opts);
+  ok(bad.success === true && bad.pieces_en_echec && bad.pieces_en_echec[0].code === 'unreadable_document' && /nette/.test(bad.message), 'pièces : illisible -> session OK + consigne « photo nette »');
+  // référence incomplète (bug mobile) : pas de download_url -> repli tunnel, session OK
+  h = fakeHttp({ json: { success: true, pieces: ['carte_grise'], documents: [] } });
+  const mob = await preparerSessionSouscription(Object.assign({}, ARGS_DOCS, { photo_permis: { file_id: 'f1' } }), h.opts);
+  ok(mob.success === true && mob.pieces_en_echec.some(function (e) { return e.code === 'reference_incomplete'; }), 'pièces : référence mobile incomplète -> repli tunnel, session conservée');
+  // outil : fileParams déclarés
+  const { prefillTool } = require('./lib/prefill');
+  ok(prefillTool._meta && Array.isArray(prefillTool._meta['openai/fileParams']) && prefillTool._meta['openai/fileParams'].indexOf('photo_permis') > -1, 'outil : _meta openai/fileParams déclare les photos');
   delete process.env.ENABLE_PREFILL_SESSION;
 
   console.log('\n[Serveur MCP — JSON-RPC stdio]');

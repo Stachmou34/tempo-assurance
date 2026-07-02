@@ -57,7 +57,7 @@ h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}.tableau td,.tableau th,.hero-p
     <tr><th>Donnée</th><th>Finalité</th></tr>
     <tr><td>Paramètres de tarification <strong>non personnels</strong> : type de véhicule, âge du véhicule, puissance, pays d'immatriculation et de résidence, durée, âge du conducteur</td><td>Calculer un tarif et préparer un lien de devis</td></tr>
     <tr><td>Photo de <strong>carte grise</strong> (si le client en partage une)</td><td>Lecture par ChatGPT pour en extraire des <strong>champs techniques</strong> (genre, puissance, PTAC, date de 1ʳᵉ mise en circulation). L'assistant n'en récupère que ces champs et n'en conserve aucune copie.</td></tr>
-    <tr><td><strong>Pré-remplissage de la souscription</strong> (optionnel, avec votre <strong>consentement explicite</strong>) : photos du <strong>permis de conduire</strong> et de la <strong>carte grise</strong> → identité du conducteur (nom, prénom, date de naissance, n° et date de permis) et du véhicule (immatriculation, marque, modèle, châssis, coordonnées)</td><td>Pré-remplir les pages « Conducteur » et « Véhicule » du tunnel de souscription. Les données sont transmises à JL Assure par un <strong>canal sécurisé de serveur à serveur</strong> ; le lien remis au client est à <strong>usage unique</strong>, à durée limitée (~30 min) et <strong>ne contient aucune donnée personnelle</strong>. L'assistant n'en conserve aucune copie.</td></tr>
+    <tr><td><strong>Pré-remplissage de la souscription</strong> (optionnel, avec votre <strong>consentement explicite</strong>) : photos du <strong>permis de conduire</strong> et de la <strong>carte grise</strong> → identité du conducteur (nom, prénom, date de naissance, n° et date de permis) et du véhicule (immatriculation, marque, modèle, châssis, coordonnées), ainsi que les <strong>photos elles-mêmes</strong>, jointes à votre dossier</td><td>Pré-remplir les pages « Conducteur » et « Véhicule » du tunnel de souscription et <strong>joindre vos justificatifs au dossier</strong> (vous n'avez plus à les re-téléverser). Données et photos sont transmises à JL Assure par un <strong>canal sécurisé de serveur à serveur</strong> (transit éphémère, aucune écriture disque chez l'assistant) ; le lien remis au client est à <strong>usage unique</strong>, à durée limitée (~30 min) et <strong>ne contient aucune donnée personnelle</strong>. Si la session expire sans souscription, JL Assure supprime automatiquement les pièces transmises.</td></tr>
   </table>
   <div class="callout">Sans votre demande expresse, l'assistant <strong>ne collecte pas</strong> de nom, adresse, e-mail,
   numéro de permis ou d'immatriculation. Le pré-remplissage de la souscription est une <strong>option</strong> :
@@ -99,12 +99,13 @@ h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}.tableau td,.tableau th,.hero-p
   <h2>9. Pré-remplissage de la souscription (option)</h2>
   <p>Si vous le demandez, l'assistant peut lire votre <strong>permis de conduire</strong> et votre
   <strong>carte grise</strong> pour pré-remplir les pages « Conducteur » et « Véhicule » du tunnel de
-  souscription. Le déroulé : vous partagez les photos → l'assistant extrait les champs utiles et vous les
-  <strong>récapitule</strong> → vous <strong>confirmez</strong> → un lien de souscription pré-rempli,
-  sécurisé et à usage unique vous est remis. Aucune donnée personnelle ne transite dans l'URL ; l'assistant
-  ne conserve ni les images ni les données. Vous devrez ensuite <strong>téléverser vos pièces</strong>
-  (permis, carte grise) sur le tunnel, vérifier l'ensemble, consulter l'IPID et régler — rien n'est souscrit
-  sans votre action.</p>
+  souscription et <strong>joindre ces photos à votre dossier</strong>. Le déroulé : vous partagez les
+  photos → l'assistant extrait les champs utiles et vous les <strong>récapitule</strong> → vous
+  <strong>confirmez</strong> → un lien de souscription pré-rempli, sécurisé et à usage unique vous est
+  remis, avec vos <strong>justificatifs déjà joints</strong> (vous pouvez les remplacer ou les compléter
+  sur le tunnel). Aucune donnée personnelle ne transite dans l'URL ; l'assistant ne conserve ni les images
+  ni les données (transit éphémère). Il ne vous reste qu'à <strong>vérifier l'ensemble</strong>, consulter
+  l'IPID et régler — rien n'est souscrit sans votre action.</p>
 </main>
 
 <footer>

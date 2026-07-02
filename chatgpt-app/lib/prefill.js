@@ -9,8 +9,74 @@
    L'outil ne fait que PRÉPARER : le client ouvre l'URL, vérifie, consulte l'IPID,
    téléverse ses pièces et paie sur le tunnel (DDA/ACPR). */
 
-const { createPrefillSession } = require('./jlassureApi');
+const { createPrefillSession, downloadDocument, uploadPrefillDocs } = require('./jlassureApi');
 const { CATEGORIES } = require('./tarifs');
+
+/* --- Phase 2bis : pièces jointes (photos partagées dans ChatGPT -> dossier JL Assure) ---
+   ChatGPT fournit pour chaque photo une référence { file_id, download_url, mime_type?, file_name? }
+   (openai/fileParams). Notre serveur télécharge puis transmet en multipart : transit éphémère,
+   aucune écriture disque, aucune conservation. */
+const FILE_FIELDS = [
+  { arg: 'photo_permis', api: 'permis', label: 'permis (recto)' },
+  { arg: 'photo_permis_verso', api: 'permis_verso', label: 'permis (verso)' },
+  { arg: 'photo_carte_grise', api: 'carte_grise', label: 'carte grise (recto)' },
+  { arg: 'photo_carte_grise_verso', api: 'carte_grise_verso', label: 'carte grise (verso)' }
+];
+
+const DOWNLOAD_ERRORS = {
+  file_too_large: 'fichier de plus de 10 Mo — demander une photo plus légère',
+  empty_file: 'fichier vide — demander une nouvelle photo',
+  reference_incomplete: "référence de fichier incomplète (téléversement mobile ?) — le client pourra déposer cette pièce sur le tunnel"
+};
+const UPLOAD_ERRORS = {
+  invalid_format: 'format refusé (JPEG, PNG ou PDF uniquement) — demander une photo dans un de ces formats',
+  file_too_large: 'fichier de plus de 10 Mo — demander une photo plus légère',
+  unreadable_document: 'photo trop petite, floue ou PDF corrompu — demander une nouvelle photo nette',
+  session_not_found: 'session expirée — recréer la session puis renvoyer les pièces'
+};
+
+function libelleEchec(code, fallback) {
+  return DOWNLOAD_ERRORS[code] || UPLOAD_ERRORS[code] || fallback || ('erreur ' + code + ' — le client pourra déposer cette pièce sur le tunnel');
+}
+
+/* Télécharge les photos référencées puis les joint au dossier de la session.
+   Renvoie { transmises: ['permis', …], echecs: [{ piece, code, message }] }. */
+async function transmettrePieces(args, prefillToken, opts) {
+  const echecs = [];
+  const aTransmettre = [];
+  const labels = {}; /* champ API -> libellé humain */
+  for (const spec of FILE_FIELDS) {
+    const v = args[spec.arg];
+    if (!v) continue;
+    labels[spec.api] = spec.label;
+    const url = typeof v === 'string' ? v : (v && v.download_url) || null;
+    if (!url) { echecs.push({ piece: spec.label, code: 'reference_incomplete', message: libelleEchec('reference_incomplete') }); continue; }
+    const dl = await downloadDocument(url, opts);
+    if (!dl.ok) { echecs.push({ piece: spec.label, code: dl.reason, message: libelleEchec(dl.reason) }); continue; }
+    aTransmettre.push({
+      field: spec.api, bytes: dl.bytes,
+      mimeType: (typeof v === 'object' && v.mime_type) || dl.mimeType || 'image/jpeg',
+      filename: (typeof v === 'object' && v.file_name) || (spec.api + '.jpg')
+    });
+  }
+  if (!aTransmettre.length) return { transmises: [], echecs: echecs };
+
+  const up = await uploadPrefillDocs(prefillToken, aTransmettre, opts);
+  const data = (up && up.data) || {};
+  const transmises = Array.isArray(data.pieces) ? data.pieces : [];
+  /* Échecs signalés par l'API (200/207/422) : details = [{ field, error, code }] */
+  if (Array.isArray(data.details)) {
+    data.details.forEach(function (d) {
+      echecs.push({ piece: labels[d.field] || d.field, code: d.code || 'erreur', message: libelleEchec(d.code, d.error) });
+    });
+  } else if (!up.ok && !transmises.length) {
+    /* Erreur globale (réseau, 401, 500…) : aucune pièce jointe, repli tunnel */
+    aTransmettre.forEach(function (doc) {
+      echecs.push({ piece: labels[doc.field] || doc.field, code: up.reason || ('http_' + up.status), message: 'transmission impossible — le client pourra déposer cette pièce sur le tunnel' });
+    });
+  }
+  return { transmises: transmises.map(function (p) { return labels[p] || p; }), echecs: echecs };
+}
 
 function sessionEnabled() {
   const v = String(process.env.ENABLE_PREFILL_SESSION || '').toLowerCase();
@@ -90,15 +156,39 @@ async function preparerSessionSouscription(args, opts) {
   }
   const r = await createPrefillSession(payload, opts);
   if (r.ok && r.data && r.data.success && r.data.session_url) {
+    /* Phase 2bis : joindre les photos partagées (permis / carte grise) au dossier,
+       pour que le client n'ait plus à les re-téléverser sur le tunnel. */
+    let pieces = { transmises: [], echecs: [] };
+    const aDesPhotos = FILE_FIELDS.some(function (s) { return !!args[s.arg]; });
+    if (aDesPhotos && r.data.token) {
+      pieces = await transmettrePieces(args, r.data.token, opts);
+    } else if (aDesPhotos && !r.data.token) {
+      pieces.echecs.push({ piece: 'pièces', code: 'no_token', message: 'session sans token — le client pourra déposer ses pièces sur le tunnel' });
+    }
+
+    const lignes = ['Lien de souscription pré-rempli prêt (valable ~30 min, usage unique) :', r.data.session_url];
+    if (pieces.transmises.length) {
+      lignes.push('Pièces déjà jointes au dossier : ' + pieces.transmises.join(', ') +
+        ' — le client n\'a plus à les téléverser (il peut les remplacer sur le tunnel si besoin).');
+    }
+    if (pieces.echecs.length) {
+      lignes.push('Pièces NON jointes :');
+      pieces.echecs.forEach(function (e) { lignes.push('• ' + e.piece + ' : ' + e.message); });
+      lignes.push('Si une photo est illisible, demander au client une photo plus nette peut résoudre le problème ; sinon il déposera la pièce directement sur le tunnel.');
+    }
+    if (!pieces.transmises.length && !pieces.echecs.length) {
+      lignes.push('Le client devra téléverser ses pièces (permis, carte grise) sur le tunnel.');
+    }
+    lignes.push("Le client ouvre le lien, vérifie ses informations, consulte l'IPID et règle par carte. Aucune souscription ni paiement n'est effectué par l'application.");
+
     return {
       success: true,
       session_url: r.data.session_url,
       expires_at: r.data.expires_at || null,
       ttl_seconds: r.data.ttl_seconds || null,
-      message: 'Lien de souscription pré-rempli prêt (valable ~30 min, usage unique) :\n' +
-        r.data.session_url + '\n' +
-        "Le client ouvre ce lien, vérifie ses informations, consulte l'IPID, téléverse ses pièces " +
-        "(permis, carte grise) et règle par carte. Aucune souscription ni paiement n'est effectué par l'application."
+      pieces_jointes: pieces.transmises,
+      pieces_en_echec: pieces.echecs.length ? pieces.echecs : null,
+      message: lignes.join('\n')
     };
   }
   return {
@@ -148,39 +238,63 @@ const profilSchema = {
   }
 };
 
+/* Référence de fichier fournie par ChatGPT pour chaque photo (openai/fileParams). */
+const fichierSchema = {
+  type: 'object', additionalProperties: true,
+  properties: {
+    file_id: { type: 'string' },
+    download_url: { type: 'string' },
+    mime_type: { type: 'string' },
+    file_name: { type: 'string' }
+  }
+};
+
 const prefillTool = {
   name: 'preparer_session_souscription',
   title: 'Préparer la souscription pré-remplie',
   description: "NIVEAU 2 (souscription facilitée) — prépare une souscription avec les pages conducteur " +
-    "et véhicule DÉJÀ pré-remplies, et renvoie un lien sécurisé (session_url, valable 30 min). " +
-    "À utiliser quand le client veut SOUSCRIRE / gagner du temps. " +
+    "et véhicule DÉJÀ pré-remplies ET les pièces jointes au dossier, et renvoie un lien sécurisé " +
+    "(session_url, valable 30 min). À utiliser quand le client veut SOUSCRIRE / gagner du temps. " +
     "Recueillir les infos en proposant d'envoyer une photo de la CARTE GRISE (véhicule : genre, marque D.1, " +
     "modèle D.3, immatriculation, châssis E, P.6, F.2, date 1re MEC) ET du PERMIS (conducteur : nom, prénom, " +
     "date de naissance, n° et date de permis, catégorie→type_permis, pays). Champs pays en MAJUSCULES ; " +
-    "pays_permis = nationalité du permis. " +
+    "pays_permis = nationalité du permis. TOUJOURS inclure conducteur.nom et conducteur.prenom " +
+    "(rattachement des pièces au dossier). " +
+    "PIÈCES : passer les photos partagées via photo_permis / photo_carte_grise (+ _verso si fournis) — " +
+    "elles seront jointes automatiquement au dossier, le client n'aura pas à les re-téléverser. " +
     "Si un champ est illisible ou si le document n'est pas le bon, demander une photo nette (ne pas deviner). " +
     "AVANT d'appeler : RÉCAPITULER au client les informations collectées (véhicule + conducteur) et obtenir sa CONFIRMATION. " +
     "⚠️ DONNÉES PERSONNELLES : n'appeler qu'APRÈS (1) le CONSENTEMENT EXPLICITE du client et (2) la collecte + confirmation des infos. " +
     "Minimisation : ne transmettre que les champs réellement fournis. " +
-    "Rappel au client : il devra quand même téléverser les pièces (permis, carte grise) sur le tunnel. " +
+    "Si pieces_en_echec contient une pièce illisible, proposer au client de renvoyer une photo nette " +
+    "(sinon il déposera la pièce sur le tunnel). " +
     "La souscription, l'IPID et le paiement restent réalisés par le client sur le tunnel.",
   inputSchema: {
     type: 'object', additionalProperties: false,
-    properties: { conducteur: conducteurSchema, vehicule: vehiculeSchema, profil_tarifaire: profilSchema }
+    properties: {
+      conducteur: conducteurSchema, vehicule: vehiculeSchema, profil_tarifaire: profilSchema,
+      photo_permis: fichierSchema, photo_permis_verso: fichierSchema,
+      photo_carte_grise: fichierSchema, photo_carte_grise_verso: fichierSchema
+    }
   },
   outputSchema: {
     type: 'object', additionalProperties: true,
     properties: {
       success: { type: 'boolean' }, disabled: { type: 'boolean' },
       session_url: { type: 'string' }, expires_at: { type: 'string' },
-      ttl_seconds: { type: 'integer' }, message: { type: 'string' }
+      ttl_seconds: { type: 'integer' },
+      pieces_jointes: { type: 'array', items: { type: 'string' } },
+      pieces_en_echec: { type: ['array', 'null'], items: { type: 'object' } },
+      message: { type: 'string' }
     }
   },
   annotations: { readOnlyHint: false, openWorldHint: false, destructiveHint: false },
+  _meta: { 'openai/fileParams': ['photo_permis', 'photo_permis_verso', 'photo_carte_grise', 'photo_carte_grise_verso'] },
   handler: preparerSessionSouscription
 };
 
 module.exports = {
   sessionEnabled, buildSessionPayload, preparerSessionSouscription, prefillTool,
+  transmettrePieces, FILE_FIELDS,
   CONDUCTEUR_KEYS, VEHICULE_KEYS, PROFIL_KEYS
 };

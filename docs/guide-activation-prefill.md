@@ -11,10 +11,17 @@
 |---|---|
 | Outil MCP `preparer_session_souscription` (`chatgpt-app/lib/prefill.js`) | ✅ codé + testé |
 | API JL Assure `api_prefill_session.php` (server-to-server, clé API) | ✅ validée en live |
-| Consignes au modèle : consentement explicite → OCR permis + carte grise → récapitulatif → confirmation → appel | ✅ dans la description de l'outil |
-| Minimisation (seuls les champs fournis sont transmis), pas de donnée perso en URL/logs | ✅ |
-| Politique de confidentialité (`confidentialite-ia.html` §2, §6, §9) | ✅ mise à jour (2026-07-02) |
+| **Pièces jointes (Phase 2bis)** : photos permis/carte grise reçues via `openai/fileParams`, transmises en multipart à `api_prefill_docs.php` et **jointes au dossier** (zéro re-téléversement) | ✅ codé + testé (spec JL Assure du 2026-07-02) |
+| Gestion des refus de pièce (`unreadable_document`, `invalid_format`, `file_too_large`…) : consigne de **relance photo nette**, repli = dépôt sur le tunnel | ✅ |
+| Consignes au modèle : consentement explicite → OCR permis + carte grise → récapitulatif → confirmation → appel (avec `conducteur.nom`/`prenom` pour le rattachement des pièces) | ✅ dans la description de l'outil |
+| Minimisation (seuls les champs fournis sont transmis), pas de donnée perso en URL/logs, transit éphémère des photos (aucune écriture disque) | ✅ |
+| Politique de confidentialité (`confidentialite-ia.html` §2, §6, §9 — y compris transmission des photos) | ✅ mise à jour (2026-07-02) |
 | Verrou d'activation | `ENABLE_PREFILL_SESSION` (OFF par défaut) |
+
+> Côté JL Assure : `api_prefill_docs.php` doit être **déployé en production** (code prêt en
+> local/recette d'après leur retour du 2026-07-02). Limites : JPEG/PNG/PDF, 10 Mo/fichier ;
+> pièces supprimées automatiquement si la session expire sans souscription ; le contrôle humain
+> back-office reste inchangé.
 
 ## Prérequis RGPD (décision MCJ — voir `rgpd-checklist-ocr.md`)
 
@@ -40,9 +47,14 @@ Effets immédiats :
 1. « Je veux assurer ma voiture 15 jours et **souscrire directement**. »
 2. L'assistant doit proposer d'envoyer **photo du permis + carte grise** et demander le **consentement**.
 3. Envoyer les photos → vérifier le **récapitulatif** (identité + véhicule) → confirmer.
-4. L'assistant renvoie un **lien de session** (`prefill_token=…`, PAS de nom/immat dans l'URL).
-5. Ouvrir le lien : les pages **Conducteur** et **Véhicule** du tunnel doivent être pré-remplies.
+4. L'assistant renvoie un **lien de session** (`prefill_token=…`, PAS de nom/immat dans l'URL) et
+   confirme les **pièces jointes** (« déjà jointes au dossier »).
+5. Ouvrir le lien : pages **Conducteur** et **Véhicule** pré-remplies, et à l'étape justificatifs
+   les **pièces apparaissent en aperçu** (bouton « Continuer » actif) ; remplacement possible.
 6. Vérifier l'expiration (~30 min) et l'usage unique (2ᵉ ouverture → session invalide).
+7. **Cas dégradés** : envoyer une photo floue/minuscule → l'assistant doit **redemander une photo
+   nette** (code `unreadable_document`) ; tester depuis **mobile** (bug connu OpenAI : référence de
+   fichier incomplète → l'assistant doit continuer avec le repli « dépôt sur le tunnel »).
 
 ## Rollback
 
