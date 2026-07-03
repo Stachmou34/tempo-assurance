@@ -64,7 +64,10 @@ const NIVEAU2 = sessionEnabled()
   ? "NIVEAU 2 (souscription) — DÉTECTER L'INTENTION : si le client exprime l'envie d'ASSURER son " +
     "véhicule (« je veux assurer… », « il me faut une assurance… ») et pas seulement d'avoir un prix, " +
     "lui proposer D'EMBLÉE la souscription facilitée : envoyer les photos du PERMIS + de la CARTE GRISE " +
-    "pour un dossier pré-rempli avec pièces déjà jointes (outil preparer_session_souscription). " +
+    "pour un dossier pré-rempli avec pièces déjà jointes. " +
+    "Quand le client CONFIRME vouloir souscrire, ne PAS t'arrêter au lien de devis (lien_devis_pre_rempli) : " +
+    "APPELER preparer_session_souscription — il renvoie un session_url, et c'est CE lien (souscription " +
+    "pré-remplie) qu'il faut présenter au client. " +
     "Et APRÈS CHAQUE TARIF affiché, rappeler en une phrase cette option (permis + carte grise = souscription en 2 minutes). "
   : '';
 
