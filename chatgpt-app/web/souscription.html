@@ -130,7 +130,8 @@
     }
     if (chipsEchecs) {
       blocs += '<div class="label">À déposer sur le tunnel</div><div class="chips">' + chipsEchecs + '</div>' +
-        '<p class="warnline">Ces pièces n\'ont pas pu être jointes (illisibles ou refusées) : le client pourra les téléverser sur le tunnel.</p>';
+        '<p class="warnline">Ces pièces n\'ont pas pu être jointes (illisibles ou refusées) : le client pourra les téléverser sur le tunnel.' +
+        (d.pieces_ref ? ' <span style="color:var(--muted)">Réf. ' + esc(d.pieces_ref) + '</span>' : '') + '</p>';
     }
     if (!chipsJointes && !chipsEchecs) {
       blocs += '<p class="sub" style="margin-top:14px">Le client téléversera ses pièces (permis, carte grise) sur le tunnel.</p>';

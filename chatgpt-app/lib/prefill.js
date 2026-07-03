@@ -60,10 +60,13 @@ async function transmettrePieces(args, prefillToken, opts) {
       filename: (typeof v === 'object' && v.file_name) || (spec.api + '.jpg')
     });
   }
-  if (!aTransmettre.length) return { transmises: [], echecs: echecs };
+  if (!aTransmettre.length) return { transmises: [], echecs: echecs, ref: null };
 
   const up = await uploadPrefillDocs(prefillToken, aTransmettre, opts);
   const data = (up && up.data) || {};
+  /* Réf. de corrélation renvoyée par JL Assure (pour rapprochement avec leurs logs
+     en cas d'erreur serveur). À faire remonter au support si l'upload échoue. */
+  const ref = data.ref || data.reference || null;
   const transmises = Array.isArray(data.pieces) ? data.pieces : [];
   /* Pièces refusées, signalées par l'API selon le cas (spec JL Assure) :
      - HTTP 207 succès partiel : data.warnings = [{ field, error, code }]
@@ -80,7 +83,7 @@ async function transmettrePieces(args, prefillToken, opts) {
       echecs.push({ piece: labels[doc.field] || doc.field, code: up.reason || ('http_' + up.status), message: 'transmission impossible — le client pourra déposer cette pièce sur le tunnel' });
     });
   }
-  return { transmises: transmises.map(function (p) { return labels[p] || p; }), echecs: echecs };
+  return { transmises: transmises.map(function (p) { return labels[p] || p; }), echecs: echecs, ref: ref };
 }
 
 function sessionEnabled() {
@@ -240,6 +243,7 @@ async function preparerSessionSouscription(args, opts) {
     if (pieces.echecs.length) {
       lignes.push('Pièces NON jointes :');
       pieces.echecs.forEach(function (e) { lignes.push('• ' + e.piece + ' : ' + e.message); });
+      if (pieces.ref) lignes.push('Référence d\'erreur JL Assure (à transmettre au support pour analyse) : ' + pieces.ref + '.');
       lignes.push('Si une photo est illisible, demander au client une photo plus nette peut résoudre le problème ; sinon il déposera la pièce directement sur le tunnel.');
     }
     if (!pieces.transmises.length && !pieces.echecs.length) {
@@ -268,6 +272,7 @@ async function preparerSessionSouscription(args, opts) {
       duree: (dureeNum != null && !isNaN(dureeNum)) ? dureeNum : null,
       pieces_jointes: pieces.transmises,
       pieces_en_echec: pieces.echecs.length ? pieces.echecs : null,
+      pieces_ref: pieces.ref || null,
       champs_restants: restants.length ? restants : null,
       message: lignes.join('\n')
     };
@@ -385,6 +390,7 @@ const prefillTool = {
       vehicule_label: { type: ['string', 'null'] }, duree: { type: ['integer', 'null'] },
       pieces_jointes: { type: 'array', items: { type: 'string' } },
       pieces_en_echec: { type: ['array', 'null'], items: { type: 'object' } },
+      pieces_ref: { type: ['string', 'null'], description: 'Réf. d\'erreur JL Assure si l\'ajout des pièces a échoué (à communiquer au support)' },
       champs_restants: { type: ['array', 'null'], items: { type: 'string' }, description: 'Champs utiles non pré-remplis, à saisir sur le tunnel (ou à recueillir puis rappeler l\'outil)' },
       message: { type: 'string' }
     }
