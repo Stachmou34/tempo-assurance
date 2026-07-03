@@ -335,20 +335,26 @@ const prefillTool = {
   name: 'preparer_session_souscription',
   title: 'Préparer la souscription pré-remplie',
   description: "NIVEAU 2 (souscription facilitée) — prépare une souscription avec les pages conducteur " +
-    "et véhicule DÉJÀ pré-remplies ET les pièces jointes au dossier, et renvoie un lien sécurisé " +
-    "(session_url, valable 30 min). À utiliser quand le client veut SOUSCRIRE / gagner du temps. " +
-    "PARCOURS D'ACCOMPAGNEMENT (objectif : dossier complet, plus rien à saisir sur le tunnel) — " +
-    "ÉTAPE 1 · PHOTOS : proposer d'envoyer le PERMIS (conducteur : nom, prénom, date de naissance, n° et " +
-    "date de permis, type_permis = catégorie selon le véhicule (voiture/utilitaire=B, poids lourd=C1/C, " +
-    "car/bus=D1/D), pays_permis = nationalité du permis) et la CARTE GRISE (véhicule : immatriculation, " +
-    "genre J.1, marque D.1, modèle D.3, châssis E, puissance P.6, PTAC F.2, places S.1, date 1re MEC B, " +
-    "pays d'immatriculation). Champs pays en MAJUSCULES. TOUJOURS inclure conducteur.nom et conducteur.prenom. " +
+    "et véhicule DÉJÀ pré-remplies, et renvoie un lien sécurisé (session_url, valable 30 min). " +
+    "À utiliser quand le client veut SOUSCRIRE / gagner du temps. " +
+    "⚠️ LES PHOTOS SONT FACULTATIVES : cet outil s'appelle avec les INFORMATIONS (conducteur + véhicule), " +
+    "que le client les ait tapées ou dictées OU qu'elles proviennent de photos. NE JAMAIS refuser ni bloquer " +
+    "faute de photos : sans photo jointe, la session est quand même créée et le client déposera ses pièces " +
+    "sur le tunnel ; les paramètres photo_* ne servent QUE si le client a effectivement partagé des images " +
+    "dans la conversation (alors elles sont jointes au dossier, en bonus). " +
+    "PARCOURS D'ACCOMPAGNEMENT (objectif : dossier le plus complet possible) — " +
+    "ÉTAPE 1 · INFOS : recueillir le CONDUCTEUR (nom, prénom, date de naissance, n° et date de permis, " +
+    "type_permis = catégorie selon le véhicule (voiture/utilitaire=B, poids lourd=C1/C, car/bus=D1/D), " +
+    "pays_permis = nationalité du permis) et le VÉHICULE (immatriculation, genre J.1, marque D.1, modèle D.3, " +
+    "châssis E, puissance P.6, PTAC F.2, places S.1, date 1re MEC B, pays d'immatriculation) — soit en les " +
+    "demandant, soit en LISANT une photo du PERMIS et de la CARTE GRISE si le client en propose. " +
+    "Champs pays en MAJUSCULES. TOUJOURS inclure conducteur.nom et conducteur.prenom. " +
     "ÉTAPE 2 · COMPLÉMENTS (les documents ne les contiennent PAS) : demander au client son ADRESSE complète " +
     "(adresse, code_postal, ville), son MOBILE, son E-MAIL, son PAYS DE NAISSANCE, et confirmer la DURÉE, " +
     "la DATE et l'HEURE DE DÉBUT souhaitées — poser ces questions simplement, en une ou deux fois. " +
     "ÉTAPE 3 · RÉCAPITULER l'ensemble (conducteur + véhicule + période) en signalant explicitement les champs " +
-    "incertains, obtenir la CONFIRMATION, puis appeler l'outil. " +
-    "PIÈCES : passer les photos partagées via photo_permis / photo_carte_grise (+ _verso si fournis) — " +
+    "incertains, obtenir la CONFIRMATION, puis APPELER L'OUTIL (avec les photos si fournies, sinon sans). " +
+    "PIÈCES (si le client a partagé des images) : passer photo_permis / photo_carte_grise (+ _verso) — " +
     "elles seront jointes automatiquement au dossier, le client n'aura pas à les re-téléverser. " +
     "DIALOGUE DE CORRECTION — si un champ est illisible, manquant, ambigu ou que tu n'es PAS SÛR de l'avoir " +
     "bien lu, NE DEVINE PAS : liste ces champs au client et demande-lui de les CONFIRMER ou CORRIGER " +
