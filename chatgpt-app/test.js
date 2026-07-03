@@ -163,6 +163,10 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   h = fakeHttp({ json: { success: true, pieces: ['carte_grise'], documents: [] } });
   const mob = await preparerSessionSouscription(Object.assign({}, ARGS_DOCS, { photo_permis: { file_id: 'f1' } }), h.opts);
   ok(mob.success === true && mob.pieces_en_echec.some(function (e) { return e.code === 'reference_incomplete'; }), 'pièces : référence mobile incomplète -> repli tunnel, session conservée');
+  // erreur serveur 500 avec ref -> session OK + ref remontée (pour corrélation logs JL Assure)
+  h = fakeHttp({ ok: false, status: 500, json: { success: false, error: 'internal_error', ref: 'REF-2026-0007' } });
+  const err500 = await preparerSessionSouscription(ARGS_DOCS, h.opts);
+  ok(err500.success === true && err500.pieces_ref === 'REF-2026-0007' && /REF-2026-0007/.test(err500.message), 'pièces : 500 avec ref -> session OK + ref remontée au support');
   // outil : fileParams déclarés
   const { prefillTool } = require('./lib/prefill');
   ok(prefillTool._meta && Array.isArray(prefillTool._meta['openai/fileParams']) && prefillTool._meta['openai/fileParams'].indexOf('photo_permis') > -1, 'outil : _meta openai/fileParams déclare les photos');
