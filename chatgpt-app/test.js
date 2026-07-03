@@ -167,6 +167,12 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   h = fakeHttp({ ok: false, status: 500, json: { success: false, error: 'internal_error', ref: 'REF-2026-0007' } });
   const err500 = await preparerSessionSouscription(ARGS_DOCS, h.opts);
   ok(err500.success === true && err500.pieces_ref === 'REF-2026-0007' && /REF-2026-0007/.test(err500.message), 'pièces : 500 avec ref -> session OK + ref remontée au support');
+  // levier moteur : PREFILL_FORCE_ENGINE réécrit mb43 -> mb dans la session_url
+  process.env.PREFILL_FORCE_ENGINE = 'mb';
+  const fakeMb43 = { apiKey: 'K', fetchImpl: async function () { return { ok: true, status: 201, json: async function () { return { success: true, token: 't9', session_url: 'https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb43.php?cd=BLA1905B&id=43&prefill_token=t9', ttl_seconds: 1800 }; } }; } };
+  const eng = await preparerSessionSouscription(FULL_ARGS, fakeMb43);
+  ok(/assure_tempo_rapide_mb\.php/.test(eng.session_url) && !/mb43/.test(eng.session_url), 'moteur : PREFILL_FORCE_ENGINE=mb réécrit la session_url sur le tunnel de base');
+  delete process.env.PREFILL_FORCE_ENGINE;
   // outil : fileParams déclarés
   const { prefillTool } = require('./lib/prefill');
   ok(prefillTool._meta && Array.isArray(prefillTool._meta['openai/fileParams']) && prefillTool._meta['openai/fileParams'].indexOf('photo_permis') > -1, 'outil : _meta openai/fileParams déclare les photos');

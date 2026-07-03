@@ -91,6 +91,14 @@ function sessionEnabled() {
   return v === '1' || v === 'true' || v === 'on';
 }
 
+/* Réécrit le moteur du tunnel dans une session_url (assure_tempo_rapide_mbXX.php)
+   vers PREFILL_FORCE_ENGINE (ex. "mb"). OFF par défaut : renvoie l'URL inchangée. */
+function forceEngine(url) {
+  const eng = (process.env.PREFILL_FORCE_ENGINE || '').trim();
+  if (!eng || !url) return url;
+  return String(url).replace(/assure_tempo_rapide_mb\d*\.php/, 'assure_tempo_rapide_' + eng + '.php');
+}
+
 const CONDUCTEUR_KEYS = ['nom', 'prenom', 'date_naissance', 'pays_naissance', 'adresse', 'code_postal',
   'ville', 'pays_residence', 'mobile', 'email', 'num_permis', 'date_permis', 'pays_permis', 'type_permis'];
 const VEHICULE_KEYS = ['immatriculation', 'date_premiere_mec', 'marque', 'modele',
@@ -225,6 +233,12 @@ async function preparerSessionSouscription(args, opts) {
 
   const r = await createPrefillSession(payload, opts);
   if (r.ok && r.data && r.data.success && r.data.session_url) {
+    /* Moteur cible : JL Assure renvoie la session_url sur assure_tempo_rapide_mb43.php.
+       Pour l'aligner sur le tunnel de base (ou un autre), définir PREFILL_FORCE_ENGINE
+       (ex. "mb") — À N'ACTIVER qu'après confirmation JL Assure que le prefill_token est
+       consommé par ce moteur. OFF par défaut = on garde l'URL telle quelle. */
+    const sessionUrl = forceEngine(r.data.session_url);
+
     /* Phase 2bis : joindre les photos partagées (permis / carte grise) au dossier,
        pour que le client n'ait plus à les re-téléverser sur le tunnel. */
     let pieces = { transmises: [], echecs: [] };
@@ -235,7 +249,7 @@ async function preparerSessionSouscription(args, opts) {
       pieces.echecs.push({ piece: 'pièces', code: 'no_token', message: 'session sans token — le client pourra déposer ses pièces sur le tunnel' });
     }
 
-    const lignes = ['Lien de souscription pré-rempli prêt (valable ~30 min, usage unique) :', r.data.session_url];
+    const lignes = ['Lien de souscription pré-rempli prêt (valable ~30 min, usage unique) :', sessionUrl];
     if (pieces.transmises.length) {
       lignes.push('Pièces déjà jointes au dossier : ' + pieces.transmises.join(', ') +
         ' — le client n\'a plus à les téléverser (il peut les remplacer sur le tunnel si besoin).');
@@ -265,7 +279,7 @@ async function preparerSessionSouscription(args, opts) {
 
     return {
       success: true,
-      session_url: r.data.session_url,
+      session_url: sessionUrl,
       expires_at: r.data.expires_at || null,
       ttl_seconds: r.data.ttl_seconds || null,
       vehicule_label: (catCode && LABELS[catCode]) || null,
