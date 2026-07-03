@@ -385,6 +385,9 @@ const prefillTool = {
     "Minimisation : ne transmettre que les champs réellement fournis. " +
     "Si pieces_en_echec contient une pièce illisible, proposer au client de renvoyer une photo nette " +
     "(sinon il déposera la pièce sur le tunnel). " +
+    "⚠️ RÉSULTAT — dès que l'outil renvoie success:true avec un session_url, TOUJOURS présenter CE lien " +
+    "au client (« Voici votre lien de souscription pré-rempli : … »). C'est LE livrable de la souscription : " +
+    "ne pas le confondre avec lien_devis_pre_rempli (qui n'est que le devis) et ne pas s'arrêter au devis. " +
     "La souscription, l'IPID et le paiement restent réalisés par le client sur le tunnel.",
   inputSchema: {
     type: 'object', additionalProperties: false,
