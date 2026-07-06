@@ -38,24 +38,45 @@
   var overlay = document.querySelector('.nav-overlay');
   var closeBtn = document.querySelector('.nav-close');
 
+  var navOpen = false;
+
   function openNav() {
     nav.classList.add('open');
     if (overlay) overlay.classList.add('show');
     document.body.classList.add('no-scroll');
     if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    navOpen = true;
     if (closeBtn) closeBtn.focus();
   }
   function closeNav() {
     if (!nav) return;
+    var wasOpen = navOpen;
     nav.classList.remove('open');
     if (overlay) overlay.classList.remove('show');
     document.body.classList.remove('no-scroll');
     if (toggle) { toggle.setAttribute('aria-expanded', 'false'); }
+    navOpen = false;
+    /* rendre le focus au bouton déclencheur (accessibilité clavier) */
+    if (wasOpen && toggle && toggle.focus) toggle.focus();
   }
   if (toggle && nav) {
     toggle.addEventListener('click', openNav);
     if (closeBtn) closeBtn.addEventListener('click', closeNav);
     if (overlay) overlay.addEventListener('click', closeNav);
+    /* Échap ferme le tiroir sur TOUTES les pages (pas seulement celles à modale). */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navOpen) closeNav();
+    });
+    /* Piège du focus : Tab/Shift+Tab bouclent dans le tiroir tant qu'il est ouvert. */
+    nav.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab' || !navOpen) return;
+      var f = nav.querySelectorAll('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      f = Array.prototype.filter.call(f, function (el) { return el.offsetParent !== null || el === document.activeElement; });
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
   }
 
   /* ---------- Modale tarificateur ---------- */

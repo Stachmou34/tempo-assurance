@@ -1,0 +1,128 @@
+/* tempo-assurance.com — Accessibilité (chargé sur toutes les pages).
+   Correctifs transverses : focus visible, contraste, mouvement réduit, cibles tactiles.
+   Fichier unique = source de vérité (évite d'éditer le <style> inline de chaque page). */
+
+/* ------------------------------------------------------------------ *
+ * 1. Focus visible au clavier — cohérent et à fort contraste.
+ *    outline (jamais rogné par overflow:hidden, contrairement à box-shadow).
+ *    :focus-visible = uniquement au clavier, pas au clic souris.
+ * ------------------------------------------------------------------ */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+details:focus-visible,
+[tabindex]:focus-visible,
+.btn:focus-visible,
+.cta-btn:focus-visible,
+.cta-btn-modal:focus-visible,
+.card:focus-visible,
+.faq-q:focus-visible,
+.faq-chip:focus-visible,
+.hero-pill:focus-visible,
+.cg-tile:focus-visible,
+.menu-toggle:focus-visible,
+.nav-close:focus-visible,
+.nav a.nav-link:focus-visible,
+.nav .submenu a:focus-visible {
+  outline: 3px solid #1D4ED8;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Sur fonds sombres (hero, footer, encarts navy, tiroir mobile ouvert),
+   l'anneau bleu manquerait de contraste : on passe au blanc. */
+.hero a:focus-visible,
+.hero button:focus-visible,
+.hero .btn:focus-visible,
+.hero-pill:focus-visible,
+.site-footer a:focus-visible,
+.faq-cta a:focus-visible,
+.gbox.price a:focus-visible,
+.quote-head:focus-visible,
+.sticky-cta a:focus-visible,
+.nav.open a.nav-link:focus-visible,
+.nav.open .submenu a:focus-visible,
+.nav.open .nav-close:focus-visible {
+  outline-color: #ffffff;
+}
+
+/* Repli pour les navigateurs sans :focus-visible : ne jamais masquer le focus. */
+a:focus,
+button:focus,
+.faq-q:focus {
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Contraste — les boutons d'appel à l'action gardent un texte blanc
+ *    même dans <main>. La règle générique « main a:not(.btn)… » repeignait
+ *    .cta-btn en bleu (#2563EB sur navy = 3,45:1, échec AA). Ces boutons ont
+ *    toujours un fond sombre (navy/dégradé) : le blanc est le bon choix.
+ *    On ne touche PAS à .btn (les boutons du hero sont navy sur blanc).
+ * ------------------------------------------------------------------ */
+main a.cta-btn,
+main a.cta-btn:visited,
+main a.cta-btn-modal,
+main a.cta-btn-modal:visited {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+main a.cta-btn:hover,
+main a.cta-btn-modal:hover {
+  color: #ffffff !important;
+}
+
+/* Gris secondaire assombri : #64748B tombait à 4,32:1 sur les fonds bleutés
+   (#EFF4FF de l'encart estimateur) — échec AA. #5B6779 tient ≥5,2:1 partout.
+   --grey ne sert que sur fonds clairs → assombrir est toujours sûr. */
+:root {
+  --grey: #5B6779 !important;
+}
+
+/* En-têtes de ligne (th scope="row") des tableaux de tarifs : conserver
+   l'apparence claire d'origine (le style .tableau th les mettrait en navy). */
+.tableau th[scope="row"] {
+  background: #ffffff;
+  color: var(--navy);
+  font-weight: 600;
+  text-align: left;
+}
+.tableau tbody tr:nth-child(even) th[scope="row"] {
+  background: #f8fafc;
+}
+
+/* Étoile Trustpilot (badge décoratif) : ★ blanc sur #00b67a ≈ 2,6:1.
+   Fond assombri pour dépasser 3:1 (éléments non textuels). */
+.footer-brand a[href*="trustpilot"] span[style*="00b67a"],
+.footer-brand a[href*="trustpilot"] span[style*="#00b67a"] {
+  background: #00875a !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 3. Mouvement réduit — respect de prefers-reduced-motion.
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. Cibles tactiles — surface minimale confortable pour le menu mobile.
+ * ------------------------------------------------------------------ */
+.menu-toggle,
+.nav-close {
+  min-height: 44px;
+}
+.modal-header button {
+  min-width: 44px;
+  min-height: 44px;
+}
