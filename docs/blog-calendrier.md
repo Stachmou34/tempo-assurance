@@ -14,7 +14,7 @@
 | # | Statut | Titre | Mot-clé cible | Pont temporaire |
 |---|---|---|---|---|
 | 1 | ✅ publié | Prêter sa voiture : qui est assuré ? | prêter sa voiture assurance | temp au nom de l'emprunteur |
-| 2 | à faire | Acheter une voiture d'occasion : être assuré le jour de l'achat | assurance achat voiture occasion | temp immédiate achat-vente |
+| 2 | ✅ publié | Acheter une voiture d'occasion : être assuré le jour de l'achat | assurance achat voiture occasion | temp immédiate achat-vente |
 | 3 | à faire | Jeune conducteur : rouler assuré sans ruiner son budget | assurance jeune conducteur | temp ponctuelle / 2e véhicule |
 | 4 | à faire | Carte grise barrée : assurer et ré-immatriculer | carte grise barrée assurance | temp + carte grise |
 | 5 | à faire | Conduire un véhicule importé : assurance frontière et démarches | assurance véhicule importé | frontière + temp |
@@ -32,7 +32,7 @@ Cadence : **chaque lundi ~9 h** (cron `74d29a1a`, voir réserves sur l'expiratio
 | Semaine | Date | # | Article | Statut |
 |---|---|---|---|---|
 | S1 | **lun. 29/06/2026** | 1 | Prêter sa voiture : qui est assuré ? | ✅ publié |
-| S2 | lun. 06/07/2026 | 2 | Acheter une voiture d'occasion : être assuré le jour de l'achat | à venir |
+| S2 | **lun. 06/07/2026** | 2 | Acheter une voiture d'occasion : être assuré le jour de l'achat | ✅ publié |
 | S3 | lun. 13/07/2026 | 3 | Jeune conducteur : rouler assuré sans ruiner son budget | à venir |
 | S4 | lun. 20/07/2026 | 4 | Carte grise barrée : assurer et ré-immatriculer | à venir |
 | S5 | lun. 27/07/2026 | 5 | Conduire un véhicule importé : assurance frontière et démarches | à venir |
