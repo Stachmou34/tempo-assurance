@@ -115,6 +115,13 @@ main a.cta-btn-modal:hover {
   }
 }
 
+/* Tableau d'informations légales (mentions-legales.html) : 2 colonnes clé/valeur.
+   Le min-width:560px partagé (pensé pour les tableaux de données larges) le faisait
+   déborder la page sur mobile (scroll horizontal). Ici on le laisse se réduire. */
+.tableau.mentions {
+  min-width: 0;
+}
+
 /* ------------------------------------------------------------------ *
  * 4. Cibles tactiles — surface minimale confortable pour le menu mobile.
  * ------------------------------------------------------------------ */
