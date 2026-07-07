@@ -129,6 +129,7 @@
 			<nav class="breadcrumb" aria-label="Fil d'ariane"><a href="/">Accueil</a> <span aria-hidden="true">›</span> <span aria-current="page">Faites votre devis et souscrivez en ligne</span></nav>
 			<h1>Faites votre devis et souscrivez en ligne</h1>
 			<p class="hero-sub" style="color:var(--grey);max-width:680px">Renseignez votre véhicule et vos dates pour obtenir votre tarif d'assurance temporaire <strong>immédiatement</strong>, puis éditez votre attestation et votre carte verte. De 1 à 90 jours, sans engagement.</p>
+			<p class="jump-tarif"><a class="btn" href="#tarificateur">Calculer mon tarif&nbsp;↓</a></p>
 
 			<ol class="steps">
 				<li><strong>Décrivez votre besoin</strong><span>Véhicule, dates de début et de fin, conducteur.</span></li>
@@ -146,7 +147,10 @@
 
 			<div class="quote" id="tarificateur">
 				<div class="quote-head"><span class="dot"></span> Votre devis d'assurance temporaire</div>
-				<iframe class="quote-frame" allow="tools" src="https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cat=&amp;&amp;tip=09.78.31.02.93&amp;&amp;id=43&amp;&amp;cd=BLA1905B&amp;&amp;adrsite=www.tempo-assurance.com" title="Tarificateur d'assurance temporaire en ligne" loading="lazy"></iframe>
+				<div class="frame-wrap">
+					<div class="frame-loading" role="status" aria-live="polite"><span class="frame-spinner" aria-hidden="true"></span><span>Chargement du tarificateur sécurisé…</span></div>
+					<iframe class="quote-frame" allow="tools" src="https://www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php?cat=&amp;&amp;tip=09.78.31.02.93&amp;&amp;id=43&amp;&amp;cd=BLA1905B&amp;&amp;adrsite=www.tempo-assurance.com" title="Tarificateur d'assurance temporaire en ligne" loading="lazy"></iframe>
+				</div>
 				<div class="quote-secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Connexion sécurisée &middot; paiement par carte bancaire (banque partenaire CIC)</div>
 			</div>
 

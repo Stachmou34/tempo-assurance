@@ -202,6 +202,69 @@
     }
   }, true);
 
+  /* ---------- Outils embarqués (iframe) : chargement + repli d'erreur ---------- */
+  /* Pour chaque .frame-wrap : voile de chargement masqué à l'événement `load`
+     de l'iframe ; si rien ne charge dans le délai imparti (outil tiers lent,
+     bloqué ou indisponible), on affiche un repli avec téléphone + réessayer +
+     ouverture dans un nouvel onglet. Le minuteur ne démarre qu'une fois le
+     cadre visible (compatible loading="lazy"). */
+  (function initFrameLoaders() {
+    var wraps = document.querySelectorAll('.frame-wrap');
+    if (!wraps.length) return;
+    var TIMEOUT = 12000;
+    Array.prototype.forEach.call(wraps, function (wrap) {
+      var iframe = wrap.querySelector('iframe');
+      var loader = wrap.querySelector('.frame-loading');
+      if (!iframe || !loader) return;
+      var baseSrc = iframe.getAttribute('src');
+      var spinnerHtml = loader.innerHTML;
+      var settled = false, timer = null;
+
+      function done() { settled = true; if (timer) { clearTimeout(timer); timer = null; } }
+      function hide() { if (settled) return; done(); loader.classList.add('is-hidden'); }
+      function showError() {
+        if (settled) return; done();
+        loader.classList.remove('is-hidden');
+        loader.classList.add('is-error');
+        loader.innerHTML =
+          '<p class="frame-error-title">Le service met plus de temps que prévu à s’afficher.</p>' +
+          '<p>Réessayez, ou obtenez votre devis par téléphone au ' +
+          '<a href="tel:+33978310293">09 78 31 02 93</a> (7 j/7).</p>' +
+          '<p class="frame-error-actions">' +
+          '<button type="button" class="btn frame-retry">Réessayer</button> ' +
+          '<a class="frame-newtab" target="_blank" rel="noopener" href="' + baseSrc + '">Ouvrir dans un nouvel onglet ↗</a>' +
+          '</p>';
+        var retry = loader.querySelector('.frame-retry');
+        if (retry) retry.addEventListener('click', function () {
+          settled = false;
+          loader.classList.remove('is-error', 'is-hidden');
+          loader.innerHTML = spinnerHtml;
+          startTimer();
+          iframe.setAttribute('src', baseSrc); /* recharge l'outil */
+        });
+      }
+      function startTimer() { if (timer) clearTimeout(timer); timer = setTimeout(showError, TIMEOUT); }
+
+      iframe.addEventListener('load', hide);
+      /* jlassure poste sa hauteur => signal de succès complémentaire. */
+      window.addEventListener('message', function (e) {
+        if (e.origin === 'https://www.jlassure.com' && !settled) hide();
+      }, false);
+
+      /* Démarrer le minuteur quand le cadre entre dans le viewport (lazy). */
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { startTimer(); io.disconnect(); }
+          });
+        }, { rootMargin: '200px' });
+        io.observe(wrap);
+      } else {
+        startTimer();
+      }
+    });
+  })();
+
   /* ---------- WebMCP : outils pour agents IA (expérimental) ---------- */
   /* Expose des « outils » que les agents IA compatibles WebMCP peuvent appeler
      directement via navigator.modelContext (équivalent de MCP, mais dans le
