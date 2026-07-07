@@ -122,12 +122,54 @@
 				<p class="muted" id="form-erreur" role="alert" tabindex="-1" hidden>Une erreur est survenue (champ manquant, e-mail invalide ou réponse anti-spam incorrecte). Merci de vérifier le formulaire.</p>
 			</form>
 			<script>
-				document.getElementById('f-time').value = Math.floor(Date.now()/1000);
-				if (location.search.indexOf('erreur=') > -1) {
-					var err = document.getElementById('form-erreur');
-					err.hidden = false;
-					err.focus();
+			(function(){
+				var form = document.getElementById('form-contact');
+				if(!form) return;
+				var timeField = document.getElementById('f-time');
+				if(timeField) timeField.value = Math.floor(Date.now()/1000);
+				var btn = form.querySelector('button[type="submit"]');
+				var captcha = form.elements['captcha'];
+
+				/* Validation de l'anti-spam intégrée à la validation native (message
+				   localisé sur le champ, comme « champ requis » ou « e-mail invalide »). */
+				function checkCaptcha(){
+					if(!captcha) return;
+					if(captcha.value === ''){ captcha.setCustomValidity(''); return; }
+					var exp = Number(form.elements['captcha_a'].value) + Number(form.elements['captcha_b'].value);
+					captcha.setCustomValidity(Number(captcha.value) === exp ? '' : 'Réponse incorrecte à la question anti-spam.');
 				}
+				if(captcha){ captcha.addEventListener('input', checkCaptcha); captcha.addEventListener('change', checkCaptcha); }
+
+				form.addEventListener('submit', function(){
+					checkCaptcha();
+					if(!form.checkValidity()) return; /* le navigateur signale le champ fautif */
+					/* mémoriser les valeurs pour les restaurer en cas d'erreur serveur */
+					try {
+						sessionStorage.setItem('contact-vals', JSON.stringify({
+							nom: form.elements['nom'].value,
+							telephone: form.elements['telephone'].value,
+							email: form.elements['email'].value,
+							message: form.elements['message'].value
+						}));
+					} catch(_){}
+					/* état d'envoi + anti double-soumission */
+					if(btn){ btn.disabled = true; btn.textContent = 'Envoi en cours…'; }
+				});
+
+				/* Erreur serveur : afficher le message et repeupler les champs. */
+				if(location.search.indexOf('erreur=') > -1){
+					var err = document.getElementById('form-erreur');
+					if(err){ err.hidden = false; err.focus(); }
+					try {
+						var saved = JSON.parse(sessionStorage.getItem('contact-vals') || 'null');
+						if(saved){
+							['nom','telephone','email','message'].forEach(function(k){
+								if(form.elements[k] && !form.elements[k].value) form.elements[k].value = saved[k] || '';
+							});
+						}
+					} catch(_){}
+				}
+			})();
 			</script>
 		</div>
 	</main>

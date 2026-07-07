@@ -134,6 +134,14 @@ main a.cta-btn-modal:hover {
 .modal-body {
   position: relative;
 }
+
+/* Bouton en cours d'envoi (formulaire contact) : signal visuel + pas de re-clic. */
+.btn:disabled,
+.cta-btn:disabled {
+  opacity: .65;
+  cursor: progress;
+  transform: none;
+}
 .frame-loading {
   position: absolute;
   inset: 0;
@@ -189,6 +197,18 @@ main a.cta-btn-modal:hover {
 }
 @media (prefers-reduced-motion: reduce) {
   .frame-spinner { animation-duration: 1.2s; }
+}
+
+/* UX — listes longues (cas d'usage accueil) sur 2 colonnes pour la scannabilité.
+   Aucun changement de contenu ni de liens, seulement la mise en page. */
+@media (min-width: 640px) {
+  .cols-2 {
+    columns: 2;
+    column-gap: 36px;
+  }
+  .cols-2 li {
+    break-inside: avoid;
+  }
 }
 
 /* UX — raccourci mobile « aller au tarif » (l'outil est loin sous l'intro). */
