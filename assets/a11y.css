@@ -1,0 +1,274 @@
+/* tempo-assurance.com — Accessibilité (chargé sur toutes les pages).
+   Correctifs transverses : focus visible, contraste, mouvement réduit, cibles tactiles.
+   Fichier unique = source de vérité (évite d'éditer le <style> inline de chaque page). */
+
+/* ------------------------------------------------------------------ *
+ * 1. Focus visible au clavier — cohérent et à fort contraste.
+ *    outline (jamais rogné par overflow:hidden, contrairement à box-shadow).
+ *    :focus-visible = uniquement au clavier, pas au clic souris.
+ * ------------------------------------------------------------------ */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+details:focus-visible,
+[tabindex]:focus-visible,
+.btn:focus-visible,
+.cta-btn:focus-visible,
+.cta-btn-modal:focus-visible,
+.card:focus-visible,
+.faq-q:focus-visible,
+.faq-chip:focus-visible,
+.hero-pill:focus-visible,
+.cg-tile:focus-visible,
+.menu-toggle:focus-visible,
+.nav-close:focus-visible,
+.nav a.nav-link:focus-visible,
+.nav .submenu a:focus-visible {
+  outline: 3px solid #1D4ED8;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Sur fonds sombres (hero, footer, encarts navy, tiroir mobile ouvert),
+   l'anneau bleu manquerait de contraste : on passe au blanc. */
+.hero a:focus-visible,
+.hero button:focus-visible,
+.hero .btn:focus-visible,
+.hero-pill:focus-visible,
+.site-footer a:focus-visible,
+.faq-cta a:focus-visible,
+.gbox.price a:focus-visible,
+.quote-head:focus-visible,
+.sticky-cta a:focus-visible,
+.nav.open a.nav-link:focus-visible,
+.nav.open .submenu a:focus-visible,
+.nav.open .nav-close:focus-visible {
+  outline-color: #ffffff;
+}
+
+/* Repli pour les navigateurs sans :focus-visible : ne jamais masquer le focus. */
+a:focus,
+button:focus,
+.faq-q:focus {
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Contraste — les boutons d'appel à l'action gardent un texte blanc
+ *    même dans <main>. La règle générique « main a:not(.btn)… » repeignait
+ *    .cta-btn en bleu (#2563EB sur navy = 3,45:1, échec AA). Ces boutons ont
+ *    toujours un fond sombre (navy/dégradé) : le blanc est le bon choix.
+ *    On ne touche PAS à .btn (les boutons du hero sont navy sur blanc).
+ * ------------------------------------------------------------------ */
+main a.cta-btn,
+main a.cta-btn:visited,
+main a.cta-btn-modal,
+main a.cta-btn-modal:visited {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+main a.cta-btn:hover,
+main a.cta-btn-modal:hover {
+  color: #ffffff !important;
+}
+
+/* Gris secondaire assombri : #64748B tombait à 4,32:1 sur les fonds bleutés
+   (#EFF4FF de l'encart estimateur) — échec AA. #5B6779 tient ≥5,2:1 partout.
+   --grey ne sert que sur fonds clairs → assombrir est toujours sûr. */
+:root {
+  --grey: #5B6779 !important;
+}
+
+/* En-têtes de ligne (th scope="row") des tableaux de tarifs : conserver
+   l'apparence claire d'origine (le style .tableau th les mettrait en navy). */
+.tableau th[scope="row"] {
+  background: #ffffff;
+  color: var(--navy);
+  font-weight: 600;
+  text-align: left;
+}
+.tableau tbody tr:nth-child(even) th[scope="row"] {
+  background: #f8fafc;
+}
+
+/* Étoile Trustpilot (badge décoratif) : ★ blanc sur #00b67a ≈ 2,6:1.
+   Fond assombri pour dépasser 3:1 (éléments non textuels). */
+.footer-brand a[href*="trustpilot"] span[style*="00b67a"],
+.footer-brand a[href*="trustpilot"] span[style*="#00b67a"] {
+  background: #00875a !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 3. Mouvement réduit — respect de prefers-reduced-motion.
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Tableau d'informations légales (mentions-legales.html) : 2 colonnes clé/valeur.
+   Le min-width:560px partagé (pensé pour les tableaux de données larges) le faisait
+   déborder la page sur mobile (scroll horizontal). Ici on le laisse se réduire. */
+.tableau.mentions {
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * UX — état de chargement et d'erreur des outils embarqués (iframe).
+ *    Un voile est posé au-dessus de l'iframe pendant le chargement, puis
+ *    masqué à l'événement `load` ; en cas d'échec/timeout, il devient un
+ *    message de repli (téléphone + réessayer + nouvel onglet).
+ * ------------------------------------------------------------------ */
+.frame-wrap {
+  position: relative;
+}
+.modal-body {
+  position: relative;
+}
+
+/* Bouton en cours d'envoi (formulaire contact) : signal visuel + pas de re-clic. */
+.btn:disabled,
+.cta-btn:disabled {
+  opacity: .65;
+  cursor: progress;
+  transform: none;
+}
+.frame-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 28px 22px;
+  text-align: center;
+  background: #ffffff;
+  color: #5B6779;
+  font-size: .95rem;
+}
+.frame-loading.is-hidden {
+  display: none;
+}
+.frame-spinner {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid #E2E8F0;
+  border-top-color: #2563EB;
+  animation: frame-spin .8s linear infinite;
+}
+@keyframes frame-spin {
+  to { transform: rotate(360deg); }
+}
+.frame-loading.is-error .frame-spinner {
+  display: none;
+}
+.frame-error-title {
+  margin: 0;
+  font-weight: 700;
+  color: #0F172A;
+  font-size: 1.02rem;
+}
+.frame-loading.is-error p {
+  margin: 0;
+  max-width: 34em;
+}
+.frame-error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+.frame-retry {
+  padding: 11px 22px;
+  font-size: .95rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .frame-spinner { animation-duration: 1.2s; }
+}
+
+/* UX — listes longues (cas d'usage accueil) sur 2 colonnes pour la scannabilité.
+   Aucun changement de contenu ni de liens, seulement la mise en page. */
+@media (min-width: 640px) {
+  .cols-2 {
+    columns: 2;
+    column-gap: 36px;
+  }
+  .cols-2 li {
+    break-inside: avoid;
+  }
+}
+
+/* Bloc de maillage interne (accueil) : liens regroupés par véhicule / besoin / durée
+   en fin de contenu, au lieu d'être dispersés dans les paragraphes. */
+.maillage {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin: .4em 0 1.4em;
+  box-shadow: var(--shadow);
+}
+.maillage-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px 30px;
+}
+@media (min-width: 620px) {
+  .maillage-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.maillage-grid h3 {
+  margin: 0 0 .5em;
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--navy);
+}
+.maillage-grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.maillage-grid li {
+  margin: .3em 0;
+  font-size: .93rem;
+}
+
+/* UX — raccourci mobile « aller au tarif » (l'outil est loin sous l'intro). */
+.jump-tarif {
+  display: none;
+}
+@media (max-width: 760px) {
+  .jump-tarif {
+    display: block;
+    margin: 4px 0 8px;
+  }
+  .jump-tarif a {
+    display: block;
+    text-align: center;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. Cibles tactiles — surface minimale confortable pour le menu mobile.
+ * ------------------------------------------------------------------ */
+.menu-toggle,
+.nav-close {
+  min-height: 44px;
+}
+.modal-header button {
+  min-width: 44px;
+  min-height: 44px;
+}
