@@ -152,6 +152,20 @@ et perdre sa saisie.
 
 ---
 
+## Statut d'implémentation (7 juillet 2026)
+
+- ✅ **Priorité 1 — États de chargement + erreur des iframes** : voile (spinner + message)
+  sur le tarificateur (devis) et l'outil carte grise, masqué au `load`, avec repli
+  (téléphone + Réessayer + nouvel onglet) après délai. Étendu à la **modale tarificateur**
+  des 34 pages véhicule.
+- ✅ **Priorité 3 — Tarificateur trop bas sur mobile** : bouton « Calculer mon tarif ↓ »
+  (mobile) sous l'intro de la page devis.
+- ✅ **Priorité 2 — Calculateur pré-rempli sur les pages véhicule** : choix retenu =
+  conserver les pages véhicule (SEO). Ces pages ont déjà un CTA pré-rempli en tête ; on a
+  fiabilisé le calculateur qu'il ouvre (état de chargement/erreur de la modale).
+- ⏳ Priorités 4 (feedback formulaire contact) et 5 (densité SEO accueil) : non traitées,
+  proposées ci-dessous.
+
 ## Recommandations priorisées (impact / effort)
 
 1. **🔴 État de chargement + d'erreur des iframes** (devis & carte grise) — *fort impact, effort
