@@ -131,6 +131,9 @@ main a.cta-btn-modal:hover {
 .frame-wrap {
   position: relative;
 }
+.modal-body {
+  position: relative;
+}
 .frame-loading {
   position: absolute;
   inset: 0;
