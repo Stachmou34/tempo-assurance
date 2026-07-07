@@ -211,6 +211,41 @@ main a.cta-btn-modal:hover {
   }
 }
 
+/* Bloc de maillage interne (accueil) : liens regroupés par véhicule / besoin / durée
+   en fin de contenu, au lieu d'être dispersés dans les paragraphes. */
+.maillage {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin: .4em 0 1.4em;
+  box-shadow: var(--shadow);
+}
+.maillage-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px 30px;
+}
+@media (min-width: 620px) {
+  .maillage-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.maillage-grid h3 {
+  margin: 0 0 .5em;
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--navy);
+}
+.maillage-grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.maillage-grid li {
+  margin: .3em 0;
+  font-size: .93rem;
+}
+
 /* UX — raccourci mobile « aller au tarif » (l'outil est loin sous l'intro). */
 .jump-tarif {
   display: none;
