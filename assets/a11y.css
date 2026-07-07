@@ -122,81 +122,12 @@ main a.cta-btn-modal:hover {
   min-width: 0;
 }
 
-/* ------------------------------------------------------------------ *
- * UX — état de chargement et d'erreur des outils embarqués (iframe).
- *    Un voile est posé au-dessus de l'iframe pendant le chargement, puis
- *    masqué à l'événement `load` ; en cas d'échec/timeout, il devient un
- *    message de repli (téléphone + réessayer + nouvel onglet).
- * ------------------------------------------------------------------ */
-.frame-wrap {
-  position: relative;
-}
-.modal-body {
-  position: relative;
-}
-
 /* Bouton en cours d'envoi (formulaire contact) : signal visuel + pas de re-clic. */
 .btn:disabled,
 .cta-btn:disabled {
   opacity: .65;
   cursor: progress;
   transform: none;
-}
-.frame-loading {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  padding: 28px 22px;
-  text-align: center;
-  background: #ffffff;
-  color: #5B6779;
-  font-size: .95rem;
-}
-.frame-loading.is-hidden {
-  display: none;
-}
-.frame-spinner {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 3px solid #E2E8F0;
-  border-top-color: #2563EB;
-  animation: frame-spin .8s linear infinite;
-}
-@keyframes frame-spin {
-  to { transform: rotate(360deg); }
-}
-.frame-loading.is-error .frame-spinner {
-  display: none;
-}
-.frame-error-title {
-  margin: 0;
-  font-weight: 700;
-  color: #0F172A;
-  font-size: 1.02rem;
-}
-.frame-loading.is-error p {
-  margin: 0;
-  max-width: 34em;
-}
-.frame-error-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 16px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 4px;
-}
-.frame-retry {
-  padding: 11px 22px;
-  font-size: .95rem;
-}
-@media (prefers-reduced-motion: reduce) {
-  .frame-spinner { animation-duration: 1.2s; }
 }
 
 /* UX — listes longues (cas d'usage accueil) sur 2 colonnes pour la scannabilité.
