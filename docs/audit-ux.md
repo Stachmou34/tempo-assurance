@@ -163,8 +163,12 @@ et perdre sa saisie.
 - ✅ **Priorité 2 — Calculateur pré-rempli sur les pages véhicule** : choix retenu =
   conserver les pages véhicule (SEO). Ces pages ont déjà un CTA pré-rempli en tête ; on a
   fiabilisé le calculateur qu'il ouvre (état de chargement/erreur de la modale).
-- ⏳ Priorités 4 (feedback formulaire contact) et 5 (densité SEO accueil) : non traitées,
-  proposées ci-dessous.
+- ✅ **Priorité 4 — Feedback du formulaire contact** : bouton « Envoi en cours… » +
+  anti double-soumission ; anti-spam validé côté client (message localisé sur le champ via
+  l'API de validation native) ; valeurs restaurées en cas d'erreur serveur.
+- ✅ **Priorité 5 — Densité de l'accueil** : longue liste des cas d'usage sur 2 colonnes
+  (scannabilité) + rappel d'action dans la zone dense. Aucun contenu ni lien retiré (SEO
+  intact) — la condensation plus poussée reste possible sur demande.
 
 ## Recommandations priorisées (impact / effort)
 
