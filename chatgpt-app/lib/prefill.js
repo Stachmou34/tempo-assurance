@@ -335,7 +335,9 @@ const profilSchema = {
     pays_immatriculation: { type: 'string' },
     pays_residence: { type: 'string' },
     date_naissance: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$' },
-    duree: { type: 'string' }, date_debut: { type: 'string' }, heure_debut: { type: 'string' }
+    duree: { type: 'integer', minimum: 1, maximum: 90, description: 'Durée en jours : entier de 1 à 90 (ex. 7 pour une semaine). Ni texte ni format ISO — 7, pas "7 jours" ni "P7D".' },
+    date_debut: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: 'Date de début au format AAAA-MM-JJ (ex. 2026-07-15)' },
+    heure_debut: { type: 'string', pattern: '^\\d{2}:\\d{2}$', description: 'Heure de début au format HH:MM (ex. 09:30)' }
   }
 };
 
