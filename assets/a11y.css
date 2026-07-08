@@ -1,6 +1,10 @@
-/* tempo-assurance.com — Accessibilité (chargé sur toutes les pages).
-   Correctifs transverses : focus visible, contraste, mouvement réduit, cibles tactiles.
-   Fichier unique = source de vérité (évite d'éditer le <style> inline de chaque page). */
+/* tempo-assurance.com — Accessibilité (correctifs transverses).
+   Focus visible, contraste, mouvement réduit, cibles tactiles, helpers de mise en page.
+
+   SOURCE DE VÉRITÉ. Ce fichier n'est PLUS chargé via <link> (il apparaissait dans la
+   chaîne de requêtes critique et retardait le LCP). Son contenu est désormais INLINE
+   (minifié) dans le <head> de chaque page. Pour modifier : éditer ici, puis ré-inliner
+   dans les pages (remplacer le bloc <style> qui commence par « a:focus-visible,button… »). */
 
 /* ------------------------------------------------------------------ *
  * 1. Focus visible au clavier — cohérent et à fort contraste.
