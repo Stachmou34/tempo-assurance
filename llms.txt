@@ -14,6 +14,7 @@
 - Tarifs indicatifs poids lourd : 92,57 € pour 1 jour · 119,16 € pour 5 jours · 159,37 € pour 15 jours
 - Cas d'usage : prêt de véhicule, achat-vente entre particuliers (carte grise barrée), import-export, véhicule immatriculé à l'étranger (assurance frontière), permis étranger, sortie de fourrière, plaques de transit, DOM (Réunion, Martinique, Guadeloupe, Mayotte, Guyane)
 - Couverture géographique : France, Union européenne et nombreux pays selon contrat (pages dédiées Maroc, Algérie, Belgique)
+- Diagnostic interactif (quelle formule pour quelle situation, tarif indicatif, devis pré-rempli) : https://www.tempo-assurance.com/diagnostic.html
 - Souscription : https://www.tempo-assurance.com/devis-ou-souscription.html (tarif immédiat, 24h/24, 7j/7)
 - Tarifs détaillés (fichier machine-readable) : https://www.tempo-assurance.com/tarifs.md
 - Contact : +33 9 78 31 02 93 · contact@mcj-courtage.com
