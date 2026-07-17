@@ -32,50 +32,72 @@
     return url + (url.indexOf('?') > -1 ? '&' : '?') + q;
   }
 
-  /* ---------- Menu mobile (tiroir) ---------- */
+  /* ---------- Menu mobile : bottom sheet (#msheet) ---------- */
+  /* Le tiroir latéral est remplacé par une feuille qui monte du bas (navy/or),
+     avec raccourcis d'action, accordéons et CTA fixe. Ouverture/fermeture
+     animées (désactivées si prefers-reduced-motion), Échap, piège de focus,
+     focus rendu au bouton déclencheur. */
   var toggle = document.querySelector('.menu-toggle');
-  var nav = document.querySelector('.nav');
-  var overlay = document.querySelector('.nav-overlay');
-  var closeBtn = document.querySelector('.nav-close');
+  var sheet = document.getElementById('msheet');
+  var sheetPanel = sheet ? sheet.querySelector('.msheet-panel') : null;
+  var sheetClose = sheet ? sheet.querySelector('.msheet-close') : null;
+  var sheetScrim = sheet ? sheet.querySelector('.msheet-scrim') : null;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var navOpen = false;
 
   function openNav() {
-    nav.classList.add('open');
-    if (overlay) overlay.classList.add('show');
+    if (!sheet) return;
+    sheet.hidden = false;
+    if (reduceMotion) sheet.classList.add('open');
+    else requestAnimationFrame(function () { requestAnimationFrame(function () { sheet.classList.add('open'); }); });
     document.body.classList.add('no-scroll');
     if (toggle) toggle.setAttribute('aria-expanded', 'true');
     navOpen = true;
-    if (closeBtn) closeBtn.focus();
+    if (sheetClose) sheetClose.focus();
   }
   function closeNav() {
-    if (!nav) return;
-    var wasOpen = navOpen;
-    nav.classList.remove('open');
-    if (overlay) overlay.classList.remove('show');
+    if (!sheet || !navOpen) return;
+    sheet.classList.remove('open');
     document.body.classList.remove('no-scroll');
-    if (toggle) { toggle.setAttribute('aria-expanded', 'false'); }
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
     navOpen = false;
+    var hide = function () { sheet.hidden = true; };
+    if (reduceMotion) hide(); else setTimeout(hide, 260);
     /* rendre le focus au bouton déclencheur (accessibilité clavier) */
-    if (wasOpen && toggle && toggle.focus) toggle.focus();
+    if (toggle && toggle.focus) toggle.focus();
   }
-  if (toggle && nav) {
+  if (toggle && sheet) {
     toggle.addEventListener('click', openNav);
-    if (closeBtn) closeBtn.addEventListener('click', closeNav);
-    if (overlay) overlay.addEventListener('click', closeNav);
-    /* Échap ferme le tiroir sur TOUTES les pages (pas seulement celles à modale). */
+    if (sheetClose) sheetClose.addEventListener('click', closeNav);
+    if (sheetScrim) sheetScrim.addEventListener('click', closeNav);
+    /* Échap ferme la feuille sur toutes les pages. */
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && navOpen) closeNav();
     });
-    /* Piège du focus : Tab/Shift+Tab bouclent dans le tiroir tant qu'il est ouvert. */
-    nav.addEventListener('keydown', function (e) {
+    /* Piège du focus : Tab/Shift+Tab bouclent dans la feuille. */
+    sheetPanel.addEventListener('keydown', function (e) {
       if (e.key !== 'Tab' || !navOpen) return;
-      var f = nav.querySelectorAll('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      var f = sheetPanel.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])');
       f = Array.prototype.filter.call(f, function (el) { return el.offsetParent !== null || el === document.activeElement; });
       if (!f.length) return;
       var first = f[0], last = f[f.length - 1];
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    /* Accordéons (Nos assurances, Guides & FAQ). */
+    sheetPanel.querySelectorAll('.mrow[aria-controls]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var panel = document.getElementById(btn.getAttribute('aria-controls'));
+        var open = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        if (panel) panel.hidden = open;
+      });
+    });
+    /* Naviguer depuis la feuille (lien ou CTA modale) la referme. */
+    sheetPanel.addEventListener('click', function (e) {
+      var a = e.target.closest ? e.target.closest('a') : null;
+      if (a) closeNav();
     });
   }
 
