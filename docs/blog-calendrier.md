@@ -46,6 +46,16 @@ Cadence : **chaque lundi ~9 h** (cron `74d29a1a`, voir réserves sur l'expiratio
 
 > Après S12 (14/09), la boucle propose **6 nouveaux sujets** avant de continuer. Idée : faire coïncider certains sujets avec la saisonnalité (ex. camping-car avant l'été, achat-vente en septembre/octobre — rentrée auto d'occasion).
 
+## Veille auto (revue du dimanche)
+Édition hebdomadaire publiée le dimanche sur `veille-auto.html` (URL canonique). À chaque nouvelle édition, la précédente est archivée sous `veille-auto-AAAA-MM-JJ.html` (bandeau « édition archivée » + lien vers la dernière), et référencée dans `blog.html`, `sitemap.xml` et le pied de la veille.
+
+| # | Dimanche | Thèmes | Statut |
+|---|---|---|---|
+| 1 | 05/07/2026 | grands départs, tarifs en hausse, ZFE, électrique | ✅ archivée (`veille-auto-2026-07-05.html`) |
+| 2 | 12/07/2026 | équipements GSR2, pont du 14 juillet, canicule, coût des réparations | ✅ archivée (`veille-auto-2026-07-12.html`) |
+| 3 | 19/07/2026 | week-end rouge (Bison Futé), radars IA, fin de la carte verte (FVA), TSCA électrique | ✅ en ligne (`veille-auto.html`) |
+| 4 | 26/07/2026 | à définir | ⏳ à venir |
+
 ## Règles de conformité (rappel)
 - Jamais : moto, « camion < 3,5 t », âge ≥ 23 comme minimum, prix 90 j à 290,16 €.
 - Durées : voiture/camping-car 1-90 ; camion/PL/bus/remorque 1-15 ; voiturette 10-30.
