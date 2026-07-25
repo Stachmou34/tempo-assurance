@@ -53,8 +53,9 @@ Cadence : **chaque lundi ~9 h** (cron `74d29a1a`, voir réserves sur l'expiratio
 |---|---|---|---|
 | 1 | 05/07/2026 | grands départs, tarifs en hausse, ZFE, électrique | ✅ archivée (`veille-auto-2026-07-05.html`) |
 | 2 | 12/07/2026 | équipements GSR2, pont du 14 juillet, canicule, coût des réparations | ✅ archivée (`veille-auto-2026-07-12.html`) |
-| 3 | 19/07/2026 | week-end rouge (Bison Futé), radars IA, fin de la carte verte (FVA), TSCA électrique | ✅ en ligne (`veille-auto.html`) |
-| 4 | 26/07/2026 | à définir | ⏳ à venir |
+| 3 | 19/07/2026 | week-end rouge (Bison Futé), radars IA, fin de la carte verte (FVA), TSCA électrique | ✅ archivée (`veille-auto-2026-07-19.html`) |
+| 4 | 26/07/2026 | chassé-croisé (samedi 25 rouge), vols de voitures, carburant + péages, rouler à l'étranger (carte internationale) | ✅ en ligne (`veille-auto.html`) |
+| 5 | 02/08/2026 | à définir | ⏳ à venir |
 
 ## Règles de conformité (rappel)
 - Jamais : moto, « camion < 3,5 t », âge ≥ 23 comme minimum, prix 90 j à 290,16 €.
