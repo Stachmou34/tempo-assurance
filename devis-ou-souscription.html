@@ -221,11 +221,13 @@
 			</ul>
 			<p>Nous proposons une garantie temporaire en Responsabilité Civile avec assistance suivant le type de véhicule, avec attestation d'assurance dématérialisée pour l'assurance temporaire et carte internationale d'assurance pour l'assurance frontière.</p>
 			<script>
-				/* Le tarificateur est affiché directement : on enregistre l'affichage dans le tunnel */
+				/* Le tarificateur est affiché directement (inline, pas derrière un bouton).
+				   On enregistre l'AFFICHAGE, pas une ouverture volontaire : evenement distinct
+				   pour ne pas polluer « ouverture_tarificateur », qui mesure une intention de clic. */
 				(function(){
 					function track(){
-						if(typeof window.gtag==='function'){ window.gtag('event','ouverture_tarificateur',{ method:'inline', page_path: location.pathname }); }
-						if(typeof window.clarity==='function'){ try{ window.clarity('event','ouverture_tarificateur'); window.clarity('set','tarificateur','affiche'); }catch(_){ } }
+						if(typeof window.gtag==='function'){ window.gtag('event','affichage_tarificateur',{ method:'inline', page_path: location.pathname }); }
+						if(typeof window.clarity==='function'){ try{ window.clarity('event','affichage_tarificateur'); window.clarity('set','tarificateur','affiche'); }catch(_){ } }
 					}
 					if(document.readyState!=='loading') track(); else document.addEventListener('DOMContentLoaded', track);
 				})();
