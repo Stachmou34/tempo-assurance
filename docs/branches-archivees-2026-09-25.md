@@ -1,10 +1,10 @@
-# Branches supprimees le 25/09/2026
+# Branches obsoletes a supprimer (analyse du 25/09/2026)
 
-> Menage du depot. Chaque branche est listee avec son SHA de tete :
-> une branche supprimee reste restaurable tant que le commit existe.
-> `git push origin <sha>:refs/heads/<nom>`
+> Analyse faite le 25/09/2026. La suppression n a PAS pu etre executee depuis
+> l environnement agent (proxy git : HTTP 403, suppression de branche interdite).
+> Les SHA sont conserves ci-dessous : restauration par `git push origin <sha>:refs/heads/<nom>`.
 
-## Verification faite avant suppression
+## Verification faite (suppression sure)
 
 Chaque branche a ete comparee a `main` fichier par fichier. Les seuls fichiers
 absents de `main` etaient `assets/site.css` et `assurance-temporaire-poids-lourd.html`,
