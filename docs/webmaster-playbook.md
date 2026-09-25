@@ -28,8 +28,35 @@ invalidées par les données. Ne jamais repartir d'une intuition SEO générique
 camping-car 78 % · plaque-ww 76 % · utilitaire 75 % · **auto 74 %** · véhicule importé 66 %
 caravane 63 % · belgique 50 % · tunisie 47 % · frontière 42 % · **accueil 41 %** · tarifs 31 %
 
-> Piège : sur `devis-ou-souscription.html`, l'événement `ouverture_tarificateur` se déclenche
-> AU CHARGEMENT (script inline), pas au clic. Toujours exclure cette page des comparaisons.
+### Taxonomie des evenements (corrigee le 25/09/2026)
+
+| Evenement | Declencheur | Ce qu'il mesure |
+|---|---|---|
+| `ouverture_tarificateur` | clic sur un `.cta-btn-modal` (assets/site.js) | une **intention** : le visiteur ouvre volontairement le tarificateur |
+| `affichage_tarificateur` | chargement de `devis-ou-souscription.html` (script inline) | un **affichage** : le tunnel est montre d'emblee, sans action |
+
+> Avant le 25/09/2026 les deux portaient le meme nom, ce qui gonflait la metrique
+> d'intention (2 798 declenchements pour 2 800 vues sur la page devis). Les donnees
+> anterieures a cette date sont donc a lire avec cette reserve : sur la page devis,
+> `ouverture_tarificateur` valait pour une vue de page, pas pour un clic.
+
+
+### Evenement cle GA4 (pose le 25/09/2026)
+
+`ouverture_tarificateur` est desormais **marque comme evenement cle** dans GA4.
+Trois consequences a connaitre avant de lire des chiffres :
+
+1. **Ce n'est pas retroactif.** Le comptage demarre au 25/09/2026. Interroger l'API
+   sur une periode anterieure renverra toujours `keyEvents = 0`. Ce n'est pas une panne.
+2. **Le volume va CHUTER apres le deploiement de la separation des evenements**, parce que
+   la page devis cesse de compter ses affichages. Ce n'est pas une regression de trafic,
+   c'est le passage d'un comptage faux a un comptage juste.
+3. **Compter environ 10 jours** avant d'avoir un volume par page exploitable.
+
+Les trois evenements cles presents avant (`close_convert_lead`, `purchase`, `qualify_lead`)
+sont des valeurs par defaut de GA4 que le site n'envoie jamais : ils expliquent le
+`keyEvents = 0` initial. `purchase` resterait l'ideal, mais la vente se conclut dans
+l'iframe JL Assure, donc hors de portee de la propriete sans action du partenaire.
 
 ## 3. Règles produit à ne jamais enfreindre
 
@@ -87,8 +114,10 @@ Quand la PR est mergée, repartir de `origin/main` (ne jamais empiler sur de l'h
 
 1. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
    gondole. Avis Google et Trustpilot (4/5, 13 avis au 25/09), liens entrants. Tout le reste est secondaire.
-2. **Mesure cassée** : GA4 renvoie `keyEvents = 0`, aucune conversion marquée. Et l'événement
-   `ouverture_tarificateur` est incohérent (voir §2). À réparer, sinon on pilote à l'aveugle.
+2. **Mesure** : la separation des evenements est faite (voir §2). Reste le point bloquant :
+   GA4 renvoie toujours `keyEvents = 0`, aucune conversion marquee. Cela se regle dans
+   l'interface GA4 (Admin > Evenements > marquer comme evenement cle), pas dans le code.
+   Tant que ce n'est pas fait, on ne peut pas savoir si le travail genere des contrats.
 3. **Crawl espacé** : certaines pages n'ont pas été recrawlées depuis fin juillet.
 4. **Requêtes perdues** à surveiller après la refonte de la page tarifs : « assurance temporaire pas cher »,
    « prix assurance auto temporaire » (elles étaient en position 48 à 67).
