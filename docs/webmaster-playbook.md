@@ -40,6 +40,24 @@ caravane 63 % · belgique 50 % · tunisie 47 % · frontière 42 % · **accueil 4
 > anterieures a cette date sont donc a lire avec cette reserve : sur la page devis,
 > `ouverture_tarificateur` valait pour une vue de page, pas pour un clic.
 
+
+### Evenement cle GA4 (pose le 25/09/2026)
+
+`ouverture_tarificateur` est desormais **marque comme evenement cle** dans GA4.
+Trois consequences a connaitre avant de lire des chiffres :
+
+1. **Ce n'est pas retroactif.** Le comptage demarre au 25/09/2026. Interroger l'API
+   sur une periode anterieure renverra toujours `keyEvents = 0`. Ce n'est pas une panne.
+2. **Le volume va CHUTER apres le deploiement de la separation des evenements**, parce que
+   la page devis cesse de compter ses affichages. Ce n'est pas une regression de trafic,
+   c'est le passage d'un comptage faux a un comptage juste.
+3. **Compter environ 10 jours** avant d'avoir un volume par page exploitable.
+
+Les trois evenements cles presents avant (`close_convert_lead`, `purchase`, `qualify_lead`)
+sont des valeurs par defaut de GA4 que le site n'envoie jamais : ils expliquent le
+`keyEvents = 0` initial. `purchase` resterait l'ideal, mais la vente se conclut dans
+l'iframe JL Assure, donc hors de portee de la propriete sans action du partenaire.
+
 ## 3. Règles produit à ne jamais enfreindre
 
 - Durées **1 à 90 jours**. Conducteur **21 ans minimum**, permis depuis **2 ans et plus**.
