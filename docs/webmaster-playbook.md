@@ -88,7 +88,22 @@ Quand la PR est mergée, repartir de `origin/main` (ne jamais empiler sur de l'h
 1. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
    gondole. Avis Google et Trustpilot (4/5, 13 avis au 25/09), liens entrants. Tout le reste est secondaire.
 2. **Mesure cassée** : GA4 renvoie `keyEvents = 0`, aucune conversion marquée. Et l'événement
-   `ouverture_tarificateur` est incohérent (voir §2). À réparer.
+   `ouverture_tarificateur` est incohérent (voir §2). À réparer, sinon on pilote à l'aveugle.
 3. **Crawl espacé** : certaines pages n'ont pas été recrawlées depuis fin juillet.
-4. **Requêtes perdues** à surveiller : « assurance temporaire pas cher », « prix assurance auto temporaire ».
+4. **Requêtes perdues** à surveiller après la refonte de la page tarifs : « assurance temporaire pas cher »,
+   « prix assurance auto temporaire » (elles étaient en position 48 à 67).
 5. **Sans demande** : résilié/malus = 3 impressions sur 3 mois. Ne pas investir pour le SEO.
+6. **Badge Trustpilot** : maquette validée (variantes A+B+D), pas encore posée sur le site.
+   Plan gratuit Trustpilot = 1 seul widget de base, donc badge statique maison + lien vers la fiche.
+
+## 10. Journal des décisions
+
+- **25/09/2026** : simulateur du hero étendu à 10 véhicules avec les grilles réelles de `tarifs.md`.
+  Les durées s'adaptent au véhicule (voiturette 10-30 j, poids lourds 1-15 j) : afficher six durées
+  figées aurait produit des prix inexistants.
+- **25/09/2026** : page `auto` différenciée au lieu d'être redirigée en 301. Elle convertit à 74 %,
+  la rediriger aurait détruit la meilleure page commerciale à volume du site.
+- **25/09/2026** : article « prêter sa voiture » renforcé plutôt que création d'un article
+  « jeune conducteur », qui aurait cannibalisé une page déjà positionnée (12,9).
+- **25/09/2026** : `tarifs.md` et `llms.txt` alignés sur « Crédit Mutuel » (ils annonçaient encore CIC,
+  ce qui faisait raconter aux IA autre chose que le site).
