@@ -44,6 +44,8 @@
 	.hero .sim .btn{display:block;width:100%;text-align:center;margin-top:14px;background:var(--navy);color:#fff;font-size:1rem;box-shadow:0 8px 22px rgba(15,23,42,.28)}
 	.hero .sim .btn:hover{background:var(--blue)}
 	.sim-note{color:var(--grey);font-size:.76rem;margin:10px 0 0;text-align:center}
+	.sim-veh{display:block;width:100%;margin:0 0 10px;font:600 .9rem/1.2 var(--font);color:var(--navy);background:#fff;border:1px solid var(--border);border-radius:8px;padding:9px 30px 9px 11px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%235B6779' d='M1 1.5 6 6.5l5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;background-size:10px}
+	.sim-veh:hover{border-color:#94a3b8}
 	@media (max-width:880px){.hero-b .hero-inner{grid-template-columns:1fr;text-align:center;gap:26px}.hero-b .hero-trust{align-items:center}.hero-links{justify-content:center}.hero-b h1{font-size:1.7rem}}
 	</style>
 	<meta name="theme-color" content="#0F172A" />
@@ -180,37 +182,56 @@
 						</div>
 					</div>
 					<div class="sim" id="simulateur">
-						<p class="sim-label"><span id="sim-title">Votre tarif en direct</span><span class="r">Voiture &middot; &le;&nbsp;30&nbsp;CV</span></p>
-						<div class="sim-seg" role="group" aria-labelledby="sim-title">
-							<button type="button" data-duree="1" aria-pressed="false">1<small>jour</small></button>
-							<button type="button" data-duree="3" aria-pressed="false">3<small>jours</small></button>
-							<button type="button" data-duree="7" aria-pressed="false">7<small>jours</small></button>
-							<button type="button" data-duree="15" aria-pressed="true">15<small>jours</small></button>
-							<button type="button" data-duree="30" aria-pressed="false">30<small>jours</small></button>
-							<button type="button" data-duree="90" aria-pressed="false">90<small>jours</small></button>
-						</div>
+						<p class="sim-label"><span id="sim-title">Votre tarif en direct</span></p>
+						<select id="sim-veh" class="sim-veh" aria-label="Choisir le type de vehicule"><option value="VL-VL" selected>Voiture</option><option value="VL-VU">Utilitaire / fourgon</option><option value="CC-Cap">Camping-car</option><option value="CAM-CAM3">Camion / poids lourd</option><option value="REM-REM2">Remorque</option><option value="REM-REM3">Caravane</option><option value="VSP-VSP">Voiturette sans permis</option><option value="QM-QM">Quad</option><option value="TCP-TCP">Bus / autocar</option><option value="TRA-TRA">Tracteur agricole</option></select>
+						<div class="sim-seg" role="group" aria-labelledby="sim-title"></div>
 						<p class="sim-price" aria-live="polite"><span class="big"><span id="sim-total">107,81</span>&nbsp;&euro;</span><span class="per">pour <span id="sim-jours">15 jours</span><br>soit <b id="sim-jour">7,19&nbsp;&euro;</b>/jour</span></p>
 						<button type="button" class="btn cta-btn-modal" id="sim-cta" data-prefill="categorie_vehi=VL-VL&amp;duree=15">Obtenir mon tarif exact</button>
-						<p class="sim-note">Tarif indicatif RC + défense-recours, véhicule &lt;&nbsp;10&nbsp;ans. Prix exact au devis, sans inscription.</p>
+						<p class="sim-note">Tarif indicatif RC + défense-recours, base 23&nbsp;ans et plus. Prix exact au devis, sans inscription.</p>
 					</div>
 				</div>
 			</section>
 			<script>
 			(function(){
-				var P={1:50.75,3:68.60,7:83.59,15:107.81,30:189.15,90:420.21};
-				var seg=document.querySelector('#simulateur .sim-seg');
+				/* Grilles reelles (tarifs.md, RC + defense-recours, base 23 ans et plus).
+				   Les durees disponibles varient selon le vehicule : voiture et camping-car
+				   1 a 90 j, poids lourds et remorques 1 a 15 j, voiturette 10 a 30 j. */
+				var V={
+				 'VL-VL':{1:50.75,3:68.60,7:83.59,15:107.81,30:189.15,90:420.21},'VL-VU':{1:50.75,3:68.60,7:83.59,15:107.81,30:189.15,90:420.21},'QM-QM':{1:50.75,3:68.60,7:83.59,15:107.81,30:189.15,90:420.21},
+				 'CC-Cap':{1:63.50,7:93.59,15:117.82,30:199.15,60:300.19,90:423.23},
+				 'CAM-CAM3':{1:92.57,5:119.16,10:154.85,15:159.37},'TRA-TRA':{1:92.57,5:119.16,10:154.85,15:159.37},
+				 'TCP-TCP':{1:92.57,5:119.16,10:155.85,15:159.37},
+				 'REM-REM2':{1:57.66,5:86.93,10:107.05,15:120.47},
+				 'REM-REM3':{1:57.66,5:86.93,10:107.05,15:120.47},
+				 'VSP-VSP':{10:102.37,15:116.93,20:133.00,30:181.73}
+				};
+				var seg=document.querySelector('#simulateur .sim-seg'),sel=document.getElementById('sim-veh');
 				var tot=document.getElementById('sim-total'),jrs=document.getElementById('sim-jours'),
 				    jour=document.getElementById('sim-jour'),cta=document.getElementById('sim-cta');
-				if(!seg)return;
+				if(!seg||!sel)return;
+				var cur='VL-VL',dur=15;
 				function fmt(n){return n.toFixed(2).replace('.',',');}
 				function pick(b){
+					if(!b)return;
 					seg.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
-					var d=Number(b.getAttribute('data-duree'));
-					tot.textContent=fmt(P[d]);
-					jrs.textContent=d+' jour'+(d>1?'s':'');
-					jour.innerHTML=fmt(P[d]/d)+'&nbsp;&euro;';
-					cta.setAttribute('data-prefill','categorie_vehi=VL-VL&duree='+d);
+					dur=Number(b.getAttribute('data-duree'));
+					var p=V[cur][dur];
+					tot.textContent=fmt(p);
+					jrs.textContent=dur+' jour'+(dur>1?'s':'');
+					jour.innerHTML=fmt(p/dur)+'&nbsp;&euro;';
+					cta.setAttribute('data-prefill','categorie_vehi='+cur+'&duree='+dur);
 				}
+				function build(){
+					var ds=Object.keys(V[cur]).map(Number).sort(function(a,b){return a-b;});
+					seg.style.gridTemplateColumns='repeat('+ds.length+',1fr)';
+					seg.innerHTML=ds.map(function(d){
+						return '<button type="button" data-duree="'+d+'" aria-pressed="false">'+d+'<small>jour'+(d>1?'s':'')+'</small></button>';
+					}).join('');
+					/* on garde la duree courante si elle existe pour ce vehicule, sinon 15 j, sinon la mediane */
+					var w=V[cur][dur]!==undefined?dur:(V[cur][15]!==undefined?15:ds[Math.floor(ds.length/2)]);
+					pick(seg.querySelector('[data-duree="'+w+'"]'));
+				}
+				sel.addEventListener('change',function(){cur=sel.value;build();});
 				seg.addEventListener('click',function(e){var b=e.target.closest('button');if(b)pick(b);});
 				seg.addEventListener('keydown',function(e){
 					if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
@@ -220,6 +241,7 @@
 					var n=bs[e.key==='ArrowRight'?Math.min(i+1,bs.length-1):Math.max(i-1,0)];
 					n.focus();pick(n);
 				});
+				build();
 			})();
 			</script>
 
