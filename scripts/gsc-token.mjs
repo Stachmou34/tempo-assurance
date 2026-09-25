@@ -2,7 +2,7 @@
 /* Fabrique un jeton d'acces Google a partir d'une cle de compte de service.
  *
  * Variable d'environnement attendue : GOOGLE_SERVICE_ACCOUNT_JSON
- *   contenu = le fichier JSON de la cle, tel quel.
+ *   contenu = le fichier JSON de la cle, tel quel OU encode en base64 (une ligne).
  *
  * Usage :
  *   node scripts/gsc-token.mjs                 -> scope Search Console (lecture)
@@ -29,9 +29,21 @@ if (!raw) {
   process.exit(2);
 }
 
-let key;
-try { key = JSON.parse(raw); }
-catch (e) { console.error('GOOGLE_SERVICE_ACCOUNT_JSON n\'est pas du JSON valide : ' + e.message); process.exit(2); }
+/* La variable accepte deux formes, car les champs de configuration attendent
+   souvent une seule ligne alors que le fichier telecharge en fait plusieurs :
+     - le JSON tel quel (une ou plusieurs lignes)
+     - le meme JSON encode en base64 (une seule ligne, recommande) */
+let key, txt = raw.trim();
+if (!txt.startsWith('{')) {
+  try { txt = Buffer.from(txt, 'base64').toString('utf8'); }
+  catch (e) { console.error('GOOGLE_SERVICE_ACCOUNT_JSON : ni du JSON, ni du base64 lisible.'); process.exit(2); }
+}
+try { key = JSON.parse(txt); }
+catch (e) {
+  console.error('GOOGLE_SERVICE_ACCOUNT_JSON ne contient pas du JSON valide : ' + e.message);
+  console.error('Astuce : encoder le fichier en base64 sur une seule ligne evite tout probleme de format.');
+  process.exit(2);
+}
 for (const f of ['client_email', 'private_key']) {
   if (!key[f]) { console.error(`Champ « ${f} » absent de la cle.`); process.exit(2); }
 }
