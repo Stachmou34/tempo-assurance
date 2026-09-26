@@ -7,7 +7,7 @@
 - Durée : 1 à 90 jours, sans engagement.
 - Conducteur : 21 ans minimum, permis depuis 2 ans et plus.
 - Garanties : responsabilité civile + défense et recours ; assistance en option (voiture/utilitaire uniquement).
-- Souscription, attestation et carte verte 100 % en ligne, immédiates.
+- Souscription, attestation d'assurance 100 % en ligne, immédiates.
 
 ## Tarifs par catégorie (France métropolitaine)
 

@@ -7,6 +7,15 @@ const pages = readdirSync(R).filter(f => f.endsWith('.html'));
 const err = [], warn = [];
 const APO = String.fromCharCode(8217);   // apostrophe typographique
 const EM  = String.fromCharCode(8212);   // tiret cadratin
+// Pages ou « carte verte » reste legitime : pays hors reconnaissance automatique
+// (le document existe toujours sous le nom de carte internationale d'assurance)
+// et archives de la veille, qui relatent justement sa suppression.
+const CV_AUTORISEES = new Set([
+  'assurance-temporaire-maroc.html', 'assurance-temporaire-tunisie.html',
+  'assurance-temporaire-algerie.html', 'assurance-temporaire-frontiere.html',
+  'assurance-temporaire-espagne.html', 'faq-assurance-temporaire.html',
+  'veille-auto.html', 'veille-auto-2026-07-19.html',
+]);
 
 for (const f of pages) {
   const h = readFileSync(`${R}/${f}`, 'utf8');
@@ -31,6 +40,16 @@ for (const f of pages) {
     const o = (main.match(new RegExp(`<${t}[\\s>]`, 'g')) || []).length;
     const c = (main.match(new RegExp(`</${t}>`, 'g')) || []).length;
     if (o !== c) err.push(`${f} : balise <${t}> desequilibree (${o} ouvertes / ${c} fermees)`);
+  }
+
+  // 4bis. « carte verte » : supprimee en France depuis le 01/04/2024
+  //      (decret n° 2023-1152 du 08/12/2023, preuve par le FVA).
+  //      Elle ne subsiste que sous son vrai nom, carte internationale d'assurance,
+  //      pour les pays hors reconnaissance automatique. Toute autre page qui la
+  //      promet fait une promesse produit fausse.
+  if (!CV_AUTORISEES.has(f)) {
+    const nCV = (main.match(/[Cc]arte(?:&nbsp;| )verte/g) || []).length;
+    if (nCV) err.push(`${f} : ${nCV} mention(s) de « carte verte » (supprimee en France le 01/04/2024, utiliser « attestation d'assurance » ou « memo vehicule assure »)`);
   }
 
   // 5. liens internes casses

@@ -2,7 +2,7 @@
 
 > Dernière mise à jour : 2026-06.
 
-> Tempo-Assurance (marque du courtier français MCJ COURTAGE, en partenariat avec JL Assure) permet d'assurer un véhicule pour une durée de 1 à 90 jours, 100 % en ligne : devis immédiat, paiement sécurisé par carte bancaire (banque Crédit Mutuel), attestation et carte verte éditables aussitôt. À partir de 4,67 € par jour (tarif dégressif, sur la base de 90 jours).
+> Tempo-Assurance (marque du courtier français MCJ COURTAGE, en partenariat avec JL Assure) permet d'assurer un véhicule pour une durée de 1 à 90 jours, 100 % en ligne : devis immédiat, paiement sécurisé par carte bancaire (banque Crédit Mutuel), Attestation d'assurance éditable aussitôt. À partir de 4,67 € par jour (tarif dégressif, sur la base de 90 jours).
 
 ## Faits clés
 
@@ -41,7 +41,7 @@ Paramètres :
 - motif : ne pas transmettre — le motif a été retiré du tunnel.
 - Note : les anciens liens contenant ptac= ou motif_assurance_temporaire= restent valides (paramètres obsolètes simplement ignorés).
 
-Le client vérifie les informations, consulte l'IPID, confirme et règle par carte bancaire ; l'attestation et la carte verte sont éditables immédiatement. Conditions : conducteur de 21 ans minimum, 2 ans de permis, durée de 1 à 90 jours. Aucune souscription n'est finalisée sans l'action du client.
+Le client vérifie les informations, consulte l'IPID, confirme et règle par carte bancaire ; l'attestation d'assurance est éditable immédiatement. Conditions : conducteur de 21 ans minimum, 2 ans de permis, durée de 1 à 90 jours. Aucune souscription n'est finalisée sans l'action du client.
 
 ## Outils WebMCP (pour agents IA dans le navigateur)
 
