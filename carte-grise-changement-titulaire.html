@@ -274,5 +274,19 @@
 		<div class="footer-bottom">&copy; 2026 MCJ COURTAGE &mdash; Tous droits réservés</div>
 	</footer>
 	<script src="assets/site.js?v=14" defer></script>
+<script>
+/* Clic sortant vers Certimat : sans cet evenement, la carte grise est un angle mort.
+   Aucune donnee personnelle, seulement la page d'origine et l'emplacement du lien. */
+(function(){
+	document.addEventListener('click', function(e){
+		var a = e.target.closest && e.target.closest('a[href*="certimat.fr"]');
+		if (!a || typeof window.gtag !== 'function') return;
+		window.gtag('event', 'clic_certimat', {
+			page_path: location.pathname,
+			emplacement: a.closest('main') ? 'contenu' : 'hors_contenu'
+		});
+	}, true);
+})();
+</script>
 </body>
 </html>

@@ -95,7 +95,7 @@
    "name": "Combien de temps pour refaire la carte grise ?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Vous disposez d'un mois après l'achat pour établir la nouvelle carte grise à votre nom sur le site de l'ANTS."
+    "text": "Vous disposez d'un mois après l'achat pour établir la nouvelle carte grise à votre nom, sur le site de l'ANTS ou via un prestataire habilité comme Certimat."
    }
   }
  ]
@@ -193,7 +193,7 @@
 </ul>
 <p><em>Exemple&nbsp;: «&nbsp;Vendu le 12/06/2026 à 14h30&nbsp;».</em></p>
 <h2>J'ai acheté un véhicule avec une carte grise barrée&nbsp;: que faire&nbsp;?</h2>
-<p>Vous avez <strong>un mois</strong> pour faire établir la carte grise à votre nom (sur le site de l'ANTS). En attendant, la carte grise barrée + le certificat de cession prouvent que le véhicule est à vous. Mais pour <strong>circuler légalement</strong>, il faut une assurance valide.</p>
+<p>Vous avez <strong>un mois</strong> pour faire établir la carte grise à votre nom. La démarche se fait sur le site de l'ANTS, ou en une quinzaine de minutes via <a href="https://certimat.fr/prescripteurs?partner=8103" target="_blank" rel="noopener">Certimat</a>, notre partenaire habilité. En attendant, la carte grise barrée + le certificat de cession prouvent que le véhicule est à vous. Mais pour <strong>circuler légalement</strong>, il faut une assurance valide.</p>
 <h2>Peut-on rouler avec une carte grise barrée&nbsp;?</h2>
 <p>Oui, à condition d'être assuré. Le véhicule n'étant pas encore immatriculé à votre nom, l'<strong>assurance temporaire</strong> est la solution idéale&nbsp;: responsabilité civile, attestation d'assurance immédiate, de 1 à 90 jours, parfait pour ramener votre achat et faire les démarches sereinement.</p>
 <h2>Cas particuliers</h2>
@@ -206,7 +206,7 @@
 <p><strong>Comment barrer une carte grise ?</strong><br>Tracez un trait en diagonale sur le certificat d'immatriculation, inscrivez la mention « Vendu le » ou « Cédé le » suivie de la date et de l'heure, puis signez (tous les co-titulaires doivent signer).</p>
 <p><strong>Que faut-il écrire sur une carte grise barrée ?</strong><br>La mention « Vendu le » (ou « Cédé le »), la date et l'heure exactes de la cession, et la signature du ou des titulaires. Exemple : « Vendu le 12/06/2026 à 14h30 ».</p>
 <p><strong>Peut-on assurer un véhicule avec une carte grise barrée ?</strong><br>Oui. Comme le véhicule n'est pas encore immatriculé à votre nom, l'assurance temporaire est idéale : elle couvre le véhicule en responsabilité civile de 1 à 90 jours avec une attestation d'assurance immédiate.</p>
-<p><strong>Combien de temps pour refaire la carte grise ?</strong><br>Vous disposez d'un mois après l'achat pour établir la nouvelle carte grise à votre nom sur le site de l'ANTS.</p>
+<p><strong>Combien de temps pour refaire la carte grise ?</strong><br>Vous disposez d'un mois après l'achat pour établir la nouvelle carte grise à votre nom, sur le site de l'ANTS ou via un prestataire habilité comme <a href="https://certimat.fr/prescripteurs?partner=8103" target="_blank" rel="noopener">Certimat</a>.</p>
 <p>Voir aussi notre <a href="faq-assurance-temporaire.html">FAQ complète</a> ou faites votre <a href="devis-ou-souscription.html">devis en ligne</a>.</p>
 <p class="btn-center"><button type="button" class="btn cta-btn-modal">➜ Souscrire une assurance temporaire</button></p>
 					<div class="callout"><p><strong>Besoin de votre carte grise&nbsp;?</strong> Changement de titulaire, véhicule importé, plaque WW, duplicata… Faites votre <a href="carte-grise.html">carte grise en ligne</a>, service habilité par le Ministère de l'Intérieur, certificat provisoire immédiat.</p></div>
@@ -273,5 +273,19 @@
 	</div>
 	<div class="sticky-cta"><a class="cta-btn-modal" href="devis-ou-souscription.html">Obtenir mon tarif en 2 min</a></div>
 	<script src="assets/site.js?v=14" defer></script>
+<script>
+/* Clic sortant vers Certimat : sans cet evenement, la carte grise est un angle mort.
+   Aucune donnee personnelle, seulement la page d'origine et l'emplacement du lien. */
+(function(){
+	document.addEventListener('click', function(e){
+		var a = e.target.closest && e.target.closest('a[href*="certimat.fr"]');
+		if (!a || typeof window.gtag !== 'function') return;
+		window.gtag('event', 'clic_certimat', {
+			page_path: location.pathname,
+			emplacement: a.closest('main') ? 'contenu' : 'hors_contenu'
+		});
+	}, true);
+})();
+</script>
 </body>
 </html>
