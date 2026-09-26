@@ -78,7 +78,18 @@ Fais une seule chose, mais en entier. Si à mi-session tu n'as pas commencé à 
 
 ## ÉTAPE 5 : livrer le code
 
-- Branche `claude/upbeat-cerf-yjyYC`. Si la dernière PR a été mergée, repars de `origin/main` : `git fetch origin main && git checkout -B claude/upbeat-cerf-yjyYC origin/main`. **Avant ce reset, vérifie s'il reste des commits non mergés sur la branche distante** (`git log --oneline origin/main..origin/claude/upbeat-cerf-yjyYC`). S'il y en a, reprends-les par `git cherry-pick` : ils seraient perdus sinon.
+- Branche `claude/upbeat-cerf-yjyYC`. **Commence par regarder où en est la branche**, avant d'écrire la moindre ligne :
+
+```bash
+git fetch origin
+git log --oneline origin/main..origin/claude/upbeat-cerf-yjyYC
+```
+
+  - **Rien ne sort** : la branche est à jour, repars de `origin/main` (`git checkout -B claude/upbeat-cerf-yjyYC origin/main`).
+  - **Des commits sortent, et une PR ouverte les contient** : continue dessus.
+  - **Des commits sortent, mais aucune PR ouverte ne les porte** : ils sont orphelins derrière une PR déjà mergée. Rebase-les sur `origin/main` (`git rebase origin/main`), pousse en `--force-with-lease`, et ouvre une **nouvelle** PR. Ne réutilise jamais une PR mergée : GitHub l'a fermée au commit fusionné, et tout ce qu'on y pousse ensuite n'arrive jamais en ligne.
+
+  **Ne jamais annoncer un numéro de PR sans avoir relu son état.** Une PR mergée à un commit antérieur garde le bon titre et le bon lien : rien ne signale l'erreur, sauf la vérification. Voir §8 du playbook.
 - Avant tout commit : `node scripts/verif-qualite.mjs` doit sortir au vert (même contrôle que la CI, il bloquera la PR sinon).
 - Commits en français, qui disent POURQUOI, avec les chiffres qui justifient le changement.
 - `git push -u origin claude/upbeat-cerf-yjyYC`, et **vérifie que le push a réellement abouti** : relis la sortie, ne te fie pas à l'absence de message.
@@ -126,3 +137,7 @@ Règles pour ce rapport :
   (`sources: []`). Les deux premiers tirs sont remontés en `SUCCEEDED` sans avoir rien
   livré, et le tir du 26/09 a explicitement signalé l'absence de dépôt. Ajout de
   l'étape 0 pour que ce cas se voie tout de suite au lieu de ressembler à un succès.
+- **26/09/2026, soir** : cinq commits poussés derrière une PR déjà mergée, donc portés par
+  aucune PR, et annoncés au propriétaire comme faisant partie de cette PR. Le push
+  réussissait à chaque fois : rien ne signalait le problème. L'étape 5 commence désormais
+  par la vérification de l'état de la branche et de la PR.
