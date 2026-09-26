@@ -1,0 +1,2 @@
+# Instantanes Clarity : donnees agregees, aucune donnee personnelle.
+# Un fichier par jour, seul historique disponible (API limitee a 3 jours).
