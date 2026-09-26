@@ -125,25 +125,30 @@ function resume(snap, etiquette) {
   }
 
   // Par page : la seule vue sur laquelle on peut agir directement.
+  /* On affiche le POURCENTAGE DE SESSIONS TOUCHEES, pas le nombre de clics. Un compte
+     brut se lit de travers : 29 dead clicks sur une page a 49 sessions ne veut pas dire
+     que 59 % des visiteurs sont genes, un seul visiteur pouvant cliquer dix fois. */
   const parPage = {};
   for (const [cle, , poidsF] of FRICTIONS) {
     for (const l of url[cle] || []) {
       if (!l.Url) continue;
       const p = (parPage[l.Url] ||= { score: 0, sessions: nb(l.sessionsCount) });
-      p[cle] = nb(l.subTotal);
-      p.score += nb(l.subTotal) * poidsF;
+      p[cle] = { clics: nb(l.subTotal), pct: nb(l.sessionsWithMetricPercentage) };
+      p.score += nb(l.sessionsWithMetricPercentage) * poidsF * Math.min(nb(l.sessionsCount), 100) / 100;
     }
   }
   const chaudes = Object.entries(parPage).filter(([, v]) => v.score > 0)
     .sort((a, b) => b[1].score - a[1].score).slice(0, 8);
   if (chaudes.length) {
-    console.log('\n  PAGES A FRICTION (rage et erreurs JS ponderes plus fort)');
-    console.log(`    ${'page'.padEnd(42)} ${'sess'.padStart(5)} ${'rage'.padStart(5)} ${'JS'.padStart(4)} ${'dead'.padStart(5)} ${'qback'.padStart(6)}`);
+    const c2 = (v, k) => v[k] ? `${v[k].pct.toFixed(0)}% (${v[k].clics})` : '—';
+    console.log('\n  PAGES A FRICTION — % de sessions touchees, et (nombre de clics)');
+    console.log('  Score pondere par la gravite et le nombre de sessions : une page a 3 visiteurs');
+    console.log('  ne remonte pas au-dessus d\'une page a 90.\n');
+    console.log(`    ${'page'.padEnd(40)} ${'sess'.padStart(5)} ${'rage'.padStart(10)} ${'JS'.padStart(10)} ${'dead'.padStart(10)}`);
     for (const [u, v] of chaudes) {
       const c = String(u).replace(/^https?:\/\/(www\.)?tempo-assurance\.com/, '') || '/';
-      console.log(`    ${c.slice(0, 42).padEnd(42)} ${String(v.sessions).padStart(5)} ` +
-        `${String(v.RageClickCount || 0).padStart(5)} ${String(v.ScriptErrorCount || 0).padStart(4)} ` +
-        `${String(v.DeadClickCount || 0).padStart(5)} ${String(v.QuickbackClick || 0).padStart(6)}`);
+      console.log(`    ${c.slice(0, 40).padEnd(40)} ${String(v.sessions).padStart(5)} ` +
+        `${c2(v, 'RageClickCount').padStart(10)} ${c2(v, 'ScriptErrorCount').padStart(10)} ${c2(v, 'DeadClickCount').padStart(10)}`);
     }
   }
 

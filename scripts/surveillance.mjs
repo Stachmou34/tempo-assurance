@@ -13,6 +13,7 @@
  */
 import { createHash } from 'crypto';
 import { connect } from 'tls';
+import { existsSync } from 'node:fs';
 import { execSync } from 'child_process';
 
 const SITE = 'https://www.tempo-assurance.com';
@@ -57,7 +58,15 @@ infos.push(`Disponibilite : ${PAGES.length} URLs verifiees, plus lente ${pire.to
 /* Un ecart signifie presque toujours un « git pull » oublie sur le serveur. */
 try {
   execSync('git fetch origin main -q', { stdio: 'ignore' });
-  const aVerifier = ['index.html', 'devis-ou-souscription.html', 'tarif-assurance-temporaire.html'];
+  /* Trois pages fixes ne suffisent pas : le 26/09, tout le travail du jour portait sur
+     carte-grise-barree.html et le controle annoncait « production conforme ». On verifie
+     donc les pages de conversion ET celles reellement modifiees recemment, qui sont
+     justement celles dont le deploiement peut manquer. */
+  const socle = ['index.html', 'devis-ou-souscription.html', 'tarif-assurance-temporaire.html'];
+  const recentes = execSync('git log --name-only --pretty=format: origin/main --since="14 days ago"')
+    .toString().split('\n').map(s => s.trim())
+    .filter(f => f.endsWith('.html') && existsSync(f));
+  const aVerifier = [...new Set([...socle, ...recentes])].slice(0, 25);
   const ecarts = [];
   for (const f of aVerifier) {
     const depot = md5(execSync(`git show origin/main:${f}`, { maxBuffer: 5e7 }).toString());
@@ -72,7 +81,7 @@ try {
       `${n} commit(s) sur main ces 14 derniers jours.`
     );
   } else {
-    infos.push('Deploiement : la production correspond a main');
+    infos.push(`Deploiement : la production correspond a main (${aVerifier.length} page(s) verifiee(s))`);
   }
 } catch (e) {
   infos.push(`Deploiement : controle impossible (${e.message.split('\n')[0]})`);
