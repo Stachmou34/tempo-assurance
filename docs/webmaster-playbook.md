@@ -88,31 +88,27 @@ l'iframe JL Assure, donc hors de portee de la propriete sans action du partenair
 - Classes réutilisables : `.tldr .callout .tableau .table-scroll .steps .cards .card .faq-q .btn .cta-btn-modal .breadcrumb .muted .maillage`
 - **Ne jamais toucher aux blocs CTA et estimateur** : ce sont eux qui convertissent.
 
-## 5 bis. Acces aux donnees Google (Search Console / GA4)
+## 5 bis. Acces aux donnees Google (Search Console et GA4)
 
-`scripts/gsc-token.mjs` fabrique un jeton d'acces a partir d'une cle de compte de
-service, sans interaction humaine. Il lit la variable d'environnement
-`GOOGLE_SERVICE_ACCOUNT_JSON` (le JSON de la cle, tel quel).
+**L'acces est automatique.** Le proxy de l'environnement signe les appels grace a un
+identifiant d'API stocke dans son coffre : aucun jeton a fabriquer, aucune cle a lire.
+Un `curl` sans en-tete d'authentification suffit.
 
 ```bash
-T=$(node scripts/gsc-token.mjs)            # Search Console (lecture)
-T=$(node scripts/gsc-token.mjs analytics)  # GA4 (lecture)
+curl -s https://www.googleapis.com/webmasters/v3/sites
 
-curl -s -X POST -H "Authorization: Bearer $T" -H "Content-Type: application/json" \
+curl -s -X POST -H "Content-Type: application/json" \
   "https://www.googleapis.com/webmasters/v3/sites/sc-domain%3Atempo-assurance.com/searchAnalytics/query" \
-  -d '{"startDate":"2026-09-01","endDate":"2026-09-24","dimensions":["query"],"rowLimit":50}'
-```
+  -d '{"startDate":"2026-09-01","endDate":"2026-09-23","dimensions":["query"],"rowLimit":25}'
 
-Si la variable est absente, le script sort en code 2 avec un message clair : le
-signaler dans le compte rendu et continuer le reste du travail sans bloquer.
+ curl -s -X POST -H "Content-Type: application/json" \
+  "https://analyticsdata.googleapis.com/v1beta/properties/540804517:runReport" \
+  -d '{"dateRanges":[{"startDate":"2026-09-01","endDate":"2026-09-23"}],"metrics":[{"name":"sessions"}]}'
+```
 
 Propriete Search Console : `sc-domain:tempo-assurance.com`. Propriete GA4 : `540804517`.
 
-Mise en place (une seule fois, cote proprietaire) : creer un compte de service dans
-Google Cloud, activer l'API concernee, ajouter l'adresse du compte de service comme
-utilisateur dans Search Console (Parametres > Utilisateurs et autorisations) et dans
-GA4 (Admin > Acces), puis ranger le JSON de la cle dans les variables d'environnement
-du cloud. **Jamais dans le depot, jamais dans le chat.**
+En cas d'echec, le code HTTP suffit au diagnostic : voir `docs/acces-donnees-google.md`.
 
 ## 6. Contrôles obligatoires avant tout commit
 
