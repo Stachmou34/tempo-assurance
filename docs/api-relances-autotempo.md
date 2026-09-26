@@ -176,3 +176,10 @@ s'arrête après les six contrôles non authentifiés plutôt que de faire sembl
   d'erreur est conforme, et le développeur a ajouté de lui-même `WWW-Authenticate`,
   `Cache-Control: no-store` et `X-Content-Type-Options: nosniff`. Les dix contrôles
   authentifiés restent à passer, jeton requis.
+- **26/09/2026, soir** : recette relancée avec `MCJ_API_TOKEN` renseigné dans l'environnement
+  (jeton bien formé : préfixe `mcj_`, 52 caractères, sans espace). Les six contrôles non
+  authentifiés restent au vert, mais **le jeton est refusé** : 401 `non_autorise` sur les
+  contrôles 7, 8, 9 et 16, aussi bien via `Authorization` que via `X-Authorization`. Ce n'est
+  donc pas l'en-tête qui est filtré par Apache : le jeton n'est pas reconnu côté serveur
+  (mauvais jeton, révoqué, ou non enregistré en base). À vérifier avec le développeur, puis
+  relancer.
