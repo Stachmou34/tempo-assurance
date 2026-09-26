@@ -27,11 +27,17 @@ sollicité tous les jours.
 | URL de base | `https://autotempo.net/api.php` |
 | Format | JSON en UTF-8, dates en `AAAA-MM-JJ` |
 | Transport | HTTPS obligatoire |
-| Authentification | `Authorization: Bearer <jeton>`, ou `X-Authorization` en repli |
+| Authentification | **`X-Authorization: Bearer <jeton>`** (voir ci-dessous) |
 
 Le jeton se lit dans la variable d'environnement **`MCJ_API_TOKEN`**. Il n'est jamais
 écrit dans le dépôt, ni passé dans une URL : il donne accès à des emails de clients.
 Il est révocable à tout moment, auquel cas les appels suivants renvoient 401.
+
+**Utiliser `X-Authorization`, pas `Authorization`.** Le proxy sortant de l'environnement
+supprime l'en-tête `Authorization` : la requête arrive à l'API sans jeton et reçoit 401,
+ce qui ressemble à un jeton invalide et fait perdre un temps considérable. Le repli
+`X-Authorization` prévu par l'API contourne le problème. La recette le vérifie
+explicitement (contrôle 6bis) et le signale.
 
 L'authentification est vérifiée **avant** le routage : un appel sans jeton renvoie 401
 même sur une route inexistante. C'est le bon comportement, il ne révèle pas quelles
@@ -143,6 +149,11 @@ lendemain que perdre le client silencieusement.
 
 ## 7. Points ouverts avant le premier envoi
 
+0. **Montants en flottant brut.** L'API renvoie `"montant":159.3700000000000045474735...`
+   au lieu de `159.37`. 95 contrats sur 103 sont concernés. Inexploitable tel quel dans un
+   email, et invisible depuis JavaScript, qui réaffiche `159.37` : il faut lire la réponse
+   brute pour le voir. À arrondir côté API (`round($m, 2)`), sinon chaque client devra le
+   faire et un oubli finira dans un message envoyé.
 1. **Désabonnement — bloquant.** La documentation ne dit rien d'un client qui a demandé
    à ne plus être sollicité. Il faut un drapeau côté base, et que `echeances` ne renvoie
    **jamais** un contrat dont le client s'est désinscrit : l'agent n'a aucun autre moyen
@@ -176,3 +187,10 @@ s'arrête après les six contrôles non authentifiés plutôt que de faire sembl
   d'erreur est conforme, et le développeur a ajouté de lui-même `WWW-Authenticate`,
   `Cache-Control: no-store` et `X-Content-Type-Options: nosniff`. Les dix contrôles
   authentifiés restent à passer, jeton requis.
+- **26/09/2026, soir** : recette complete passee, **17 controles sur 18 au vert**. Le seul
+  echec est un vrai defaut cote API, les montants en flottant brut. Deux enseignements de
+  la mise au point : le proxy filtre `Authorization`, et un controle de minimisation ecrit
+  trop vite signalait `prenom` comme une fuite parce qu'il contient la chaine « nom ».
+- **Volume constate le 26/09** : 103 contrats a echeance sous 7 jours, 14 a exactement
+  3 jours, 198 sous 30 jours, 231 sous 90 jours. A un horizon de 3 jours, cela represente
+  une quinzaine de relances par jour.

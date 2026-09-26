@@ -30,7 +30,13 @@ async function appel(url, opts = {}) {
   }
 }
 
-const auth = (jeton = TOKEN) => ({ Authorization: `Bearer ${jeton}` });
+/* Le proxy sortant de l'environnement supprime l'en-tete Authorization : les appels
+   arrivent sans jeton et l'API repond 401. On envoie donc les deux en-tetes, et c'est
+   X-Authorization, le repli prevu par l'API, qui porte reellement le jeton. */
+const auth = (jeton = TOKEN) => ({
+  'Authorization':   `Bearer ${jeton}`,
+  'X-Authorization': `Bearer ${jeton}`,
+});
 
 console.log('Recette API de relance autotempo.net\n');
 
@@ -62,6 +68,19 @@ if (!TOKEN) {
   process.exit(ko.length ? 1 : 0);
 }
 
+// --- 4bis. quel en-tete porte reellement le jeton ---
+const seulAuth = await appel(`${BASE}?route=echeances&de=0&a=0`, {
+  headers: { Authorization: `Bearer ${TOKEN}` },
+});
+const seulX = await appel(`${BASE}?route=echeances&de=0&a=0`, {
+  headers: { 'X-Authorization': `Bearer ${TOKEN}` },
+});
+note(seulAuth.code === 200 || seulX.code === 200, '6bis. Le jeton passe par au moins un en-tete',
+     seulAuth.code === 200 ? 'Authorization' : (seulX.code === 200 ? 'X-Authorization seulement' : 'aucun des deux'));
+if (seulAuth.code !== 200 && seulX.code === 200) {
+  console.log('  NOTE  Authorization est filtre en sortie, seul X-Authorization arrive jusqu\'a l\'API.');
+}
+
 // --- 5. plage de dates ---
 r = await appel(`${BASE}?route=echeances&de=5&a=2`, { headers: auth() });
 note(r.code === 400, '7. Plage incoherente (de > a) : HTTP 400', `recu ${r.code}`);
@@ -85,9 +104,19 @@ if (r.code === 200 && r.json) {
     note(surplus.length === 0, '12. Aucun champ hors contrat',
          surplus.length ? `en trop : ${surplus.join(', ')}` : '');
 
-    const fuites = cles.filter(k => CHAMPS_INTERDITS.some(i => k.toLowerCase().includes(i)));
+    // Un champ explicitement au contrat ne peut pas etre une fuite : sans cette
+    // exclusion, "prenom" declenche l'alerte parce qu'il contient "nom".
+    const fuites = cles.filter(k => !CHAMPS_ATTENDUS.includes(k)
+                                 && CHAMPS_INTERDITS.some(i => k.toLowerCase().includes(i)));
     note(fuites.length === 0, '13. MINIMISATION : aucune donnee personnelle interdite',
          fuites.length ? `FUITE : ${fuites.join(', ')}` : '');
+
+    // Les montants partent en flottant brut : "montant":159.3700000000000045474735...
+    // Il faut lire la reponse BRUTE : JSON.parse puis String() reaffiche 159.37 et
+    // masque completement le probleme. Inexploitable tel quel par un client non-JS.
+    const bruts = [...r.txt.matchAll(/"montant":(-?\d+\.(\d+))/g)].filter(m => m[2].length > 2);
+    note(bruts.length === 0, '17. Les montants ont au plus 2 decimales sur le fil',
+         bruts.length ? `${bruts.length} montant(s) en flottant brut, ex. ${bruts[0][1].slice(0, 28)}...` : '');
 
     const refsOpaques = c.every(x => typeof x.ref === 'string' && /^c_[0-9a-f]{8,}$/.test(x.ref));
     note(refsOpaques, '14. Les "ref" sont opaques', refsOpaques ? '' : 'une ref ressemble a un identifiant interne');
