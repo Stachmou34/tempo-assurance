@@ -1,7 +1,7 @@
 # Playbook webmaster — tempo-assurance.com
 
 > Référentiel de travail pour toute intervention sur le site, et base de la routine quotidienne.
-> Mis à jour le 25/09/2026.
+> Mis à jour le 26/09/2026.
 
 ## 1. Le principe qui prime sur tous les autres
 
@@ -151,24 +151,16 @@ Liste **ordonnée**. Prendre le premier chantier non fait, en entier, et rien d'
 Chaque entrée tient dans une session : si ce n'est pas le cas, elle est mal découpée, la
 redécouper et le dire dans le rapport.
 
-1. **Badge Trustpilot** (maquette A + B + D validée le 25/09, jamais posée).
-   Relever la note réelle sur `https://fr.trustpilot.com/review/tempo-assurance.com` avant
-   d'écrire un chiffre. Au 26/09 : **4,2/5 sur 13 avis**. Poser A (rangée de gages de la page
-   devis) et B (pastille du hero de l'accueil). Ne **pas** ajouter de balise
-   `aggregateRating` : Google n'accepte pas les avis auto-déclarés sur une `Organization`,
-   et une pénalité coûterait plus que le gain.
-   *Fait quand* : les deux pages affichent la note, le lien ouvre la fiche Trustpilot, et la
-   valeur est écrite à un seul endroit par page pour être trouvable au prochain relevé.
-2. **Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement` alors que le reste du site
+1. **Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement` alors que le reste du site
    dit Crédit Mutuel. Nom actuel probable : Monetico. **Demander au propriétaire**, ne pas deviner.
-3. **Crawl espacé** : des pages non recrawlées depuis fin juillet. Vérifier dans Search Console
+2. **Crawl espacé** : des pages non recrawlées depuis fin juillet. Vérifier dans Search Console
    quelles pages, et si le `lastmod` du sitemap est bien à jour pour celles-là.
-4. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
+3. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
    « assurance temporaire pas cher », « prix assurance auto temporaire » (position 48 à 67).
-5. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
+4. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
    gondole. Avis Google, liens entrants. Ce chantier ne se règle pas dans le code : il se prépare
    (modèle d'e-mail de demande d'avis, liste de sites à contacter) et se propose au propriétaire.
-6. **Mesure** : GA4 renvoie toujours `keyEvents = 0`. Cela se règle dans l'interface GA4
+5. **Mesure** : GA4 renvoie toujours `keyEvents = 0`. Cela se règle dans l'interface GA4
    (Admin > Événements > marquer comme événement clé), pas dans le code, et **ce n'est pas
    rétroactif**. Tant que ce n'est pas fait, on ne sait pas si le travail génère des contrats.
    À rappeler dans le rapport tant que le chiffre reste à zéro.
@@ -203,3 +195,8 @@ investir pour le SEO.
   deviner.
 - **26/09/2026** : Trustpilot est passé à **4,2/5 sur 13 avis** (relevé du 26/09, contre 4,0
   au 25/09). Le badge reste à poser.
+- **26/09/2026** : badge Trustpilot posé (chantier n°1 clos). A (rangée de gages `quote-trust`
+  de la page devis) et B (pastille `.hero-pill`, déjà présente dans le CSS mais jamais utilisée,
+  du hero de l'accueil) affichent **4,2/5 sur Trustpilot (13 avis)**, lien vers la fiche. Pas de
+  balise `aggregateRating` ajoutée, conformément à la décision du 25/09. La valeur n'existe qu'à
+  un seul endroit par page pour rester facile à mettre à jour au prochain relevé.

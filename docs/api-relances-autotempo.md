@@ -1,151 +1,178 @@
-# Cahier des charges : API de relance client (autotempo.net)
+# API de relance client (autotempo.net)
 
-Destinataire : le developpeur de `autotempo.net` (back-office MCJ Courtage).
-Objectif : permettre a un agent automatise de preparer chaque matin les relances
-commerciales aupres des clients dont le contrat temporaire arrive a echeance.
+Contrat **livré et vérifié le 26/09/2026**. Ce fichier remplace le cahier des charges
+initial : il décrit l'API telle qu'elle existe, pas telle qu'elle avait été demandée.
+Les noms de routes diffèrent de la demande d'origine, le fond est conforme.
 
-Volume attendu : quelques dizaines d'enregistrements par jour au maximum.
-Charge negligeable, une seule requete par jour.
+Volume attendu : quelques dizaines d'enregistrements par jour. Une requête par jour.
 
 ---
 
 ## 1. Principe
 
-Une assurance temporaire a une **date de fin connue a l'avance**. Un client qui
-a pris 30 jours aura un besoin dans 30 jours : assurance annuelle, reconduction,
-ou carte grise s'il vient d'acheter le vehicule. C'est le declencheur commercial
-le plus previsible du metier, et il est aujourd'hui inexploite.
+Une assurance temporaire a une **date de fin connue à l'avance**. Un client qui a pris
+30 jours aura un besoin dans 30 jours : reconduction, ou carte grise s'il vient
+d'acheter le véhicule. C'est le déclencheur commercial le plus prévisible du métier.
 
-L'agent tourne **sans memoire d'un jour sur l'autre** : chaque execution repart de
-zero. C'est pourquoi le back-office doit porter l'etat « deja relance », sinon le
-meme client serait sollicite tous les jours.
+L'agent tourne **sans mémoire d'un jour sur l'autre** : chaque exécution repart de zéro.
+C'est pourquoi le back-office porte l'état « déjà relancé », sinon le même client serait
+sollicité tous les jours.
 
 ---
 
-## 2. Endpoint de lecture
+## 2. Accès
+
+| | |
+| --- | --- |
+| URL de base | `https://autotempo.net/api.php` |
+| Format | JSON en UTF-8, dates en `AAAA-MM-JJ` |
+| Transport | HTTPS obligatoire |
+| Authentification | `Authorization: Bearer <jeton>`, ou `X-Authorization` en repli |
+
+Le jeton se lit dans la variable d'environnement **`MCJ_API_TOKEN`**. Il n'est jamais
+écrit dans le dépôt, ni passé dans une URL : il donne accès à des emails de clients.
+Il est révocable à tout moment, auquel cas les appels suivants renvoient 401.
+
+L'authentification est vérifiée **avant** le routage : un appel sans jeton renvoie 401
+même sur une route inexistante. C'est le bon comportement, il ne révèle pas quelles
+routes existent.
+
+---
+
+## 3. Lire les échéances
 
 ```
-GET /api/relances?fin_min=3&fin_max=10
-Authorization: Bearer <jeton>
-Accept: application/json
+GET /api.php?route=echeances&de=0&a=7
 ```
 
-Retourne les contrats dont la date de fin tombe entre `aujourd'hui + fin_min` et
-`aujourd'hui + fin_max` **et** qui n'ont pas deja ete relances.
+Renvoie les contrats dont la date de fin tombe entre aujourd'hui + `de` jours et
+aujourd'hui + `a` jours. Seuls les contrats valides avec un email exploitable sont
+renvoyés, et un contrat déjà marqué comme relancé ne revient plus.
 
-### Reponse
+| Paramètre | Défaut | Règle |
+| --- | --- | --- |
+| `de` | 0 | entier, de -365 à 365 |
+| `a` | 7 | entier, >= `de`, 93 jours d'écart maximum |
 
 ```json
 {
+  "du": "2026-09-26",
+  "au": "2026-10-03",
+  "nombre": 1,
   "contrats": [
     {
-      "ref": "a3f91c",
-      "email": "client@example.com",
-      "prenom": "Marc",
-      "date_debut": "2026-09-02",
-      "date_fin": "2026-10-02",
+      "ref": "c_7a5e9d71a0d26f002b51d208",
+      "email": "paul@exemple.fr",
+      "prenom": "Paul",
+      "date_debut": "2026-08-30",
+      "date_fin": "2026-09-29",
       "duree_jours": 30,
-      "categorie": "CC-Cap",
-      "montant": 199.15
+      "categorie": "VP",
+      "montant": 120.5
     }
-  ],
-  "total": 1
+  ]
 }
 ```
 
-### Champs
+| Champ | Type | Contenu |
+| --- | --- | --- |
+| `ref` | texte | identifiant opaque et stable, à renvoyer tel quel au marquage |
+| `email` | texte | email du client |
+| `prenom` | texte ou `null` | prénom, `null` si inconnu |
+| `date_debut` | date | date d'effet |
+| `date_fin` | date | date de fin |
+| `duree_jours` | entier | jours entre `date_debut` et `date_fin` |
+| `categorie` | texte | catégorie du véhicule (VP, CAM3, TCP...) |
+| `montant` | nombre ou `null` | prix en euros, `null` si inconnu |
 
-| Champ | Obligatoire | Usage |
-|---|---|---|
-| `ref` | oui | identifiant **opaque** du contrat, sert a marquer la relance. **Ne pas exposer l'identifiant reel en base.** |
-| `email` | oui | destinataire de la relance |
-| `prenom` | non | personnalisation du message. Omettre si vous preferez |
-| `date_debut` | oui | comprendre le cas d'usage |
-| `date_fin` | oui | le declencheur |
-| `duree_jours` | oui | un client a 1 jour et un client a 90 jours n'ont pas le meme besoin |
-| `categorie` | oui | code vehicule (`VL-VL`, `CC-Cap`, `CAM-CAM3`...) pour adapter l'offre |
-| `montant` | non | prioriser les contrats a plus forte valeur |
-
-### Ce qu'il ne faut PAS renvoyer
-
-**Nom de famille, adresse postale, telephone, plaque d'immatriculation, numero de
-permis, date de naissance, coordonnees bancaires.** Rien de tout cela n'est
-necessaire pour envoyer une relance. Moins l'API en expose, moins une fuite coute.
+**Minimisation respectée.** Aucun nom de famille, adresse, téléphone, plaque, permis,
+date de naissance ni coordonnée bancaire ne sort de l'API. `scripts/test-api-relances.mjs`
+échoue si un de ces champs apparaît un jour dans une réponse.
 
 ---
 
-## 3. Endpoint d'ecriture
+## 4. Marquer une relance
 
 ```
-POST /api/relances/{ref}/marquee
-Authorization: Bearer <jeton>
+POST /api.php?route=relances
+Content-Type: application/json
+
+{"ref": "c_7a5e9d71a0d26f002b51d208"}
 ```
 
-Marque le contrat comme relance, avec la date. Il ne doit plus ressortir dans le
-`GET`. Idempotent : un second appel ne provoque pas d'erreur.
+```json
+{
+  "ref": "c_7a5e9d71a0d26f002b51d208",
+  "relance_le": "2026-09-26T09:31:32+02:00",
+  "deja_faite": false
+}
+```
 
-C'est **indispensable**. Sans lui, l'agent n'a aucun moyen de savoir qui il a deja
-sollicite, et le client recevrait une relance quotidienne.
-
----
-
-## 4. Desinscription
-
-Le back-office doit porter un indicateur **« ne plus demarcher »** par client.
-Un contrat dont le client s'est desinscrit **ne doit jamais ressortir** dans le
-`GET`, meme s'il n'a jamais ete relance.
-
-Cote message, chaque relance comportera un lien de desinscription. Il faudra donc
-aussi, a terme, un moyen de positionner cet indicateur depuis ce lien. Un simple
-endpoint public avec un jeton signe par client suffit.
+**Idempotent** : renvoyer la même `ref` ne crée pas de doublon, la réponse reste 200 avec
+`deja_faite: true` et la date de la première relance. On peut donc rejouer un appel en cas
+de doute, ce qui est exactement ce qu'il faut pour un agent sans mémoire.
 
 ---
 
-## 5. Authentification et securite
+## 5. Erreurs
 
-- **Jeton porteur** (`Authorization: Bearer`), genere cote back-office, revocable
-  a tout moment. Il sera range dans le coffre de l'environnement, jamais dans un
-  depot ni dans un message.
-- **HTTPS obligatoire**, deja en place.
-- **Lecture seule** pour le `GET`. Le `POST` ne doit pouvoir que positionner un
-  indicateur de relance, rien d'autre.
-- **Limitation de debit** : quelques requetes par jour suffisent, un plafond bas
-  est une bonne protection.
-- **Journalisation** des acces : date, endpoint, nombre d'enregistrements retournes.
-- Le jeton ne doit donner acces **qu'a ces deux endpoints**, pas au reste du
-  back-office.
+Toute erreur renvoie `{"erreur": "code", "message": "texte"}`.
 
----
-
-## 6. Details qui evitent des surprises
-
-- **Fuseau horaire** : preciser si les dates sont en UTC ou en heure de Paris.
-  L'agent tourne le matin, un decalage d'un jour fausserait le ciblage.
-- **Pagination** : inutile au volume attendu, mais si vous en mettez une,
-  documentez-la.
-- **Contrats sans email** : les exclure du `GET` plutot que renvoyer un champ vide.
-- **Erreurs** : codes HTTP standards. `401` si le jeton est absent ou invalide,
-  `403` s'il est valide mais non autorise, `404` si la `ref` n'existe pas.
-- **Reponse vide** : renvoyer `{"contrats": [], "total": 0}` et non une erreur.
+| Code | Cause |
+| --- | --- |
+| 400 | paramètre invalide : plage `de`/`a` incorrecte, `ref` absente ou mal formée |
+| 401 | jeton absent, invalide ou révoqué |
+| 403 | appel en HTTP, ou jeton non autorisé pour cette action |
+| 404 | endpoint inconnu, ou `ref` jamais renvoyée par `echeances` |
+| 405 | mauvaise méthode |
+| 500 | erreur interne, réessayer plus tard |
 
 ---
 
-## 7. Comment on validera
+## 6. Flux quotidien
 
-1. `GET` sans jeton renvoie **401**
-2. `GET` avec jeton renvoie du JSON conforme au schema ci-dessus
-3. Les champs interdits (nom, adresse, plaque...) sont **absents**
-4. Apres un `POST .../marquee`, le contrat **ne ressort plus** dans le `GET`
-5. Un client desinscrit ne ressort jamais
-6. Une plage sans contrat renvoie un tableau vide, pas une erreur
+1. `GET echeances` sur la plage voulue.
+2. **Regrouper par email** avant d'écrire (voir §7).
+3. Envoyer le message.
+4. `POST relances` pour chaque message réellement parti. Le contrat ne reviendra plus.
+
+Marquer **après** l'envoi, jamais avant : en cas d'échec d'envoi, mieux vaut relancer le
+lendemain que perdre le client silencieusement.
 
 ---
 
-## 8. Ce que ca permettra ensuite
+## 7. Points ouverts avant le premier envoi
 
-Une fois l'API en place, l'agent quotidien pourra segmenter les relances selon le
-profil reel : un client camping-car a 15 jours n'a pas le meme besoin qu'un client
-voiture a 1 jour qui vient manifestement d'acheter un vehicule d'occasion et aura
-besoin d'une carte grise.
+1. **Désabonnement — bloquant.** La documentation ne dit rien d'un client qui a demandé
+   à ne plus être sollicité. Il faut un drapeau côté base, et que `echeances` ne renvoie
+   **jamais** un contrat dont le client s'est désinscrit : l'agent n'a aucun autre moyen
+   de le savoir. Pour de la prospection par email, même vers des clients existants, un
+   lien de désinscription qui fonctionne n'est pas optionnel.
+2. **Un client, plusieurs contrats.** L'API raisonne par contrat. Quelqu'un dont trois
+   véhicules arrivent à échéance la même semaine recevra trois messages s'il n'y a pas
+   de regroupement par email côté agent. C'est le meilleur moyen de se faire classer en
+   spam.
+3. **Adresse d'envoi.** À décider : boîte Google Workspace via le connecteur Gmail, ou
+   serveur d'envoi du site.
 
-C'est la difference entre un mailing de masse et une relance pertinente.
+---
+
+## 8. Recette
+
+```bash
+MCJ_API_TOKEN=... node scripts/test-api-relances.mjs
+```
+
+Seize contrôles : codes HTTP, format JSON des erreurs, bornes de la plage de dates,
+cohérence de `nombre`, opacité des `ref`, minimisation des données. Sans jeton, le script
+s'arrête après les six contrôles non authentifiés plutôt que de faire semblant de passer.
+
+### Journal
+
+- **26/09/2026, matin** : première livraison. `api.php` déployé mais en erreur fatale sur
+  tous les appels, y compris une route inconnue, donc avant le routage. Page d'erreur
+  Apache par défaut au lieu du JSON documenté.
+- **26/09/2026, après-midi** : corrigé. Les six contrôles non authentifiés passent, le JSON
+  d'erreur est conforme, et le développeur a ajouté de lui-même `WWW-Authenticate`,
+  `Cache-Control: no-store` et `X-Content-Type-Options: nosniff`. Les dix contrôles
+  authentifiés restent à passer, jeton requis.
