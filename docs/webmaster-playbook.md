@@ -122,6 +122,23 @@ Propriete Search Console : `sc-domain:tempo-assurance.com`. Propriete GA4 : `540
 
 En cas d'echec, le code HTTP suffit au diagnostic : voir `docs/acces-donnees-google.md`.
 
+## 5 bis 2. Le balisage FAQPage ne produit plus rien dans Google
+
+**21 pages sur 61 portent un balisage `FAQPage`. Il ne sert plus au référencement Google.**
+Le résultat enrichi FAQ a été restreint aux sites gouvernementaux et de santé en août 2023,
+puis **retiré complètement le 7 mai 2026**. Google a supprimé la fonctionnalité de Search,
+le rapport dans la Search Console, et le support dans l'outil de test.
+
+Conséquences concrètes :
+
+- **Ne jamais présenter un ajout de `FAQPage` comme un gain SEO.** Ce serait vendre un
+  résultat qui n'existe plus.
+- **Ne pas le retirer pour autant.** Un balisage non supporté est ignoré, pas pénalisé, et il
+  reste lu par Bing, par les assistants et par les IA qui parcourent le site. Vu que le site
+  entretient un `llms.txt` et une application ChatGPT, c'est un canal qui compte ici.
+- Une FAQ **visible en clair dans la page** garde toute sa valeur : c'est du contenu qui
+  répond à une requête, indépendamment de tout balisage.
+
 ## 5 ter. Microsoft Clarity : les frictions que GA4 ne voit pas
 
 GA4 dit combien de gens passent et où. Clarity dit **où ça coince**. Ce sont les seules
@@ -246,16 +263,24 @@ Liste **ordonnée**. Prendre le premier chantier non fait, en entier, et rien d'
 Chaque entrée tient dans une session : si ce n'est pas le cas, elle est mal découpée, la
 redécouper et le dire dans le rapport.
 
-1. **Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement` alors que le reste du site
+1. **Dead clicks sur la page devis.** Relevé du 26/09 : 29 dead clicks, contre 13 sur
+   l'accueil qui a pourtant deux fois plus de sessions. L'hypothèse la plus courante, un texte
+   qui ressemble à un lien, a été **écartée** : aucun faux cliquable sur la page, vérifié au
+   navigateur en 390 px et 1280 px. Reprendre avec le tableau par page, qui affiche désormais
+   le pourcentage de sessions touchées et non le nombre de clics. Pistes restantes : la zone
+   autour de l'iframe du tarificateur, les puces `.quote-trust`, le bandeau `.quote-head`.
+2. **Erreur JS sur `/devis-ou-souscription.html#tarificateur`** : 2 erreurs sur 2 sessions au
+   26/09. Petit volume, mais 100 % des sessions concernées, et c'est la page qui convertit.
+3. **Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement` alors que le reste du site
    dit Crédit Mutuel. Nom actuel probable : Monetico. **Demander au propriétaire**, ne pas deviner.
-2. **Crawl espacé** : des pages non recrawlées depuis fin juillet. Vérifier dans Search Console
+4. **Crawl espacé** : des pages non recrawlées depuis fin juillet. Vérifier dans Search Console
    quelles pages, et si le `lastmod` du sitemap est bien à jour pour celles-là.
-3. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
+5. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
    « assurance temporaire pas cher », « prix assurance auto temporaire » (position 48 à 67).
-4. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
+6. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
    gondole. Avis Google, liens entrants. Ce chantier ne se règle pas dans le code : il se prépare
    (modèle d'e-mail de demande d'avis, liste de sites à contacter) et se propose au propriétaire.
-5. **Mesure** : GA4 renvoie toujours `keyEvents = 0`. Cela se règle dans l'interface GA4
+7. **Mesure** : GA4 renvoie toujours `keyEvents = 0`. Cela se règle dans l'interface GA4
    (Admin > Événements > marquer comme événement clé), pas dans le code, et **ce n'est pas
    rétroactif**. Tant que ce n'est pas fait, on ne sait pas si le travail génère des contrats.
    À rappeler dans le rapport tant que le chiffre reste à zéro.
@@ -306,3 +331,10 @@ investir pour le SEO.
   routine : **le playbook est lu à chaque session, le prompt doit être recopié à la main
   dans l'interface.** Tout ce qui peut vivre dans le playbook doit y vivre, le prompt reste
   l'ordre de mission et rien de plus.
+- **26/09/2026, soir** : le contrôle de déploiement ne regardait que 3 pages fixes, dont
+  aucune n'avait changé de la journée : il annonçait « production conforme » alors qu'il
+  n'avait rien vu du travail du jour. Il couvre désormais le socle de conversion **plus les
+  pages réellement modifiées sur 14 jours**, soit 25 pages au lieu de 3.
+- **26/09/2026, soir** : vérification faite, le résultat enrichi FAQ de Google a été retiré
+  le 7 mai 2026 (§5 bis 2). Les 21 pages qui portent un `FAQPage` n'en tirent plus rien côté
+  Google. On les garde pour les autres moteurs et les IA, mais plus jamais comme argument SEO.
