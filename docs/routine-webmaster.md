@@ -58,15 +58,15 @@ Trois contrôles : disponibilité et temps de réponse des pages clés, écart e
 
 ## ÉTAPE 3 : relever les chiffres (budget serré : un tiers de la session au maximum)
 
-L'accès Google est **automatique** : le proxy signe les appels, aucun jeton à fabriquer. Un `curl` sans en-tête d'authentification suffit.
+**Les sources de données et leur mode d'emploi sont dans le playbook, pas ici** : §5 bis pour Search Console et GA4, §5 ter pour Clarity, §6 pour la liste des relevés quotidiens. C'est le playbook qui fait foi, il est lu à chaque session et il évolue sans qu'on ait à retoucher ce prompt. Si une source y apparaît que tu ne connais pas, c'est normal : sers-t'en.
 
-**Attention à la latence.** Search Console accuse 2 à 3 jours de retard : demander « hier » renvoie du vide. GA4 est quasi temps réel.
+Ce qui ne change pas, quelle que soit la source :
 
-- **GA4** (propriété `540804517`) → la veille est disponible : sessions, utilisateurs, `keyEvents`, pages d'entrée. `ouverture_tarificateur` est l'événement clé depuis le 25/09/2026.
-- **Search Console** (`sc-domain:tempo-assurance.com`) → prends le jour le plus récent qui renvoie des données (remonte depuis J-2), et compare au **même jour de la semaine précédente** pour neutraliser l'effet week-end. Relève clics, impressions, CTR, position, top requêtes, top pages.
-- Cherche surtout ce qui a **bougé**.
-
-Si un appel échoue, `docs/acces-donnees-google.md` contient une grille de diagnostic par code HTTP. **N'y passe pas la session** : note l'échec dans le rapport et enchaîne sur le chantier.
+- **Attention à la latence.** Search Console accuse 2 à 3 jours de retard : demander « hier » renvoie du vide. GA4 est quasi temps réel, Clarity ne garde que 3 jours.
+- **Toujours comparer.** Un chiffre seul ne dit rien. Le même jour de la semaine précédente, pour neutraliser l'effet week-end.
+- **Cherche ce qui a bougé**, pas ce qui est gros.
+- **Ne confonds jamais un signal avec une cause.** Un rebond élevé peut signifier que la page a répondu à la question.
+- Si un appel échoue, note-le dans le rapport et **enchaîne sur le chantier**. `docs/acces-donnees-google.md` a une grille de diagnostic par code HTTP, mais n'y passe pas la session.
 
 ## ÉTAPE 4 : le chantier du jour (obligatoire)
 

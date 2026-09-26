@@ -122,6 +122,67 @@ Propriete Search Console : `sc-domain:tempo-assurance.com`. Propriete GA4 : `540
 
 En cas d'echec, le code HTTP suffit au diagnostic : voir `docs/acces-donnees-google.md`.
 
+## 5 ter. Microsoft Clarity : les frictions que GA4 ne voit pas
+
+GA4 dit combien de gens passent et où. Clarity dit **où ça coince**. Ce sont les seules
+métriques du site qui pointent un défaut réparable :
+
+| Signal | Ce que ça veut dire |
+| --- | --- |
+| **Rage clicks** | quelqu'un clique frénétiquement sur un élément qui ne répond pas |
+| **Dead clicks** | un clic sur ce qui ressemble à un bouton et n'en est pas un |
+| **Erreurs JS** | du code qui casse chez de vrais visiteurs, pas en test |
+| **Quickbacks** | arrivée puis retour immédiat : la page a menti sur son contenu |
+| **Excessive scroll** | l'information cherchée est trop bas, ou introuvable |
+| Scroll moyen, temps actif | l'engagement réel, par page |
+
+```bash
+node scripts/clarity.mjs            # relevé du jour, enregistré et résumé
+node scripts/clarity.mjs --relire   # relire le dernier instantané sans appeler l'API
+node scripts/clarity.mjs --brut     # réponse brute, pour la mise au point
+```
+
+Le jeton est dans `CLARITY_API_TOKEN`. **Une session démarrée avant l'ajout de la variable
+ne la verra jamais** : il faut une session neuve.
+
+### Pourquoi l'instantané quotidien n'est pas optionnel
+
+L'API ne donne que les **1 à 3 derniers jours** et plafonne à **10 requêtes par jour**.
+Clarity ne conserve aucun historique exploitable. Le script enregistre donc la réponse
+brute dans `donnees/clarity/AAAA-MM-JJ.json`, un fichier par jour.
+
+**C'est le seul historique dont on disposera jamais.** Une journée non relevée est perdue
+définitivement. Sans cette série, on ne saura pas si une friction est apparue hier ou
+traîne depuis six semaines, et on ne pourra pas dire si une correction a servi à quelque
+chose.
+
+Le script consomme **2 requêtes sur 10**. Le quota est **par projet et par jour, pas par
+session** : deux sessions qui relancent le script le même jour le vident à quatre. Le
+script s'en protège — si l'instantané du jour existe, il le relit au lieu d'appeler l'API,
+et il faut `--force` pour passer outre.
+
+**Ne jamais supprimer un instantané pour « refaire proprement ».** Le 26/09, le quota a été
+épuisé en re-testant, juste après avoir supprimé le fichier du jour : la journée est perdue
+définitivement. En cas de journée manquante, le lendemain, `numOfDays=2` ou `3` permet de la
+rattraper.
+
+### Quand c'est une alerte
+
+- **Rage clicks non nuls** sur une page de conversion (accueil, devis, tarifs) : à traiter
+  le jour même, c'est un visiteur qui essaie d'acheter et n'y arrive pas.
+- **Erreurs JS au-dessus de 1 % des sessions** : chercher la page et le navigateur.
+- **Dead clicks au-dessus de 10 %** : en général un texte qui ressemble à un lien, ou
+  l'inverse. Gênant, rarement urgent.
+- Un ordre de grandeur relevé le 26/09 pour comparaison : **414 sessions sur 24 h dont 38
+  bots, scroll moyen 59,8 %, dead clicks 8,2 %, erreurs JS 0,24 %, rage clicks 0.**
+
+### Ce que Clarity ne dit pas
+
+Les chiffres sont **agrégés et anonymes**, sans identité ni parcours individuel. Un pic de
+dead clicks désigne une page, jamais une personne. Et comme pour tout le reste : un signal
+n'est pas une cause. Une page à fort taux de rebond peut simplement avoir répondu à la
+question du visiteur.
+
 ## 6. Contrôles obligatoires avant tout commit
 
 ```bash
@@ -131,6 +192,13 @@ node -e "const fs=require('fs');fs.readdirSync('.').filter(f=>f.endsWith('.html'
 grep -l "’" *.html ; grep -o "<p[^>]*>[^<]*—" *.html
 ```
 En pratique, un seul appel couvre tout : `node scripts/verif-qualite.mjs` (même contrôle que la CI).
+
+Et une fois par jour, avant de choisir le chantier :
+
+```bash
+node scripts/surveillance.mjs   # disponibilité, écart de déploiement, SSL
+node scripts/clarity.mjs        # frictions réelles, et instantané du jour
+```
 Plus : rendu sans erreur JS, balises équilibrées, questions FAQ présentes en texte visible.
 
 ## 7. Cadence éditoriale
@@ -232,3 +300,9 @@ investir pour le SEO.
   à chaque fois, donc rien ne signalait le problème. Contrôle ajouté au §8 : vérifier
   `origin/main..origin/<branche>` et l'état de la PR avant tout commit et avant toute
   annonce.
+- **26/09/2026** : Clarity branché (§5 ter). Le relevé quotidien est enregistré dans
+  `donnees/clarity/`, parce que l'API ne garde que trois jours : une journée non relevée
+  est perdue pour toujours. Ce qui a motivé le §5 ter plutôt qu'un ajout au prompt de la
+  routine : **le playbook est lu à chaque session, le prompt doit être recopié à la main
+  dans l'interface.** Tout ce qui peut vivre dans le playbook doit y vivre, le prompt reste
+  l'ordre de mission et rien de plus.
