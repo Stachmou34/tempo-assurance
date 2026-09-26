@@ -88,6 +88,28 @@ l'iframe JL Assure, donc hors de portee de la propriete sans action du partenair
 - Classes réutilisables : `.tldr .callout .tableau .table-scroll .steps .cards .card .faq-q .btn .cta-btn-modal .breadcrumb .muted .maillage`
 - **Ne jamais toucher aux blocs CTA et estimateur** : ce sont eux qui convertissent.
 
+## 5 bis. Acces aux donnees Google (Search Console et GA4)
+
+**L'acces est automatique.** Le proxy de l'environnement signe les appels grace a un
+identifiant d'API stocke dans son coffre : aucun jeton a fabriquer, aucune cle a lire.
+Un `curl` sans en-tete d'authentification suffit.
+
+```bash
+curl -s https://www.googleapis.com/webmasters/v3/sites
+
+curl -s -X POST -H "Content-Type: application/json" \
+  "https://www.googleapis.com/webmasters/v3/sites/sc-domain%3Atempo-assurance.com/searchAnalytics/query" \
+  -d '{"startDate":"2026-09-01","endDate":"2026-09-23","dimensions":["query"],"rowLimit":25}'
+
+ curl -s -X POST -H "Content-Type: application/json" \
+  "https://analyticsdata.googleapis.com/v1beta/properties/540804517:runReport" \
+  -d '{"dateRanges":[{"startDate":"2026-09-01","endDate":"2026-09-23"}],"metrics":[{"name":"sessions"}]}'
+```
+
+Propriete Search Console : `sc-domain:tempo-assurance.com`. Propriete GA4 : `540804517`.
+
+En cas d'echec, le code HTTP suffit au diagnostic : voir `docs/acces-donnees-google.md`.
+
 ## 6. Contrôles obligatoires avant tout commit
 
 ```bash
