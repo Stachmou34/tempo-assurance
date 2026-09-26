@@ -30,7 +30,8 @@ async function appel(url, opts = {}) {
   }
 }
 
-const auth = (jeton = TOKEN) => ({ Authorization: `Bearer ${jeton}` });
+// L'hebergeur supprime l'en-tete Authorization avant PHP : X-Authorization sert de repli.
+const auth = (jeton = TOKEN) => ({ Authorization: `Bearer ${jeton}`, 'X-Authorization': `Bearer ${jeton}` });
 
 console.log('Recette API de relance autotempo.net\n');
 
@@ -85,7 +86,9 @@ if (r.code === 200 && r.json) {
     note(surplus.length === 0, '12. Aucun champ hors contrat',
          surplus.length ? `en trop : ${surplus.join(', ')}` : '');
 
-    const fuites = cles.filter(k => CHAMPS_INTERDITS.some(i => k.toLowerCase().includes(i)));
+    // Les champs autorises sont exclus : sinon "prenom" est pris pour "nom".
+    const fuites = cles.filter(k => !CHAMPS_ATTENDUS.includes(k) &&
+                                    CHAMPS_INTERDITS.some(i => k.toLowerCase().includes(i)));
     note(fuites.length === 0, '13. MINIMISATION : aucune donnee personnelle interdite',
          fuites.length ? `FUITE : ${fuites.join(', ')}` : '');
 

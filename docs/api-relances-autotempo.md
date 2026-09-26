@@ -183,3 +183,10 @@ s'arrête après les six contrôles non authentifiés plutôt que de faire sembl
   donc pas l'en-tête qui est filtré par Apache : le jeton n'est pas reconnu côté serveur
   (mauvais jeton, révoqué, ou non enregistré en base). À vérifier avec le développeur, puis
   relancer.
+- **26/09/2026, nuit** : ✅ **recette validée, 16/16**. Le refus précédent venait de l'hébergeur,
+  qui supprime l'en-tête `Authorization` avant PHP : le même jeton passe via `X-Authorization`.
+  Le script envoie désormais les deux en-têtes. Le contrôle 13 donnait un faux positif
+  (`prenom` contient `nom`) : les champs autorisés sont maintenant exclus de la recherche de
+  fuite. Lecture nominale sur 7 jours : 103 contrats, uniquement les 8 champs du contrat,
+  `ref` opaques, `Cache-Control: no-store`. Seul le marquage idempotent (`deja_faite`) reste
+  non testé, pour ne pas consommer un vrai contrat.
