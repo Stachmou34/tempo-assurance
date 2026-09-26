@@ -145,6 +145,33 @@ Plus : rendu sans erreur JS, balises équilibrées, questions FAQ présentes en 
 Branche de travail `claude/upbeat-cerf-yjyYC`, PR vers `main`, déploiement par `git pull` sur le serveur.
 Quand la PR est mergée, repartir de `origin/main` (ne jamais empiler sur de l'historique déjà mergé).
 
+### Vérifier l'état de la PR AVANT chaque push
+
+Une branche n'est pas une PR. Quand le propriétaire merge, GitHub **ferme la PR au commit
+fusionné** : tout ce qui est poussé ensuite reste sur la branche et **n'est porté par
+aucune PR**. Le push réussit, la branche avance, et le travail n'arrive jamais en ligne.
+C'est arrivé le 26/09 : cinq commits sont restés orphelins derrière une PR déjà mergée,
+et ils ont été annoncés au propriétaire comme faisant partie de cette PR.
+
+Avant tout commit, et de nouveau avant d'annoncer un livrable :
+
+```bash
+git fetch origin
+# commits de la branche qui ne sont pas dans main
+git log --oneline origin/main..origin/claude/upbeat-cerf-yjyYC
+```
+
+- **Aucun commit** : la branche est à jour, repartir de `origin/main`.
+- **Des commits, et une PR ouverte qui les contient** : continuer dessus.
+- **Des commits, et aucune PR ouverte** (ou une PR mergée à un commit antérieur) :
+  les rebaser sur `origin/main` (`git rebase origin/main`), pousser en
+  `--force-with-lease`, et **ouvrir une nouvelle PR**. Ne jamais rouvrir ni réutiliser une
+  PR mergée.
+
+Ne jamais annoncer un numéro de PR sans avoir relu son état et la liste de ses commits.
+Une PR mergée à un commit antérieur affiche encore le bon titre et le bon lien : rien ne
+signale l'erreur, sauf la vérification.
+
 ## 9. Chantiers ouverts
 
 Liste **ordonnée**. Prendre le premier chantier non fait, en entier, et rien d'autre.
@@ -200,3 +227,8 @@ investir pour le SEO.
   du hero de l'accueil) affichent **4,2/5 sur Trustpilot (13 avis)**, lien vers la fiche. Pas de
   balise `aggregateRating` ajoutée, conformément à la décision du 25/09. La valeur n'existe qu'à
   un seul endroit par page pour rester facile à mettre à jour au prochain relevé.
+- **26/09/2026** : cinq commits poussés derrière une PR déjà mergée, sans PR pour les
+  porter, et annoncés au propriétaire comme faisant partie de cette PR. Le push réussissait
+  à chaque fois, donc rien ne signalait le problème. Contrôle ajouté au §8 : vérifier
+  `origin/main..origin/<branche>` et l'état de la PR avant tout commit et avant toute
+  annonce.
