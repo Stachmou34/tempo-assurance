@@ -69,6 +69,18 @@ l'iframe JL Assure, donc hors de portee de la propriete sans action du partenair
 - Interdits absolus : moto, « camion < 3,5 t », annoncer 23 ans comme minimum, prix 90 j à 290,16 €.
 - **Aucun prix inventé.** Source unique de vérité : `tarifs.md` (8 grilles par catégorie).
   Attention : la voiturette démarre à 10 jours, les poids lourds s'arrêtent à 15 jours.
+- **La carte verte n'existe plus.** Supprimée en France le **1er avril 2024**
+  (décret n° 2023-1152 du 8 décembre 2023). La preuve d'assurance passe par le
+  **Fichier des Véhicules Assurés (FVA)**, interrogé sur la plaque, et l'assureur remet un
+  **mémo véhicule assuré**. Dire « attestation d'assurance », jamais « carte verte ».
+  Argument utile et vrai : un véhicule assuré depuis **moins de 72 heures** peut ne pas encore
+  figurer au FVA, donc l'attestation téléchargée reste à conserver. C'est précisément le cas
+  d'un contrat d'un jour.
+  **Seule exception** : les pays hors reconnaissance automatique (Maroc, Tunisie, Turquie,
+  Ukraine, Albanie, Azerbaïdjan, Moldavie, Macédoine du Nord). Là le document existe toujours et
+  s'appelle **carte internationale d'assurance** ; on peut ajouter « dite carte verte » une fois
+  par page, parce que c'est le mot que les visiteurs cherchent. Le contrôle `verif-qualite.mjs`
+  bloque toute autre page qui la mentionne (liste blanche `CV_AUTORISEES`).
 
 ## 4. Règles de rédaction
 
@@ -118,6 +130,7 @@ node -e "const fs=require('fs');fs.readdirSync('.').filter(f=>f.endsWith('.html'
 # apostrophes typographiques et tirets cadratins en prose
 grep -l "’" *.html ; grep -o "<p[^>]*>[^<]*—" *.html
 ```
+En pratique, un seul appel couvre tout : `node scripts/verif-qualite.mjs` (même contrôle que la CI).
 Plus : rendu sans erreur JS, balises équilibrées, questions FAQ présentes en texte visible.
 
 ## 7. Cadence éditoriale
@@ -134,18 +147,34 @@ Quand la PR est mergée, repartir de `origin/main` (ne jamais empiler sur de l'h
 
 ## 9. Chantiers ouverts
 
-1. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
-   gondole. Avis Google et Trustpilot (4/5, 13 avis au 25/09), liens entrants. Tout le reste est secondaire.
-2. **Mesure** : la separation des evenements est faite (voir §2). Reste le point bloquant :
-   GA4 renvoie toujours `keyEvents = 0`, aucune conversion marquee. Cela se regle dans
-   l'interface GA4 (Admin > Evenements > marquer comme evenement cle), pas dans le code.
-   Tant que ce n'est pas fait, on ne peut pas savoir si le travail genere des contrats.
-3. **Crawl espacé** : certaines pages n'ont pas été recrawlées depuis fin juillet.
-4. **Requêtes perdues** à surveiller après la refonte de la page tarifs : « assurance temporaire pas cher »,
-   « prix assurance auto temporaire » (elles étaient en position 48 à 67).
-5. **Sans demande** : résilié/malus = 3 impressions sur 3 mois. Ne pas investir pour le SEO.
-6. **Badge Trustpilot** : maquette validée (variantes A+B+D), pas encore posée sur le site.
-   Plan gratuit Trustpilot = 1 seul widget de base, donc badge statique maison + lien vers la fiche.
+Liste **ordonnée**. Prendre le premier chantier non fait, en entier, et rien d'autre.
+Chaque entrée tient dans une session : si ce n'est pas le cas, elle est mal découpée, la
+redécouper et le dire dans le rapport.
+
+1. **Badge Trustpilot** (maquette A + B + D validée le 25/09, jamais posée).
+   Relever la note réelle sur `https://fr.trustpilot.com/review/tempo-assurance.com` avant
+   d'écrire un chiffre. Au 26/09 : **4,2/5 sur 13 avis**. Poser A (rangée de gages de la page
+   devis) et B (pastille du hero de l'accueil). Ne **pas** ajouter de balise
+   `aggregateRating` : Google n'accepte pas les avis auto-déclarés sur une `Organization`,
+   et une pénalité coûterait plus que le gain.
+   *Fait quand* : les deux pages affichent la note, le lien ouvre la fiche Trustpilot, et la
+   valeur est écrite à un seul endroit par page pour être trouvable au prochain relevé.
+2. **Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement` alors que le reste du site
+   dit Crédit Mutuel. Nom actuel probable : Monetico. **Demander au propriétaire**, ne pas deviner.
+3. **Crawl espacé** : des pages non recrawlées depuis fin juillet. Vérifier dans Search Console
+   quelles pages, et si le `lastmod` du sitemap est bien à jour pour celles-là.
+4. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
+   « assurance temporaire pas cher », « prix assurance auto temporaire » (position 48 à 67).
+5. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
+   gondole. Avis Google, liens entrants. Ce chantier ne se règle pas dans le code : il se prépare
+   (modèle d'e-mail de demande d'avis, liste de sites à contacter) et se propose au propriétaire.
+6. **Mesure** : GA4 renvoie toujours `keyEvents = 0`. Cela se règle dans l'interface GA4
+   (Admin > Événements > marquer comme événement clé), pas dans le code, et **ce n'est pas
+   rétroactif**. Tant que ce n'est pas fait, on ne sait pas si le travail génère des contrats.
+   À rappeler dans le rapport tant que le chiffre reste à zéro.
+
+**Écarté, avec sa raison** : résilié / malus = 3 impressions en 3 mois. Aucune demande, ne pas
+investir pour le SEO.
 
 ## 10. Journal des décisions
 
@@ -158,3 +187,19 @@ Quand la PR est mergée, repartir de `origin/main` (ne jamais empiler sur de l'h
   « jeune conducteur », qui aurait cannibalisé une page déjà positionnée (12,9).
 - **25/09/2026** : `tarifs.md` et `llms.txt` alignés sur « Crédit Mutuel » (ils annonçaient encore CIC,
   ce qui faisait raconter aux IA autre chose que le site).
+- **26/09/2026** : suppression de la **carte verte** sur 40 fichiers. Le site la promettait
+  195 fois alors qu'elle n'existe plus depuis le 01/04/2024, et sa propre veille du 19/07 l'écrivait
+  noir sur blanc : le site se contredisait et promettait un document inexistant, jusque dans le
+  hero de l'accueil et dans 3 balises `<title>`. Conservée, sous son vrai nom, sur les 4 pages
+  hors reconnaissance automatique. Garde-fou ajouté dans `verif-qualite.mjs` pour que la mention
+  ne puisse pas revenir.
+- **26/09/2026** : la réponse FAQ « mon attestation téléchargée est-elle valable ? » citait
+  l'**article R211-17** sur la carte verte comme droit en vigueur. Réécrite sur le FVA, le mémo
+  véhicule assuré et la fenêtre de 72 heures. Une citation légale obsolète sur un site
+  d'assurance est pire qu'une absence de citation.
+- **26/09/2026** : **CIC → Crédit Mutuel** terminé sur les 10 pages qui le mentionnaient encore
+  (dont le hero de l'accueil). Reste `CM-CIC p@iement` dans la FAQ paiement : c'est le nom
+  historique de la passerelle, rebaptisée Monetico. À trancher avec le propriétaire, pas à
+  deviner.
+- **26/09/2026** : Trustpilot est passé à **4,2/5 sur 13 avis** (relevé du 26/09, contre 4,0
+  au 25/09). Le badge reste à poser.
