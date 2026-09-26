@@ -173,3 +173,59 @@ pas pour le volume : 10 contrats en quatre mois à elles trois.
   question posée directement y répondra.
 - **Aucune donnée sur les devis non transformés.** L'API ne renvoie que des contrats. Le
   taux d'abandon du tarificateur reste invisible de ce côté.
+
+---
+
+## 8. Les gros utilisateurs : deux profils, deux produits
+
+Analyse des **114 clients ayant pris 3 contrats ou plus**, en regardant si leurs contrats
+se chevauchent (plusieurs véhicules assurés en même temps) ou s'enchaînent (un seul
+véhicule, couvert en continu).
+
+| | Profil professionnel | Particulier qui enchaîne |
+| --- | --- | --- |
+| Clients | **66** | 48 |
+| Signature | contrats qui se chevauchent, véhicules variés | séquentiel, 85 % de voitures particulières |
+| Taux de couverture de la période | **102 %** | 58 % |
+| Jours assurés (médiane) | 63 | 36 |
+| Dépense médiane | 636 € | 370 € |
+| Dépense totale | **53 802 €** | 19 085 € |
+
+Un taux de couverture supérieur à 100 % ne peut signifier qu'une chose : **plusieurs
+véhicules assurés simultanément**. C'est la signature d'une activité professionnelle, pas
+d'un besoin ponctuel. Ces 66 clients pèsent **24 % du chiffre d'affaires**.
+
+Les 48 autres enchaînent les contrats sur un seul véhicule, majoritairement une voiture
+particulière, avec un trou médian de 10 jours entre deux contrats. **25 d'entre eux
+couvrent plus de la moitié de la période observée**, pour 458 € chacun sur environ 54 jours
+assurés, soit 8,50 € par jour.
+
+### Ce que ça change sur le résilié / malus
+
+Le playbook dit, au §9 : « résilié/malus = 3 impressions en 3 mois, ne pas investir pour
+le SEO ». **C'est toujours vrai pour l'acquisition, et c'est faux pour la base existante.**
+
+Quelqu'un qui assure la même voiture en continu, par tranches de 9 jours, à 8,50 € par
+jour, ne le fait pas par choix. Ce comportement est celui de quelqu'un qui **n'a pas accès
+à un contrat annuel** : résilié, malus, jeune conducteur, permis étranger. La demande
+existe, elle n'est simplement pas visible dans les requêtes Google : elle est visible dans
+le comportement d'achat.
+
+Extrapolé sur une année, un client à 58 % de couverture serait assuré environ 210 jours et
+dépenserait de l'ordre de 1 700 €. Un contrat annuel, même surprimé, coûte moins cher.
+
+**Réserve honnête** : 48 clients, c'est peu, et la fenêtre d'observation est de quatre mois.
+Le taux de couverture calculé sur une période courte est fragile. La classification elle-même
+est grossière : elle repose sur le chevauchement des dates et la variété des catégories,
+faute de mieux, l'API ne renvoyant ni plaque ni identité, ce qui est voulu.
+
+### Trois pistes, par ordre de facilité
+
+1. **Carte grise via Certimat.** Partenariat déjà en place, commission déjà paramétrée,
+   rien à négocier. Cible : les ~55 clients par mois qui prennent un contrat d'un jour sur
+   une voiture particulière. Besoin daté et quasi certain : un mois pour immatriculer.
+2. **Les 66 professionnels, 24 % du CA.** Ils assurent plusieurs véhicules à la fois. Ce
+   sont 66 appels téléphoniques, pas une campagne. L'objectif du premier appel est
+   d'apprendre ce qu'ils achètent ailleurs, pas de vendre.
+3. **Le contrat annuel pour les 25 enchaîneurs.** À conditionner à ce que MCJ Courtage est
+   réellement habilité à placer, et à un accord avec un assureur acceptant ces profils.
