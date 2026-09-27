@@ -473,5 +473,38 @@
 
 	<div class="sticky-cta"><a class="cta-btn-modal" href="devis-ou-souscription.html">Obtenir mon tarif en 2 min</a></div>
 	<script src="assets/site.js?v=14" defer></script>
+<script>
+/* Clic sans effet : identifier ce sur quoi les visiteurs tapent en vain.
+
+   Clarity compte 29 clics morts sur cette page (releve du 26/09) mais n'expose pas
+   QUEL element les recoit : la dimension heatmap n'est pas dans l'API. Sans ce
+   complement on ne peut que supposer, et une enquete a deja produit un faux coupable.
+
+   N'envoie que le chemin CSS de l'element touche : balise et premiere classe, trois
+   niveaux, 90 caracteres au plus. Aucun texte, aucun contenu saisi, rien de personnel.
+   Plafonne a 5 par chargement de page pour ne pas noyer les evenements utiles. */
+(function () {
+	var envoyes = 0, MAX = 5;
+	var INTERACTIFS = 'a,button,input,select,textarea,label,summary,details,iframe,[onclick],[role="button"],[tabindex]';
+	document.addEventListener('click', function (e) {
+		if (envoyes >= MAX) return;
+		var t = e.target;
+		if (!t || !t.closest) return;
+		if (!t.closest('main')) return;          // le header et le nav ont leurs propres gestionnaires
+		if (t.closest(INTERACTIFS)) return;      // un clic qui aboutit n'est pas un clic mort
+		var p = [], el = t;
+		for (var i = 0; i < 3 && el && el.nodeType === 1 && el !== document.body; i++) {
+			var cl = (typeof el.className === 'string' && el.className) ? el.className.trim().split(/\s+/)[0] : '';
+			p.unshift(el.tagName.toLowerCase() + (cl ? '.' + cl : ''));
+			el = el.parentElement;
+		}
+		var chemin = p.join('>').slice(0, 90);
+		envoyes++;
+		if (typeof window.gtag === 'function')
+			window.gtag('event', 'clic_sans_effet', { element: chemin, page_path: location.pathname });
+		if (typeof window.clarity === 'function') { try { window.clarity('set', 'clic_sans_effet', chemin); } catch (err) {} }
+	}, true);
+})();
+</script>
 </body>
 </html>
