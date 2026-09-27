@@ -14,7 +14,7 @@ const CV_AUTORISEES = new Set([
   'assurance-temporaire-maroc.html', 'assurance-temporaire-tunisie.html',
   'assurance-temporaire-algerie.html', 'assurance-temporaire-frontiere.html',
   'assurance-temporaire-espagne.html', 'faq-assurance-temporaire.html',
-  'veille-auto.html', 'veille-auto-2026-07-19.html',
+  'veille-auto.html', 'veille-auto-2026-07-19.html', 'veille-auto-2026-07-26.html',
 ]);
 
 for (const f of pages) {
