@@ -183,6 +183,25 @@ et il faut `--force` pour passer outre.
 définitivement. En cas de journée manquante, le lendemain, `numOfDays=2` ou `3` permet de la
 rattraper.
 
+### L'evenement `clic_sans_effet`
+
+Clarity compte les dead clicks mais **n'expose pas quel element les reçoit** : la
+dimension heatmap n'est pas dans l'API. Un écouteur posé sur `devis-ou-souscription.html`,
+`index.html` et `faq-assurance-temporaire.html` complète le relevé : à chaque clic dans
+`<main>` sur un élément non interactif, il envoie à GA4 et à Clarity le **chemin CSS** de
+la cible, en trois niveaux.
+
+Il n'envoie **aucun texte, aucun contenu saisi, rien de personnel** : balise et première
+classe, 90 caractères au plus. Plafonné à 5 par chargement de page.
+
+Lecture : `element` dans GA4 (événement `clic_sans_effet`), ou le tag personnalisé
+`clic_sans_effet` dans les filtres Clarity.
+
+**Pourquoi cet écouteur existe** : une enquête menée le 27/09 par une session dédiée a
+produit quatre coupables présumés, dont **un élément qui n'existe pas dans le DOM**, avec
+des dimensions au pixel près, et un autre **masqué sur mobile** alors que le mobile fait
+66 % des sessions. Sans mesure directe, on ne fait que supposer avec assurance.
+
 ### Quand c'est une alerte
 
 - **Rage clicks non nuls** sur une page de conversion (accueil, devis, tarifs) : à traiter
@@ -389,3 +408,7 @@ investir pour le SEO.
   passé en pay-per-use, environ 23 $/mois pour l'usage envisagé, et n'apporterait qu'un
   écho retardé de sources gratuites. Il reste le seul moyen de surveiller la réputation de
   la marque, ce qui est un besoin distinct et non tranché.
+- **27/09/2026** : écouteur `clic_sans_effet` posé sur les trois pages qui remontent des
+  dead clicks. La cause des 29 clics morts de la page devis n'était pas déterminable
+  autrement : Clarity donne le compte, pas la cible. Rappel utile, tiré de la même
+  journée : un rapport d'agent, aussi assuré soit-il, se vérifie avant d'être relayé.
