@@ -154,17 +154,32 @@ lendemain que perdre le client silencieusement.
    email, et invisible depuis JavaScript, qui réaffiche `159.37` : il faut lire la réponse
    brute pour le voir. À arrondir côté API (`round($m, 2)`), sinon chaque client devra le
    faire et un oubli finira dans un message envoyé.
-1. **Désabonnement — bloquant.** La documentation ne dit rien d'un client qui a demandé
-   à ne plus être sollicité. Il faut un drapeau côté base, et que `echeances` ne renvoie
-   **jamais** un contrat dont le client s'est désinscrit : l'agent n'a aucun autre moyen
-   de le savoir. Pour de la prospection par email, même vers des clients existants, un
-   lien de désinscription qui fonctionne n'est pas optionnel.
+1. **Désabonnement — ne passera PAS par l'API.** Arbitré par le propriétaire le
+   27/09/2026 : aucun drapeau ne sera ajouté côté `autotempo.net`. **C'est le bon choix**,
+   à une condition.
+
+   Le droit d'opposition reste obligatoire. La CNIL l'énonce clairement : la prospection
+   par email vers ses propres clients, pour des produits analogues, ne demande pas de
+   consentement préalable, mais la personne doit pouvoir s'y opposer « simplement et
+   gratuitement », **lors de chaque message**.
+
+   Il n'a simplement pas à vivre dans l'API. La CNIL admet explicitement le retrait via
+   une page accessible d'un clic depuis le message. **Toute plateforme d'emailing
+   (Brevo, Mailjet, Sendinblue) tient cette liste nativement et refuse de livrer à une
+   adresse désinscrite.** L'agent lui pousse les destinataires du jour, elle filtre.
+
+   Conséquence : **la plateforme d'envoi n'est plus une préférence, c'est elle qui porte
+   la conformité.** Un envoi « à la main » depuis une boîte Gmail ne tient pas cette
+   promesse, puisque rien ne tiendrait la liste des désinscrits.
 2. **Un client, plusieurs contrats.** L'API raisonne par contrat. Quelqu'un dont trois
    véhicules arrivent à échéance la même semaine recevra trois messages s'il n'y a pas
    de regroupement par email côté agent. C'est le meilleur moyen de se faire classer en
    spam.
-3. **Adresse d'envoi.** À décider : boîte Google Workspace via le connecteur Gmail, ou
-   serveur d'envoi du site.
+3. **Plateforme d'envoi — devenue le point décisif.** À décider, et ce n'est plus une
+   question de confort : voir le point 1, c'est elle qui portera le droit d'opposition.
+   Une plateforme d'emailing gère la désinscription, les rebonds et la réputation
+   d'expéditeur. Le connecteur Gmail conviendrait pour quelques messages nominatifs, pas
+   pour une quinzaine d'envois quotidiens automatisés.
 
 ---
 
@@ -194,3 +209,7 @@ s'arrête après les six contrôles non authentifiés plutôt que de faire sembl
 - **Volume constate le 26/09** : 103 contrats a echeance sous 7 jours, 14 a exactement
   3 jours, 198 sous 30 jours, 231 sous 90 jours. A un horizon de 3 jours, cela represente
   une quinzaine de relances par jour.
+- **27/09/2026** : arrondi des montants validé côté développeur. Désabonnement écarté de
+  l'API sur décision du propriétaire, et à raison : il relève de la plateforme d'envoi,
+  pas du back-office. Cela déplace la conformité sur le choix de cette plateforme, qui
+  devient le vrai point ouvert.
