@@ -225,6 +225,53 @@ Plus : rendu sans erreur JS, balises équilibrées, questions FAQ présentes en 
 - **Lundi** : brève d'actualité dans `actualites.html`.
 - Enregistrer toute nouvelle page dans `blog.html`, `sitemap.xml` et `llms.txt`.
 
+### Sources de veille
+
+```bash
+node scripts/veille-sources.mjs            # nouveautes depuis le dernier passage
+node scripts/veille-sources.mjs --tout     # tout le fonds, sans filtre de nouveaute
+node scripts/veille-sources.mjs --jours 20 # elargir la fenetre
+```
+
+Trois flux institutionnels, retenus **après test** sur quatorze candidats : Sécurité
+routière, Bercy (`/rss/toutesactualites`), France Assureurs. Les sites de presse auto,
+Légifrance, l'Intérieur et l'ACPR renvoient 403 aux robots, et plusieurs flux annoncés
+n'existent plus.
+
+**Un HTTP 200 ne suffit pas à valider une source** : `economie.gouv.fr/rss` répond 200
+sur une page qui *liste* des flux sans en être un. Vérifier qu'elle renvoie des entrées
+avant de l'ajouter.
+
+**Ce que ça vaut, honnêtement : 3 entrées pertinentes sur 20 jours.** Ces flux sont un
+filet de sécurité, pas une source d'inspiration. Ils garantissent qu'une annonce
+institutionnelle ne passe pas à travers, mais **la recherche web reste l'outil principal
+de la veille du dimanche**. Ne pas construire une édition uniquement à partir d'eux.
+
+Le filtre travaille sur **deux axes** : un sujet doit toucher l'automobile ET l'assurance,
+ou porter un terme intrinsèquement automobile. Une première version, qui donnait le
+maximum à tout titre contenant « assurance », faisait remonter le photovoltaïque, le
+ramonage et l'assurance-vie en tête d'une veille auto. Un mot-clé seul ne veut rien dire.
+
+Les entrées déjà vues sont mémorisées dans `donnees/veille/vus.json` : c'est ce qui évite
+de publier deux fois le même sujet à deux semaines d'intervalle.
+
+### Pourquoi pas X (Twitter)
+
+Question tranchée le 27/09/2026. **L'API X n'a plus de palier gratuit depuis février 2026**,
+et les paliers Basic (200 $/mois) et Pro (5 000 $/mois) ont été dépréciés : un nouveau
+compte n'a accès qu'au pay-per-use, à **0,005 $ par post lu**. Une veille quotidienne de
+150 posts coûterait environ 23 $ par mois.
+
+Écarté pour l'actualité : l'actualité de l'assurance auto française sort des institutions
+qui la produisent, pas de leur écho sur les réseaux, et la veille est hebdomadaire — une
+avance de quelques heures ne vaut rien.
+
+**Reste ouvert pour la réputation**, qui est un autre besoin : X est le seul endroit où
+voir ce qu'on dit de la marque et ce qu'annoncent les concurrents. `api.x.com` est
+joignable depuis l'environnement (401 sans clé, donc pas bloqué par la politique réseau).
+Si cela se fait un jour : le pay-per-use n'a pas de plafond naturel, un script qui boucle
+coûte de l'argent réel, donc plafond dur écrit dans le code.
+
 ## 8. Git
 
 Branche de travail `claude/upbeat-cerf-yjyYC`, PR vers `main`, déploiement par `git pull` sur le serveur.
@@ -338,3 +385,7 @@ investir pour le SEO.
 - **26/09/2026, soir** : vérification faite, le résultat enrichi FAQ de Google a été retiré
   le 7 mai 2026 (§5 bis 2). Les 21 pages qui portent un `FAQPage` n'en tirent plus rien côté
   Google. On les garde pour les autres moteurs et les IA, mais plus jamais comme argument SEO.
+- **27/09/2026** : veille par flux RSS institutionnels plutôt que par l'API X (§7). X est
+  passé en pay-per-use, environ 23 $/mois pour l'usage envisagé, et n'apporterait qu'un
+  écho retardé de sources gratuites. Il reste le seul moyen de surveiller la réputation de
+  la marque, ce qui est un besoin distinct et non tranché.
