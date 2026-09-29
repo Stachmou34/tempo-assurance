@@ -58,6 +58,48 @@ sont des valeurs par defaut de GA4 que le site n'envoie jamais : ils expliquent 
 `keyEvents = 0` initial. `purchase` resterait l'ideal, mais la vente se conclut dans
 l'iframe JL Assure, donc hors de portee de la propriete sans action du partenaire.
 
+## 2 bis. Test en cours : titre et description de l'accueil
+
+**Changé le 29/09/2026. Relever au 27/10, soit quatre semaines.** Sans ce point de
+référence, on ne saura pas si le changement a servi.
+
+| | Avant | Après |
+| --- | --- | --- |
+| `<title>` | Assurance temporaire en ligne \| Tempo Assurance | Assurance temporaire **immédiate** en ligne \| Tempo Assurance |
+| longueur | 47 | 57 |
+| description | 187 caractères, prix rejeté en fin de phrase | 160 caractères, « attestation immédiate » et « dès 50,75 € » avant la troncature |
+
+**Pourquoi.** 3 748 impressions sur « assurance temporaire immédiate » et ses variantes,
+en positions 9 à 17, et le mot n'était nulle part dans le titre. « assurance temporaire
+immédiate en ligne » est une requête réelle à 1 390 impressions : le nouveau titre en est
+la correspondance quasi exacte.
+
+### État de référence, à comparer au 27/10
+
+| Mesure (27/06 → 24/09) | Valeur |
+| --- | --- |
+| « assurance temporaire », 90 j | 4 848 impressions, 93 clics, CTR 1,9 %, position 12,7 |
+| « assurance temporaire », 30 derniers jours | 2 889 impressions, 57 clics, CTR 1,97 %, position 10,6 |
+| cluster « immédiate » | 3 748 impressions, positions 9 à 17 |
+| cluster prix et « pas cher » | 2 862 impressions, 12 clics, **CTR 0,4 %** |
+| accueil, toutes requêtes | 945 requêtes, 48 287 impressions |
+| marque « tempo assurance » | 1 725 impressions, 777 clics, **CTR 45 %**, position 1,3 |
+
+### Quand revenir en arrière
+
+- **Si le CTR de la marque passe sous 40 %** : le titre gêne la requête qui convertit le
+  mieux du site. Revenir immédiatement.
+- **Si le CTR hors marque de l'accueil baisse** sur quatre semaines pleines, à position
+  égale : le titre est moins bon, revenir.
+- Une position qui bouge dans les deux premières semaines ne prouve rien. Google met deux
+  à six semaines à réévaluer une page, et le contenu de l'accueil a changé le même jour :
+  **les deux effets ne seront pas séparables.** Le dire dans le rapport plutôt que
+  d'attribuer le mouvement à l'un ou à l'autre.
+
+**Attention au piège de mesure.** Filtrer les requêtes de marque sur la chaîne « tempo »
+attrape aussi « assurance **tempo**raire » et gonfle la marque à 49 % des impressions. La
+vraie requête de marque est « tempo assurance », 1 725 impressions.
+
 ## 3. Règles produit à ne jamais enfreindre
 
 - Durées **1 à 90 jours**. Conducteur **21 ans minimum**, permis depuis **2 ans et plus**.
