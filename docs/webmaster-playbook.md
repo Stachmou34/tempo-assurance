@@ -335,6 +335,13 @@ redécouper et le dire dans le rapport.
    navigateur en 390 px et 1280 px. Reprendre avec le tableau par page, qui affiche désormais
    le pourcentage de sessions touchées et non le nombre de clics. Pistes restantes : la zone
    autour de l'iframe du tarificateur, les puces `.quote-trust`, le bandeau `.quote-head`.
+   **Relevé du 29/09** : 27 % des sessions de la page (50 clics sur 59 sessions), contre 14 % sur
+   l'accueil. L'API Clarity ne donne pas l'élément cliqué : impossible de trancher par les chiffres.
+   Hypothèse la plus probable : clics dans l'iframe cross-origin du tarificateur (jlassure.com), que
+   Clarity ne peut pas suivre, ou clics sur l'iframe `loading="lazy"` avant son affichage. À tester
+   **sur décision du propriétaire** (le bloc tarificateur est protégé) : retirer `loading="lazy"` de
+   l'iframe de `devis-ou-souscription.html`, puis comparer le % de dead clicks sur 3 jours.
+   Ne pas conclure à un défaut UX tant que ce test n'est pas fait.
 2. **Erreur JS sur `/devis-ou-souscription.html#tarificateur`** : 2 erreurs sur 2 sessions au
    26/09. Petit volume, mais 100 % des sessions concernées, et c'est la page qui convertit.
 3. **Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement` alors que le reste du site
