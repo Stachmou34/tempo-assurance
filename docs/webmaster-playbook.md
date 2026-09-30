@@ -384,8 +384,12 @@ redécouper et le dire dans le rapport.
    **sur décision du propriétaire** (le bloc tarificateur est protégé) : retirer `loading="lazy"` de
    l'iframe de `devis-ou-souscription.html`, puis comparer le % de dead clicks sur 3 jours.
    Ne pas conclure à un défaut UX tant que ce test n'est pas fait.
-2. **Erreur JS sur `/devis-ou-souscription.html#tarificateur`** : 2 erreurs sur 2 sessions au
-   26/09. Petit volume, mais 100 % des sessions concernées, et c'est la page qui convertit.
+2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
+   Les instantanes Clarity du 28/09 (15 erreurs, 2,78 % des sessions) et du 30/09 (10 erreurs, 1 %)
+   placent toutes les erreurs sur l'URL `www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php`, c'est-a-dire
+   dans l'iframe du partenaire. `/devis-ou-souscription.html` est a 0 % (0 erreur) le 30/09. Rien a corriger
+   cote site ; si le volume monte, le signaler a JL Assure (modele : `docs/message-jlassure-*.md`).
+   Lecon : Clarity rattache aussi les pages jlassure.com aux sessions, lire l'URL avant de conclure.
 3. **Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement` alors que le reste du site
    dit Crédit Mutuel. Nom actuel probable : Monetico. **Demander au propriétaire**, ne pas deviner.
 4. **Crawl espacé** : des pages non recrawlées depuis fin juillet. Vérifier dans Search Console
