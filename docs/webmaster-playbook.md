@@ -384,6 +384,13 @@ redécouper et le dire dans le rapport.
    **sur décision du propriétaire** (le bloc tarificateur est protégé) : retirer `loading="lazy"` de
    l'iframe de `devis-ou-souscription.html`, puis comparer le % de dead clicks sur 3 jours.
    Ne pas conclure à un défaut UX tant que ce test n'est pas fait.
+   **Relevé du 01/10** : l'écouteur `clic_sans_effet` a remonté 117 événements depuis le 27/09, dont
+   **86 sur la page devis** et 30 sur l'accueil. Mais le paramètre `element` n'est **pas déclaré comme
+   dimension personnalisée dans GA4** (l'API répond « customEvent:element is not a valid dimension ») : on
+   voit où ça clique morts, pas sur quoi. **Action propriétaire, 2 minutes** : GA4 > Admin > Définitions
+   personnalisées > Créer une dimension personnalisée, portée « Événement », paramètre `element` (et
+   `page_path`). Non rétroactif : le comptage par élément démarre à la déclaration.
+   Clarity du 01/10 : dead clicks 21 % des sessions de la page devis (21 clics sur 70), 3 % sur l'accueil.
 2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
    Les instantanes Clarity du 28/09 (15 erreurs, 2,78 % des sessions) et du 30/09 (10 erreurs, 1 %)
    placent toutes les erreurs sur l'URL `www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php`, c'est-a-dire
