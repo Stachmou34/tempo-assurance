@@ -401,6 +401,10 @@ redécouper et le dire dans le rapport.
    dit Crédit Mutuel. Nom actuel probable : Monetico. **Demander au propriétaire**, ne pas deviner.
 4. **Crawl espacé** : des pages non recrawlées depuis fin juillet. Vérifier dans Search Console
    quelles pages, et si le `lastmod` du sitemap est bien à jour pour celles-là.
+   **02/10** : `lastmod` resynchronisé sur la dernière modification git pour 57 pages sur 59 (la plupart
+   étaient figées au 25/06). L'API d'inspection d'URL (`searchconsole.googleapis.com`) renvoie 401 : le proxy
+   n'authentifie que `www.googleapis.com` et `analyticsdata`. Les dates de dernier crawl restent donc à relever
+   à la main dans Search Console (Pages > Explorées). Effet sur le crawl à mesurer d'ici une semaine.
 5. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
    « assurance temporaire pas cher », « prix assurance auto temporaire » (position 48 à 67).
 6. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
