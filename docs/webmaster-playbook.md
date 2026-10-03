@@ -407,6 +407,13 @@ redécouper et le dire dans le rapport.
    à la main dans Search Console (Pages > Explorées). Effet sur le crawl à mesurer d'ici une semaine.
 5. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
    « assurance temporaire pas cher », « prix assurance auto temporaire » (position 48 à 67).
+   **Relevé du 03/10** (17-30/09 contre 03-16/09) : « assurance temporaire pas cher » est revenue en
+   **position 14,1 sur l'accueil** (81 impressions, 1 clic), loin des positions 48 à 67 : rien n'a été perdu.
+   « assurance auto temporaire prix » : 43 impressions position 20,8, puis 22 impressions position 16,9
+   (accueil 53 impressions, position 18,6 ; `assurance-temporaire-auto.html` seulement position 43,4).
+   « assurance provisoire 1 mois prix » : 63 impressions position 11,1 sur la page 1 mois, qui affiche déjà
+   189,15 € dans le titre, la description et le résumé : rien à corriger, c'est encore un problème de position.
+   Clics sur toutes les requêtes « prix » : 1 sur 14 jours. Rien à faire côté code, surveiller seulement.
 6. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
    gondole. Avis Google, liens entrants. Ce chantier ne se règle pas dans le code : il se prépare
    (modèle d'e-mail de demande d'avis, liste de sites à contacter) et se propose au propriétaire.
@@ -476,3 +483,9 @@ investir pour le SEO.
   dead clicks. La cause des 29 clics morts de la page devis n'était pas déterminable
   autrement : Clarity donne le compte, pas la cible. Rappel utile, tiré de la même
   journée : un rapport d'agent, aussi assuré soit-il, se vérifie avant d'être relayé.
+- **03/10/2026** : anomalie GA4 du 02/10 à ne pas lire comme une baisse de trafic. Sessions Organic Search
+  39 (105 le 25/09, 62 le 01/10) mais 90 sessions « Unassigned » (source `(not set)`, 1 engagée) et 65
+  « Cross-network » (source `(data not available)`) apparues le même jour, soit 175 sessions au total
+  (143 le 25/09). Search Console n'a pas de donnée au-delà du 29/09 (latence), et ses clics du 26 au 29/09 sont
+  dans la norme (42 à 61 par jour). Hypothèses non tranchées : trafic automatisé, ou campagne payante sans
+  étiquetage, ou défaut d'attribution GA4. À recontrôler quand Search Console aura rattrapé le 02/10.
