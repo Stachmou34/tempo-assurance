@@ -38,20 +38,34 @@ offre en vente. Donc un porteur accepte ce risque en France — simplement pas l
 
 ---
 
-## 2. Les trois plateformes à contacter
+## 2. Les plateformes à contacter
 
 Classées par pertinence pour un COA qui veut garder sa marque et vendre en ligne.
 
-### Wakam — la référence de la marque blanche
+### ~~Wakam~~ — ÉCARTÉ : interdit de souscription par l'ACPR
 
-Compagnie d'assurance française (ex-La Parisienne Assurances), modèle **B2B2C pur** :
-elle apporte la capacité d'assurance, l'agrément et le back-end par API, le partenaire
-apporte la clientèle et l'interface.
+> **Correction du 03/10/2026.** Ce document recommandait Wakam en premier. Il a été
+> rédigé le 29/09, **quatre jours après** la décision de l'ACPR qui l'en rend incapable.
+> L'information était publique et n'a pas été vérifiée. Ne pas reprendre l'ancienne
+> recommandation.
 
-- Plateforme technologique **Play&Plug**, plus de **150 partenaires distributeurs**
-- **32 pays**, plus de 650 M€ de chiffre d'affaires en 2022
-- Fait de l'auto **à l'année comme en temporaire**, sur mesure par partenaire
-- Offre réservée aux professionnels de l'assurance : c'est exactement le cas de figure
+Le **25 septembre 2026**, l'ACPR a prononcé à titre conservatoire et provisoire une
+**interdiction pour Wakam SA de souscrire de nouveaux contrats et de renouveler les
+contrats existants**. Motif : fin 2025, Wakam ne couvrait que **66 % de son capital de
+solvabilité requis**, pour un minimum réglementaire de 100 %, soit un déficit de l'ordre
+de 200 M€. Le régulateur exige un adossement en urgence.
+
+Les contrats en cours continuent de produire leurs effets et les sinistres sont réglés.
+Ce qui est bloqué, c'est **toute affaire nouvelle et tout renouvellement**.
+
+Wakam porte le risque de produits vendus sous d'autres marques par des courtiers
+grossistes. **Selon des sources secondaires**, cela inclut Solly Azar, Yeet, Axece, +Simple
+et Zephir, et notamment l'assurance auto de Solly Azar, spécialiste des malussés et
+résiliés. **Non confirmé par une source de premier rang** : la page auto de Solly Azar ne
+nomme pas son assureur. À ne pas affirmer publiquement.
+
+Conséquence pour nous : ce n'est plus un partenaire possible, et c'est devenu une
+opportunité. Voir le §9 du playbook.
 
 ### Seyna — conçu pour les courtiers
 
@@ -66,9 +80,9 @@ cette catégorie depuis 1983.
 
 Insurtech belge, B2B2C, présente dans une trentaine de pays.
 
-**À vérifier** : une source secondaire la décrit comme « marque blanche de Wakam ». Cette
-filiation n'est pas confirmée par une source de premier rang. Ne pas la reprendre telle
-quelle dans une discussion commerciale.
+**Prudence renforcée depuis le 25/09** : une source secondaire la décrit comme
+« marque blanche de Wakam ». Si cette filiation est exacte, Qover est touché par
+l'interdiction de souscription. **Vérifier le porteur réel avant tout contact.**
 
 ---
 
@@ -115,3 +129,7 @@ Elles trient plus vite qu'une présentation commerciale.
   [Wakam sur lesfurets](https://www.lesfurets.com/assurance-auto/assureurs-courtiers/wakam-la-parisienne-assurances) ·
   [Seyna](https://www.seyna.eu/) ·
   [Seyna, analyse Wavestone](https://www.insurancespeaker-wavestone.com/2021/04/seyna-lassueur-iard-2-0/)
+- Interdiction Wakam : [Argus de l'assurance](https://www.argusdelassurance.com/compagnies/wakam/la-compagnie-dassurance-wakam-interdite-de-souscrire-de-nouveaux-contrats-une-decision-rarissime-de-lacpr.A6SB5FEKUNFULGEAE7TOX5S3DA.html) ·
+  [Tripalio](https://presse.tripalio.fr/lacpr-fige-lactivite-de-lassureur-wakam/) ·
+  [NewsAssurancesPro](https://www.newsassurancespro.com/wakam-lacpr-prononce-une-interdiction-de-souscription/01691690534) ·
+  [Commercial Risk](https://www.commercialriskonline.com/french-regulator-imposes-temporary-ban-on-insurance-platform-wakam-sa/)

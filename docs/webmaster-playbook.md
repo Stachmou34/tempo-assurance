@@ -58,6 +58,36 @@ sont des valeurs par defaut de GA4 que le site n'envoie jamais : ils expliquent 
 `keyEvents = 0` initial. `purchase` resterait l'ideal, mais la vente se conclut dans
 l'iframe JL Assure, donc hors de portee de la propriete sans action du partenaire.
 
+## 2 ter. Rupture de mesure du 03/10/2026 : `ouverture_tarificateur` change de périmètre
+
+**À rappeler dans tout rapport qui compare avant et après le 03/10.**
+
+Jusqu'au 03/10, l'événement clé `ouverture_tarificateur` n'était envoyé que sur les pages
+**qui contiennent la fenêtre de devis**. Sur **28 pages** sans cette fenêtre (articles de
+blog, FAQ, pages carte grise, veille, contact, à propos…), le bouton est un simple lien vers
+`devis-ou-souscription.html` et **aucun clic n'était compté**. Les deux articles qui
+attirent le plus de trafic éditorial du site étaient dans ce cas.
+
+Depuis le 03/10 (`site.js?v=15`), ces clics sont comptés, avec le paramètre **`mode`** :
+
+| `mode` | Signification |
+| --- | --- |
+| `fenetre` | la fenêtre de devis s'ouvre sur place (comportement historique) |
+| `lien` | le visiteur part vers la page devis (nouveau, `transport_type: beacon`) |
+
+**Conséquence : l'événement clé va monter mécaniquement.** Ce n'est pas un gain de
+conversion, c'est la fin d'un angle mort. Pour comparer à l'historique, filtrer sur
+`mode = fenetre`. Pour savoir enfin quelles pages envoient au devis, regarder `mode = lien`
+par `page_path`.
+
+Sur la page devis elle-même, rien n'est envoyé au clic : le tarificateur y est déjà
+affiché, et `affichage_tarificateur` le compte au chargement.
+
+**Règle pour l'avenir** : la classe `cta-btn-modal` est réservée aux boutons qui mènent au
+devis d'assurance. Un bouton « Faire ma carte grise » la portait sur l'article occasion ; avec
+la nouvelle mesure, chacun de ses clics aurait compté comme une ouverture du tarificateur.
+Corrigé. Pour tout autre bouton, utiliser `btn cta-btn`, qui a exactement le même rendu.
+
 ## 2 bis. Test en cours : titre et description de l'accueil
 
 **Changé le 29/09/2026. Relever au 27/10, soit quatre semaines.** Sans ce point de
@@ -371,6 +401,42 @@ Liste **ordonnée**. Prendre le premier chantier non fait, en entier, et rien d'
 Chaque entrée tient dans une session : si ce n'est pas le cas, elle est mal découpée, la
 redécouper et le dire dans le rapport.
 
+0. ~~**Wakam interdit de souscription**~~ **Livré le 03/10/2026** : article
+   `blog-contrat-auto-non-renouvele.html`, enregistré dans `blog.html`, `sitemap.xml` et
+   `llms.txt`.
+
+   Le 25/09/2026, l'ACPR a interdit à Wakam de souscrire et de **renouveler** des contrats,
+   faute de solvabilité (66 % du capital requis, SFCR 2025 de Wakam). Ses assurés ne seront
+   pas reconduits à l'échéance. La mesure accompagne une **procédure contradictoire pouvant
+   aller jusqu'au retrait d'agrément** ; dans ce cas les contrats cessent de plein droit
+   40 jours après publication au JO (art. L326-12). Ne jamais écrire « valable jusqu'à
+   l'échéance » sans cette réserve. « Adossement » n'est confirmé par aucune source de
+   premier rang : Wakam parle de « renforcement de ses fonds propres et ouverture du capital ».
+
+   **Antécédents : le formulaire ne demande rien, les conditions générales si.** Le
+   formulaire (`preparer_session_souscription`) ne pose aucune question sur le bonus-malus,
+   les résiliations, la sinistralité ni l'alcoolémie. Mais les CG HDI (définitions
+   « conducteur principal » et « conducteur occasionnel ») fixent des critères : 23 ans
+   pour le conducteur occasionnel, **pas plus de 3 accidents responsables matériels, aucun
+   sinistre corporel responsable, aucune condamnation alcool ou stupéfiants**, avec nullité
+   du contrat si l'assuré cache des faits qui ne correspondent pas à ces critères. La
+   correction du propriétaire (« ça n'empêche pas la temporaire ») vaut donc pour un
+   résilié pour non-paiement, pas pour un malussé lourd. Ne jamais écrire que la temporaire
+   est ouverte « quel que soit votre passé ». Écrire « ne demande pas de relevé
+   d'information » et rappeler les critères. À faire confirmer par JL Assure (portée exacte
+   pour le conducteur principal, période de référence des 3 accidents). Corrigé dans
+   l'article le 03/10 après vérification par un agent.
+
+   **Solly Azar n'est pas nommé dans l'article.** Le lien « Solly Azar → Wakam » ne vient que
+   d'une source secondaire ; la page auto de Solly Azar ne nomme pas son assureur. L'article
+   s'en tient à Wakam, dont la situation repose sur une décision publique, et explique au
+   lecteur comment vérifier son propre assureur. Ne pas ajouter de nom de courtier sans
+   source de premier rang.
+
+   **À suivre dans le relevé du matin** : « wakam », « non renouvelé », « contrat non
+   reconduit ». Au 02/10, zéro impression. La mesure est provisoire : si l'ACPR la lève,
+   mettre l'article à jour plutôt que de le laisser affirmer une interdiction terminée.
+
 1. **Dead clicks sur la page devis.** Relevé du 26/09 : 29 dead clicks, contre 13 sur
    l'accueil qui a pourtant deux fois plus de sessions. L'hypothèse la plus courante, un texte
    qui ressemble à un lien, a été **écartée** : aucun faux cliquable sur la page, vérifié au
@@ -407,6 +473,13 @@ redécouper et le dire dans le rapport.
    à la main dans Search Console (Pages > Explorées). Effet sur le crawl à mesurer d'ici une semaine.
 5. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
    « assurance temporaire pas cher », « prix assurance auto temporaire » (position 48 à 67).
+   **Relevé du 03/10** (17-30/09 contre 03-16/09) : « assurance temporaire pas cher » est revenue en
+   **position 14,1 sur l'accueil** (81 impressions, 1 clic), loin des positions 48 à 67 : rien n'a été perdu.
+   « assurance auto temporaire prix » : 43 impressions position 20,8, puis 22 impressions position 16,9
+   (accueil 53 impressions, position 18,6 ; `assurance-temporaire-auto.html` seulement position 43,4).
+   « assurance provisoire 1 mois prix » : 63 impressions position 11,1 sur la page 1 mois, qui affiche déjà
+   189,15 € dans le titre, la description et le résumé : rien à corriger, c'est encore un problème de position.
+   Clics sur toutes les requêtes « prix » : 1 sur 14 jours. Rien à faire côté code, surveiller seulement.
 6. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
    gondole. Avis Google, liens entrants. Ce chantier ne se règle pas dans le code : il se prépare
    (modèle d'e-mail de demande d'avis, liste de sites à contacter) et se propose au propriétaire.
@@ -476,3 +549,25 @@ investir pour le SEO.
   dead clicks. La cause des 29 clics morts de la page devis n'était pas déterminable
   autrement : Clarity donne le compte, pas la cible. Rappel utile, tiré de la même
   journée : un rapport d'agent, aussi assuré soit-il, se vérifie avant d'être relayé.
+- **03/10/2026** : anomalie GA4 du 02/10 à ne pas lire comme une baisse de trafic. Sessions Organic Search
+  39 (105 le 25/09, 62 le 01/10) mais 90 sessions « Unassigned » (source `(not set)`, 1 engagée) et 65
+  « Cross-network » (source `(data not available)`) apparues le même jour, soit 175 sessions au total
+  (143 le 25/09). Search Console n'a pas de donnée au-delà du 29/09 (latence), et ses clics du 26 au 29/09 sont
+  dans la norme (42 à 61 par jour). Hypothèses non tranchées : trafic automatisé, ou campagne payante sans
+  étiquetage, ou défaut d'attribution GA4. À recontrôler quand Search Console aura rattrapé le 02/10.
+- **03/10/2026** : Wakam interdit de souscription et de renouvellement par l'ACPR depuis
+  le 25/09. Il avait été recommandé en premier partenaire dans `partenaires-porteurs.md`
+  le 29/09, quatre jours après la décision, sans vérification de l'actualité de
+  l'entreprise. Corrigé. Leçon : **avant de recommander un partenaire, chercher son nom
+  avec « ACPR » et l'année en cours.** Un assureur se renseigne, un porteur de risque se
+  vérifie.
+- **03/10/2026** : 28 pages envoyaient vers le devis sans que le clic soit compté, la mesure
+  s'arrêtant faute de fenêtre de devis sur la page. Corrigé dans `site.js` (v=15) avec un
+  paramètre `mode` qui sépare l'ancien et le nouveau périmètre (§2 ter). Trouvé en voulant
+  tracer les clics d'un seul article : l'angle mort couvrait tout le blog.
+- **03/10/2026** : aucun clic sur un numéro de téléphone n'était mesuré. Nouvel événement GA4
+  `clic_telephone` (paramètre `zone` : `corps`, `menu`, `pied`, `autre`) dans `site.js` (v=16).
+  À déclarer comme événement clé dans GA4 si les appels convertissent. Même jour : l'article
+  Wakam, vérifié par un agent, affirmait trop sur deux points (contrat « valable jusqu'à
+  l'échéance » malgré la procédure de retrait d'agrément ; temporaire ouverte quel que soit
+  le passé, alors que les CG HDI fixent des critères d'antécédents). Corrigé, voir chantier 0.
