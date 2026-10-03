@@ -371,35 +371,32 @@ Liste **ordonnée**. Prendre le premier chantier non fait, en entier, et rien d'
 Chaque entrée tient dans une session : si ce n'est pas le cas, elle est mal découpée, la
 redécouper et le dire dans le rapport.
 
-0. **Wakam interdit de souscription : les malussés de Solly Azar vont chercher une solution.**
-   **BLOQUÉ, ne pas publier avant la réponse de JL Assure (voir plus bas).**
+0. ~~**Wakam interdit de souscription**~~ **Livré le 03/10/2026** : article
+   `blog-contrat-auto-non-renouvele.html`, enregistré dans `blog.html`, `sitemap.xml` et
+   `llms.txt`.
 
    Le 25/09/2026, l'ACPR a interdit à Wakam de souscrire et de **renouveler** des contrats,
-   faute de solvabilité (66 % du capital requis, déficit d'environ 200 M€). Wakam porte
-   l'assurance auto de **Solly Azar**, spécialiste des malussés et résiliés depuis 1985, et
-   des produits de Yeet, Axece, +Simple et Zephir. Leurs assurés ne seront pas renouvelés à
-   leur échéance, et leurs nouveaux prospects ne peuvent plus souscrire.
+   faute de solvabilité (66 % du capital requis). Ses assurés ne seront pas reconduits à
+   l'échéance. L'assurance temporaire ne vérifie pas le bonus-malus : c'est le pont légal.
 
-   L'assurance temporaire ne vérifie pas le bonus-malus : c'est le pont légal pendant que
-   ces conducteurs cherchent un nouvel assureur annuel. Le sujet suit exactement le motif
-   qui marche sur ce site (une situation précise, pas un produit générique).
+   **Correction du propriétaire, et elle était juste.** J'avais bloqué le chantier en
+   attendant que JL Assure dise quels motifs de résiliation excluent le temporaire. Le
+   propriétaire a répondu que ça n'empêchait pas le temporaire. Vérifié dans les schémas de
+   l'outil officiel `preparer_session_souscription` : **le formulaire ne pose aucune question
+   sur le bonus-malus, les résiliations, la sinistralité ni l'alcoolémie.** Il demande
+   l'identité, le permis, l'adresse, le véhicule et les dates. Il n'y avait donc rien à
+   faire valider. La seule réserve réelle est le **permis suspendu ou annulé**, qui interdit
+   de conduire indépendamment de l'assurance : elle figure dans l'article.
 
-   **La question à poser à JL Assure avant d'écrire une ligne** : quels motifs de
-   résiliation excluent la souscription temporaire ? Non-paiement, fausse déclaration,
-   alcoolémie, suspension de permis, sinistralité. Une page qui promet l'accès « aux
-   résiliés » sans cette réponse ferait souscrire des gens qui seront refusés ou, pire,
-   dont le contrat sera nul au sinistre.
+   **Solly Azar n'est pas nommé dans l'article.** Le lien « Solly Azar → Wakam » ne vient que
+   d'une source secondaire ; la page auto de Solly Azar ne nomme pas son assureur. L'article
+   s'en tient à Wakam, dont la situation repose sur une décision publique, et explique au
+   lecteur comment vérifier son propre assureur. Ne pas ajouter de nom de courtier sans
+   source de premier rang.
 
-   **Ce que le site ne doit jamais faire** : dénigrer Wakam ou Solly Azar. S'en tenir à la
-   décision publique de l'ACPR, citée, et rappeler que les contrats en cours restent
-   valables et les sinistres réglés. C'est vrai, et c'est ce qui rend la page crédible.
-
-   **Mesure provisoire** : l'ACPR exige un adossement. Si un repreneur arrive, l'interdiction
-   peut être levée vite. Investissement léger et rapide, pas de grand chantier.
-
-   **Fait quand** : JL Assure a répondu, une page situationnelle est en ligne, et les
-   requêtes « wakam », « solly azar », « non renouvelé » sont suivies dans le relevé du
-   matin. Au 02/10, elles font **zéro impression** : le site n'a aucune page dessus.
+   **À suivre dans le relevé du matin** : « wakam », « non renouvelé », « contrat non
+   reconduit ». Au 02/10, zéro impression. La mesure est provisoire : si l'ACPR la lève,
+   mettre l'article à jour plutôt que de le laisser affirmer une interdiction terminée.
 
 1. **Dead clicks sur la page devis.** Relevé du 26/09 : 29 dead clicks, contre 13 sur
    l'accueil qui a pourtant deux fois plus de sessions. L'hypothèse la plus courante, un texte

@@ -59,9 +59,10 @@ Les contrats en cours continuent de produire leurs effets et les sinistres sont 
 Ce qui est bloqué, c'est **toute affaire nouvelle et tout renouvellement**.
 
 Wakam porte le risque de produits vendus sous d'autres marques par des courtiers
-grossistes, dont **Solly Azar, Yeet, Axece, +Simple et Zephir**. Chez Solly Azar,
-spécialiste historique des malussés et résiliés depuis 1985, **c'est Wakam qui porte
-l'assurance auto**.
+grossistes. **Selon des sources secondaires**, cela inclut Solly Azar, Yeet, Axece, +Simple
+et Zephir, et notamment l'assurance auto de Solly Azar, spécialiste des malussés et
+résiliés. **Non confirmé par une source de premier rang** : la page auto de Solly Azar ne
+nomme pas son assureur. À ne pas affirmer publiquement.
 
 Conséquence pour nous : ce n'est plus un partenaire possible, et c'est devenu une
 opportunité. Voir le §9 du playbook.
