@@ -241,6 +241,21 @@
     }
   }, true);
 
+  /* Clic sur un numero de telephone (tel:). Ajoute le 03/10/2026 : aucun appel lance
+     depuis le site n'etait mesure. Evenement GA4 « clic_telephone », avec l'endroit du
+     lien (en-tete, pied de page, corps) pour savoir lequel sert. */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+    if (!a) return;
+    var zone = a.closest('.site-footer') ? 'pied' : (a.closest('main') ? 'corps' : (a.closest('.msheet') ? 'menu' : 'autre'));
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'clic_telephone', { zone: zone, page_path: location.pathname, transport_type: 'beacon' });
+    }
+    if (typeof window.clarity === 'function') {
+      try { window.clarity('event', 'clic_telephone'); } catch (_) {}
+    }
+  }, true);
+
   /* ---------- WebMCP : outils pour agents IA (expérimental) ---------- */
   /* Expose des « outils » que les agents IA compatibles WebMCP peuvent appeler
      directement via navigator.modelContext (équivalent de MCP, mais dans le

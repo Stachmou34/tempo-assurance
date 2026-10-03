@@ -406,17 +406,26 @@ redécouper et le dire dans le rapport.
    `llms.txt`.
 
    Le 25/09/2026, l'ACPR a interdit à Wakam de souscrire et de **renouveler** des contrats,
-   faute de solvabilité (66 % du capital requis). Ses assurés ne seront pas reconduits à
-   l'échéance. L'assurance temporaire ne vérifie pas le bonus-malus : c'est le pont légal.
+   faute de solvabilité (66 % du capital requis, SFCR 2025 de Wakam). Ses assurés ne seront
+   pas reconduits à l'échéance. La mesure accompagne une **procédure contradictoire pouvant
+   aller jusqu'au retrait d'agrément** ; dans ce cas les contrats cessent de plein droit
+   40 jours après publication au JO (art. L326-12). Ne jamais écrire « valable jusqu'à
+   l'échéance » sans cette réserve. « Adossement » n'est confirmé par aucune source de
+   premier rang : Wakam parle de « renforcement de ses fonds propres et ouverture du capital ».
 
-   **Correction du propriétaire, et elle était juste.** J'avais bloqué le chantier en
-   attendant que JL Assure dise quels motifs de résiliation excluent le temporaire. Le
-   propriétaire a répondu que ça n'empêchait pas le temporaire. Vérifié dans les schémas de
-   l'outil officiel `preparer_session_souscription` : **le formulaire ne pose aucune question
-   sur le bonus-malus, les résiliations, la sinistralité ni l'alcoolémie.** Il demande
-   l'identité, le permis, l'adresse, le véhicule et les dates. Il n'y avait donc rien à
-   faire valider. La seule réserve réelle est le **permis suspendu ou annulé**, qui interdit
-   de conduire indépendamment de l'assurance : elle figure dans l'article.
+   **Antécédents : le formulaire ne demande rien, les conditions générales si.** Le
+   formulaire (`preparer_session_souscription`) ne pose aucune question sur le bonus-malus,
+   les résiliations, la sinistralité ni l'alcoolémie. Mais les CG HDI (définitions
+   « conducteur principal » et « conducteur occasionnel ») fixent des critères : 23 ans
+   pour le conducteur occasionnel, **pas plus de 3 accidents responsables matériels, aucun
+   sinistre corporel responsable, aucune condamnation alcool ou stupéfiants**, avec nullité
+   du contrat si l'assuré cache des faits qui ne correspondent pas à ces critères. La
+   correction du propriétaire (« ça n'empêche pas la temporaire ») vaut donc pour un
+   résilié pour non-paiement, pas pour un malussé lourd. Ne jamais écrire que la temporaire
+   est ouverte « quel que soit votre passé ». Écrire « ne demande pas de relevé
+   d'information » et rappeler les critères. À faire confirmer par JL Assure (portée exacte
+   pour le conducteur principal, période de référence des 3 accidents). Corrigé dans
+   l'article le 03/10 après vérification par un agent.
 
    **Solly Azar n'est pas nommé dans l'article.** Le lien « Solly Azar → Wakam » ne vient que
    d'une source secondaire ; la page auto de Solly Azar ne nomme pas son assureur. L'article
@@ -556,3 +565,9 @@ investir pour le SEO.
   s'arrêtant faute de fenêtre de devis sur la page. Corrigé dans `site.js` (v=15) avec un
   paramètre `mode` qui sépare l'ancien et le nouveau périmètre (§2 ter). Trouvé en voulant
   tracer les clics d'un seul article : l'angle mort couvrait tout le blog.
+- **03/10/2026** : aucun clic sur un numéro de téléphone n'était mesuré. Nouvel événement GA4
+  `clic_telephone` (paramètre `zone` : `corps`, `menu`, `pied`, `autre`) dans `site.js` (v=16).
+  À déclarer comme événement clé dans GA4 si les appels convertissent. Même jour : l'article
+  Wakam, vérifié par un agent, affirmait trop sur deux points (contrat « valable jusqu'à
+  l'échéance » malgré la procédure de retrait d'agrément ; temporaire ouverte quel que soit
+  le passé, alors que les CG HDI fixent des critères d'antécédents). Corrigé, voir chantier 0.
