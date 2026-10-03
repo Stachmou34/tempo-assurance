@@ -58,6 +58,36 @@ sont des valeurs par defaut de GA4 que le site n'envoie jamais : ils expliquent 
 `keyEvents = 0` initial. `purchase` resterait l'ideal, mais la vente se conclut dans
 l'iframe JL Assure, donc hors de portee de la propriete sans action du partenaire.
 
+## 2 ter. Rupture de mesure du 03/10/2026 : `ouverture_tarificateur` change de périmètre
+
+**À rappeler dans tout rapport qui compare avant et après le 03/10.**
+
+Jusqu'au 03/10, l'événement clé `ouverture_tarificateur` n'était envoyé que sur les pages
+**qui contiennent la fenêtre de devis**. Sur **28 pages** sans cette fenêtre (articles de
+blog, FAQ, pages carte grise, veille, contact, à propos…), le bouton est un simple lien vers
+`devis-ou-souscription.html` et **aucun clic n'était compté**. Les deux articles qui
+attirent le plus de trafic éditorial du site étaient dans ce cas.
+
+Depuis le 03/10 (`site.js?v=15`), ces clics sont comptés, avec le paramètre **`mode`** :
+
+| `mode` | Signification |
+| --- | --- |
+| `fenetre` | la fenêtre de devis s'ouvre sur place (comportement historique) |
+| `lien` | le visiteur part vers la page devis (nouveau, `transport_type: beacon`) |
+
+**Conséquence : l'événement clé va monter mécaniquement.** Ce n'est pas un gain de
+conversion, c'est la fin d'un angle mort. Pour comparer à l'historique, filtrer sur
+`mode = fenetre`. Pour savoir enfin quelles pages envoient au devis, regarder `mode = lien`
+par `page_path`.
+
+Sur la page devis elle-même, rien n'est envoyé au clic : le tarificateur y est déjà
+affiché, et `affichage_tarificateur` le compte au chargement.
+
+**Règle pour l'avenir** : la classe `cta-btn-modal` est réservée aux boutons qui mènent au
+devis d'assurance. Un bouton « Faire ma carte grise » la portait sur l'article occasion ; avec
+la nouvelle mesure, chacun de ses clics aurait compté comme une ouverture du tarificateur.
+Corrigé. Pour tout autre bouton, utiliser `btn cta-btn`, qui a exactement le même rendu.
+
 ## 2 bis. Test en cours : titre et description de l'accueil
 
 **Changé le 29/09/2026. Relever au 27/10, soit quatre semaines.** Sans ce point de
@@ -522,3 +552,7 @@ investir pour le SEO.
   l'entreprise. Corrigé. Leçon : **avant de recommander un partenaire, chercher son nom
   avec « ACPR » et l'année en cours.** Un assureur se renseigne, un porteur de risque se
   vérifie.
+- **03/10/2026** : 28 pages envoyaient vers le devis sans que le clic soit compté, la mesure
+  s'arrêtant faute de fenêtre de devis sur la page. Corrigé dans `site.js` (v=15) avec un
+  paramètre `mode` qui sépare l'ancien et le nouveau périmètre (§2 ter). Trouvé en voulant
+  tracer les clics d'un seul article : l'angle mort couvrait tout le blog.

@@ -209,15 +209,32 @@
   })();
 
   /* ---------- Clic souscription : ouverture + mesure ---------- */
+  /* Deux cas, mesures par le meme evenement et distingues par « mode » :
+     - page AVEC fenetre de devis : on ouvre la fenetre sur place (mode « fenetre ») ;
+     - page SANS fenetre : le bouton est un simple lien vers la page devis, on le laisse
+       naviguer et on enregistre le clic avant le depart (mode « lien »).
+     Jusqu'au 03/10/2026, le second cas n'etait pas mesure du tout : 28 pages, dont les
+     articles de blog et la FAQ, envoyaient des visiteurs au devis sans que le clic soit
+     compte. transport_type « beacon » garantit l'envoi meme si la page se ferme. */
   document.addEventListener('click', function (e) {
-    if (!modal) return; /* page sans modale : ne pas neutraliser le bouton ni fausser la mesure */
     var b = e.target.closest ? e.target.closest('.cta-btn-modal') : null;
     if (!b) return;
+    var label = (b.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+    if (!modal) {
+      /* sur la page devis elle-meme, le tarificateur est deja affiche : rien a compter */
+      if (/devis-ou-souscription/.test(location.pathname)) return;
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'ouverture_tarificateur', { bouton: label, page_path: location.pathname, mode: 'lien', transport_type: 'beacon' });
+      }
+      if (typeof window.clarity === 'function') {
+        try { window.clarity('event', 'ouverture_tarificateur'); } catch (_) {}
+      }
+      return; /* pas de preventDefault : le lien navigue normalement */
+    }
     e.preventDefault();
     openModal(b.getAttribute('data-prefill'));
-    var label = (b.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80);
     if (typeof window.gtag === 'function') {
-      window.gtag('event', 'ouverture_tarificateur', { bouton: label, page_path: location.pathname });
+      window.gtag('event', 'ouverture_tarificateur', { bouton: label, page_path: location.pathname, mode: 'fenetre' });
     }
     if (typeof window.clarity === 'function') {
       try { window.clarity('event', 'ouverture_tarificateur'); window.clarity('set', 'tarificateur', 'ouvert'); } catch (_) {}
