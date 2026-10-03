@@ -371,6 +371,36 @@ Liste **ordonnée**. Prendre le premier chantier non fait, en entier, et rien d'
 Chaque entrée tient dans une session : si ce n'est pas le cas, elle est mal découpée, la
 redécouper et le dire dans le rapport.
 
+0. **Wakam interdit de souscription : les malussés de Solly Azar vont chercher une solution.**
+   **BLOQUÉ, ne pas publier avant la réponse de JL Assure (voir plus bas).**
+
+   Le 25/09/2026, l'ACPR a interdit à Wakam de souscrire et de **renouveler** des contrats,
+   faute de solvabilité (66 % du capital requis, déficit d'environ 200 M€). Wakam porte
+   l'assurance auto de **Solly Azar**, spécialiste des malussés et résiliés depuis 1985, et
+   des produits de Yeet, Axece, +Simple et Zephir. Leurs assurés ne seront pas renouvelés à
+   leur échéance, et leurs nouveaux prospects ne peuvent plus souscrire.
+
+   L'assurance temporaire ne vérifie pas le bonus-malus : c'est le pont légal pendant que
+   ces conducteurs cherchent un nouvel assureur annuel. Le sujet suit exactement le motif
+   qui marche sur ce site (une situation précise, pas un produit générique).
+
+   **La question à poser à JL Assure avant d'écrire une ligne** : quels motifs de
+   résiliation excluent la souscription temporaire ? Non-paiement, fausse déclaration,
+   alcoolémie, suspension de permis, sinistralité. Une page qui promet l'accès « aux
+   résiliés » sans cette réponse ferait souscrire des gens qui seront refusés ou, pire,
+   dont le contrat sera nul au sinistre.
+
+   **Ce que le site ne doit jamais faire** : dénigrer Wakam ou Solly Azar. S'en tenir à la
+   décision publique de l'ACPR, citée, et rappeler que les contrats en cours restent
+   valables et les sinistres réglés. C'est vrai, et c'est ce qui rend la page crédible.
+
+   **Mesure provisoire** : l'ACPR exige un adossement. Si un repreneur arrive, l'interdiction
+   peut être levée vite. Investissement léger et rapide, pas de grand chantier.
+
+   **Fait quand** : JL Assure a répondu, une page situationnelle est en ligne, et les
+   requêtes « wakam », « solly azar », « non renouvelé » sont suivies dans le relevé du
+   matin. Au 02/10, elles font **zéro impression** : le site n'a aucune page dessus.
+
 1. **Dead clicks sur la page devis.** Relevé du 26/09 : 29 dead clicks, contre 13 sur
    l'accueil qui a pourtant deux fois plus de sessions. L'hypothèse la plus courante, un texte
    qui ressemble à un lien, a été **écartée** : aucun faux cliquable sur la page, vérifié au
@@ -489,3 +519,9 @@ investir pour le SEO.
   (143 le 25/09). Search Console n'a pas de donnée au-delà du 29/09 (latence), et ses clics du 26 au 29/09 sont
   dans la norme (42 à 61 par jour). Hypothèses non tranchées : trafic automatisé, ou campagne payante sans
   étiquetage, ou défaut d'attribution GA4. À recontrôler quand Search Console aura rattrapé le 02/10.
+- **03/10/2026** : Wakam interdit de souscription et de renouvellement par l'ACPR depuis
+  le 25/09. Il avait été recommandé en premier partenaire dans `partenaires-porteurs.md`
+  le 29/09, quatre jours après la décision, sans vérification de l'actualité de
+  l'entreprise. Corrigé. Leçon : **avant de recommander un partenaire, chercher son nom
+  avec « ACPR » et l'année en cours.** Un assureur se renseigne, un porteur de risque se
+  vérifie.
