@@ -555,6 +555,13 @@ investir pour le SEO.
   (143 le 25/09). Search Console n'a pas de donnée au-delà du 29/09 (latence), et ses clics du 26 au 29/09 sont
   dans la norme (42 à 61 par jour). Hypothèses non tranchées : trafic automatisé, ou campagne payante sans
   étiquetage, ou défaut d'attribution GA4. À recontrôler quand Search Console aura rattrapé le 02/10.
+  **Recontrôle du 04/10 : anomalie résolue, c'était un artefact de traitement GA4.** Le 02/10 relu deux jours
+  plus tard : 99 sessions Organic Search (engagées 65), 31 AI Assistant, 28 Referral, 26 Direct, plus aucune
+  « Unassigned » ni « Cross-network ». Le même motif réapparaît sur le 03/10 relu le matin du 04/10 (52 Unassigned
+  dont 1 engagée, 39 Cross-network, seulement 19 Organic Search) : **GA4 attribue mal les sessions d'une journée
+  tant qu'elle n'est pas entièrement traitée.** Règle : ne jamais lire la répartition par canal d'un jour de
+  moins de 48 h, et ne pas la prendre pour une baisse du SEO. Search Console s'arrête au 29/09 côté API ce matin
+  (72, 59, 42, 48, 61 clics du 25 au 29/09) : rien d'anormal.
 - **03/10/2026** : Wakam interdit de souscription et de renouvellement par l'ACPR depuis
   le 25/09. Il avait été recommandé en premier partenaire dans `partenaires-porteurs.md`
   le 29/09, quatre jours après la décision, sans vérification de l'actualité de
