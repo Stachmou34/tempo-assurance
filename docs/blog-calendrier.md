@@ -56,8 +56,10 @@ Cadence : **chaque lundi ~9 h** (cron `74d29a1a`, voir réserves sur l'expiratio
 | 3 | 19/07/2026 | week-end rouge (Bison Futé), radars IA, fin de la carte verte (FVA), TSCA électrique | ✅ archivée (`veille-auto-2026-07-19.html`) |
 | 4 | 26/07/2026 | chassé-croisé (samedi 25 rouge), vols de voitures, carburant + péages, rouler à l'étranger (carte internationale) | ✅ archivée (`veille-auto-2026-07-26.html`) |
 | 5 | 27/09/2026 | carburant en hausse (rentrée), assurance auto +5-6 % annoncés pour 2027, vol de voiture sans effraction (mouse jacking), délais de carte grise à la rentrée | ✅ archivée (`veille-auto-2026-09-27.html`) |
-| 6 | 04/10/2026 | Wakam interdit de souscription (ACPR), assurance auto 2027 +3-4 % (Facts & Figures), carburant en léger recul et aide grands rouleurs de 100 € (conditionnée à un véhicule assuré), fourrière : enlèvement à 135 € au 1er octobre | ✅ en ligne (`veille-auto.html`) |
+| 6 | 04/10/2026 | Wakam interdit de souscription (annonce du 29/09), téléphone au volant : suspension d'un mois expérimentée dans la Vienne (01/10), carburant : prix de la semaine et pénurie (17,9 % des stations au 04/10), fourrière : enlèvement à 135 € (en vigueur le 01/10) | ✅ en ligne (`veille-auto.html`) |
 | 7 | 11/10/2026 | à définir | ⏳ à venir |
+
+> Règle tirée de l'édition n°6 : chaque dossier s'accroche à un fait daté de la semaine (lundi-dimanche). Vérifier la date de **première** publication d'une étude, pas celle de sa reprise : la prévision Facts & Figures, reprise le 02/10, datait du 21/09 et a été retirée après vérification.
 
 > Aucune édition n'a été publiée entre le 26/07 et le 27/09/2026 (9 dimanches sans veille) : la routine autonome n'a apparemment pas traité ce chantier pendant cette période. À surveiller les prochains dimanches.
 
