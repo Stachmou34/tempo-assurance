@@ -450,6 +450,9 @@ redécouper et le dire dans le rapport.
    **sur décision du propriétaire** (le bloc tarificateur est protégé) : retirer `loading="lazy"` de
    l'iframe de `devis-ou-souscription.html`, puis comparer le % de dead clicks sur 3 jours.
    Ne pas conclure à un défaut UX tant que ce test n'est pas fait.
+   **Dimensions GA4 `element` et `page_path` déclarées le 05/10/2026** (propriétaire, captures à l'appui) : le comptage
+   par élément démarre ce jour, lisible via l'API à partir du 07/10 environ. Événement clé actif : `ouverture_tarificateur`
+   (`purchase` listé mais sans donnée ; `clic_telephone` pas marqué).
    **Test lancé le 05/10/2026** (feu vert du propriétaire) : `loading="lazy"` retiré de l'iframe. Référence avant test :
    18 % à 21 % des sessions de la page touchées (Clarity 01/10 et 05/10). Comparer le % de dead clicks du 09/10 au 12/10.
    **Relevé du 01/10** : l'écouteur `clic_sans_effet` a remonté 117 événements depuis le 27/09, dont
