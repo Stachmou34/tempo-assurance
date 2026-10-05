@@ -450,6 +450,8 @@ redécouper et le dire dans le rapport.
    **sur décision du propriétaire** (le bloc tarificateur est protégé) : retirer `loading="lazy"` de
    l'iframe de `devis-ou-souscription.html`, puis comparer le % de dead clicks sur 3 jours.
    Ne pas conclure à un défaut UX tant que ce test n'est pas fait.
+   **Test lancé le 05/10/2026** (feu vert du propriétaire) : `loading="lazy"` retiré de l'iframe. Référence avant test :
+   18 % à 21 % des sessions de la page touchées (Clarity 01/10 et 05/10). Comparer le % de dead clicks du 09/10 au 12/10.
    **Relevé du 01/10** : l'écouteur `clic_sans_effet` a remonté 117 événements depuis le 27/09, dont
    **86 sur la page devis** et 30 sur l'accueil. Mais le paramètre `element` n'est **pas déclaré comme
    dimension personnalisée dans GA4** (l'API répond « customEvent:element is not a valid dimension ») : on
