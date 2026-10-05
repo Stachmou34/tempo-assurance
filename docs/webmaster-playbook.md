@@ -580,3 +580,13 @@ investir pour le SEO.
   Wakam, vérifié par un agent, affirmait trop sur deux points (contrat « valable jusqu'à
   l'échéance » malgré la procédure de retrait d'agrément ; temporaire ouverte quel que soit
   le passé, alors que les CG HDI fixent des critères d'antécédents). Corrigé, voir chantier 0.
+- **05/10/2026** : analyse hebdo du 28/09 au 04/10 (`docs/analyse-hebdo-2026-09-28.md`). Trois
+  enseignements durables. (1) **ChatGPT est devenu le troisième canal** : 186 sessions (120 la
+  semaine d'avant), marche le 26/09 non expliquée, et toute la hausse de l'accueil en vient ;
+  la recherche organique est plate (360 clics Search Console, 358 à 368 avant). (2) **La hausse
+  d'`ouverture_tarificateur` est du volume, pas du taux** : 35,4 % des sessions contre 34,2 %,
+  hors page devis. Le mode `lien` n'a rien ajouté sur la semaine (0 événement), et `mode`
+  n'étant pas déclaré dans GA4, le filtre `fenetre` doit être reconstitué par page. (3) **« assurance
+  temporaire » a glissé de 9,7 à 10,7 (4 clics contre 19) en commençant le 27/09, avant le
+  nouveau titre** : ne pas l'attribuer au titre. CTR de « tempo assurance » depuis le changement :
+  42,5 % (48/113), au-dessus du seuil de 40 % mais à surveiller chaque lundi.
