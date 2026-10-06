@@ -473,6 +473,10 @@ redécouper et le dire dans le rapport.
    étaient figées au 25/06). L'API d'inspection d'URL (`searchconsole.googleapis.com`) renvoie 401 : le proxy
    n'authentifie que `www.googleapis.com` et `analyticsdata`. Les dates de dernier crawl restent donc à relever
    à la main dans Search Console (Pages > Explorées). Effet sur le crawl à mesurer d'ici une semaine.
+   **06/10** : `lastmod` du sitemap en retard sur git pour de nombreuses pages (09/26-09/30 contre 10/03), mais
+   le 03/10 est un commit transversal : ne pas resynchroniser à l'aveugle, ce serait déclarer des modifications
+   de contenu inexistantes. Search Console 29/09-03/10 : 312 clics, 13 487 impressions, position 11,9 (22-26/09 :
+   297 clics, 12 452 impressions, position 11,1). Mesure de l'effet du lastmod : 09/10.
 5. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
    « assurance temporaire pas cher », « prix assurance auto temporaire » (position 48 à 67).
    **Relevé du 03/10** (17-30/09 contre 03-16/09) : « assurance temporaire pas cher » est revenue en
@@ -485,10 +489,11 @@ redécouper et le dire dans le rapport.
 6. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
    gondole. Avis Google, liens entrants. Ce chantier ne se règle pas dans le code : il se prépare
    (modèle d'e-mail de demande d'avis, liste de sites à contacter) et se propose au propriétaire.
-7. **Mesure** : GA4 renvoie toujours `keyEvents = 0`. Cela se règle dans l'interface GA4
-   (Admin > Événements > marquer comme événement clé), pas dans le code, et **ce n'est pas
-   rétroactif**. Tant que ce n'est pas fait, on ne sait pas si le travail génère des contrats.
-   À rappeler dans le rapport tant que le chiffre reste à zéro.
+7. ~~**Mesure** : GA4 renvoie `keyEvents = 0`~~ **Clos le 06/10/2026** : `ouverture_tarificateur` est marqué
+   événement clé et remonte (629 événements clés du 29/09 au 05/10, 58 le 05/10 contre 69 le 28/09).
+   Attention : c'est l'**ouverture** du tarificateur, pas un contrat. Aucun événement de souscription n'est
+   visible côté site (le tunnel est chez jlassure.com) : on mesure l'intention, pas la vente. Autres événements
+   relevés sur 7 jours : `affichage_tarificateur` 425, `clic_sans_effet` 183, `clic_telephone` 4, `clic_certimat` 4.
 
 **Écarté, avec sa raison** : résilié / malus = 3 impressions en 3 mois. Aucune demande, ne pas
 investir pour le SEO.
