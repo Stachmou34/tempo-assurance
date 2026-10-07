@@ -489,6 +489,8 @@ redécouper et le dire dans le rapport.
 6. **Autorité** : c'est LE levier pour passer de la position 12 à la position 5 sur les têtes de
    gondole. Avis Google, liens entrants. Ce chantier ne se règle pas dans le code : il se prépare
    (modèle d'e-mail de demande d'avis, liste de sites à contacter) et se propose au propriétaire.
+   **Préparé le 07/10/2026** : `docs/autorite-plan-action.md` (ordre d'exécution, e-mail d'avis J+3, blocage
+   du tunnel chez jlassure.com, trois décisions demandées). Pas de liste de sites : la recherche n'en a établi aucun de fiable.
 7. ~~**Mesure** : GA4 renvoie `keyEvents = 0`~~ **Clos le 06/10/2026** : `ouverture_tarificateur` est marqué
    événement clé et remonte (629 événements clés du 29/09 au 05/10, 58 le 05/10 contre 69 le 28/09).
    Attention : c'est l'**ouverture** du tarificateur, pas un contrat. Aucun événement de souscription n'est
@@ -595,3 +597,6 @@ investir pour le SEO.
   temporaire » a glissé de 9,7 à 10,7 (4 clics contre 19) en commençant le 27/09, avant le
   nouveau titre** : ne pas l'attribuer au titre. CTR de « tempo assurance » depuis le changement :
   42,5 % (48/113), au-dessus du seuil de 40 % mais à surveiller chaque lundi.
+- **07/10/2026** : chantier autorité préparé sans liste de liens à contacter. La recherche web n'a trouvé aucun annuaire
+  de courtiers à valeur SEO démontrée ; mieux vaut une absence qu'une liste inventée. Le vrai blocage des avis est que
+  le tunnel de souscription est chez jlassure.com : le site ne peut pas envoyer l'invitation lui-même.
