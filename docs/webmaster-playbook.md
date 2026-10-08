@@ -83,6 +83,18 @@ par `page_path`.
 Sur la page devis elle-même, rien n'est envoyé au clic : le tarificateur y est déjà
 affiché, et `affichage_tarificateur` le compte au chargement.
 
+**Filtrer par l'API, depuis le 07/10/2026.** Les paramètres `mode`, `bouton` (sur
+`ouverture_tarificateur`) et `zone` (sur `clic_telephone`) sont déclarés comme dimensions
+personnalisées depuis le 06/10 : `customEvent:mode`, `customEvent:bouton`,
+`customEvent:zone`. Ce n'est pas rétroactif : **à partir du 07/10, 0 % de `(not set)`**, on
+filtre directement sur `customEvent:mode = fenetre`. Avant le 07/10 (et pour une partie du
+06/10), il faut reconstituer le mode par page : les pages en mode `lien` sont celles qui
+n'ont pas de fenêtre de devis.
+
+`bouton` enregistre le texte du bouton **tel que le visiteur le voit**, donc traduit quand
+son navigateur traduit la page (russe, arabe, portugais relevés le 07/10). Regrouper par
+sens avant de comparer des libellés.
+
 **Règle pour l'avenir** : la classe `cta-btn-modal` est réservée aux boutons qui mènent au
 devis d'assurance. Un bouton « Faire ma carte grise » la portait sur l'article occasion ; avec
 la nouvelle mesure, chacun de ses clics aurait compté comme une ouverture du tarificateur.
@@ -600,3 +612,10 @@ investir pour le SEO.
 - **07/10/2026** : chantier autorité préparé sans liste de liens à contacter. La recherche web n'a trouvé aucun annuaire
   de courtiers à valeur SEO démontrée ; mieux vaut une absence qu'une liste inventée. Le vrai blocage des avis est que
   le tunnel de souscription est chez jlassure.com : le site ne peut pas envoyer l'invitation lui-même.
+- **08/10/2026** : dimensions GA4 `mode`, `bouton` et `zone` vérifiées, elles remontent (0 % de `(not set)` depuis
+  le 07/10). Du 07/10 au 08/10 matin : `ouverture_tarificateur` 118 événements, dont 115 `fenetre` et 3 `lien`
+  (2 depuis l'article occasion, 1 depuis l'article Wakam). Le mode `lien` pèse donc peu pour l'instant : la
+  rupture du 03/10 ne fausse presque pas les comparaisons. Boutons : « Obtenir mon tarif exact » (51) et
+  « Obtenir mon tarif en 2 min » (22, bouton fixe mobile) en tête ; au moins 12 libellés sur 114 (environ 10 %) arrivent
+  traduits par le navigateur (russe, arabe, portugais), signe d'une audience non francophone. `clic_telephone` : 6 clics
+  du 06 au 07/10, 4 depuis le pied de page, 1 depuis le menu mobile, 1 depuis le corps d'une page.
