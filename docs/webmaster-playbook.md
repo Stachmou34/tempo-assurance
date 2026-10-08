@@ -452,6 +452,7 @@ redécouper et le dire dans le rapport.
    Ne pas conclure à un défaut UX tant que ce test n'est pas fait.
    **Test lancé le 05/10/2026** (feu vert du propriétaire) : `loading="lazy"` retiré de l'iframe. Référence avant test :
    18 % à 21 % des sessions de la page touchées (Clarity 01/10 et 05/10). Comparer le % de dead clicks du 09/10 au 12/10.
+   **Relevé du 08/10** (avant la fenêtre de comparaison) : 34 % des sessions de la page devis (57 clics sur 90 sessions), en hausse par rapport au 21 % du 05/10 ; le trafic a presque doublé ce jour-là (575 sessions Clarity contre 306), donc rien à conclure avant le 12/10.
    **Relevé du 01/10** : l'écouteur `clic_sans_effet` a remonté 117 événements depuis le 27/09, dont
    **86 sur la page devis** et 30 sur l'accueil. Mais le paramètre `element` n'est **pas déclaré comme
    dimension personnalisée dans GA4** (l'API répond « customEvent:element is not a valid dimension ») : on
@@ -477,6 +478,11 @@ redécouper et le dire dans le rapport.
    le 03/10 est un commit transversal : ne pas resynchroniser à l'aveugle, ce serait déclarer des modifications
    de contenu inexistantes. Search Console 29/09-03/10 : 312 clics, 13 487 impressions, position 11,9 (22-26/09 :
    297 clics, 12 452 impressions, position 11,1). Mesure de l'effet du lastmod : 09/10.
+   **08/10** : relu page par page en ignorant les commits transversaux (cache-buster, tirets, correctif du 03/10) :
+   seules 2 pages avaient un vrai contenu plus récent que leur `lastmod` (`devis-ou-souscription.html`, `blog.html`),
+   corrigées. Le retard annoncé le 06/10 n'était donc presque que l'effet du commit transversal. Search Console
+   04-06/10 : 77 clics, 5 225 impressions, position 12,7 (27-29/09 : 151 clics, 6 998 impressions, position 11,8),
+   mais les 2 derniers jours sont encore incomplets côté API : ne pas lire cela comme une chute.
 5. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
    « assurance temporaire pas cher », « prix assurance auto temporaire » (position 48 à 67).
    **Relevé du 03/10** (17-30/09 contre 03-16/09) : « assurance temporaire pas cher » est revenue en
