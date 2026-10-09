@@ -448,6 +448,7 @@ redécouper et le dire dans le rapport.
    **À suivre dans le relevé du matin** : « wakam », « non renouvelé », « contrat non
    reconduit ». Au 02/10, zéro impression. La mesure est provisoire : si l'ACPR la lève,
    mettre l'article à jour plutôt que de le laisser affirmer une interdiction terminée.
+   **09/10** : une seule requête contenant « wakam » (« wakam news », 2 impressions, position 4,5, 1 clic) du 03 au 06/10.
 
 1. **Dead clicks sur la page devis.** Relevé du 26/09 : 29 dead clicks, contre 13 sur
    l'accueil qui a pourtant deux fois plus de sessions. L'hypothèse la plus courante, un texte
@@ -472,6 +473,12 @@ redécouper et le dire dans le rapport.
    personnalisées > Créer une dimension personnalisée, portée « Événement », paramètre `element` (et
    `page_path`). Non rétroactif : le comptage par élément démarre à la déclaration.
    Clarity du 01/10 : dead clicks 21 % des sessions de la page devis (21 clics sur 70), 3 % sur l'accueil.
+   **Relevé du 09/10 (jour 1 du test)** : dead clicks de la page devis à **47 % des sessions (60 clics sur 62)**, contre
+   18-21 % avant le retrait de `loading="lazy"`. L'accueil est à 4 %, le site entier à 11,8 % (6,5 % le 05/10). Le retrait du
+   lazy n'a donc **pas** fait baisser le chiffre, il a plutôt monté : l'hypothèse « clic avant affichage de l'iframe » est
+   affaiblie. Une seule journée, échantillon de 62 sessions : ne pas conclure avant le 12/10. Autre effet à noter :
+   `affichage_tarificateur` GA4 passe de 98 (01/10) à 62 (08/10) alors que `ouverture_tarificateur` monte de 81 à 121 ; cet
+   événement dépendait probablement de l'affichage différé de l'iframe, le comparer avec prudence à l'avenir.
 2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
    Les instantanes Clarity du 28/09 (15 erreurs, 2,78 % des sessions) et du 30/09 (10 erreurs, 1 %)
    placent toutes les erreurs sur l'URL `www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php`, c'est-a-dire
@@ -495,6 +502,9 @@ redécouper et le dire dans le rapport.
    corrigées. Le retard annoncé le 06/10 n'était donc presque que l'effet du commit transversal. Search Console
    04-06/10 : 77 clics, 5 225 impressions, position 12,7 (27-29/09 : 151 clics, 6 998 impressions, position 11,8),
    mais les 2 derniers jours sont encore incomplets côté API : ne pas lire cela comme une chute.
+   **Mesure du 09/10** (03-06/10 contre 26-29/09, mêmes jours de semaine) : impressions 10 911 contre 9 059 (+20 %), clics 181
+   contre 210 (-14 %), position 12,3 contre 11,8. Les impressions montent mais pas les clics : effet du lastmod non démontré
+   (une semaine, bruit possible). Dates de dernier crawl toujours à relever à la main dans Search Console.
 5. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
    « assurance temporaire pas cher », « prix assurance auto temporaire » (position 48 à 67).
    **Relevé du 03/10** (17-30/09 contre 03-16/09) : « assurance temporaire pas cher » est revenue en
