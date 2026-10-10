@@ -477,8 +477,10 @@ redécouper et le dire dans le rapport.
    18-21 % avant le retrait de `loading="lazy"`. L'accueil est à 4 %, le site entier à 11,8 % (6,5 % le 05/10). Le retrait du
    lazy n'a donc **pas** fait baisser le chiffre, il a plutôt monté : l'hypothèse « clic avant affichage de l'iframe » est
    affaiblie. Une seule journée, échantillon de 62 sessions : ne pas conclure avant le 12/10. Autre effet à noter :
-   `affichage_tarificateur` GA4 passe de 98 (01/10) à 62 (08/10) alors que `ouverture_tarificateur` monte de 81 à 121 ; cet
-   événement dépendait probablement de l'affichage différé de l'iframe, le comparer avec prudence à l'avenir.
+   `affichage_tarificateur` GA4 passe de 98 (01/10) à 62 (08/10) alors que `ouverture_tarificateur` monte de 81 à 121.
+   **Correction du 10/10** : ce n'est pas un effet du test. `affichage_tarificateur` suit exactement les vues de la page
+   devis (98 vues le 01/10, 62 le 08/10, 102 le 09/10) : il y a simplement eu moins de visites ce jour-là. L'événement
+   fonctionne et reste comparable.
    **Relevé du 10/10 (jour 2 du test)** : dead clicks de la page devis à **27 % des sessions (40 clics sur 88)**, contre 47 % le
    09/10 et 34 % le 08/10 : le chiffre est redescendu, mais reste au-dessus des 18-21 % d'avant le test. Site entier 9,5 % (11,8 % le
    09/10). L'accueil a 13 rage clicks (1 % des sessions, 140 sessions), non nul alors que le seuil d'alerte du §5 ter vise tout rage click sur une page de conversion : à surveiller, une
