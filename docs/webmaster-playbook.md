@@ -413,6 +413,13 @@ Liste **ordonnée**. Prendre le premier chantier non fait, en entier, et rien d'
 Chaque entrée tient dans une session : si ce n'est pas le cas, elle est mal découpée, la
 redécouper et le dire dans le rapport.
 
+**Chantier en attente : passer au suivant.** Si le premier chantier non fait attend des
+données (une date de relevé est fixée, comme la fin du test des dead clicks le 12/10) ou une
+réponse du propriétaire, faire le relevé du jour en deux lignes sous ce chantier, puis passer
+au chantier suivant et y livrer du code. Un relevé ajouté au playbook ne compte pas comme le
+livrable du jour. Règle posée le 10/10/2026 après trois sessions (08, 09 et 10/10) qui n'ont
+fait qu'ajouter des relevés.
+
 0. ~~**Wakam interdit de souscription**~~ **Livré le 03/10/2026** : article
    `blog-contrat-auto-non-renouvele.html`, enregistré dans `blog.html`, `sitemap.xml` et
    `llms.txt`.
@@ -448,6 +455,7 @@ redécouper et le dire dans le rapport.
    **À suivre dans le relevé du matin** : « wakam », « non renouvelé », « contrat non
    reconduit ». Au 02/10, zéro impression. La mesure est provisoire : si l'ACPR la lève,
    mettre l'article à jour plutôt que de le laisser affirmer une interdiction terminée.
+   **09/10** : une seule requête contenant « wakam » (« wakam news », 2 impressions, position 4,5, 1 clic) du 03 au 06/10.
 
 1. **Dead clicks sur la page devis.** Relevé du 26/09 : 29 dead clicks, contre 13 sur
    l'accueil qui a pourtant deux fois plus de sessions. L'hypothèse la plus courante, un texte
@@ -472,14 +480,35 @@ redécouper et le dire dans le rapport.
    personnalisées > Créer une dimension personnalisée, portée « Événement », paramètre `element` (et
    `page_path`). Non rétroactif : le comptage par élément démarre à la déclaration.
    Clarity du 01/10 : dead clicks 21 % des sessions de la page devis (21 clics sur 70), 3 % sur l'accueil.
+   **Relevé du 09/10 (jour 1 du test)** : dead clicks de la page devis à **47 % des sessions (60 clics sur 62)**, contre
+   18-21 % avant le retrait de `loading="lazy"`. L'accueil est à 4 %, le site entier à 11,8 % (6,5 % le 05/10). Le retrait du
+   lazy n'a donc **pas** fait baisser le chiffre, il a plutôt monté : l'hypothèse « clic avant affichage de l'iframe » est
+   affaiblie. Une seule journée, échantillon de 62 sessions : ne pas conclure avant le 12/10. Autre effet à noter :
+   `affichage_tarificateur` GA4 passe de 98 (01/10) à 62 (08/10) alors que `ouverture_tarificateur` monte de 81 à 121.
+   **Correction du 10/10** : ce n'est pas un effet du test. `affichage_tarificateur` suit exactement les vues de la page
+   devis (98 vues le 01/10, 62 le 08/10, 102 le 09/10) : il y a simplement eu moins de visites ce jour-là. L'événement
+   fonctionne et reste comparable.
+   **Relevé du 10/10 (jour 2 du test)** : dead clicks de la page devis à **27 % des sessions (40 clics sur 88)**, contre 47 % le
+   09/10 et 34 % le 08/10 : le chiffre est redescendu, mais reste au-dessus des 18-21 % d'avant le test. Site entier 9,5 % (11,8 % le
+   09/10). L'accueil a 13 rage clicks (1 % des sessions, 140 sessions), non nul alors que le seuil d'alerte du §5 ter vise tout rage click sur une page de conversion : à surveiller, une
+   journée ne suffit pas. Trois jours très variables (34, 47, 27 %) sur 60 à 90 sessions : **le bruit est du même ordre que l'effet**,
+   conclure le 12/10 sur la moyenne des quatre jours et non sur la dernière valeur.
+   Search Console 04-06/10 (3 jours, données arrêtées au 06/10) : 135 clics, 8 487 impressions, CTR 1,6 %, position 12,4. Contre
+   27-30/09 (4 jours) : 220 clics, 9 596 impressions, CTR 2,3 %, position 11,8. Par jour : 45 clics contre 55 (-18 %), mais le 04/10
+   est un dimanche. Marque « tempo assurance » 04-06/10 : CTR 49 % (25 clics sur 51), contre 61 % (30 sur 49) sur 27-29/09 ; au-dessus
+   du seuil de 40 % du test de titre, mais en baisse sur de très petits volumes.
 2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
    Les instantanes Clarity du 28/09 (15 erreurs, 2,78 % des sessions) et du 30/09 (10 erreurs, 1 %)
    placent toutes les erreurs sur l'URL `www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php`, c'est-a-dire
    dans l'iframe du partenaire. `/devis-ou-souscription.html` est a 0 % (0 erreur) le 30/09. Rien a corriger
    cote site ; si le volume monte, le signaler a JL Assure (modele : `docs/message-jlassure-*.md`).
    Lecon : Clarity rattache aussi les pages jlassure.com aux sessions, lire l'URL avant de conclure.
-3. **Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement` alors que le reste du site
-   dit Crédit Mutuel. Nom actuel probable : Monetico. **Demander au propriétaire**, ne pas deviner.
+3. ~~**Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement`~~ **Clos le 10/10/2026** :
+   le propriétaire confirme **Monetico** (solution de paiement du Crédit Mutuel). Réponse FAQ
+   « Puis-je régler en ligne en toute sécurité ? » réécrite (texte visible et JSON-LD) : Monetico,
+   numéro de carte jamais vu par nous, authentification forte 3-D Secure, Apple Pay. Les anciens
+   noms « Verified by Visa » et « MasterCard SecureCode » ont disparu. Page À propos corrigée.
+   Plus aucune mention de CM-CIC sur le site.
 4. **Crawl espacé** : des pages non recrawlées depuis fin juillet. Vérifier dans Search Console
    quelles pages, et si le `lastmod` du sitemap est bien à jour pour celles-là.
    **02/10** : `lastmod` resynchronisé sur la dernière modification git pour 57 pages sur 59 (la plupart
@@ -495,6 +524,9 @@ redécouper et le dire dans le rapport.
    corrigées. Le retard annoncé le 06/10 n'était donc presque que l'effet du commit transversal. Search Console
    04-06/10 : 77 clics, 5 225 impressions, position 12,7 (27-29/09 : 151 clics, 6 998 impressions, position 11,8),
    mais les 2 derniers jours sont encore incomplets côté API : ne pas lire cela comme une chute.
+   **Mesure du 09/10** (03-06/10 contre 26-29/09, mêmes jours de semaine) : impressions 10 911 contre 9 059 (+20 %), clics 181
+   contre 210 (-14 %), position 12,3 contre 11,8. Les impressions montent mais pas les clics : effet du lastmod non démontré
+   (une semaine, bruit possible). Dates de dernier crawl toujours à relever à la main dans Search Console.
 5. **Requêtes perdues** à surveiller après la refonte de la page tarifs :
    « assurance temporaire pas cher », « prix assurance auto temporaire » (position 48 à 67).
    **Relevé du 03/10** (17-30/09 contre 03-16/09) : « assurance temporaire pas cher » est revenue en
@@ -625,3 +657,7 @@ investir pour le SEO.
   « Obtenir mon tarif en 2 min » (22, bouton fixe mobile) en tête ; au moins 12 libellés sur 114 (environ 10 %) arrivent
   traduits par le navigateur (russe, arabe, portugais), signe d'une audience non francophone. `clic_telephone` : 6 clics
   du 06 au 07/10, 4 depuis le pied de page, 1 depuis le menu mobile, 1 depuis le corps d'une page.
+- **10/10/2026** : la routine a passé trois jours (08, 09 et 10/10) à n'ajouter que des relevés, parce que le premier chantier
+  attend la fin du test du 12/10. Règle ajoutée en tête du §9 : un chantier en attente ne bloque pas les suivants. Le
+  même jour, une fausse piste a été corrigée : `affichage_tarificateur` n'est pas faussé par le test lazy-load, il suit
+  exactement les vues de la page devis.
