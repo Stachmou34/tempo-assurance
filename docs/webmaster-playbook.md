@@ -413,6 +413,13 @@ Liste **ordonnée**. Prendre le premier chantier non fait, en entier, et rien d'
 Chaque entrée tient dans une session : si ce n'est pas le cas, elle est mal découpée, la
 redécouper et le dire dans le rapport.
 
+**Chantier en attente : passer au suivant.** Si le premier chantier non fait attend des
+données (une date de relevé est fixée, comme la fin du test des dead clicks le 12/10) ou une
+réponse du propriétaire, faire le relevé du jour en deux lignes sous ce chantier, puis passer
+au chantier suivant et y livrer du code. Un relevé ajouté au playbook ne compte pas comme le
+livrable du jour. Règle posée le 10/10/2026 après trois sessions (08, 09 et 10/10) qui n'ont
+fait qu'ajouter des relevés.
+
 0. ~~**Wakam interdit de souscription**~~ **Livré le 03/10/2026** : article
    `blog-contrat-auto-non-renouvele.html`, enregistré dans `blog.html`, `sitemap.xml` et
    `llms.txt`.
@@ -496,8 +503,12 @@ redécouper et le dire dans le rapport.
    dans l'iframe du partenaire. `/devis-ou-souscription.html` est a 0 % (0 erreur) le 30/09. Rien a corriger
    cote site ; si le volume monte, le signaler a JL Assure (modele : `docs/message-jlassure-*.md`).
    Lecon : Clarity rattache aussi les pages jlassure.com aux sessions, lire l'URL avant de conclure.
-3. **Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement` alors que le reste du site
-   dit Crédit Mutuel. Nom actuel probable : Monetico. **Demander au propriétaire**, ne pas deviner.
+3. ~~**Passerelle de paiement** : la FAQ dit encore `CM-CIC p@iement`~~ **Clos le 10/10/2026** :
+   le propriétaire confirme **Monetico** (solution de paiement du Crédit Mutuel). Réponse FAQ
+   « Puis-je régler en ligne en toute sécurité ? » réécrite (texte visible et JSON-LD) : Monetico,
+   numéro de carte jamais vu par nous, authentification forte 3-D Secure, Apple Pay. Les anciens
+   noms « Verified by Visa » et « MasterCard SecureCode » ont disparu. Page À propos corrigée.
+   Plus aucune mention de CM-CIC sur le site.
 4. **Crawl espacé** : des pages non recrawlées depuis fin juillet. Vérifier dans Search Console
    quelles pages, et si le `lastmod` du sitemap est bien à jour pour celles-là.
    **02/10** : `lastmod` resynchronisé sur la dernière modification git pour 57 pages sur 59 (la plupart
@@ -646,3 +657,7 @@ investir pour le SEO.
   « Obtenir mon tarif en 2 min » (22, bouton fixe mobile) en tête ; au moins 12 libellés sur 114 (environ 10 %) arrivent
   traduits par le navigateur (russe, arabe, portugais), signe d'une audience non francophone. `clic_telephone` : 6 clics
   du 06 au 07/10, 4 depuis le pied de page, 1 depuis le menu mobile, 1 depuis le corps d'une page.
+- **10/10/2026** : la routine a passé trois jours (08, 09 et 10/10) à n'ajouter que des relevés, parce que le premier chantier
+  attend la fin du test du 12/10. Règle ajoutée en tête du §9 : un chantier en attente ne bloque pas les suivants. Le
+  même jour, une fausse piste a été corrigée : `affichage_tarificateur` n'est pas faussé par le test lazy-load, il suit
+  exactement les vues de la page devis.
