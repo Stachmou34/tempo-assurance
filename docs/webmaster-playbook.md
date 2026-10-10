@@ -479,6 +479,15 @@ redécouper et le dire dans le rapport.
    affaiblie. Une seule journée, échantillon de 62 sessions : ne pas conclure avant le 12/10. Autre effet à noter :
    `affichage_tarificateur` GA4 passe de 98 (01/10) à 62 (08/10) alors que `ouverture_tarificateur` monte de 81 à 121 ; cet
    événement dépendait probablement de l'affichage différé de l'iframe, le comparer avec prudence à l'avenir.
+   **Relevé du 10/10 (jour 2 du test)** : dead clicks de la page devis à **27 % des sessions (40 clics sur 88)**, contre 47 % le
+   09/10 et 34 % le 08/10 : le chiffre est redescendu, mais reste au-dessus des 18-21 % d'avant le test. Site entier 9,5 % (11,8 % le
+   09/10). L'accueil a 13 rage clicks (1 % des sessions, 140 sessions), non nul alors que le seuil d'alerte du §5 ter vise tout rage click sur une page de conversion : à surveiller, une
+   journée ne suffit pas. Trois jours très variables (34, 47, 27 %) sur 60 à 90 sessions : **le bruit est du même ordre que l'effet**,
+   conclure le 12/10 sur la moyenne des quatre jours et non sur la dernière valeur.
+   Search Console 04-06/10 (3 jours, données arrêtées au 06/10) : 135 clics, 8 487 impressions, CTR 1,6 %, position 12,4. Contre
+   27-30/09 (4 jours) : 220 clics, 9 596 impressions, CTR 2,3 %, position 11,8. Par jour : 45 clics contre 55 (-18 %), mais le 04/10
+   est un dimanche. Marque « tempo assurance » 04-06/10 : CTR 49 % (25 clics sur 51), contre 61 % (30 sur 49) sur 27-29/09 ; au-dessus
+   du seuil de 40 % du test de titre, mais en baisse sur de très petits volumes.
 2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
    Les instantanes Clarity du 28/09 (15 erreurs, 2,78 % des sessions) et du 30/09 (10 erreurs, 1 %)
    placent toutes les erreurs sur l'URL `www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php`, c'est-a-dire
