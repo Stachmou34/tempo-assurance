@@ -498,6 +498,8 @@ fait qu'ajouter des relevés.
    est un dimanche. Marque « tempo assurance » 04-06/10 : CTR 49 % (25 clics sur 51), contre 61 % (30 sur 49) sur 27-29/09 ; au-dessus
    du seuil de 40 % du test de titre, mais en baisse sur de très petits volumes.
    **Relevé du 12/10 (fin du test)** : fenêtre 09-12/10 non mesurable ce matin (Clarity du 12/10 incomplet) : conclure à la prochaine session sur les quatre jours 09-12/10. GA4 11/10 : 189 sessions contre 118 le 04/10 (+60 %, dimanche contre dimanche), 111 événements clés contre 85. Search Console 07-09/10 : 218 clics, 8 767 impressions, position 12,0 (30/09-02/10 : 205 clics, 8 471 impressions, position 11,8).
+   **Relevé du 13/10** : GA4 12/10 (lundi) 100 sessions contre 158 le 05/10 (-37 %), 57 événements clés contre 74 ; cause non établie (Search Console s'arrête au 10/10). Clarity 13/10 : page devis 32 % de dead clicks (27 clics sur 53 sessions), toujours au-dessus des 18-21 % d'avant test. Fenêtre 09-12/10 toujours non concluable (pas d'instantané 11 et 12/10).
+   **Chantier livré à la place le 13/10** : `assurance-temporaire-camion.html`, requête « assurance temporaire poids lourd » (227 impressions, position 6,7, 1 clic, 13/09-10/10) absente du titre et de la description : ajout de « poids lourd » (plus de 3,5 t) dans le titre, la description et l'intro. À mesurer à partir du 20/10.
 2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
    Les instantanes Clarity du 28/09 (15 erreurs, 2,78 % des sessions) et du 30/09 (10 erreurs, 1 %)
    placent toutes les erreurs sur l'URL `www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php`, c'est-a-dire
