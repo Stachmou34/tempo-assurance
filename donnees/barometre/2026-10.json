@@ -1,0 +1,180 @@
+{
+  "titre": "Baromètre de l'assurance temporaire Tempo-Assurance",
+  "periode": {
+    "debut": "2026-06-01",
+    "fin": "2026-09-30"
+  },
+  "echantillon": {
+    "contrats_arrondi": 2000,
+    "note": "nombre arrondi à la centaine"
+  },
+  "calcule_le": "2026-10-14",
+  "regles": [
+    "aucune donnée individuelle",
+    "montants non publiés",
+    "cases de moins de 20 contrats fusionnées ou masquées"
+  ],
+  "duree": {
+    "mediane_jours": 7,
+    "part_1_jour": 18,
+    "part_7_jours_ou_moins": 54.6,
+    "part_30_jours_ou_plus": 15.5,
+    "tranches": [
+      {
+        "tranche": "1 jour",
+        "part": 18
+      },
+      {
+        "tranche": "2 à 3 jours",
+        "part": 14.2
+      },
+      {
+        "tranche": "4 à 7 jours",
+        "part": 22.4
+      },
+      {
+        "tranche": "8 à 15 jours",
+        "part": 24.8
+      },
+      {
+        "tranche": "16 à 30 jours",
+        "part": 16.3
+      },
+      {
+        "tranche": "31 à 90 jours",
+        "part": 4.3
+      }
+    ],
+    "durees_les_plus_choisies": [
+      {
+        "jours": 1,
+        "part": 18
+      },
+      {
+        "jours": 15,
+        "part": 13.2
+      },
+      {
+        "jours": 30,
+        "part": 11.2
+      },
+      {
+        "jours": 7,
+        "part": 8.1
+      },
+      {
+        "jours": 3,
+        "part": 8.1
+      }
+    ]
+  },
+  "jour_de_debut": {
+    "repartition": [
+      {
+        "jour": "lundi",
+        "part": 15.6
+      },
+      {
+        "jour": "mardi",
+        "part": 12.9
+      },
+      {
+        "jour": "mercredi",
+        "part": 16.4
+      },
+      {
+        "jour": "jeudi",
+        "part": 13.7
+      },
+      {
+        "jour": "vendredi",
+        "part": 17.5
+      },
+      {
+        "jour": "samedi",
+        "part": 14.3
+      },
+      {
+        "jour": "dimanche",
+        "part": 9.7
+      }
+    ],
+    "part_vendredi_samedi_dimanche": 41.5,
+    "part_samedi_dimanche": 24
+  },
+  "duree_mediane_selon_depart": {
+    "vendredi_au_dimanche": 7,
+    "lundi_au_jeudi": 7
+  },
+  "categories": [
+    {
+      "categorie": "Voiture",
+      "part": 72.9
+    },
+    {
+      "categorie": "Utilitaire",
+      "part": 15.4
+    },
+    {
+      "categorie": "Camion",
+      "part": 4.9
+    },
+    {
+      "categorie": "Bus et autocar",
+      "part": 3.3
+    },
+    {
+      "categorie": "Remorque et caravane",
+      "part": 3
+    },
+    {
+      "categorie": "Autres (quad, tracteur, voiturette...)",
+      "part": 0.6
+    }
+  ],
+  "duree_mediane_par_categorie": [
+    {
+      "categorie": "Voiture",
+      "mediane_jours": 7
+    },
+    {
+      "categorie": "Bus et autocar",
+      "mediane_jours": 15
+    },
+    {
+      "categorie": "Camion",
+      "mediane_jours": 7
+    },
+    {
+      "categorie": "Utilitaire",
+      "mediane_jours": 10
+    },
+    {
+      "categorie": "Remorque et caravane",
+      "mediane_jours": 5
+    }
+  ],
+  "saisonnalite_indice_100": [
+    {
+      "mois": "2026-06",
+      "indice": 69
+    },
+    {
+      "mois": "2026-07",
+      "indice": 121
+    },
+    {
+      "mois": "2026-08",
+      "indice": 92
+    },
+    {
+      "mois": "2026-09",
+      "indice": 118
+    }
+  ],
+  "retour_clients": {
+    "part_clients_revenus": 34.4,
+    "base": "clients dont le premier contrat date de plus de 90 jours",
+    "ecart_median_jours_entre_deux_contrats": 15
+  }
+}
