@@ -1,13 +1,10 @@
 {
   "titre": "Baromètre de l'assurance temporaire Tempo-Assurance",
   "periode": {
-    "debut": "2026-06-01",
-    "fin": "2026-09-30"
+    "debut": "2026-05-26",
+    "fin": "2026-10-13"
   },
-  "echantillon": {
-    "contrats_arrondi": 2000,
-    "note": "nombre arrondi à la centaine"
-  },
+  "echantillon": "des milliers de contrats",
   "calcule_le": "2026-10-14",
   "regles": [
     "aucune donnée individuelle",
@@ -16,55 +13,55 @@
   ],
   "duree": {
     "mediane_jours": 7,
-    "part_1_jour": 18,
-    "part_7_jours_ou_moins": 54.6,
-    "part_30_jours_ou_plus": 15.5,
+    "part_1_jour": 17.9,
+    "part_7_jours_ou_moins": 54.7,
+    "part_30_jours_ou_plus": 15.2,
     "tranches": [
       {
         "tranche": "1 jour",
-        "part": 18
+        "part": 17.9
       },
       {
         "tranche": "2 à 3 jours",
-        "part": 14.2
+        "part": 14.9
       },
       {
         "tranche": "4 à 7 jours",
-        "part": 22.4
+        "part": 21.9
       },
       {
         "tranche": "8 à 15 jours",
-        "part": 24.8
+        "part": 25
       },
       {
         "tranche": "16 à 30 jours",
-        "part": 16.3
+        "part": 16.2
       },
       {
         "tranche": "31 à 90 jours",
-        "part": 4.3
+        "part": 4.1
       }
     ],
     "durees_les_plus_choisies": [
       {
         "jours": 1,
-        "part": 18
+        "part": 17.9
       },
       {
         "jours": 15,
-        "part": 13.2
+        "part": 13.5
       },
       {
         "jours": 30,
-        "part": 11.2
-      },
-      {
-        "jours": 7,
-        "part": 8.1
+        "part": 11.1
       },
       {
         "jours": 3,
-        "part": 8.1
+        "part": 8.6
+      },
+      {
+        "jours": 7,
+        "part": 8.2
       }
     ]
   },
@@ -72,35 +69,35 @@
     "repartition": [
       {
         "jour": "lundi",
-        "part": 15.6
+        "part": 15.2
       },
       {
         "jour": "mardi",
-        "part": 12.9
+        "part": 13.3
       },
       {
         "jour": "mercredi",
-        "part": 16.4
+        "part": 15.2
       },
       {
         "jour": "jeudi",
-        "part": 13.7
+        "part": 13.9
       },
       {
         "jour": "vendredi",
-        "part": 17.5
+        "part": 17.8
       },
       {
         "jour": "samedi",
-        "part": 14.3
+        "part": 14.8
       },
       {
         "jour": "dimanche",
         "part": 9.7
       }
     ],
-    "part_vendredi_samedi_dimanche": 41.5,
-    "part_samedi_dimanche": 24
+    "part_vendredi_samedi_dimanche": 42.4,
+    "part_samedi_dimanche": 24.6
   },
   "duree_mediane_selon_depart": {
     "vendredi_au_dimanche": 7,
@@ -109,19 +106,19 @@
   "categories": [
     {
       "categorie": "Voiture",
-      "part": 72.9
+      "part": 72.3
     },
     {
       "categorie": "Utilitaire",
-      "part": 15.4
+      "part": 15.9
     },
     {
       "categorie": "Camion",
-      "part": 4.9
+      "part": 5.1
     },
     {
       "categorie": "Bus et autocar",
-      "part": 3.3
+      "part": 3.2
     },
     {
       "categorie": "Remorque et caravane",
@@ -129,13 +126,17 @@
     },
     {
       "categorie": "Autres (quad, tracteur, voiturette...)",
-      "part": 0.6
+      "part": 0.5
     }
   ],
   "duree_mediane_par_categorie": [
     {
       "categorie": "Voiture",
       "mediane_jours": 7
+    },
+    {
+      "categorie": "Utilitaire",
+      "mediane_jours": 10
     },
     {
       "categorie": "Bus et autocar",
@@ -146,30 +147,34 @@
       "mediane_jours": 7
     },
     {
-      "categorie": "Utilitaire",
-      "mediane_jours": 10
-    },
-    {
       "categorie": "Remorque et caravane",
-      "mediane_jours": 5
+      "mediane_jours": 4
     }
   ],
   "saisonnalite_indice_100": [
     {
+      "mois": "2026-05",
+      "indice": 8
+    },
+    {
       "mois": "2026-06",
-      "indice": 69
+      "indice": 89
     },
     {
       "mois": "2026-07",
-      "indice": 121
+      "indice": 156
     },
     {
       "mois": "2026-08",
-      "indice": 92
+      "indice": 118
     },
     {
       "mois": "2026-09",
-      "indice": 118
+      "indice": 151
+    },
+    {
+      "mois": "2026-10",
+      "indice": 78
     }
   ],
   "retour_clients": {

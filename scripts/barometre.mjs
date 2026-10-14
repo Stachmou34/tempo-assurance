@@ -5,8 +5,9 @@
    - Aucune donnée individuelle ne sort de ce script : ni email, ni prénom, ni référence.
      Les emails servent seulement à regrouper les contrats d'un même client, sous forme
      d'empreinte tronquée gardée en mémoire.
-   - Le montant payé n'est PAS publié : avec le nombre de contrats, il permettrait de
-     recalculer le chiffre d'affaires.
+   - Ni le montant payé ni le nombre exact de contrats ne sont publiés : ensemble, ils
+     permettraient de recalculer le chiffre d'affaires. Le fichier de sortie est public
+     une fois déployé si le serveur sert donnees/ : il ne doit contenir que du publiable.
    - Toute case de moins de 20 contrats est fusionnée ou masquée (règle des petits effectifs).
 
    Sortie : donnees/barometre/AAAA-MM.json (pourcentages et comptages agrégés uniquement).
@@ -21,8 +22,8 @@ const TOKEN = process.env.MCJ_API_TOKEN;
 if (!TOKEN) { console.error('MCJ_API_TOKEN absent.'); process.exit(1); }
 
 const arg = (n, d) => { const i = process.argv.indexOf(n); return i > 0 ? process.argv[i + 1] : d; };
-const DEBUT = arg('--debut', '2026-06-01');
-const FIN = arg('--fin', '2026-09-30');
+const DEBUT = arg('--debut', '2026-05-26');   // lancement de la marque
+const FIN = arg('--fin', new Date(Date.now() - 86400000).toISOString().slice(0, 10));
 const SEUIL = 20;
 
 const cle = e => createHash('sha256').update(String(e).trim().toLowerCase()).digest('hex').slice(0, 16);
@@ -125,7 +126,7 @@ const retour = anciens >= 100 ? {
 const sortie = {
   titre: "Baromètre de l'assurance temporaire Tempo-Assurance",
   periode: { debut: DEBUT, fin: FIN },
-  echantillon: { contrats_arrondi: Math.round(N / 100) * 100, note: 'nombre arrondi à la centaine' },
+  echantillon: N >= 2000 ? 'des milliers de contrats' : 'plus de mille contrats',   // volume exact jamais publié
   calcule_le: new Date().toISOString().slice(0, 10),
   regles: ['aucune donnée individuelle', 'montants non publiés', `cases de moins de ${SEUIL} contrats fusionnées ou masquées`],
   duree, jour_de_debut: jourDebut,
