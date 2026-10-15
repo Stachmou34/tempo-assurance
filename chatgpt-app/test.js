@@ -26,7 +26,7 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   const FULL = { categorie_vehi: 'VL-VL', age_vehicule: 'moins10', puissance: 'inf30', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', date_naissance: '1990-05-12', duree: 15 };
   const d = await devisAssuranceTemporaire(FULL);
   ok(d.source === 'indicatif', 'sans clé → source indicatif');
-  ok(d.tarif_indicatif && d.tarif_indicatif.prix_indicatif === '107,81 €', 'voiture 15 j = 107,81 € (grille)');
+  ok(d.tarif_indicatif && d.tarif_indicatif.prix_indicatif === '107,82 €', 'voiture 15 j = 107,82 € (grille)');
   ok(d.souscription_disponible === false && !/souscription rapide/.test(d.message), 'devis : pas d\'option souscription quand la Phase 2 est OFF');
 
   const inc = await devisAssuranceTemporaire({ categorie_vehi: 'VL-VL', duree: 15 });
@@ -36,7 +36,7 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
   ok(dInvalide.error && Array.isArray(dInvalide.categories_valides), 'catégorie inconnue → erreur + liste');
 
   const t = tarifsParCategorie({ categorie_vehi: 'REM-REM2' });
-  ok(t.grille.length === 4 && t.grille[0].prix_indicatif === '57,66 €', 'grille remorque correcte');
+  ok(t.grille.length === 5 && t.grille[0].prix_indicatif === '57,67 €', 'grille remorque correcte');
 
   console.log('\n[Tarif réel — API jlassure mockée]');
   let captured = null;
@@ -63,12 +63,12 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
 
   console.log('\n[OCR carte grise → champs de tarif]');
   let cap2 = null;
-  const fakeCapture = { apiKey: 'K', fetchImpl: async function (e, o) { cap2 = JSON.parse(o.body); return { ok: true, json: async function () { return { prix_vente: 144.54, durees: [15], prefill_url: 'x' }; } }; } };
+  const fakeCapture = { apiKey: 'K', fetchImpl: async function (e, o) { cap2 = JSON.parse(o.body); return { ok: true, json: async function () { return { prix_vente: 144.52, durees: [15], prefill_url: 'x' }; } }; } };
   const dCG = await devisAssuranceTemporaire({ genre_carte_grise: 'VP', puissance_cv: 35, ptac_kg: 1800, date_mise_circulation: '03/08/2014', age_conducteur: 40, pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', duree: 15 }, fakeCapture);
   ok(cap2.categorie_vehi === 'VL-VL', 'genre VP → categorie_vehi VL-VL');
   ok(cap2.puissance === 'sup30', 'P.6=35 CV → puissance sup30');
   ok(cap2.age_vehicule === 'plus10', 'mise en circulation 2014 → age_vehicule plus10');
-  ok(dCG.source === 'jlassure_api' && dCG.tarif.prix_vente === '144,54 €', 'tarif réel calculé depuis la carte grise (144,54 €)');
+  ok(dCG.source === 'jlassure_api' && dCG.tarif.prix_vente === '144,52 €', 'tarif réel calculé depuis la carte grise (144,52 €)');
   ok(/carte grise/i.test(dCG.message), 'message signale les champs lus sur la carte grise');
   const dCG2 = await devisAssuranceTemporaire({ genre_carte_grise: 'REM', ptac_kg: 600, age_vehicule: 'plus10', pays_immatriculation: 'FRANCE METROPOLITAINE', pays_residence: 'FRANCE METROPOLITAINE', age_conducteur: 40, duree: 5 }, fakeCapture);
   ok(cap2.categorie_vehi === 'REM-REM2' && cap2.puissance === '0', 'genre REM → remorque + puissance 0 (sans hypothèse)');
@@ -200,7 +200,7 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
       ok(byId[2].result.tools.every(function (t) { return t.inputSchema && t.inputSchema.type === 'object'; }), 'schémas valides (type object)');
       ok(byId[2].result.tools.every(function (t) { return t.annotations && t.annotations.readOnlyHint === true && t.annotations.destructiveHint === false; }), 'annotations Apps SDK (readOnlyHint/destructiveHint)');
       ok(byId[2].result.tools.every(function (t) { return t.outputSchema && t.outputSchema.type === 'object'; }), 'outputSchema présent sur chaque outil');
-      ok(byId[3] && /83,59/.test(byId[3].result.content[0].text), 'tools/call (sans clé) → tarif indicatif 7 j (83,59 €)');
+      ok(byId[3] && /83,58/.test(byId[3].result.content[0].text), 'tools/call (sans clé) → tarif indicatif 7 j (83,58 €)');
       resolve();
     }, 800);
   });
@@ -221,7 +221,7 @@ function ok(cond, msg) { assert.ok(cond, msg); console.log('  ✓ ' + msg); pass
         const list = await rpc({ jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} });
         ok(list.result.tools.length === 2, 'HTTP tools/list → 2 outils');
         const call = await rpc({ jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'tarifs_par_categorie', arguments: { categorie_vehi: 'VL-VL' } } });
-        ok(/107,81/.test(call.result.content[0].text), 'HTTP tools/call → grille voiture (107,81 €)');
+        ok(/107,82/.test(call.result.content[0].text), 'HTTP tools/call → grille voiture (107,82 €)');
         const health = await (await fetch('http://localhost:' + port + '/')).json();
         ok(health.ok === true && health.endpoint === '/mcp', 'HTTP / health-check');
         const wk = await fetch('http://localhost:' + port + '/.well-known/openai-domain');

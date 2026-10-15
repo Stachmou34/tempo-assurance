@@ -57,7 +57,7 @@
     "areaServed": "FR",
     "availableLanguage": "French"
   },
-  "priceRange": "de 50,75 € (1 jour) à 478,39 € (90 jours) — dégressif, dès 4,67 €/jour",
+  "priceRange": "de 50,74 € (1 jour) à 478,39 € (90 jours) — dégressif, dès 4,47 €/jour",
   "areaServed": "FR"
 }
 	</script>
@@ -174,7 +174,7 @@
 				<p class="muted" style="margin:4px 0 0">Estimation pour un camion / porteur de plus de 3,5&nbsp;t, conducteur dès 21&nbsp;ans, sur 1 à 15&nbsp;jours. Le prix exact selon votre profil s'affiche au devis. Pour un utilitaire ou fourgon ≤&nbsp;3,5&nbsp;t, voir l'<a href="assurance-temporaire-utilitaire.html">assurance utilitaire</a>.</p>
 				<script>
 				(function(){
-					var P={"1":92.57,"2":102.99,"3":112.99,"4":116.16,"5":119.16,"6":130.12,"7":134.62,"8":135.62,"9":150.86,"10":155.86,"15":159.37};
+					var P={"1":92.56,"3":112.98,"5":119.15,"8":135.61,"15":159.37};
 					var sel=document.getElementById('est-duree'),out=document.getElementById('est-prix'),cta=document.getElementById('est-cta');
 					if(!sel)return;
 					Object.keys(P).map(Number).sort(function(a,b){return a-b}).forEach(function(d){var o=document.createElement("option");o.value=d;o.textContent=d+" jour"+(d>1?"s":"");if(d===15)o.selected=true;sel.appendChild(o);});
