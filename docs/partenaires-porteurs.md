@@ -15,7 +15,7 @@ Relevé dans les mentions légales des concurrents, pas déduit.
 
 | Site | Intermédiaire | Porteur nommé | Deux-roues |
 | --- | --- | --- | --- |
-| tempo-assurance.com | MCJ Courtage (26008651) via JL Assure | **HDI Global Specialty SE** | non |
+| tempo-assurance.com | MCJ Courtage (26008651) via JL Assure | **Accelerant Insurance Europe SA/NV** depuis octobre 2026 (HDI Global Specialty SE avant) | à vérifier dans les CG Accelerant |
 | assutemporaire.fr | ORIAS 20009338 | **HDI Global Specialty SE** | **exclu explicitement** |
 | assurance-voiture-temporaire-provisoire.com (AED) | Assurance en Direct (07013353) | **JL Assure** | annoncé, **pas encore vendu** |
 | revital-assurances.com | Revital Assurances (07030743) | non nommé | **oui, y compris 125** |
