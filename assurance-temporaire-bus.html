@@ -57,7 +57,7 @@
     "areaServed": "FR",
     "availableLanguage": "French"
   },
-  "priceRange": "de 50,75 € (1 jour) à 478,39 € (90 jours) — dégressif, dès 4,67 €/jour",
+  "priceRange": "de 50,74 € (1 jour) à 478,39 € (90 jours) — dégressif, dès 4,47 €/jour",
   "areaServed": "FR"
 }
 	</script>
@@ -174,7 +174,7 @@
 				<p class="muted" style="margin:4px 0 0">Estimation pour un bus, car ou autocar, conducteur dès 21&nbsp;ans, sur 1 à 15&nbsp;jours. Le prix exact selon votre profil s'affiche au devis.</p>
 				<script>
 				(function(){
-					var P={"1":92.57,"5":119.16,"10":155.85,"15":159.37};
+					var P={"1":92.55,"3":112.99,"5":119.16,"8":143.1,"15":159.37};
 					var sel=document.getElementById('est-duree'),out=document.getElementById('est-prix'),cta=document.getElementById('est-cta');
 					if(!sel)return;
 					Object.keys(P).map(Number).sort(function(a,b){return a-b}).forEach(function(d){var o=document.createElement("option");o.value=d;o.textContent=d+" jour"+(d>1?"s":"");if(d===15)o.selected=true;sel.appendChild(o);});

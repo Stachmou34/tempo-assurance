@@ -2,7 +2,7 @@
 
 > Dernière mise à jour : 2026-06.
 
-> Tempo-Assurance (marque du courtier français MCJ COURTAGE, en partenariat avec JL Assure) permet d'assurer un véhicule pour une durée de 1 à 90 jours, 100 % en ligne : devis immédiat, paiement sécurisé par carte bancaire (banque Crédit Mutuel), Attestation d'assurance éditable aussitôt. À partir de 4,67 € par jour (tarif dégressif, sur la base de 90 jours).
+> Tempo-Assurance (marque du courtier français MCJ COURTAGE, en partenariat avec JL Assure) permet d'assurer un véhicule pour une durée de 1 à 90 jours, 100 % en ligne : devis immédiat, paiement sécurisé par carte bancaire (banque Crédit Mutuel), Attestation d'assurance éditable aussitôt. À partir de 4,47 € par jour (tarif dégressif, sur la base de 90 jours).
 
 ## Faits clés
 
@@ -10,8 +10,8 @@
 - Durée : de 1 à 90 jours, au choix, sans engagement
 - Garanties : responsabilité civile + défense et recours ; assistance selon la formule ; assureur Accelerant Insurance Europe SA/NV (assureur belge exerçant en France en libre prestation de services)
 - Conditions : conducteur de plus de 21 ans, titulaire du permis depuis plus de 2 ans
-- Tarifs indicatifs voiture (RC + défense et recours) : 50,75 € pour 1 jour · 74,45 € pour 5 jours · 107,81 € pour 15 jours · 189,15 € pour 30 jours · 420,21 € pour 90 jours (soit 4,67 €/jour)
-- Tarifs indicatifs poids lourd : 92,57 € pour 1 jour · 119,16 € pour 5 jours · 159,37 € pour 15 jours
+- Tarifs indicatifs voiture (RC + défense et recours) : 50,74 € pour 1 jour · 74,44 € pour 5 jours · 107,82 € pour 15 jours · 189,15 € pour 30 jours · 402,66 € pour 90 jours (soit 4,47 €/jour)
+- Tarifs indicatifs poids lourd : 92,56 € pour 1 jour · 119,15 € pour 5 jours · 159,37 € pour 15 jours
 - Cas d'usage : prêt de véhicule, achat-vente entre particuliers (carte grise barrée), import-export, véhicule immatriculé à l'étranger (assurance frontière), permis étranger, sortie de fourrière, plaques de transit, DOM (Réunion, Martinique, Guadeloupe, Mayotte, Guyane)
 - Couverture géographique : France, Union européenne et nombreux pays selon contrat (pages dédiées Maroc, Algérie, Belgique)
 - Diagnostic interactif (quelle formule pour quelle situation, tarif indicatif, devis pré-rempli) : https://www.tempo-assurance.com/diagnostic.html
@@ -56,15 +56,15 @@ Ces outils ne font que préparer : aucune souscription, aucun paiement et aucun 
 
 Prix de vente TTC, formule responsabilité civile + défense-recours, conducteur assurable dès 21 ans (prix indiqués sur la base 23 ans et plus ; pour 21-22 ans, légère surprime ≈ +5 €). Tarif dégressif. Le prix exact (toutes durées, tous profils) s'affiche au devis en ligne.
 
-- Voiture / utilitaire / quad (≤ 30 CV) : 1 j 50,75 € · 2 j 66,26 € · 3 j 68,60 € · 5 j 74,45 € · 7 j 83,59 € · 10 j 94,89 € · 15 j 107,81 € · 20 j 126,11 € · 30 j 189,15 € · 45 j 242,03 € · 60 j 290,19 € · 90 j 420,21 €
-- Voiture / utilitaire (> 30 CV) : 1 j 61,44 € · 7 j 115,84 € · 15 j 144,54 € · 30 j 213,90 € · 60 j 345,19 € · 90 j 486,50 €
-- Camping-car (≤ 3,5 t) : 1 j 63,50 € · 7 j 93,59 € · 15 j 117,82 € · 30 j 199,15 € · 60 j 300,19 € · 90 j 423,23 €
-- Camping-car (> 3,5 t) : 1 j 92,57 € · 5 j 119,16 € · 10 j 155,86 € · 15 j 159,37 €
-- Camion / poids lourd (> 3,5 t) / tracteur agricole : 1 j 92,57 € · 5 j 119,16 € · 10 j 154,85 € · 15 j 159,37 €
-- Bus / car / autocar : 1 j 92,57 € · 5 j 119,16 € · 10 j 155,85 € · 15 j 159,37 €
-- Remorque / semi-remorque / caravane : 1 j 57,66 € · 5 j 86,93 € · 10 j 107,05 € · 15 j 120,47 €
-- Voiturette / buggy sans permis : 10 j 102,37 € · 15 j 116,93 € · 20 j 133,00 € · 30 j 181,73 €
-- Option assistance (voiture, véhicule < 10 ans) : 1 j 52,81 € · 7 j 88,99 € · 15 j 118,67 € · 30 j 209,88 € · 60 j 329,64 € · 90 j 478,39 €
+- Voiture / utilitaire / quad (≤ 30 CV) : 1 j 50,74 € · 2 j 66,26 € · 3 j 68,58 € · 5 j 74,44 € · 7 j 83,58 € · 10 j 94,88 € · 15 j 107,82 € · 20 j 126,11 € · 30 j 189,15 € · 45 j 233,27 € · 60 j 278,23 € · 90 j 402,66 €
+- Voiture / utilitaire (> 30 CV) : 1 j 61,43 € · 7 j 115,84 € · 15 j 144,52 € · 30 j 213,89 € · 60 j 345,19 € · 90 j 486,49 €
+- Camping-car (≤ 3,5 t) : 1 j 63,49 € · 7 j 93,58 € · 15 j 117,82 € · 30 j 199,15 € · 60 j 300,19 € · 90 j 423,20 €
+- Camping-car (> 3,5 t) : 1 j 92,56 € · 3 j 112,98 € · 5 j 119,15 € · 8 j 135,61 € · 15 j 159,37 €
+- Camion / poids lourd (> 3,5 t) / tracteur agricole : 1 j 92,56 € · 3 j 112,98 € · 5 j 119,15 € · 8 j 135,61 € · 15 j 159,37 €
+- Bus / car / autocar : 1 j 92,55 € · 3 j 112,99 € · 5 j 119,16 € · 8 j 143,10 € · 15 j 159,37 €
+- Remorque / semi-remorque / caravane : 1 j 57,67 € · 3 j 67,76 € · 5 j 86,93 € · 8 j 95,74 € · 15 j 120,47 €
+- Voiturette / buggy sans permis : 10 j 102,34 € · 15 j 116,93 € · 20 j 132,98 € · 30 j 181,72 €
+- Option assistance (voiture, véhicule < 10 ans) : 1 j 52,80 € · 7 j 88,98 € · 15 j 118,67 € · 30 j 209,88 € · 60 j 329,64 € · 90 j 478,39 €
 
 Notes : l'assistance n'existe que pour la voiture/utilitaire. Camion, poids lourd, bus et remorque sont disponibles de 1 à 15 jours ; voiturette de 10 à 30 jours ; voiture et camping-car de 1 à 90 jours. Outre-mer (DOM) et assurance frontière (véhicules immatriculés hors EEE, 30 ou 90 jours) : tarifs spécifiques au devis.
 
@@ -96,7 +96,7 @@ Démarches couvertes : changement de titulaire (mise à son nom après un achat 
 - [Temporaire ou conducteur secondaire](https://www.tempo-assurance.com/assurance-temporaire-ou-conducteur-secondaire.html) : comparatif bonus-malus, coût, jeune conducteur
 - [FAQ assurance temporaire](https://www.tempo-assurance.com/faq-assurance-temporaire.html) : réponses aux questions fréquentes
 - [Assurance par type de véhicule](https://www.tempo-assurance.com/assurance-temporaire-vehicules.html)
-- [Assurance temporaire auto (voiture)](https://www.tempo-assurance.com/assurance-temporaire-auto.html) : voiture de tourisme, 1 à 90 jours dès 50,75 €
+- [Assurance temporaire auto (voiture)](https://www.tempo-assurance.com/assurance-temporaire-auto.html) : voiture de tourisme, 1 à 90 jours dès 50,74 €
 - [Assurance temporaire utilitaire / fourgon](https://www.tempo-assurance.com/assurance-temporaire-utilitaire.html) : fourgon ou camionnette ≤ 3,5 t
 - [Assurance temporaire camion (> 3,5 t)](https://www.tempo-assurance.com/assurance-temporaire-camion.html) : camion et tracteur routier, 1 à 15 jours
 - [Assurance temporaire bus et autocar](https://www.tempo-assurance.com/assurance-temporaire-bus.html)
@@ -106,7 +106,7 @@ Démarches couvertes : changement de titulaire (mise à son nom après un achat 
 - [Assurance temporaire Algérie](https://www.tempo-assurance.com/assurance-temporaire-algerie.html)
 - [Assurance temporaire Belgique](https://www.tempo-assurance.com/assurance-temporaire-belgique.html)
 - [Carte grise barrée : mode d'emploi](https://www.tempo-assurance.com/carte-grise-barree.html)
-- [Assurance temporaire 1 jour](https://www.tempo-assurance.com/assurance-temporaire-1-jour.html) : 50,75 € la journée, attestation immédiate
+- [Assurance temporaire 1 jour](https://www.tempo-assurance.com/assurance-temporaire-1-jour.html) : 50,74 € la journée, attestation immédiate
 - [Assurance temporaire 7 jours](https://www.tempo-assurance.com/assurance-temporaire-7-jours.html)
 - [Assurance temporaire 1 mois](https://www.tempo-assurance.com/assurance-temporaire-1-mois.html) : 189,15 € (≈ 6,31 €/jour)
 - [Assurance sortie de fourrière](https://www.tempo-assurance.com/assurance-temporaire-sortie-fourriere.html) : attestation immédiate pour récupérer un véhicule

@@ -564,6 +564,14 @@ investir pour le SEO.
 
 ## 10. Journal des décisions
 
+- **15/10/2026** : tarifs alignés sur la grille du propriétaire « V7 Ventilation de prime au 15/10/2026 »
+  (colonne « Prix de vente IFRAMEUR avec frais de courtage », 23 ans et plus, arrondi au centime).
+  Changements réels : voiture 45 j 233,27 € (242,03), 60 j 278,23 € (290,19), 90 j 402,66 € (420,21),
+  soit 4,47 €/jour au lieu de 4,67 ; les autres prix bougent d'un ou deux centimes. Poids lourd, bus et
+  remorque : la grille ne donne que 1, 3, 5, 8 et 15 jours, les estimateurs ont été réduits à ces durées
+  (les prix 2, 4, 6, 7, 9 et 10 jours ne sont plus vérifiables). La grille donne aussi la voiturette à
+  60 et 90 jours : non publié, le site annonce 10 à 30 jours, décision au propriétaire. DOM et frontière
+  non touchés (prix « au devis »). La feuille Excel n'est pas versionnée dans le dépôt.
 - **25/09/2026** : simulateur du hero étendu à 10 véhicules avec les grilles réelles de `tarifs.md`.
   Les durées s'adaptent au véhicule (voiturette 10-30 j, poids lourds 1-15 j) : afficher six durées
   figées aurait produit des prix inexistants.
