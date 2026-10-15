@@ -149,7 +149,12 @@ vraie requête de marque est « tempo assurance », 1 725 impressions.
 - Garanties réelles : **RC + défense et recours**. Assistance en option, **voiture et utilitaire uniquement**.
 - **NON couverts** : vol, bris de glace, dommages au véhicule. **Il n'existe pas de formule tous risques.**
   Quand une requête demande « tous risques », répondre franchement et orienter vers un contrat annuel.
-- Assureur **HDI Global Specialty**. Courtier **MCJ Courtage, ORIAS 26008651**.
+- Assureur **Accelerant Insurance Europe SA/NV** (assureur belge, contrôlé par la Banque nationale de Belgique,
+  libre prestation de services en France) depuis octobre 2026 : JL Assure a quitté **HDI Global Specialty SE**
+  (annoncé par le propriétaire le 15/10/2026). Les contrats souscrits avant gardent les documents HDI. Courtier
+  **MCJ Courtage, ORIAS 26008651**.
+- **Ne jamais citer de critère d'antécédents chiffré** (nombre d'accidents, sinistres, condamnations) tant que les
+  conditions générales Accelerant n'ont pas été lues : ceux du site venaient des CG HDI et ont été retirés le 15/10.
 - Interdits absolus : moto, « camion < 3,5 t », annoncer 23 ans comme minimum, prix 90 j à 290,16 €.
 - **Aucun prix inventé.** Source unique de vérité : `tarifs.md` (8 grilles par catégorie).
   Attention : la voiturette démarre à 10 jours, les poids lourds s'arrêtent à 15 jours.
@@ -666,3 +671,11 @@ investir pour le SEO.
   attend la fin du test du 12/10. Règle ajoutée en tête du §9 : un chantier en attente ne bloque pas les suivants. Le
   même jour, une fausse piste a été corrigée : `affichage_tarificateur` n'est pas faussé par le test lazy-load, il suit
   exactement les vues de la page devis.
+- **15/10/2026** : JL Assure change d'assureur, **HDI Global Specialty SE → Accelerant Insurance Europe SA/NV**. Site mis
+  à jour (À propos, Documentation, pages auto et camping-car, `llms.txt`, `tarifs.md`) ; les critères d'antécédents
+  chiffrés de l'article Wakam, tirés des CG HDI, sont rendus généraux. **Vérification préalable faite (règle Wakam)** :
+  en février 2025, l'ACPR écrivait qu'Accelerant « n'est pas autorisé à garantir de tels produits d'assurance en France »
+  (assurance automobile, litige avec le courtier Pilliot, attestations émises sans mandat jugées non valables). Sa fiche
+  actuelle au registre de l'ACPR liste la branche 10 (responsabilité civile automobile), sans date. Questions posées au
+  propriétaire pour JL Assure : date du changement, conditions générales et document d'information Accelerant,
+  confirmation écrite de l'autorisation pour la branche 10 en France et de son représentant pour les sinistres en France.
