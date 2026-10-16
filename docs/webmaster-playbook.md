@@ -555,6 +555,11 @@ fait qu'ajouter des relevés.
    (modèle d'e-mail de demande d'avis, liste de sites à contacter) et se propose au propriétaire.
    **Préparé le 07/10/2026** : `docs/autorite-plan-action.md` (ordre d'exécution, e-mail d'avis J+3, blocage
    du tunnel chez jlassure.com, trois décisions demandées). Pas de liste de sites : la recherche n'en a établi aucun de fiable.
+   **14/10/2026** : les trois décisions sont prises (fiche Google Business Profile existante, demande à JL Assure faite
+   par le propriétaire, relevé des liens transmis). Constat : 79 liens externes venus de 5 sites seulement, **aucun lien
+   éditorial indépendant**. Priorités dans `docs/autorite-plan-action.md` : lien depuis mcj-courtage.com (bloc prêt dans
+   `docs/lien-mcj-courtage.md`), puis baromètre de l'assurance temporaire à partir des agrégats du portefeuille
+   (accord du propriétaire requis avant publication), puis partenaires professionnels.
 7. ~~**Mesure** : GA4 renvoie `keyEvents = 0`~~ **Clos le 06/10/2026** : `ouverture_tarificateur` est marqué
    événement clé et remonte (629 événements clés du 29/09 au 05/10, 58 le 05/10 contre 69 le 28/09).
    Attention : c'est l'**ouverture** du tarificateur, pas un contrat. Aucun événement de souscription n'est
