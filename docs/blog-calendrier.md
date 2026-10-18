@@ -57,8 +57,9 @@ Cadence : **chaque lundi ~9 h** (cron `74d29a1a`, voir réserves sur l'expiratio
 | 4 | 26/07/2026 | chassé-croisé (samedi 25 rouge), vols de voitures, carburant + péages, rouler à l'étranger (carte internationale) | ✅ archivée (`veille-auto-2026-07-26.html`) |
 | 5 | 27/09/2026 | carburant en hausse (rentrée), assurance auto +5-6 % annoncés pour 2027, vol de voiture sans effraction (mouse jacking), délais de carte grise à la rentrée | ✅ archivée (`veille-auto-2026-09-27.html`) |
 | 6 | 04/10/2026 | Wakam interdit de souscription (annonce du 29/09), téléphone au volant : suspension d'un mois expérimentée dans la Vienne (01/10), carburant : prix de la semaine et pénurie (17,9 % des stations au 04/10), fourrière : enlèvement à 135 € (en vigueur le 01/10) | ✅ archivée (`veille-auto-2026-10-04.html`) |
-| 7 | 11/10/2026 | téléphone au volant : suspension du permis étendue à toute la France (instruction du 29/09, annonce du 02/10), PLF 2027 : TSCA 18 → 18,9 % sur les garanties facultatives, carburant (gazole 2,352 €/L, 16,0 % de ruptures), étude Leocare : 78 % réduisent d'autres dépenses | ✅ en ligne (`veille-auto.html`) |
-| 8 | 18/10/2026 | à définir | ⏳ à venir |
+| 7 | 11/10/2026 | téléphone au volant : suspension du permis étendue à toute la France (instruction du 29/09, annonce du 02/10), PLF 2027 : TSCA 18 → 18,9 % sur les garanties facultatives, carburant (gazole 2,352 €/L, 16,0 % de ruptures), étude Leocare : 78 % réduisent d'autres dépenses | ✅ archivée (`veille-auto-2026-10-11.html`) |
+| 8 | 18/10/2026 | vacances de la Toussaint (Bison Futé via Mappy), carburant (gazole 2,369 €/L, 17,6 % de ruptures), radar + FVA (règle du 16/02/2026 remise en avant), offres MAIF/Allianz pour électriques après le plan d'électrification du 15/10 | ✅ en ligne (`veille-auto.html`) |
+| 9 | 25/10/2026 | à définir | ⏳ à venir |
 
 > Règle tirée de l'édition n°6 : chaque dossier s'accroche à un fait daté de la semaine (lundi-dimanche). Vérifier la date de **première** publication d'une étude, pas celle de sa reprise : la prévision Facts & Figures, reprise le 02/10, datait du 21/09 et a été retirée après vérification.
 
