@@ -515,6 +515,8 @@ fait qu'ajouter des relevés.
    **Chantier livré à la place le 17/10** : `assurance-temporaire-7-jours.html`, requête « assurance temporaire 7 jours » (84 impressions, position 15,8, 1 clic, 20/09-14/10) : la page n'affichait pas le prix 7 jours alors que tarifs.md le donne (83,58 €). Description, résumé et paragraphe prix réécrits. À mesurer à partir du 24/10.
    **Relevé du 20/10** : GA4 19/10 (lundi) 106 sessions et 62 événements clés, contre 194 et 114 le 12/10 (-45 %) ; 18/10 : 179 sessions. Cause non établie, surveillance sans alerte. Search Console 10-17/10 stable (50 à 67 clics/jour, position 12,0 à 12,8).
    **Chantier livré à la place le 20/10** : `assurance-temporaire-1-jour.html`, requête « assurance provisoire 1 jour » (265 impressions, position 12,2, 1 clic, 20/09-17/10) : le mot « provisoire » n'était nulle part sur la page. Ajouté au titre, à la description et au résumé. À mesurer à partir du 27/10.
+   **Relevé du 22/10** : GA4 21/10 187 sessions et 147 événements clés, contre 210 et 119 le 14/10 (-11 % sessions, +24 % événements clés). Surveillance sans alerte.
+   **Chantier livré à la place le 22/10** : `assurance-temporaire-week-end.html`, requêtes « assurance 24h voiture » et « assurance auto 24h » (140 impressions, positions 8-11, 0 clic, 24/09-19/10) : « 24h » n'était qu'un « 24h/24 » de disponibilité. Titre, description et résumé réécrits avec la formule 1 jour dès 50,74 €. À mesurer à partir du 29/10.
 2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
    Les instantanes Clarity du 28/09 (15 erreurs, 2,78 % des sessions) et du 30/09 (10 erreurs, 1 %)
    placent toutes les erreurs sur l'URL `www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php`, c'est-a-dire
