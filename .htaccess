@@ -1,4 +1,8 @@
 RewriteEngine On
+
+# Dossiers internes (documentation, scripts, relevés de données) : jamais servis au public.
+# Le serveur listait leur contenu et servait les fichiers de donnees/ (constaté le 14/10/2026).
+RewriteRule ^(docs|scripts|donnees)(/|$) - [R=404,L]
 # Redirection canonique : force https + www en une seule etape (evite la chaine 301)
 RewriteCond %{HTTPS} !=on [OR]
 RewriteCond %{HTTP_HOST} !^www\. [NC]
