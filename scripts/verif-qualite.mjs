@@ -2,6 +2,7 @@
 /* Controle qualite du site statique tempo-assurance.com.
    Sortie non nulle = au moins une erreur bloquante. */
 import { readFileSync, readdirSync, existsSync } from 'fs';
+import { Script } from 'vm';
 const R = process.cwd();
 const pages = readdirSync(R).filter(f => f.endsWith('.html'));
 const err = [], warn = [];
@@ -24,6 +25,17 @@ for (const f of pages) {
   // 1. JSON-LD valide
   [...h.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].forEach((m, i) => {
     try { JSON.parse(m[1]); } catch (e) { err.push(`${f} : JSON-LD #${i} invalide (${e.message})`); }
+  });
+
+  // 1bis. scripts integres compilables : une seule apostrophe non echappee dans une
+  //       chaine JS casse tout le script de la page (diagnostic.html, 26/09 au 27/10/2026).
+  [...h.matchAll(/<script(\s[^>]*)?>([\s\S]*?)<\/script>/gi)].forEach(m => {
+    const attrs = m[1] || '', code = m[2];
+    if (/\bsrc=/.test(attrs) || /ld\+json/.test(attrs) || !code.trim()) return;
+    try { new Script(code); } catch (e) {
+      const ligne = h.slice(0, m.index).split('\n').length;
+      err.push(`${f} : script ligne ${ligne} en erreur de syntaxe (${e.message}), la fonction de la page ne marche plus`);
+    }
   });
 
   // 2. apostrophes typographiques dans le contenu
@@ -63,6 +75,14 @@ for (const f of pages) {
 
   // 7. title et meta description presents
   if (!/<title>[^<]{10,}<\/title>/.test(h) && !/^google/.test(f)) warn.push(`${f} : title absent ou trop court`);
+}
+
+// 7bis. fichiers JS du site compilables
+if (existsSync(`${R}/assets`)) {
+  readdirSync(`${R}/assets`).filter(f => f.endsWith('.js')).forEach(f => {
+    try { new Script(readFileSync(`${R}/assets/${f}`, 'utf8')); }
+    catch (e) { err.push(`assets/${f} : erreur de syntaxe (${e.message})`); }
+  });
 }
 
 // 8. le sitemap ne pointe que vers des pages existantes

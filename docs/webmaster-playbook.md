@@ -326,6 +326,13 @@ node scripts/clarity.mjs        # frictions réelles, et instantané du jour
 ```
 Plus : rendu sans erreur JS, balises équilibrées, questions FAQ présentes en texte visible.
 
+**Scripts intégrés aux pages (depuis le 27/10/2026)** : `verif-qualite.mjs` compile chaque `<script>` des
+pages et chaque fichier de `assets/`. Une apostrophe non échappée dans une chaîne JS (`'d'assurance'`)
+casse toute la fonction de la page sans aucun signe visible côté HTML : c'est ce qui a rendu le
+diagnostic inutilisable du 26/09 au 27/10. Toute modification de texte en masse (remplacement d'une
+expression sur tout le site) passe désormais par ce contrôle, et toute page interactive (diagnostic,
+estimateurs, tarificateur) est testée en cliquant jusqu'au résultat avant le commit.
+
 ## 7. Cadence éditoriale
 
 - **Dimanche** : veille auto (`veille-auto.html`), édition n+1, archivage de la précédente
@@ -523,6 +530,8 @@ fait qu'ajouter des relevés.
    **Chantier du 23/10 annulé** : la routine a refait le chantier remorque du 21/10 (PR #149, doublon de #147 déjà fusionnée). Version du 21/10 conservée, aucune modification de page. Rappel : avant de lancer un chantier, vérifier qu'aucune PR ouverte ou fusionnée la veille ne porte déjà sur la même page.
    **Relevé du 24/10** : GA4 23/10 177 sessions et 91 événements clés, contre 197 et 133 le 16/10 (-10 % sessions, -32 % événements clés, cause non établie). Search Console 14-21/10 stable (48 à 77 clics/jour, position 11,7 à 13,6). Surveillance sans alerte.
    **Chantier livré à la place le 24/10** : `blog-assurer-voiture-occasion.html`, requêtes « achat véhicule occasion assurance » et variantes (~140 impressions, positions 12-14, 0 clic, 26/09-21/10) : « véhicule d'occasion » n'était que dans les sources. Ajouté à la description et au résumé. Accueil non touché (test de titre jusqu'au 27/10). À mesurer à partir du 31/10.
+   **Relevé du 27/10** : GA4 26/10 (lundi) 148 sessions et 83 événements clés, contre 194 et 119 le 19/10 (-24 %, cause non établie). Search Console 20-24/10 : 46 à 77 clics/jour, position 11,8 à 13,4. Surveillance sans alerte. Fin du test de titre de l'accueil : relevé comparatif à faire dans une session dédiée (non fait ce jour).
+   **Chantier livré à la place le 27/10** : `assurance-temporaire-1-mois.html`, requête « assurance provisoire 1 mois » (103 impressions, position 14,5, portée par l'accueil, 27/09-24/10) : le mot « provisoire » n'était pas sur la page 1 mois. Ajouté à la description (balise, Open Graph) et au résumé. À mesurer à partir du 03/11.
 2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
    Les instantanes Clarity du 28/09 (15 erreurs, 2,78 % des sessions) et du 30/09 (10 erreurs, 1 %)
    placent toutes les erreurs sur l'URL `www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php`, c'est-a-dire
@@ -577,6 +586,11 @@ fait qu'ajouter des relevés.
 investir pour le SEO.
 
 ## 10. Journal des décisions
+
+- **27/10/2026** : diagnostic (`diagnostic.html`) cassé depuis le 26/09 par le remplacement « carte verte »
+  → « attestation d'assurance » : l'apostrophe a fermé une chaîne JS, plus aucune question ne s'affichait.
+  Signalé par le propriétaire, corrigé, et contrôle ajouté à `verif-qualite.mjs` (donc à la CI) : un
+  script de page qui ne compile plus bloque désormais le commit.
 
 - **15/10/2026** : tarifs alignés sur la grille du propriétaire « V7 Ventilation de prime au 15/10/2026 »
   (colonne « Prix de vente IFRAMEUR avec frais de courtage », 23 ans et plus, arrondi au centime).
