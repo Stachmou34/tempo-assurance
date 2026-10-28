@@ -127,6 +127,27 @@ la correspondance quasi exacte.
 | accueil, toutes requêtes | 945 requêtes, 48 287 impressions |
 | marque « tempo assurance » | 1 725 impressions, 777 clics, **CTR 45 %**, position 1,3 |
 
+### Relevé de fin de test (28/10/2026) : pas de retour en arrière
+
+Quatre semaines pleines après le changement du 29/09 (30/09 → 25/10, 26 jours) contre les 27 jours
+d'avant (02/09 → 28/09). Données Search Console arrêtées au 25/10.
+
+| Mesure | Avant | Après |
+| --- | --- | --- |
+| Marque « tempo assurance » | 216 clics / 434 imp., **CTR 49,8 %**, pos. 1,15 | 304 clics / 669 imp., **CTR 45,4 %**, pos. 1,10 |
+| Accueil, toutes requêtes | 727 clics / 26 184 imp., CTR 2,78 %, pos. 12,05 | 831 clics / 30 471 imp., CTR 2,73 %, pos. 13,01 |
+| « assurance temporaire » | 61 clics / 2 963 imp., CTR 2,06 %, pos. 10,3 | 51 clics / 2 658 imp., CTR 1,92 %, pos. 9,1 |
+| Requêtes contenant « immédiate » | 53 clics / 2 710 imp., CTR 1,96 % | 48 clics / 4 140 imp., CTR 1,16 % |
+
+Lecture : **aucun des deux seuils de retour n'est franchi** (marque 45 %, au-dessus de 40 % ; CTR
+hors marque de l'accueil stable à 2,7 %). Par jour, l'accueil gagne des clics (32 contre 27) et des
+impressions (+20 %). Le cluster « immédiate » gagne +50 % d'impressions par jour, mais sans clic
+supplémentaire (1,85 contre 1,96 par jour) : le titre rend la page visible sur davantage de
+requêtes, pas encore plus cliquée. La position moyenne de l'accueil recule (12,05 → 13,01), ce qui
+est cohérent avec cet élargissement vers des requêtes plus lointaines. Le contenu de l'accueil ayant
+changé le même jour, **les deux effets ne sont pas séparables**. Décision : titre conservé, nouveau
+relevé le 25/11.
+
 ### Quand revenir en arrière
 
 - **Si le CTR de la marque passe sous 40 %** : le titre gêne la requête qui convertit le
