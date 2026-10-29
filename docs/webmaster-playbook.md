@@ -127,6 +127,27 @@ la correspondance quasi exacte.
 | accueil, toutes requêtes | 945 requêtes, 48 287 impressions |
 | marque « tempo assurance » | 1 725 impressions, 777 clics, **CTR 45 %**, position 1,3 |
 
+### Résultat du test (relevé du 29/10/2026)
+
+Quatre semaines après le changement (29/09-26/10) contre les quatre précédentes (01-28/09), page d'accueil, Search Console :
+
+| | 01-28/09 | 29/09-26/10 | Écart |
+| --- | --- | --- | --- |
+| clics / impressions (toutes requêtes) | 749 / 27 034 | 886 / 32 460 | +18 % / +20 % |
+| CTR | 2,77 % | 2,73 % | stable |
+| marque « tempo assurance » (CTR) | 48,2 % (216 / 448) | 44,0 % (311 / 707) | -4 points, **au-dessus du seuil de 40 %** |
+| hors marque (CTR) | 1,33 % (280 / 20 978) | 1,15 % (307 / 26 696) | -0,18 point |
+| position hors marque | 13,7 | 14,2 | -0,5 |
+| cluster « immédiate » | 2 629 impr., 35 clics, pos. 12,1 | 4 378 impr., 47 clics, pos. 12,0 | impressions +67 %, clics +34 % |
+| « assurance temporaire » | 3 033 impr., 62 clics, pos. 10,3 | 2 901 impr., 57 clics, pos. 9,0 | position meilleure, clics -8 % |
+
+**Lecture.** Le titre fait gagner des impressions sur le cluster visé (+67 %) et des clics en valeur
+absolue (+18 % sur l'accueil), mais le CTR hors marque baisse un peu (1,33 → 1,15 %) alors que la
+position hors marque recule aussi (13,7 → 14,2) : le critère « à position égale » n'est pas rempli, et
+l'impression de baisse peut venir de l'élargissement vers des requêtes plus lointaines. Marque au-dessus
+de 40 %. **Décision : on garde le titre, pas de retour en arrière.** Les deux effets (titre et contenu
+de l'accueil, changés le même jour) restent inséparables. Nouveau relevé comparable : **26/11**.
+
 ### Quand revenir en arrière
 
 - **Si le CTR de la marque passe sous 40 %** : le titre gêne la requête qui convertit le
@@ -532,6 +553,8 @@ fait qu'ajouter des relevés.
    **Chantier livré à la place le 24/10** : `blog-assurer-voiture-occasion.html`, requêtes « achat véhicule occasion assurance » et variantes (~140 impressions, positions 12-14, 0 clic, 26/09-21/10) : « véhicule d'occasion » n'était que dans les sources. Ajouté à la description et au résumé. Accueil non touché (test de titre jusqu'au 27/10). À mesurer à partir du 31/10.
    **Relevé du 27/10** : GA4 26/10 (lundi) 148 sessions et 83 événements clés, contre 194 et 119 le 19/10 (-24 %, cause non établie). Search Console 20-24/10 : 46 à 77 clics/jour, position 11,8 à 13,4. Surveillance sans alerte. Fin du test de titre de l'accueil : relevé comparatif à faire dans une session dédiée (non fait ce jour).
    **Chantier livré à la place le 27/10** : `assurance-temporaire-1-mois.html`, requête « assurance provisoire 1 mois » (103 impressions, position 14,5, portée par l'accueil, 27/09-24/10) : le mot « provisoire » n'était pas sur la page 1 mois. Ajouté à la description (balise, Open Graph) et au résumé. À mesurer à partir du 03/11.
+   **Relevé du 29/10** : GA4 28/10 183 sessions et 107 événements clés, contre 187 et 147 le 21/10 (-2 % sessions, -27 % événements clés, cause non établie). Search Console 12-25/10 stable (46 à 77 clics/jour, position 11,7 à 13,6). Surveillance sans alerte.
+   **Chantier livré à la place le 29/10** : comparatif de fin de test du titre de l'accueil, voir le tableau du §2 bis. Titre conservé, relevé suivant le 26/11.
 2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
    Les instantanes Clarity du 28/09 (15 erreurs, 2,78 % des sessions) et du 30/09 (10 erreurs, 1 %)
    placent toutes les erreurs sur l'URL `www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php`, c'est-a-dire
