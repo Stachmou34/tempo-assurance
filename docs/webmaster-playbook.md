@@ -557,6 +557,8 @@ fait qu'ajouter des relevés.
    **Chantier livré à la place le 29/10** : comparatif de fin de test du titre de l'accueil, voir le tableau du §2 bis. Titre conservé, relevé suivant le 26/11.
    **Relevé du 30/10** : GA4 29/10 193 sessions et 123 événements clés, contre 173 et 103 le 22/10 (+12 % sessions, +19 % événements clés). Search Console 24-27/10 : 39 à 61 clics/jour, position 11,7 à 12,2. Surveillance sans alerte.
    **Chantier livré à la place le 30/10** : `assurance-temporaire-caravane.html`, requête « assurance caravane prix » (62 impressions, position 9,3, 1 clic, 03-27/10) : « prix » absent du titre et de la description. Ajouté au titre, à la description et au résumé (57,67 € à 120,47 €, tarifs.md). À mesurer à partir du 06/11.
+   **Relevé du 31/10** : GA4 30/10 231 sessions et 116 événements clés, contre 177 et 91 le 23/10 (+31 %, +27 %). Search Console 22-28/10 : 39 à 67 clics/jour, position 11,7 à 13,4. Surveillance sans alerte.
+   **Chantier livré à la place le 31/10** : `assurance-temporaire-camping-car.html`, requête « assurance temporaire camping car » (345 impressions, position 18,6, 1 clic, 01-28/10) : aucun prix dans le titre ni la description. « dès 63,49 € » (1 jour, ≤ 3,5 t, tarifs.md) ajouté au titre et à la description. À mesurer à partir du 07/11.
 2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
    Les instantanes Clarity du 28/09 (15 erreurs, 2,78 % des sessions) et du 30/09 (10 erreurs, 1 %)
    placent toutes les erreurs sur l'URL `www.jlassure.com/sousfiche/assure_tempo_rapide_mb.php`, c'est-a-dire
