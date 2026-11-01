@@ -60,7 +60,7 @@ Cadence : **chaque lundi ~9 h** (cron `74d29a1a`, voir réserves sur l'expiratio
 | 7 | 11/10/2026 | téléphone au volant : suspension du permis étendue à toute la France (instruction du 29/09, annonce du 02/10), PLF 2027 : TSCA 18 → 18,9 % sur les garanties facultatives, carburant (gazole 2,352 €/L, 16,0 % de ruptures), étude Leocare : 78 % réduisent d'autres dépenses | ✅ archivée (`veille-auto-2026-10-11.html`) |
 | 8 | 18/10/2026 | vacances de la Toussaint (Bison Futé via Mappy), carburant (gazole 2,369 €/L, 17,6 % de ruptures), radar + FVA (règle du 16/02/2026 remise en avant), offres MAIF/Allianz pour électriques après le plan d'électrification du 15/10 | ✅ en ligne (`veille-auto.html`) |
 | 9 | 01/11/2026 | baisse annoncée du gazole (12-18 c, 1er nov.), pneus hiver / loi Montagne (dossier « tarifs 2027 » retiré à la relecture : sources du 12/08 et du 03/10, prévision Facts & Figures déjà écartée en n°6), retours de la Toussaint | ✅ en ligne (`veille-auto.html`) |
-| 9 | 25/10/2026 | à définir | ⏳ à venir |
+| — | 25/10/2026 | pas d'édition publiée cette semaine-là | — |
 
 > Règle tirée de l'édition n°6 : chaque dossier s'accroche à un fait daté de la semaine (lundi-dimanche). Vérifier la date de **première** publication d'une étude, pas celle de sa reprise : la prévision Facts & Figures, reprise le 02/10, datait du 21/09 et a été retirée après vérification.
 
