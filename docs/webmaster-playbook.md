@@ -619,6 +619,12 @@ investir pour le SEO.
 
 ## 10. Journal des décisions
 
+- **04/11/2026** : page `assurance-moto.html` (questionnaire moto à l'année pour APRIL Moto, cahier des charges
+  du propriétaire). Volontairement en `noindex`, hors menu et hors sitemap tant que l'assureur qui porte le risque
+  chez APRIL Moto n'est pas nommé et vérifié (règle Wakam). `moto-form.php` envoie la fiche à contact@matemporaire.com
+  (copie cachée contact@mcj-courtage.com) et un accusé fixe au client ; rien n'est stocké sur le serveur. Ne pas
+  publier de prix moto : aucune grille vérifiée.
+
 - **27/10/2026** : diagnostic (`diagnostic.html`) cassé depuis le 26/09 par le remplacement « carte verte »
   → « attestation d'assurance » : l'apostrophe a fermé une chaîne JS, plus aucune question ne s'affichait.
   Signalé par le propriétaire, corrigé, et contrôle ajouté à `verif-qualite.mjs` (donc à la CI) : un
