@@ -152,6 +152,7 @@
 			<form action="moto-form.php" method="post" id="form-moto" novalidate>
 				<div class="moto-progress" aria-hidden="true"><div class="moto-bar" id="moto-bar"></div></div>
 				<p class="moto-count" id="moto-count" aria-live="polite">Étape 1 sur 6</p>
+				<p class="muted moto-brouillon" id="moto-brouillon" hidden>Vos réponses ont été retrouvées. <button type="button" class="moto-add" id="moto-effacer">Tout effacer et recommencer</button></p>
 				<p class="moto-erreur" id="moto-erreur-serveur" role="alert" tabindex="-1" hidden>Votre demande n'a pas pu être envoyée (champ manquant ou invalide). Merci de vérifier vos réponses, ou appelez-nous au 09 78 31 02 93.</p>
 
 				<!-- Étape 1 : véhicule -->
@@ -275,6 +276,9 @@
 						</div>
 					</div>
 					<div class="moto-yn" role="radiogroup" aria-labelledby="l-aauto"><span class="moto-label" id="l-aauto">Assuré en auto au cours des 2 dernières années&nbsp;? *</span><div class="moto-choices"><label class="moto-choice"><input type="radio" name="assure_auto_2ans" value="Oui" required> Oui</label><label class="moto-choice"><input type="radio" name="assure_auto_2ans" value="Non"> Non</label></div></div>
+					<div id="w-assure-auto" hidden>
+						<div class="form-row"><label for="m-mois-auto">Nombre de mois assuré en auto (sur 24) *</label><input type="number" id="m-mois-auto" name="mois_assure_auto" min="0" max="24" step="1" style="max-width:220px"></div>
+					</div>
 					<p class="moto-alerte" id="alerte-bonus" hidden>À savoir&nbsp;: un bonus 2-roues de 0,50 sans assurance moto sur la période est ramené à 1,00 par l'assureur. Nous le signalerons dans votre devis.</p>
 				</fieldset>
 
