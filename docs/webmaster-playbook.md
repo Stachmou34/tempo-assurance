@@ -624,10 +624,7 @@ investir pour le SEO.
   chez APRIL Moto n'est pas nommé et vérifié (règle Wakam). `moto-form.php` envoie la fiche à contact@matemporaire.com
   (copie cachée contact@mcj-courtage.com) et un accusé fixe au client ; rien n'est stocké sur le serveur. Ne pas
   publier de prix moto : aucune grille vérifiée.
-  Accès réservé au propriétaire pendant les essais : le .htaccess fait passer la page par `moto-acces.php`,
-  qui demande un mot de passe (cookie de 90 jours ensuite) ; sans lui, l'envoi répond 404. Le dépôt ne
-  contient que les empreintes (bcrypt + sha256 du cookie), jamais le mot de passe. Pour en changer :
-  `password_hash($mdp, PASSWORD_BCRYPT)` et `hash('sha256', hash_hmac('sha256', 'tempo-moto-cookie', $mdp))`.
+  Mot de passe d'accès retiré le 04/11 à la demande du propriétaire ; .htaccess remis à l'identique.
 
 - **27/10/2026** : diagnostic (`diagnostic.html`) cassé depuis le 26/09 par le remplacement « carte verte »
   → « attestation d'assurance » : l'apostrophe a fermé une chaîne JS, plus aucune question ne s'affichait.

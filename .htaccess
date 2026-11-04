@@ -3,10 +3,6 @@ RewriteEngine On
 RewriteCond %{HTTPS} !=on [OR]
 RewriteCond %{HTTP_HOST} !^www\. [NC]
 RewriteRule ^ https://www.tempo-assurance.com%{REQUEST_URI} [R=301,L]
-# === Page moto en essai : accès réservé au propriétaire (voir moto-acces.php) ===
-# La page n'est jamais servie directement : moto-acces.php demande le mot de passe,
-# sinon il répond « page introuvable ». À retirer le jour où la page devient publique.
-RewriteRule ^assurance-moto\.html$ /moto-acces.php [L]
 # === Redirection de l'ancien blog vers les pages statiques pertinentes (301) ===
 # Chaque ancien article pointe vers la page la plus pertinente ; la FAQ sert de filet
 # de securite pour tout le reste. Le "?" final supprime la query string d'origine.
@@ -76,9 +72,12 @@ RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [OR]
 RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [NC]
 RewriteRule .* - [F]
 
-# Version de PHP : pas de version imposée ici. Le serveur utilise sa version par défaut
-# (réglage « MultiPHP Manager » de cPanel). Le bloc cPanel qui forçait ea-php72 a été retiré
-# le 04/11/2026 : PHP 7.2 n'est plus maintenu et tout le PHP du site répondait 500.
+# php -- BEGIN cPanel-generated handler, do not edit
+# Définissez le package « ea-php72 » comme langage de programmation « PHP » par défaut.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php72 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
 
 RedirectMatch 404 /\.git
 # Blocage des fichiers de documentation interne (.md)
