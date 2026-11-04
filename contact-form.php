@@ -6,6 +6,7 @@
  */
 
 $DESTINATAIRE = 'contact@matemporaire.com';
+$COPIE_CACHEE = 'contact@mcj-courtage.com';
 $PAGE_FORM    = '/contact.html';
 $PAGE_OK      = '/confirmation-mail.html';
 
@@ -72,6 +73,7 @@ $corps = "Message recu via le formulaire de contact de tempo-assurance.com\n\n"
 
 $entetes = "From: formulaire@tempo-assurance.com\r\n"
          . "Reply-To: " . $email . "\r\n"
+         . "Bcc: " . $COPIE_CACHEE . "\r\n"
          . "Content-Type: text/plain; charset=UTF-8\r\n";
 
 @mail($DESTINATAIRE, '=?UTF-8?B?' . base64_encode($sujet) . '?=', $corps, $entetes);
