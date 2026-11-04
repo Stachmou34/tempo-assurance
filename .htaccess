@@ -3,6 +3,10 @@ RewriteEngine On
 RewriteCond %{HTTPS} !=on [OR]
 RewriteCond %{HTTP_HOST} !^www\. [NC]
 RewriteRule ^ https://www.tempo-assurance.com%{REQUEST_URI} [R=301,L]
+# === Page moto en essai : accès réservé au propriétaire (voir moto-acces.php) ===
+# La page n'est jamais servie directement : moto-acces.php vérifie la clé ou le cookie,
+# sinon il répond « page introuvable ». À retirer le jour où la page devient publique.
+RewriteRule ^assurance-moto\.html$ /moto-acces.php [L]
 # === Redirection de l'ancien blog vers les pages statiques pertinentes (301) ===
 # Chaque ancien article pointe vers la page la plus pertinente ; la FAQ sert de filet
 # de securite pour tout le reste. Le "?" final supprime la query string d'origine.
