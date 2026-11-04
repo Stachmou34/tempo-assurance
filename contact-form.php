@@ -5,7 +5,7 @@
  * Anti-spam : champ pot-de-miel + question arithmétique + contrôle de délai.
  */
 
-$DESTINATAIRE = 'contact@mcj-courtage.com';
+$DESTINATAIRE = 'contact@matemporaire.com';
 $PAGE_FORM    = '/contact.html';
 $PAGE_OK      = '/confirmation-mail.html';
 
