@@ -625,8 +625,9 @@ investir pour le SEO.
   (copie cachée contact@mcj-courtage.com) et un accusé fixe au client ; rien n'est stocké sur le serveur. Ne pas
   publier de prix moto : aucune grille vérifiée.
   Accès réservé au propriétaire pendant les essais : le .htaccess fait passer la page par `moto-acces.php`,
-  qui exige une clé lue dans `.moto-test` (un niveau au-dessus du dossier du site, jamais dans le dépôt) ;
-  sans clé ou sans ce fichier, la page et l'envoi répondent 404. Ne jamais écrire la clé ailleurs.
+  qui demande un mot de passe (cookie de 90 jours ensuite) ; sans lui, l'envoi répond 404. Le dépôt ne
+  contient que les empreintes (bcrypt + sha256 du cookie), jamais le mot de passe. Pour en changer :
+  `password_hash($mdp, PASSWORD_BCRYPT)` et `hash('sha256', hash_hmac('sha256', 'tempo-moto-cookie', $mdp))`.
 
 - **27/10/2026** : diagnostic (`diagnostic.html`) cassé depuis le 26/09 par le remplacement « carte verte »
   → « attestation d'assurance » : l'apostrophe a fermé une chaîne JS, plus aucune question ne s'affichait.
