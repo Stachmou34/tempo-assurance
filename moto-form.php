@@ -36,6 +36,12 @@ function en_date($s) {
     return mktime(0, 0, 0, (int) $m[2], (int) $m[1], (int) $m[3]);
 }
 function un_parmi($v, $valeurs) { return in_array($v, $valeurs, true); }
+/* AB123CD, ab-123-cd -> AB-123-CD ; l'ancien format FNI est laissé tel quel */
+function immat($v) {
+    $x = strtoupper(preg_replace('/\s+/', '', $v));
+    return preg_match('/^([A-Z]{2})-?(\d{3})-?([A-Z]{2})$/', $x, $m) ? $m[1] . '-' . $m[2] . '-' . $m[3] : strtoupper($v);
+}
+function mois_ok($v) { return preg_match('/^\d{1,2}$/', $v) && (int) $v <= 24; }
 
 /* Anti-robot : pot-de-miel et délai minimal de remplissage. */
 if (champ('site_web') !== '') { header('Location: ' . $PAGE_FORM . '?envoi=ok'); exit; }
@@ -77,6 +83,8 @@ if (!$non_eligible) {
     if (!preg_match('/^\d{5}$/', champ('cp_stationnement')) || champ('commune_stationnement') === '') retour_erreur('stationnement');
     if (!count(liste('permis'))) retour_erreur('permis');
     if (champ('bonus_2roues') === '' || champ('bonus_auto') === '') retour_erreur('bonus');
+    if (champ('assure_2roues_2ans') === 'Oui' && !mois_ok(champ('mois_assure_2roues'))) retour_erreur('mois_2roues');
+    if (champ('assure_auto_2ans') === 'Oui' && !mois_ok(champ('mois_assure_auto'))) retour_erreur('mois_auto');
 
     /* Statut recalculé ici : on ne se fie pas au navigateur. */
     $motifs = array();
@@ -98,7 +106,7 @@ $L[] = 'STATUT : ' . $statut . (champ('motif_statut') !== '' ? ' (' . champ('mot
 $L[] = '';
 $L[] = '=== VOTRE VÉHICULE ===';
 $ligne('Type de 2-roues', champ('type_vehicule'));
-$ligne('Immatriculation', champ('immat_inconnue') === '1' ? 'je ne la connais pas' : strtoupper(champ('immatriculation')));
+$ligne('Immatriculation', champ('immat_inconnue') === '1' ? 'je ne la connais pas' : immat(champ('immatriculation')));
 $ligne('Marque', champ('marque'));
 $ligne('Cylindrée (cm3)', champ('cylindree'));
 $ligne('Modèle / version', champ('modele') . (champ('version_a2') === '1' ? ' (version A2 35 kW)' : ''));
@@ -141,6 +149,7 @@ $ligne('  Ancienneté du contrat actuel', champ('anciennete_contrat'));
 $ligne('  Assureur actuel (loi Hamon)', champ('assureur_actuel'));
 $ligne('  N° de contrat (loi Hamon)', champ('numero_contrat'));
 $ligne('Assuré en auto (2 ans)', champ('assure_auto_2ans'));
+$ligne('  Nombre de mois assuré en auto', champ('mois_assure_auto'));
 if (champ('bonus_2roues') === '0,50' && champ('assure_2roues_2ans') === 'Non') {
     $L[] = '  ! Bonus 2-roues 0,50 sans assurance moto sur la période : ramené à 1,00 par APRIL.';
 }
@@ -169,7 +178,7 @@ $ligne('Code postal + ville', champ('cp') . ' ' . champ('ville'));
 $ligne('Téléphone', preg_replace('/[\s.\-]/', '', champ('telephone')));
 $ligne('E-mail', $email);
 $ligne('N° de permis', champ('numero_permis'));
-$ligne("N° d'immatriculation", strtoupper(champ('immatriculation_confirmee')));
+$ligne("N° d'immatriculation", immat(champ('immatriculation_confirmee')));
 $ligne('Créneau de rappel', champ('creneau_rappel') !== '' ? champ('creneau_rappel') : 'indifférent');
 $L[] = '';
 $ligne('Consentement devis et rappel', champ('consentement') . ' (' . date('d/m/Y H:i') . ')');

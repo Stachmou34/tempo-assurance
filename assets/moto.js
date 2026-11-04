@@ -45,7 +45,7 @@
     cyl.appendChild(o);
   });
   var COEFS = ["0,50", "0,51", "0,53", "0,54", "0,57", "0,60", "0,63", "0,64", "0,66", "0,68", "0,70", "0,72",
-    "0,76", "0,80", "0,85", "0,90", "0,95", "1,00", "1,25", "1,56", "1,95", "2,44", "3,05", "3,50"];
+    "0,76", "0,80", "0,85", "0,90", "0,95", "1,00", "1,06", "1,12", "1,18", "1,25", "1,32", "1,40", "1,56", "1,95", "2,44", "3,05", "3,50"];
   form.querySelectorAll("[data-bonus]").forEach(function (sel) {
     var o0 = document.createElement("option");
     o0.value = ""; o0.textContent = "Choisir";
@@ -86,10 +86,19 @@
     });
   });
 
+  /* AB123CD, ab-123-cd -> AB-123-CD (format SIV) ; l'ancien format FNI est laissé tel quel */
+  function normImmat(v) {
+    var x = (v || "").toUpperCase().replace(/\s+/g, "");
+    var m = /^([A-Z]{2})-?(\d{3})-?([A-Z]{2})$/.exec(x);
+    return m ? m[1] + "-" + m[2] + "-" + m[3] : (v || "").toUpperCase().trim();
+  }
+
   /* ----- Messages d'erreur sous les champs ----- */
   function setError(el, msg) {
     var box = el.closest(".form-row, .moto-yn, .moto-permis-row, .moto-sinistre") || el.parentNode;
-    var p = box.querySelector(".moto-err");
+    var key = el.type === "radio" ? el.name : (el.id || el.name);
+    var p = null;
+    box.querySelectorAll(".moto-err").forEach(function (x) { if (x.getAttribute("data-for") === key) p = x; });
     if (!msg) {
       if (p) p.remove();
       el.removeAttribute("aria-invalid");
@@ -98,6 +107,7 @@
     if (!p) {
       p = document.createElement("p");
       p.className = "moto-err";
+      p.setAttribute("data-for", key);
       box.appendChild(p);
     }
     p.textContent = msg;
@@ -136,24 +146,61 @@
     return setError(el, "");
   }
 
+  function checkAcquisition() {
+    var mec = parseDate($("m-mec").value), acq = parseDate($("m-acq").value);
+    if (mec && acq && acq < mec) return setError($("m-acq"), "La date d'acquisition ne peut pas précéder la 1re mise en circulation");
+    if (acq) checkField($("m-acq"));
+    return true;
+  }
+
+  /* 8. Cohérence bonus / ancienneté du permis : depuis 1,00, le coefficient baisse de 5 %
+     par an (tronqué au centième) et plafonne à 0,50, atteint au bout de 13 ans. */
+  function anneesPourCoef(c) {
+    var x = 1, n = 0;
+    while (x > c + 1e-9 && n < 40) { x = Math.max(0.5, Math.floor(x * 0.95 * 100 + 1e-9) / 100); n++; }
+    return n;
+  }
+  function anneesDepuis(d) { return (today() - d) / (365.25 * 86400000); }
+  function checkCoherenceBonus() {
+    var ok = true;
+    [["2r", ["AM", "A1", "A2", "A", "B"], "bonus_2roues_3ans", "d'un permis 2-roues (ou B)"],
+     ["auto", ["B"], "bonus_auto_3ans", "du permis B"]].forEach(function (r) {
+      var sel = $("m-bonus-" + r[0]);
+      var c = parseFloat((sel.value || "").replace(",", "."));
+      if (isNaN(c) || c >= 1) return;
+      var plusAncien = null;
+      r[1].forEach(function (p) {
+        var cb = form.querySelector("[data-permis][value=" + p + "]");
+        var d = cb && cb.checked ? parseDate(form.elements["date_permis_" + p].value) : null;
+        if (d && (!plusAncien || d < plusAncien)) plusAncien = d;
+      });
+      if (!plusAncien) return;
+      var besoin = anneesPourCoef(c) + (c === 0.5 && val(r[2]) === "Oui" ? 3 : 0);
+      if (anneesDepuis(plusAncien) < besoin)
+        ok = setError(sel, "Un coefficient de " + sel.value + " demande au moins " + besoin + " ans d'assurance sans sinistre responsable : vérifiez le coefficient ou la date " + r[3]) && ok;
+    });
+    return ok;
+  }
+
   /* Contrôles qui dépendent de plusieurs champs. Renvoie false si une erreur bloque. */
   function crossChecks(n) {
     var ok = true;
     if (n === 1) {
       var inconnue = $("m-immat-inconnue").checked;
       var immat = $("m-immat");
-      immat.value = immat.value.toUpperCase();
+      immat.value = normImmat(immat.value);
       if (!inconnue) {
-        if (!immat.value) ok = setError(immat, "Ce champ est obligatoire") && ok;
-        else if (!/^[A-Z]{2}-?\d{3}-?[A-Z]{2}$/.test(immat.value) && !/^\d{1,4}\s?[A-Z]{1,3}\s?\d{2,3}$/.test(immat.value))
+        if (!immat.value) ok = setError(immat, "Saisissez l'immatriculation, ou cochez « Je ne la connais pas »") && ok;
+        else if (!/^[A-Z]{2}-\d{3}-[A-Z]{2}$/.test(immat.value) && !/^\d{1,4}\s?[A-Z]{1,3}\s?\d{2,3}$/.test(immat.value))
           ok = setError(immat, "Format attendu : AA-123-BB") && ok;
       }
+      /* Sans immatriculation, la marque, la cylindrée et le modèle identifient le véhicule. */
       ["m-marque", "m-cylindree", "m-modele"].forEach(function (id) {
         var el = $(id);
-        if (inconnue && !el.value) ok = setError(el, "Obligatoire sans immatriculation") && ok;
+        if (!immat.value && !el.value) ok = setError(el, "Obligatoire sans immatriculation") && ok;
+        else if (el.value) setError(el, "");
       });
-      var mec = parseDate($("m-mec").value), acq = parseDate($("m-acq").value);
-      if (mec && acq && acq < mec) ok = setError($("m-acq"), "La date d'acquisition ne peut pas précéder la 1re mise en circulation") && ok;
+      ok = checkAcquisition() && ok;
     }
     if (n === 2) {
       var cp = $("m-cp-stat");
@@ -182,6 +229,7 @@
         var name = k === "2r" ? "bonus_2roues_3ans" : "bonus_auto_3ans";
         if (sel.value === "0,50" && !val(name)) ok = setError(wrap.querySelector("input"), "Ce champ est obligatoire") && ok;
       });
+      ok = checkCoherenceBonus() && ok;
     }
     if (n === 4) {
       form.querySelectorAll(".moto-sinistre").forEach(function (s) {
@@ -216,6 +264,12 @@
             if (!$(id).value.trim()) ok = setError($(id), "Ce champ est obligatoire") && ok; else setError($(id), "");
           });
         }
+      }
+      if (val("assure_auto_2ans") === "Oui") {
+        var moisA = $("m-mois-auto");
+        var ma = moisA.value === "" ? NaN : Number(moisA.value);
+        if (isNaN(ma) || ma < 0 || ma > 24 || Math.floor(ma) !== ma) ok = setError(moisA, "Un nombre de mois entre 0 et 24") && ok;
+        else setError(moisA, "");
       }
     }
     if (n === 5) {
@@ -307,6 +361,26 @@
     syncAlerteBonus();
   });
   onRadio("anciennete_contrat", function () { $("w-hamon").hidden = val("anciennete_contrat") !== "Plus d'un an"; });
+  onRadio("assure_auto_2ans", function () { $("w-assure-auto").hidden = val("assure_auto_2ans") !== "Oui"; });
+
+  /* 9. Rachat de franchise selon la formule */
+  var RACHAT = { "Essentielle": ["Aucun"], "Équilibre": ["Aucun", "Vol, incendie, forces de la nature (franchise 650 €)"] };
+  function syncRachat() {
+    var permis = RACHAT[val("formule")];
+    var sel = $("m-rachat");
+    for (var i = 0; i < sel.options.length; i++) {
+      var o = sel.options[i];
+      o.disabled = !!permis && permis.indexOf(o.value || o.text) === -1;
+    }
+    if (sel.selectedOptions[0] && sel.selectedOptions[0].disabled) sel.value = "Aucun";
+  }
+  onRadio("formule", syncRachat);
+
+  /* 10. Nom de naissance pré-rempli avec le nom d'usage, tant qu'on ne l'a pas modifié */
+  $("m-nom-naiss").addEventListener("input", function () { this.setAttribute("data-modifie", "1"); });
+  $("m-nom").addEventListener("input", function () {
+    if (!$("m-nom-naiss").hasAttribute("data-modifie")) $("m-nom-naiss").value = this.value;
+  });
 
   /* Sinistres répétables */
   var nbSin = 0;
@@ -373,6 +447,8 @@
         o.value = n; o.textContent = n;
         sel.appendChild(o);
       });
+      var r = sel.getAttribute("data-restaurer");
+      if (r && noms.indexOf(r) > -1) { sel.value = r; sel.removeAttribute("data-restaurer"); }
     }
     cp.addEventListener("input", function () {
       cp.value = cp.value.replace(/\D/g, "").slice(0, 5);
@@ -402,7 +478,7 @@
     send.hidden = n !== STEPS;
     stopBox.hidden = true;
     if (n === 6) {
-      if (!$("m-immat2").value && $("m-immat").value) $("m-immat2").value = $("m-immat").value;
+      if (!$("m-immat2").value && $("m-immat").value) $("m-immat2").value = normImmat($("m-immat").value);
     }
     if (init) return;
     var legend = steps[n - 1].querySelector("legend");
@@ -440,6 +516,15 @@
     }
     show(step + 1);
   });
+  function majEligibilite() {
+    if (stopBox.hidden) return;
+    var stop = eligibilite(step);
+    if (stop) { stopText.textContent = stop + " Un courtier peut regarder votre situation avec vous."; return; }
+    stopBox.hidden = true;
+    next.hidden = false;
+  }
+  form.addEventListener("input", majEligibilite);
+  form.addEventListener("change", majEligibilite);
   $("moto-rappel").addEventListener("click", function () {
     statut.value = "Non éligible";
     motif.value = stopText.textContent;
@@ -459,7 +544,10 @@
     var el = e.target;
     if (!el.matches || !el.matches("input, select, textarea") || el.closest(".moto-sinistre")) return;
     if (el.type === "radio" || el.type === "checkbox") return;
+    if (el.id === "m-immat" || el.id === "m-immat2") el.value = normImmat(el.value);
     if (el.value) checkField(el);
+    if ((el.id === "m-acq" || el.id === "m-mec") && $("m-mec").value && $("m-acq").value) checkAcquisition();
+    if (/^m-bonus-|^date_permis_/.test(el.id || el.name) && step === 3) checkCoherenceBonus();
   });
   form.addEventListener("change", function (e) {
     if (e.target.type === "radio") setError(form.elements[e.target.name][0], "");
@@ -486,9 +574,61 @@
     track("moto_envoi", { statut: statut.value });
   });
 
+  /* ----- 12. Brouillon : les réponses survivent à un rechargement de la page ----- */
+  /* sessionStorage : gardé tant que l'onglet reste ouvert, jamais envoyé, effacé après l'envoi. */
+  var CLE_BROUILLON = "tempo-moto-brouillon";
+  var IGNORES = { t: 1, site_web: 1, statut: 1, motif_statut: 1, email_confirmation: 1 };
+  function sauver() {
+    var v = {};
+    Array.prototype.forEach.call(form.elements, function (el) {
+      if (!el.name || IGNORES[el.name] || el.type === "button" || el.type === "submit") return;
+      if ((el.type === "radio" || el.type === "checkbox") && !el.checked) return;
+      (v[el.name] = v[el.name] || []).push(el.value);
+    });
+    try {
+      sessionStorage.setItem(CLE_BROUILLON, JSON.stringify({ v: v, etape: step, sin: form.querySelectorAll(".moto-sinistre").length }));
+    } catch (e) { /* stockage indisponible : pas de brouillon */ }
+  }
+  var minuterie = null;
+  form.addEventListener("input", function () { clearTimeout(minuterie); minuterie = setTimeout(sauver, 400); });
+  form.addEventListener("change", function () { clearTimeout(minuterie); minuterie = setTimeout(sauver, 100); });
+
+  function restaurer() {
+    var b = null;
+    try { b = JSON.parse(sessionStorage.getItem(CLE_BROUILLON) || "null"); } catch (e) { b = null; }
+    if (!b || !b.v) return 0;
+    for (var i = 0; i < (b.sin || 0); i++) addSinistre();
+    var vus = {};
+    Array.prototype.forEach.call(form.elements, function (el) {
+      var liste = b.v[el.name];
+      if (!el.name || !liste) return;
+      if (el.type === "radio" || el.type === "checkbox") { el.checked = liste.indexOf(el.value) > -1; return; }
+      var k = vus[el.name] || 0;
+      vus[el.name] = k + 1;
+      if (liste[k] === undefined) return;
+      if (el.tagName === "SELECT" && el.hasAttribute("required") && el.options.length <= 1 && liste[k]) {
+        el.setAttribute("data-restaurer", liste[k]);   /* communes : remplies après l'appel à l'API */
+        return;
+      }
+      el.value = liste[k];
+    });
+    /* Réafficher les champs conditionnels, puis recharger les communes. */
+    form.querySelectorAll("input[type=radio]:checked, input[type=checkbox], select").forEach(function (el) {
+      el.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+    form.querySelectorAll("[data-commune]").forEach(function (cp) { if (cp.value) cp.dispatchEvent(new Event("input", { bubbles: true })); });
+    if (b.v.nom_naissance && b.v.nom && b.v.nom_naissance[0] !== b.v.nom[0]) $("m-nom-naiss").setAttribute("data-modifie", "1");
+    return Math.min(Math.max(1, b.etape || 1), STEPS);
+  }
+  $("moto-effacer").addEventListener("click", function () {
+    try { sessionStorage.removeItem(CLE_BROUILLON); } catch (e) {}
+    location.href = location.pathname;
+  });
+
   /* Retour du serveur */
   var q = location.search;
   if (q.indexOf("envoi=ok") > -1) {
+    try { sessionStorage.removeItem(CLE_BROUILLON); } catch (e) {}
     form.hidden = true;
     $("moto-ok").hidden = false;
     $("moto-ok").setAttribute("tabindex", "-1");
@@ -496,7 +636,10 @@
   } else if (q.indexOf("erreur=") > -1) {
     $("moto-erreur-serveur").hidden = false;
   }
+  var reprise = q.indexOf("envoi=ok") > -1 ? 0 : restaurer();
   syncImmat();
-  show(1, true);
+  syncRachat();
+  show(reprise || 1, true);
+  if (reprise) $("moto-brouillon").hidden = false;
   if (q.indexOf("erreur=") > -1) $("moto-erreur-serveur").focus();
 })();
