@@ -9,6 +9,10 @@ $DESTINATAIRE = 'contact@matemporaire.com';
 $COPIE_CACHEE = 'contact@mcj-courtage.com';
 $PAGE_FORM    = '/assurance-moto.html';
 
+/* Pendant les essais : seul le propriétaire (cookie posé par moto-acces.php) peut envoyer. */
+require __DIR__ . '/moto-acces.php';
+if (!moto_acces_ok()) moto_introuvable();
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ' . $PAGE_FORM);
     exit;
