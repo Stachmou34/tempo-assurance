@@ -619,6 +619,15 @@ investir pour le SEO.
 
 ## 10. Journal des décisions
 
+- **05/11/2026** : panne de tout le PHP (formulaire de contact, envoi moto) du 04/11 vers 12 h 19 au 05/11.
+  Cause : le « git pull » de mise en ligne était lancé en **root** ; les fichiers créés ou modifiés appartenaient
+  à root et suPHP refusait de les exécuter (« UID of script is smaller than min_uid » dans le journal d'erreurs
+  cPanel). Réparé par le propriétaire (`find /home/tempoass/public_html -mindepth 1 -user root -exec chown
+  tempoass:tempoass {} +`). Règle : la mise en ligne se fait **toujours** avec
+  `su -s /bin/bash tempoass -c 'cd /home/tempoass/public_html && git pull origin main'`, jamais en root.
+  Ne jamais faire `chown -R` sur public_html lui-même (son groupe doit rester celui d'Apache).
+  `surveillance.mjs` vérifie désormais que contact-form.php et moto-form.php répondent 302.
+
 - **04/11/2026** : page `assurance-moto.html` (questionnaire moto à l'année pour APRIL Moto, cahier des charges
   du propriétaire). Volontairement en `noindex`, hors menu et hors sitemap tant que l'assureur qui porte le risque
   chez APRIL Moto n'est pas nommé et vérifié (règle Wakam). `moto-form.php` envoie la fiche à contact@matemporaire.com

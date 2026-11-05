@@ -54,6 +54,20 @@ for (const p of PAGES) {
 }
 infos.push(`Disponibilite : ${PAGES.length} URLs verifiees, plus lente ${pire.toFixed(2)} s`);
 
+/* ---------- 1 bis. PHP s'execute (formulaires) ---------- */
+/* Un GET sur un script de formulaire doit renvoyer une redirection (302) vers sa page.
+   Un 500 veut dire que PHP ne s'execute plus : le 04/11/2026, un « git pull » lance en root
+   avait rendu les fichiers PHP proprietes de root, et suPHP refusait de les executer
+   (« UID of script is smaller than min_uid »). */
+for (const [script, page] of [['contact-form.php', 'contact.html'], ['moto-form.php', 'assurance-moto.html']]) {
+  try {
+    const r = await fetch(`${SITE}/${script}`, { redirect: 'manual' });
+    if (r.status !== 302) alertes.push(`PHP : /${script} repond HTTP ${r.status} au lieu de 302 (formulaire en panne ; si 500, verifier que les fichiers appartiennent a tempoass et non a root)`);
+    else if (!(r.headers.get('location') || '').includes(page)) alertes.push(`PHP : /${script} redirige vers ${r.headers.get('location')} au lieu de ${page}`);
+  } catch (e) { alertes.push(`PHP : /${script} injoignable : ${e.message}`); }
+}
+infos.push('PHP : formulaires de contact et moto verifies');
+
 /* ---------- 2. Ecart depot / production ---------- */
 /* Un ecart signifie presque toujours un « git pull » oublie sur le serveur. */
 try {
