@@ -625,6 +625,8 @@ investir pour le SEO.
   (copie cachée contact@mcj-courtage.com) et un accusé fixe au client ; rien n'est stocké sur le serveur. Ne pas
   publier de prix moto : aucune grille vérifiée.
   Mot de passe d'accès retiré le 04/11 à la demande du propriétaire ; .htaccess remis à l'identique.
+  **Toute modification de `assets/moto.js` doit incrémenter `?v=` dans `assurance-moto.html`** : le serveur
+  le met en cache 30 jours (le 05/11, les testeurs utilisaient encore la v1 après trois corrections).
 
 - **27/10/2026** : diagnostic (`diagnostic.html`) cassé depuis le 26/09 par le remplacement « carte verte »
   → « attestation d'assurance » : l'apostrophe a fermé une chaîne JS, plus aucune question ne s'affichait.
