@@ -569,10 +569,50 @@
     /* Les étapes déjà passées restent dans le formulaire : elles partent avec l'envoi. */
     steps.forEach(function (s) { s.disabled = false; });
     $("m-immat").disabled = false;
+    sauver();
+    if (!window.fetch || !window.FormData) {   /* très vieux navigateur : envoi classique */
+      send.disabled = true;
+      send.textContent = "Envoi en cours…";
+      return;
+    }
+    /* Envoi en arrière-plan : en cas d'échec, le visiteur reste sur le formulaire,
+       avec un message clair et toutes ses réponses (le brouillon n'est effacé qu'après « envoi ok »). */
+    e.preventDefault();
+    var donnees = new FormData(form);
+    syncImmat();
     send.disabled = true;
     send.textContent = "Envoi en cours…";
-    track("moto_envoi", { statut: statut.value });
+    fetch(form.action, { method: "POST", body: donnees, credentials: "same-origin" })
+      .then(function (r) {
+        if (r.ok && r.url.indexOf("envoi=ok") > -1) {
+          track("moto_envoi", { statut: statut.value });
+          location.href = r.url;
+          return;
+        }
+        var code = (/[?&]erreur=([^&]+)/.exec(r.url) || [])[1] || (r.ok ? "inconnue" : "serveur-" + r.status);
+        echecEnvoi(decodeURIComponent(code));
+      })
+      .catch(function () { echecEnvoi("reseau"); });
   });
+
+  var MOTIFS = {
+    email: "les deux adresses e-mail ne correspondent pas ou sont invalides",
+    telephone: "le numéro de téléphone doit compter 10 chiffres",
+    consentement: "la case d'accord pour être recontacté doit être cochée",
+    date_effet: "la date d'effet doit être comprise entre aujourd'hui et 60 jours",
+    reseau: "la connexion a été interrompue"
+  };
+  function echecEnvoi(code) {
+    send.disabled = false;
+    send.textContent = "Envoyer ma demande";
+    var box = $("moto-erreur-serveur");
+    var motifTxt = MOTIFS[code] ? " Motif : " + MOTIFS[code] + "." : "";
+    box.textContent = "Votre demande n'a pas pu être envoyée." + motifTxt +
+      " Vos réponses sont conservées : vous pouvez réessayer dans un instant, ou nous appeler au 09 78 31 02 93.";
+    box.hidden = false;
+    box.focus();
+    track("moto_envoi_echec", { code: code });
+  }
 
   /* ----- 12. Brouillon : les réponses survivent à un rechargement de la page ----- */
   /* sessionStorage : gardé tant que l'onglet reste ouvert, jamais envoyé, effacé après l'envoi. */

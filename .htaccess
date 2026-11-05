@@ -52,6 +52,7 @@ RewriteRule ^news---jl-assure-la-solution\.html$ /actualites.html [R=301,L]
 RewriteRule ^news---mise-en-fourriere\.html$ /actualites.html [R=301,L]
 # Direction vers page erreur 404
 ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
 
 #Protection XSS, clickJacking et Mime-Type
 <ifModule mod_headers.c>
