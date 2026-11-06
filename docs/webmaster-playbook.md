@@ -564,6 +564,8 @@ fait qu'ajouter des relevés.
    **Chantier livré à la place le 03/11** : `assurance-temporaire-week-end.html`, requête « assurance ouverte le samedi » (149 impressions, position 7,0, 1 clic, 04-31/10) : « samedi » absent du titre et de la description. Titre « Assurance auto 24h ouverte le samedi et le dimanche, en ligne », description ajustée (balise, Open Graph, JSON-LD). À mesurer à partir du 10/11 ; la modification du 22/10 sur « assurance 24h voiture » reste à mesurer aussi (121 impressions, position 8,5 au 31/10).
    **Relevé du 04/11** : GA4 03/11 (mardi) 164 sessions et 60 événements clés, contre 188 et 107 le 27/10 (-13 % sessions, -44 % événements clés, cause non établie). Search Console 28/10-01/11 : 43 à 82 clics/jour, position 9,8 à 13,0. Surveillance sans alerte.
    **Chantier livré à la place le 04/11** : `assurance-temporaire-15-jours.html`, requête « assurance auto 15 jours » (25 impressions, position 28,1, 08/10-02/11) : le mot « auto » n'était ni dans le titre, ni dans la description, ni dans le résumé. Titre « Assurance auto 15 jours dès 107,82 € : devis en 2 min » (prix de tarifs.md). À mesurer à partir du 11/11.
+   **Relevé du 05/11** : GA4 04/11 (mercredi) 181 sessions et 69 événements clés, contre 183 et 107 le 28/10 (-1 % sessions, -36 % événements clés, cause non établie). Search Console 26/10-01/11 : 39 à 82 clics/jour, position 9,8 à 13,0. Surveillance sans alerte.
+   **Chantier livré à la place le 05/11** : `assurance-temporaire-1-jour.html`, requêtes « assurance auto 1 jour pas cher » (150 impressions, position 17,2) et « assurance auto 1 jour » (112, position 20,6), 06/10-01/11 : « pas cher » absent de la page. Ajouté au titre, à la description, au JSON-LD et au résumé (dès 50,74 €, tarifs.md). À mesurer à partir du 12/11.
    **Relevé du 06/11** : GA4 05/11 190 sessions et 87 événements clés, contre 193 et 123 le 29/10 (-2 % sessions, -29 % événements clés, cause non établie). Search Console 28/10-03/11 : 43 à 83 clics/jour, position 9,8 à 13,0. Surveillance sans alerte.
    **Chantier livré à la place le 06/11** : `assurance-temporaire-3-jours.html`, requête « assurance provisoire 3 jours » (53 impressions, position 9,0, 1 clic, 08/10-03/11) : « provisoire » absent de la page, et le titre affichait « dès 50,74 € », prix du 1 jour. Titre « dès 68,58 € » (3 jours, tarifs.md) + « provisoire », description (balise, Open Graph, JSON-LD) réécrite. À mesurer à partir du 13/11.
 2. ~~**Erreur JS sur `/devis-ou-souscription.html#tarificateur`**~~ **Clos le 30/09/2026 : pas notre code.**
@@ -620,6 +622,11 @@ fait qu'ajouter des relevés.
 investir pour le SEO.
 
 ## 10. Journal des décisions
+
+- **06/11/2026** : page moto retirée à la demande du propriétaire (`assurance-moto.html`, `assets/moto.js`,
+  `moto-form.php`, et geo.api.gouv.fr retiré de la CSP). Le cahier des charges reste dans Claude Docs si le
+  projet reprend ; le code est dans l'historique Git (PR #161 à #167). Les entrées du 04/11 sur la page moto
+  sont caduques. Conservés : la page `500.html` et le contrôle PHP du formulaire de contact dans la surveillance.
 
 - **05/11/2026** : panne de tout le PHP (formulaire de contact, envoi moto) du 04/11 vers 12 h 19 au 05/11.
   Cause : le « git pull » de mise en ligne était lancé en **root** ; les fichiers créés ou modifiés appartenaient
