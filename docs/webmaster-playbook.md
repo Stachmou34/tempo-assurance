@@ -621,6 +621,11 @@ investir pour le SEO.
 
 ## 10. Journal des décisions
 
+- **06/11/2026** : page moto retirée à la demande du propriétaire (`assurance-moto.html`, `assets/moto.js`,
+  `moto-form.php`, et geo.api.gouv.fr retiré de la CSP). Le cahier des charges reste dans Claude Docs si le
+  projet reprend ; le code est dans l'historique Git (PR #161 à #167). Les entrées du 04/11 sur la page moto
+  sont caduques. Conservés : la page `500.html` et le contrôle PHP du formulaire de contact dans la surveillance.
+
 - **05/11/2026** : panne de tout le PHP (formulaire de contact, envoi moto) du 04/11 vers 12 h 19 au 05/11.
   Cause : le « git pull » de mise en ligne était lancé en **root** ; les fichiers créés ou modifiés appartenaient
   à root et suPHP refusait de les exécuter (« UID of script is smaller than min_uid » dans le journal d'erreurs
