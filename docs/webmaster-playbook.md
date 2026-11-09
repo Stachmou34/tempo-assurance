@@ -448,10 +448,18 @@ redécouper et le dire dans le rapport.
 
 **Chantier en attente : passer au suivant.** Si le premier chantier non fait attend des
 données (une date de relevé est fixée, comme la fin du test des dead clicks le 12/10) ou une
-réponse du propriétaire, faire le relevé du jour en deux lignes sous ce chantier, puis passer
-au chantier suivant et y livrer du code. Un relevé ajouté au playbook ne compte pas comme le
-livrable du jour. Règle posée le 10/10/2026 après trois sessions (08, 09 et 10/10) qui n'ont
-fait qu'ajouter des relevés.
+réponse du propriétaire, faire le relevé du jour, puis passer au chantier suivant et y livrer
+du code. Un relevé ne compte pas comme le livrable du jour. Règle posée le 10/10/2026 après
+trois sessions (08, 09 et 10/10) qui n'ont fait qu'ajouter des relevés.
+
+**Où écrire le relevé du jour (depuis le 09/11/2026) : dans un fichier à part,
+`docs/releves/AAAA-MM-JJ.md` (un fichier neuf par jour), jamais dans ce playbook.** Le relevé
+(GA4, Search Console, surveillance) et la ligne « Chantier livré à la place » y vont tous les deux.
+Raison : quand la PR de la veille n'est pas encore fusionnée, deux branches qui ajoutent des
+lignes au même endroit d'un même fichier entrent en conflit, même sans rien remplacer. C'est
+arrivé presque chaque jour entre le 21/10 et le 08/11 (PR #148, #149, #156, #169, #172). Un
+fichier par jour ne peut pas entrer en conflit. Les relevés jusqu'au 08/11 restent ci-dessous
+pour l'historique ; ne plus en ajouter ici. Modèle et règles : `docs/releves/README.md`.
 
 0. ~~**Wakam interdit de souscription**~~ **Livré le 03/10/2026** : article
    `blog-contrat-auto-non-renouvele.html`, enregistré dans `blog.html`, `sitemap.xml` et
