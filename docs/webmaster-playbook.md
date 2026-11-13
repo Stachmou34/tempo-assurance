@@ -634,6 +634,17 @@ investir pour le SEO.
 
 ## 10. Journal des décisions
 
+- **13/11/2026** : page `assurance-moto-annuelle.html` (contrat moto annuel APRIL Moto, demande du propriétaire).
+  Devis en marque blanche APRIL Moto intégré en iframe (bloc `DEVIS-APRIL`, lien fourni par APRIL à garder tel
+  quel, domaine devis-pro.amgestionassurance.com autorisé dans le `frame-src` du .htaccess). Le formulaire ne
+  transmet pas sa hauteur : iframe à hauteur fixe (2 400 px, 3 000 px sur mobile). Page indexable, dans le
+  sitemap, pas encore dans le menu. Frais de dossier APRIL de 5 € affichés dans les mentions (obligation
+  d'information) ; ne jamais écrire le taux de commission dans le dépôt, qui est public. Sources vérifiées : IPID 10/2026 et DG V1026 d'april-moto.com, annexe assistance V0926,
+  page april.fr (formules). Assureurs : Allianz IARD, Mondial Assistance (Fragonard Assurances), Allianz
+  Protection Juridique (Protexia France), Albingia via Caarea pour la casse mécanique (Wakam jusqu'aux documents
+  d'avril 2025, encore liés depuis april.fr : ne pas reprendre ces liens). Aucun prix publié : le tarif dépend
+  de la commission et des frais choisis par MCJ Courtage, les « dès 6,87 €/mois » d'april.fr ne s'appliquent pas.
+
 - **06/11/2026** : page moto retirée à la demande du propriétaire (`assurance-moto.html`, `assets/moto.js`,
   `moto-form.php`, et geo.api.gouv.fr retiré de la CSP). Le cahier des charges reste dans Claude Docs si le
   projet reprend ; le code est dans l'historique Git (PR #161 à #167). Les entrées du 04/11 sur la page moto
