@@ -634,6 +634,15 @@ investir pour le SEO.
 
 ## 10. Journal des décisions
 
+- **14/11/2026** : page `assurance-moto-temporaire.html` pour capter les recherches « assurance moto temporaire »
+  et les orienter vers le contrat moto annuel (boutons vers `assurance-moto-annuelle.html#devis`). Enquête du
+  13/11 : aucune offre moto temporaire souscriptible en ligne trouvée (pages qui renvoient vers de l'annuel ou un
+  formulaire de rappel, une offre « plus proposée ») ; CG temporaires Accelerant 10/2026 excluent les deux-roues ;
+  APRIL Moto écrit ne pas en proposer. Formulations à garder : « nous n'avons trouvé aucune offre… en novembre
+  2026 », « les assureurs que nous avons consultés » ; jamais « ça n'existe plus », « la plupart des assureurs »,
+  « les meilleurs » (non prouvable ; APRIL Moto a aussi des avis mitigés). Argument vérifiable retenu : Label
+  d'Excellence 2026 des Dossiers de l'Épargne. Concurrents non nommés. À revérifier tous les 3 mois.
+
 - **13/11/2026** : page `assurance-moto-annuelle.html` (contrat moto annuel APRIL Moto, demande du propriétaire).
   Devis en marque blanche APRIL Moto intégré en iframe (bloc `DEVIS-APRIL`, lien fourni par APRIL à garder tel
   quel, domaine devis-pro.amgestionassurance.com autorisé dans le `frame-src` du .htaccess). Le formulaire ne
