@@ -635,9 +635,11 @@ investir pour le SEO.
 ## 10. Journal des décisions
 
 - **13/11/2026** : page `assurance-moto-annuelle.html` (contrat moto annuel APRIL Moto, demande du propriétaire).
-  En `noindex`, hors menu et hors sitemap tant que le lien de devis APRIL n'est pas intégré (bloc marqué
-  `DEVIS-APRIL` ; ajouter alors son domaine au `frame-src` du .htaccess, puis retirer le noindex et ajouter la
-  page au sitemap). Sources vérifiées : IPID 10/2026 et DG V1026 d'april-moto.com, annexe assistance V0926,
+  Devis en marque blanche APRIL Moto intégré en iframe (bloc `DEVIS-APRIL`, lien fourni par APRIL à garder tel
+  quel, domaine devis-pro.amgestionassurance.com autorisé dans le `frame-src` du .htaccess). Le formulaire ne
+  transmet pas sa hauteur : iframe à hauteur fixe (2 400 px, 3 000 px sur mobile). Page indexable, dans le
+  sitemap, pas encore dans le menu. Frais de dossier APRIL de 5 € affichés dans les mentions (obligation
+  d'information) ; ne jamais écrire le taux de commission dans le dépôt, qui est public. Sources vérifiées : IPID 10/2026 et DG V1026 d'april-moto.com, annexe assistance V0926,
   page april.fr (formules). Assureurs : Allianz IARD, Mondial Assistance (Fragonard Assurances), Allianz
   Protection Juridique (Protexia France), Albingia via Caarea pour la casse mécanique (Wakam jusqu'aux documents
   d'avril 2025, encore liés depuis april.fr : ne pas reprendre ces liens). Aucun prix publié : le tarif dépend
