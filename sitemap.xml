@@ -62,9 +62,14 @@
 	</url>
 	<url>
 		<loc>https://www.tempo-assurance.com/veille-auto.html</loc>
-		<lastmod>2026-11-08</lastmod>
+		<lastmod>2026-11-15</lastmod>
 		<changefreq>weekly</changefreq>
 		<priority>0.7</priority>
+	</url>
+	<url>
+		<loc>https://www.tempo-assurance.com/veille-auto-2026-11-08.html</loc>
+		<lastmod>2026-11-15</lastmod>
+		<priority>0.4</priority>
 	</url>
 	<url>
 		<loc>https://www.tempo-assurance.com/veille-auto-2026-11-01.html</loc>
@@ -176,12 +181,12 @@
 	</url>
 	<url>
 		<loc>https://www.tempo-assurance.com/assurance-temporaire-caravane.html</loc>
-		<lastmod>2026-10-30</lastmod>
+		<lastmod>2026-11-18</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
 		<loc>https://www.tempo-assurance.com/assurance-temporaire-tracteur-agricole.html</loc>
-		<lastmod>2026-10-15</lastmod>
+		<lastmod>2026-11-19</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
@@ -201,7 +206,7 @@
 	</url>
 	<url>
 		<loc>https://www.tempo-assurance.com/assurance-temporaire-algerie.html</loc>
-		<lastmod>2026-09-26</lastmod>
+		<lastmod>2026-11-17</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
@@ -221,7 +226,7 @@
 	</url>
 	<url>
 		<loc>https://www.tempo-assurance.com/actualites.html</loc>
-		<lastmod>2026-11-09</lastmod>
+		<lastmod>2026-11-16</lastmod>
 		<priority>0.5</priority>
 	</url>
 	<url>
@@ -276,7 +281,7 @@
 	</url>
 	<url>
 		<loc>https://www.tempo-assurance.com/assurance-temporaire-3-mois.html</loc>
-		<lastmod>2026-10-15</lastmod>
+		<lastmod>2026-11-14</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
