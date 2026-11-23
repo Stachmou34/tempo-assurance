@@ -361,3 +361,34 @@
     }
   })();
 })();
+
+/* ---------- Mesure terrain du CLS (décalages de mise en page) ---------- */
+/* Search Console signale le 23/11/2026 un CLS mobile de 0,38 sur 52 pages, impossible à
+   reproduire en laboratoire. On mesure donc chez les vrais visiteurs : à la fermeture de la
+   page, web-vitals envoie à GA4 le CLS et l'élément qui a le plus bougé (debug_target). */
+(function () {
+  function go() {
+    var s = document.createElement('script');
+    s.src = '/assets/web-vitals.js?v=1';
+    s.async = true;
+    s.onload = function () {
+      if (!window.webVitals || typeof window.gtag !== 'function') return;
+      window.webVitals.onCLS(function (m) {
+        var a = m.attribution || {};
+        window.gtag('event', 'web_vitals', {
+          metric_name: 'CLS',
+          value: Math.round(m.value * 1000),
+          metric_rating: m.rating,
+          debug_target: String(a.largestShiftTarget || '(aucun)').slice(0, 100),
+          debug_time: Math.round(a.largestShiftTime || 0),
+          debug_load_state: a.loadState || '',
+          page_path: location.pathname,
+          transport_type: 'beacon',
+          non_interaction: true
+        });
+      });
+    };
+    document.head.appendChild(s);
+  }
+  if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
+})();
