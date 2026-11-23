@@ -634,6 +634,17 @@ investir pour le SEO.
 
 ## 10. Journal des décisions
 
+- **23/11/2026** : Search Console signale un **CLS mobile de 0,38 sur 52 pages** (groupe de l'accueil), première
+  détection le 23/11. Non reproductible en laboratoire (Playwright, Pixel 5 et écran de 360 px, réseau et
+  processeur ralentis, défilement complet, FAQ, menu, ouverture du tunnel JL en fenêtre et intégré : CLS 0 partout ;
+  pas de police externe, toutes les images ont leurs dimensions ; site.js et l'accueil sans changement de mise en
+  page depuis octobre). Mesure terrain ajoutée : `assets/web-vitals.js` (web-vitals 5.3.0, attribution, copie
+  locale car la CSP refuse les scripts tiers) chargé par `site.js` (v=17), qui envoie à GA4 l'événement
+  `web_vitals` (`value` = CLS × 1000, `metric_rating`, `debug_target` = sélecteur de l'élément qui a le plus bougé,
+  `debug_time`, `debug_load_state`, `page_path`). Dimensions à déclarer dans GA4 : `debug_target`, `metric_rating`,
+  `debug_load_state`. Lire les résultats après quelques jours, corriger l'élément, puis seulement « Valider la
+  correction » dans Search Console.
+
 - **14/11/2026** : page `assurance-moto-temporaire.html` pour capter les recherches « assurance moto temporaire »
   et les orienter vers le contrat moto annuel (boutons vers `assurance-moto-annuelle.html#devis`). Enquête du
   13/11 : aucune offre moto temporaire souscriptible en ligne trouvée (pages qui renvoient vers de l'annuel ou un
