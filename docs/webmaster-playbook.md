@@ -148,6 +148,13 @@ l'impression de baisse peut venir de l'élargissement vers des requêtes plus lo
 de 40 %. **Décision : on garde le titre, pas de retour en arrière.** Les deux effets (titre et contenu
 de l'accueil, changés le même jour) restent inséparables. Nouveau relevé comparable : **26/11**.
 
+**Relevé du 26/11/2026** (27/10-23/11 contre 29/09-26/10, détail dans `docs/releves/2026-11-26.md`) :
+accueil 1 291 clics contre 886 (+46 %), hors marque 678 clics contre 244, CTR 2,21 % contre 0,92 %,
+position 9,3 contre 14,3 ; « assurance temporaire » position 3,4 contre 8,7 (163 clics contre 57) ;
+marque exacte 45 % de CTR. Le reste du site recule sur la même période (position 13,5 → 15,6) : le gain
+est propre à l'accueil. **Test clos, titre définitivement conservé.** Ne plus le retoucher sans raison
+chiffrée : c'est la page qui porte le site.
+
 ### Quand revenir en arrière
 
 - **Si le CTR de la marque passe sous 40 %** : le titre gêne la requête qui convertit le
@@ -633,6 +640,15 @@ pour l'historique ; ne plus en ajouter ici. Modèle et règles : `docs/releves/R
 investir pour le SEO.
 
 ## 10. Journal des décisions
+
+- **26/11/2026** : page 1 mois remise à son titre d'avant le 16/10 (« Assurance auto temporaire 1 mois (30 jours) :
+  189,15 € »). Le titre du 16/10 n'a pas atteint sa cible : « assurance temporaire 1 mois » est passée de la position
+  15,7 à 30,5, et les trois autres requêtes de tête (« auto », « voiture », « auto pour 1 mois ») ont reculé aussi.
+  Leçon : **un changement de titre se relève à 4 semaines, requête visée comprise** ; les dizaines de retouches de
+  titre d'octobre et novembre (§9, chantier 1) n'ont presque jamais été mesurées après coup. Avant d'en faire une
+  nouvelle, relever celles dont la date « à mesurer à partir du » est passée. Piège de lecture : la position moyenne
+  d'une page chute mécaniquement quand elle perd des impressions de sitelink de marque (1 mois : « tempo
+  assurance » 530 → 100 impressions en position 1) ; toujours lire la position hors marque.
 
 - **23/11/2026** : Search Console signale un **CLS mobile de 0,38 sur 52 pages** (groupe de l'accueil), première
   détection le 23/11. Non reproductible en laboratoire (Playwright, Pixel 5 et écran de 360 px, réseau et
